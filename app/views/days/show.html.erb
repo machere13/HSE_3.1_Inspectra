@@ -1,13 +1,14 @@
-<h1>Day <%= params[:id] %></h1>
+<h1><%= @day.title %></h1>
 
 <h2>Контент дня:</h2>
 <ul>
-  <li>IMAGE</li>
-  <li>GIF</li>
-  <li>VIDEO</li>
-  <li>AUDIO</li>
-  <li>LINK</li>
-  <li><a href="/days/<%= params[:id] %>/articles/1">ARTICLE</a></li>
+  <% @content_items.each do |item| %>
+    <% if item.kind == 'article' && item.article %>
+      <li><a href="/days/<%= @day.id %>/articles/<%= item.article.id %>">ARTICLE: <%= item.article.title %></a></li>
+    <% else %>
+      <li><%= item.kind.upcase %><% if item.url.present? %>: <a href="<%= item.url %>"><%= item.url %></a><% end %></li>
+    <% end %>
+  <% end %>
 </ul>
 
 <p><a href="/">На главную</a></p>

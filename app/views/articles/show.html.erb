@@ -1,6 +1,6 @@
-<h1>Статья</h1>
-<p>Это статья в дне <%= params[:day_id] %></p>
-<p>ID статьи: <%= params[:id] %></p>
+<h1><%= @article.title %></h1>
+<p>День: <%= @day.title %></p>
+<p><%= @article.body %></p>
 
-<p><a href="/days/<%= params[:day_id] %>">Назад к дню <%= params[:day_id] %></a></p>
+<p><a href="/days/<%= @day.id %>">Назад к дню <%= @day.title %></a></p>
 <p><a href="/">На главную</a></p>
