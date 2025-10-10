@@ -299,3 +299,50 @@ achievements_data.each do |achievement_data|
 end
 
 puts "Создано #{Achievement.count} достижений"
+
+# Мок на 15 генераций дней с контентом
+
+puts 'Seeding days, articles, and content items...'
+
+Day.destroy_all
+Article.destroy_all
+ContentItem.destroy_all
+
+15.times do |i|
+  number = i + 1
+  day = Day.create!(
+    number: number,
+    title: "Day #{number}",
+    description: "Описание для дня #{number}"
+  )
+
+  articles = Array.new(rand(2..4)) do |j|
+    Article.create!(
+      day: day,
+      title: "Статья #{number}-#{j+1}",
+      body: "Текст статьи для дня #{number}, номер #{j+1}."
+    )
+  end
+
+  kinds = %w[image gif video audio link article]
+  rand(4..10).times do |pos|
+    kind = kinds.sample
+    attrs = {
+      day: day,
+      kind: kind,
+      position: pos,
+      title: "Контент #{kind} #{number}-#{pos+1}",
+      metadata: {}
+    }
+
+    if %w[image gif video audio link].include?(kind)
+      attrs[:url] = "https://example.com/#{kind}/#{number}/#{pos+1}"
+    elsif kind == 'article'
+      attrs[:article] = articles.sample || Article.create!(day: day, title: "Статья автосозданная #{number}", body: "Тело статьи #{number}")
+    end
+
+    ContentItem.create!(attrs)
+  end
+end
+
+puts "Создано дней: #{Day.count}, статей: #{Article.count}, контента: #{ContentItem.count}"
