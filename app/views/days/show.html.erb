@@ -1,14 +1,11 @@
 <h1><%= @day.title %></h1>
-
-<h2>Контент дня:</h2>
 <ul>
   <% @content_items.each do |item| %>
     <% if item.kind == 'article' && item.article %>
       <li><a href="/days/<%= @day.id %>/articles/<%= item.article.id %>">ARTICLE: <%= item.article.title %></a></li>
     <% else %>
-      <li><%= item.kind.upcase %><% if item.url.present? %>: <a href="<%= item.url %>"><%= item.url %></a><% end %></li>
+      <li><%= item.kind.upcase %></li>
     <% end %>
   <% end %>
 </ul>
-
-<p><a href="/">На главную</a></p>
+<a href="/">На главную</a>

@@ -1,0 +1,23 @@
+body {
+  font-family: sans-serif;
+  background-color: #131313;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+a {
+  color: #d9d9d9;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #fff;
+}
+
+ul{
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+}

@@ -40,7 +40,6 @@ Rails.application.configure do
   
   # Configure mail delivery method for development
   config.action_mailer.delivery_method = :smtp
-  # SMTP настройки теперь определяются динамически в SmtpConfigService
   config.action_mailer.smtp_settings = {
     address: 'smtp.mail.ru',
     port: 587,

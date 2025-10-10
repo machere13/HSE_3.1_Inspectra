@@ -1,0 +1,10 @@
+ru:
+  pages:
+    home:
+      title: 'Главная страница'
+    about:
+      title: 'О нас'
+      back_to_home: 'На главную'
+    days:
+      title: 'День'
+      content: 'Контент дня'

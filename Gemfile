@@ -3,6 +3,8 @@ source "https://rubygems.org"
 gem "rails", "~> 8.0.2"
 gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
+# Asset Pipeline (Sprockets)
+gem "sprockets-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
