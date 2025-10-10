@@ -20,6 +20,11 @@ Rails.application.routes.draw do
           post 'test/registration', to: 'achievements#test_registration_order'
         end
       end
+
+      resources :days, only: [:index, :show] do
+        resources :articles, only: [:index, :show]
+        resources :content_items, only: [:index]
+      end
     end
   end
 

@@ -296,7 +296,7 @@ paths:
     get:
       tags:
         - Authentication
-      summary: Get current user info
+      summary: Получить информацию о текущем авторизованном пользователе
       description: Получить информацию о текущем авторизованном пользователе
       security:
         - bearerAuth: []
@@ -506,6 +506,132 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
 
+  /api/v1/days:
+    get:
+      tags:
+        - Days
+      summary: Получить все дни
+      description: Возвращает список всех дней с контентом
+      responses:
+        '200':
+          description: Список дней
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Day'
+
+  /api/v1/days/{id}:
+    get:
+      tags:
+        - Days
+      summary: Получить день по ID
+      description: Возвращает информацию о конкретном дне с его контентом
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID дня
+      responses:
+        '200':
+          description: Информация о дне
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Day'
+        '404':
+          description: День не найден
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: День не найден
+
+  /api/v1/days/{day_id}/articles:
+    get:
+      tags:
+        - Articles
+      summary: Получить статьи дня
+      description: Возвращает все статьи конкретного дня
+      parameters:
+        - name: day_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID дня
+      responses:
+        '200':
+          description: Список статей дня
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+        '404':
+          description: День не найден
+
+  /api/v1/days/{day_id}/articles/{id}:
+    get:
+      tags:
+        - Articles
+      summary: Получить статью по ID
+      description: Возвращает конкретную статью
+      parameters:
+        - name: day_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID дня
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID статьи
+      responses:
+        '200':
+          description: Информация о статье
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '404':
+          description: Статья не найдена
+
+  /api/v1/days/{day_id}/content_items:
+    get:
+      tags:
+        - Content Items
+      summary: Получить контент дня
+      description: Возвращает все элементы контента конкретного дня
+      parameters:
+        - name: day_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID дня
+      responses:
+        '200':
+          description: Список элементов контента
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContentItem'
+        '404':
+          description: День не найден
+
 components:
   schemas:
     Achievement:
@@ -579,6 +705,102 @@ components:
         completed:
           type: boolean
           description: Завершено ли достижение
+
+    Day:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Уникальный идентификатор дня
+        number:
+          type: integer
+          description: Номер дня (1-15)
+        title:
+          type: string
+          description: Название дня
+        description:
+          type: string
+          description: Описание дня
+        articles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Article'
+          description: Статьи дня
+        content_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentItem'
+          description: Элементы контента дня
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Article:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Уникальный идентификатор статьи
+        day_id:
+          type: integer
+          description: ID дня, к которому принадлежит статья
+        title:
+          type: string
+          description: Заголовок статьи
+        body:
+          type: string
+          description: Содержимое статьи
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    ContentItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Уникальный идентификатор элемента контента
+        day_id:
+          type: integer
+          description: ID дня, к которому принадлежит элемент
+        article_id:
+          type: integer
+          nullable: true
+          description: ID статьи (если тип контента - article)
+        kind:
+          type: string
+          enum: [image, gif, video, audio, link, article]
+          description: Тип контента
+        title:
+          type: string
+          nullable: true
+          description: Заголовок элемента контента
+        body:
+          type: string
+          nullable: true
+          description: Содержимое элемента контента
+        url:
+          type: string
+          nullable: true
+          description: URL для медиа-контента и ссылок
+        position:
+          type: integer
+          description: Позиция элемента в списке контента дня
+        metadata:
+          type: object
+          description: Дополнительные метаданные
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
 
   responses:
     UnauthorizedError:
