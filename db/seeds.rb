@@ -301,7 +301,6 @@ end
 puts "Создано #{Achievement.count} достижений"
 
 # Мок на 15 генераций дней с контентом
-
 puts 'Seeding days, articles, and content items...'
 
 Day.destroy_all
@@ -313,14 +312,14 @@ ContentItem.destroy_all
   day = Day.create!(
     number: number,
     title: "Day #{number}",
-    description: "Описание для дня #{number}"
+    description: "Описание дня #{number}"
   )
 
   articles = Array.new(rand(2..4)) do |j|
     Article.create!(
       day: day,
-      title: "Статья #{number}-#{j+1}",
-      body: "Текст статьи для дня #{number}, номер #{j+1}."
+      title: "Статья #{j+1}",
+      body: "I need somebody heeelp #{number}"
     )
   end
 
@@ -335,9 +334,7 @@ ContentItem.destroy_all
       metadata: {}
     }
 
-    if %w[image gif video audio link].include?(kind)
-      attrs[:url] = "https://example.com/#{kind}/#{number}/#{pos+1}"
-    elsif kind == 'article'
+    if kind == 'article'
       attrs[:article] = articles.sample || Article.create!(day: day, title: "Статья автосозданная #{number}", body: "Тело статьи #{number}")
     end
 

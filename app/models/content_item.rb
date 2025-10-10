@@ -16,8 +16,6 @@ class ContentItem < ApplicationRecord
     case kind
     when 'article'
       errors.add(:article, 'must be present for article kind') if article_id.blank?
-    when 'image', 'gif', 'video', 'audio', 'link'
-      errors.add(:url, 'must be present for media/link kinds') if url.blank?
     end
   end
 end
