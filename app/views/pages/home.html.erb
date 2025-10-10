@@ -1,19 +1,6 @@
 <h1>Главная страница</h1>
-<ul>
-  <li><a href="/days/1">Day 1</a></li>
-  <li><a href="/days/2">Day 2</a></li>
-  <li><a href="/days/3">Day 3</a></li>
-  <li><a href="/days/4">Day 4</a></li>
-  <li><a href="/days/5">Day 5</a></li>
-  <li><a href="/days/6">Day 6</a></li>
-  <li><a href="/days/7">Day 7</a></li>
-  <li><a href="/days/8">Day 8</a></li>
-  <li><a href="/days/9">Day 9</a></li>
-  <li><a href="/days/10">Day 10</a></li>
-  <li><a href="/days/11">Day 11</a></li>
-  <li><a href="/days/12">Day 12</a></li>
-  <li><a href="/days/13">Day 13</a></li>
-  <li><a href="/days/14">Day 14</a></li>
-  <li><a href="/days/15">Day 15</a></li>
-  </ul>
-<a href="/about">О нас</a>
+<div class="C_DaysGrid">
+  <% @days.each do |day| %>
+    <%= render 'shared/day_card', day: day %>
+  <% end %>
+</div>

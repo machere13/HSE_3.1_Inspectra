@@ -1,0 +1,4 @@
+<%= link_to day_path(day), class: "M_DayCard" do %>
+  <h3>Day <%= day.number %></h3>
+  <p><%= truncate(day.description, length: 100) %></p>
+<% end %>
