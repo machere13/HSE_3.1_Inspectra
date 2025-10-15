@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'Geist';
+    src: 
+      url('Geist.woff2') format('woff2'),
+      url('Geist.woff') format('woff'),
+      url('Geist.ttf') format('truetype'),
+      url('Geist.otf') format('opentype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GeistMono';
+    src: 
+      url('GeistMono.woff2') format('woff2'),
+      url('GeistMono.woff') format('woff'),
+      url('GeistMono.ttf') format('truetype'),
+      url('GeistMono.otf') format('opentype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}

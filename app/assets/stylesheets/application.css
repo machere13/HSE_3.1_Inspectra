@@ -1,8 +1,13 @@
+/*
+	*= require fonts
+*/
+
 body {
   font-family: sans-serif;
   background-color: #131313;
   color: #fff;
   box-sizing: border-box;
+  font-family: 'GeistMono';
 }
 
 nav {
@@ -18,6 +23,7 @@ nav {
 a {
   color: #d9d9d9;
   text-decoration: none;
+  font-family: 'Geist';
 }
 
 a:hover {
