@@ -1,0 +1,57 @@
+:root {
+    /* SPACING */
+    --spacing-none: 0;
+    --spacing-x05: 2px;
+    --spacing-x1: 4px;
+    --spacing-x2: 8px;
+    --spacing-x3: 12px;
+    --spacing-x4: 16px;
+    --spacing-x5: 20px;
+    --spacing-x6: 24px;
+    --spacing-x8: 32px;
+    --spacing-x10: 40px;
+    --spacing-x12: 48px;
+    --spacing-x14: 56px;
+    --spacing-x16: 64px;
+
+    /* BORDER RADIUS */
+    --border-radius-none: 0;
+    --border-radius-x05: 2px;
+    --border-radius-x1: 4px;
+    --border-radius-x2: 8px;
+
+    /* BORDER */
+    --border-none: 0;
+    --border-x025: 1px;
+    --border-x05: 2px;
+
+    /* -- FONTS */
+    /* FONT FAMILY */
+    --font-family-geist: 'Geist', sans-serif;
+    --font-family-geist-mono: 'GeistMono', monospace;
+
+    /* LETTER SPACING */
+    --letter-spacing-normal: 0;
+    --letter-spacing-tiny: -0.1em;
+
+    /* TEXT TRANSFORM */
+    --text-transform-as-typed: none;
+    --text-transform-uppercase: uppercase;
+
+    /* TEXT DECORATION */
+    --text-decoration-none: none;
+    --text-decoration-underline: underline;
+
+    /* FONT WEIGHT */
+    --font-weight-headers: 600;
+    --font-weight-paragraphs: 400;
+    --font-weight-captions: 400;
+    --font-weight-buttons: 400;
+    --font-weight-labels: 500;
+    --font-weight-links: 300;
+    --font-weight-code: 400;
+
+    /* FONT SIZE */
+}
+
+
