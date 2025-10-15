@@ -26,3 +26,15 @@ namespace :dev do
     puts "Development environment ready!"
   end
 end
+
+namespace :lint do
+  desc "Lint CSS via Stylelint (uses npx)"
+  task :css do
+    sh 'npx --yes stylelint "app/assets/stylesheets/**/*.{css,css.erb}"'
+  end
+
+  desc "Auto-fix CSS via Stylelint (uses npx --fix)"
+  task :css_fix do
+    sh 'npx --yes stylelint --fix "app/assets/stylesheets/**/*.{css,css.erb}"'
+  end
+end
