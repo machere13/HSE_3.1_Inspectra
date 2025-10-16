@@ -2,4 +2,3 @@ node_modules/
 public/assets/
 tmp/
 app/assets/stylesheets/**/*.min.css
-
