@@ -2,10 +2,10 @@
 <ul>
   <% @content_items.each do |item| %>
     <% if item.kind == 'article' && item.article %>
-      <li><a href="/days/<%= @day.id %>/articles/<%= item.article.id %>">ARTICLE: <%= item.article.title %></a></li>
+      <li><%= link_to "ARTICLE: #{item.article.title}", day_article_path(@day, item.article) %></li>
     <% else %>
       <li><%= item.kind.upcase %></li>
     <% end %>
   <% end %>
 </ul>
-<a href="/">На главную</a>
+<%= link_to 'На главную', root_path %>
