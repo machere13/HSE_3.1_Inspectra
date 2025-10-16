@@ -2,10 +2,10 @@
 <ul>
   <% @content_items.each do |item| %>
     <% if item.kind == 'article' && item.article %>
-      <li><%= link_to "ARTICLE: #{item.article.title}", day_article_path(@day, item.article) %></li>
+      <li><%= link_to "#{t('shared.day_card.article_prefix')} #{item.article.title}", day_article_path(@day, item.article) %></li>
     <% else %>
       <li><%= item.kind.upcase %></li>
     <% end %>
   <% end %>
 </ul>
-<%= link_to 'На главную', root_path %>
+<%= link_to t('days.show.back_to_home'), root_path %>
