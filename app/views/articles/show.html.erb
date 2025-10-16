@@ -1,5 +1,5 @@
 <h1><%= @article.title %></h1>
 <p><%= @day.title %></p>
 <p><%= @article.body %></p>
-<a href="/days/<%= @day.id %>">Назад к <%= @day.title %></a>
-<a href="/">На главную</a>
+<%= link_to "Назад к #{@day.title}", day_path(@day) %>
+<%= link_to 'На главную', root_path %>
