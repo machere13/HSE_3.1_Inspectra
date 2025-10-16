@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_15_120000) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_16_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -56,7 +56,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_15_120000) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "published_at", null: false
+    t.datetime "expires_at", null: false
+    t.index ["expires_at"], name: "index_days_on_expires_at"
     t.index ["number"], name: "index_days_on_number", unique: true
+    t.index ["published_at", "expires_at"], name: "index_days_on_published_at_and_expires_at"
+    t.index ["published_at"], name: "index_days_on_published_at"
   end
 
   create_table "user_achievements", force: :cascade do |t|
