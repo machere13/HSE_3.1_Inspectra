@@ -5,6 +5,22 @@ ru:
     about:
       title: 'О нас'
       back_to_home: 'На главную'
-    days:
+  articles:
+    show:
+      title: 'Статья'
+      back_to_day: 'Назад к %{day_title}'
+      back_to_home: 'На главную'
+  days:
+    show:
       title: 'День'
-      content: 'Контент дня'
+      back_to_home: 'На главную'
+  layouts:
+    application:
+      title: 'Проект'
+  shared:
+    navigation:
+      home: 'Главная'
+      about: 'О нас'
+    day_card:
+      heading: 'День %{number}'
+      article_prefix: 'Статья:'
