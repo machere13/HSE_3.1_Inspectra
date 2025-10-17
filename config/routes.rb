@@ -32,6 +32,13 @@ Rails.application.routes.draw do
   end
 
   get 'about', to: 'pages#about'
+  get 'auth', to: redirect('/auth/login')
+  scope :auth do
+    get 'login', to: 'auth#login'
+    get 'verify', to: 'auth#verify'
+    get 'forgot', to: 'auth#forgot'
+    get 'reset', to: 'auth#reset'
+  end
   
   resources :days, only: [:show] do
     resources :articles, only: [:show]

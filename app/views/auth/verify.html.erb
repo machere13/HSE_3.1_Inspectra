@@ -1,0 +1,50 @@
+<h1>Подтверждение email</h1>
+<form id="verify-form">
+  <label>Email</label>
+  <input type="email" name="email" id="email" required>
+  <label>Код</label>
+  <input type="text" name="code" maxlength="6" required>
+  <button type="submit">Продолжить</button>
+</form>
+
+<button id="resend" disabled>Отправить повторно (60)</button>
+<p><a href="/auth/login">Вернуться назад</a></p>
+
+<script>
+const emailEl = document.getElementById('email');
+emailEl.value = sessionStorage.getItem('pending_email') || '';
+
+let timeLeft = 60, timer;
+function startTimer(){
+  clearInterval(timer); timeLeft = 60; updateBtn();
+  timer = setInterval(() => { timeLeft--; updateBtn(); if (timeLeft<=0) clearInterval(timer); }, 1000);
+}
+function updateBtn(){
+  const btn = document.getElementById('resend');
+  if (timeLeft > 0) { btn.disabled = true; btn.textContent = `Отправить повторно (${timeLeft})`; }
+  else { btn.disabled = false; btn.textContent = 'Отправить повторно'; }
+}
+startTimer();
+
+document.getElementById('verify-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = e.target.email.value.trim();
+  const code = e.target.code.value.trim();
+  const res = await fetch('/api/v1/auth/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, code }) });
+  const data = await res.json();
+  if (res.ok) {
+    localStorage.setItem('token', data.token);
+    window.location.href = '/';
+  } else {
+    alert(data.error || 'Ошибка подтверждения');
+  }
+});
+
+document.getElementById('resend').addEventListener('click', async () => {
+  const email = emailEl.value.trim(); if (!email) return alert('Введите email');
+  const res = await fetch('/api/v1/auth/resend', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+  if (res.ok) startTimer();
+});
+</script>
+
+
