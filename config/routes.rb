@@ -25,6 +25,9 @@ Rails.application.routes.draw do
         resources :articles, only: [:index, :show]
         resources :content_items, only: [:index]
       end
+
+      post 'auth/password/forgot', to: 'auth#forgot_password'
+      post 'auth/password/reset', to: 'auth#reset_password'
     end
   end
 

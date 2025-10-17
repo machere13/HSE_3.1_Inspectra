@@ -6,6 +6,7 @@ class User < ApplicationRecord
   
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: 6 }, if: -> { new_record? || !password.nil? }
+  validates :password, length: { maximum: 64 }, allow_nil: true
   
   after_create :check_registration_achievements
   
@@ -49,5 +50,23 @@ class User < ApplicationRecord
   
   def check_registration_achievements
     AchievementService.new(self).check_achievements_for_registration_order
+  end
+
+  public
+
+  def generate_reset_password_token!
+    update!(
+      reset_password_token: SecureRandom.urlsafe_base64(32),
+      reset_password_sent_at: Time.current,
+      reset_password_requested_at: Time.current
+    )
+  end
+
+  def clear_reset_password_token!
+    update!(reset_password_token: nil, reset_password_sent_at: nil)
+  end
+
+  def reset_token_valid?(ttl_minutes: 30)
+    reset_password_token.present? && reset_password_sent_at.present? && reset_password_sent_at > ttl_minutes.minutes.ago
   end
 end
