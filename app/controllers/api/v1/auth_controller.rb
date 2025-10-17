@@ -13,22 +13,14 @@ class Api::V1::AuthController < ApplicationController
 
     if user
       if user.authenticate(password)
-        if user.email_verification_required?
-          return render json: { 
-            error: 'Email не подтвержден',
-            requires_verification: true,
-            email: user.email
-          }, status: :forbidden
-        end
+        user.generate_verification_code!
+        VerificationMailer.send_verification_code(user).deliver_now
         
-        token = encode_token({ user_id: user.id })
-        render json: {
-          message: 'Успешный вход',
-          token: token,
-          user: {
-            id: user.id,
-            email: user.email
-          }
+        render json: { 
+          message: 'Код подтверждения отправлен на email',
+          requires_verification: true,
+          email: user.email,
+          verification_code: user.verification_code
         }, status: :ok
       else
         render json: { error: 'Неверный пароль' }, status: :unauthorized
