@@ -553,6 +553,136 @@ paths:
                     type: string
                     example: День не найден
 
+  /api/v1/auth/password/forgot:
+    post:
+      tags:
+        - Authentication
+      summary: Запрос на сброс пароля
+      description: Отправляет письмо со ссылкой для сброса пароля, если email существует. Не раскрывает наличие пользователя.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+      responses:
+        '200':
+          description: Если email существует, письмо отправлено
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Если email существует, мы отправили ссылку для сброса
+        '400':
+          description: Неверные входные данные
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Email обязателен
+        '429':
+          description: Слишком частые запросы (таймаут на повторную отправку)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Письмо уже отправлено, попробуйте позже
+
+  /api/v1/auth/password/reset:
+    post:
+      tags:
+        - Authentication
+      summary: Сброс пароля по токену
+      description: Устанавливает новый пароль по действительному токену из письма
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+                - password
+                - password_confirmation
+              properties:
+                token:
+                  type: string
+                  example: AbCdEfGhIjKlMnOpQrStUvWxYz1234567890
+                password:
+                  type: string
+                  minLength: 8
+                  maxLength: 64
+                  example: НовыйПароль 123!
+                password_confirmation:
+                  type: string
+                  minLength: 8
+                  maxLength: 64
+                  example: НовыйПароль 123!
+      responses:
+        '200':
+          description: Пароль обновлён
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Пароль обновлён
+                  token:
+                    type: string
+                    description: JWT токен после входа
+        '400':
+          description: Токен и пароли обязательны
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Токен и пароли обязательны
+        '401':
+          description: Неверный или истекший токен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Ссылка истекла
+        '422':
+          description: Нарушены правила валидации пароля (8..64 символов)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не удалось обновить пароль
+                  details:
+                    type: array
+                    items:
+                      type: string
+
   /api/v1/days/{day_id}/articles:
     get:
       tags:
