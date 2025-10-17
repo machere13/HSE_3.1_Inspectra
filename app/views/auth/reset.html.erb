@@ -1,22 +1,17 @@
 <h1>Сброс пароля</h1>
 <form id="reset-form">
-  <label>Токен</label>
-  <input type="text" name="token" id="token" required>
   <label>Новый пароль</label>
   <input type="password" name="password" required maxlength="64">
   <label>Подтверждение пароля</label>
   <input type="password" name="password_confirmation" required maxlength="64">
   <button type="submit">Продолжить</button>
-  <p>Пароль 8–64 символа. Можно кириллицу, цифры, пробелы и спецсимволы.</p>
 </form>
 <script>
-const params = new URLSearchParams(location.search);
-const presetToken = params.get('token');
-if (presetToken) document.getElementById('token').value = presetToken;
+const presetToken = '<%= @token %>';
 
 document.getElementById('reset-form').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const token = e.target.token.value.trim();
+  const token = presetToken;
   const password = e.target.password.value;
   const password_confirmation = e.target.password_confirmation.value;
   const res = await fetch('/api/v1/auth/password/reset', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, password, password_confirmation }) });
