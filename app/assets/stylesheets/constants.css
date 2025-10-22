@@ -190,3 +190,81 @@ h4, .text-h4 {
     text-transform: var(--text-transform-as-typed);
     text-decoration: var(--text-decoration-none);
 }
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    :root {
+        /* SPACING */
+        --spacing-none: 0;
+        --spacing-x05: 2px;
+        --spacing-x1: 4px;
+        --spacing-x2: 6px;
+        --spacing-x3: 9px;
+        --spacing-x4: 12px;
+        --spacing-x5: 15px;
+        --spacing-x6: 18px;
+        --spacing-x8: 24px;
+        --spacing-x10: 30px;
+        --spacing-x12: 36px;
+        --spacing-x14: 42px;
+        --spacing-x16: 48px;
+
+        /* BORDER RADIUS */
+        --border-radius-none: 0;
+        --border-radius-x05: 2px;
+        --border-radius-x1: 4px;
+        --border-radius-x2: 8px;
+
+        /* FONT SIZE */
+        --font-size-h1: 48px;
+        --font-size-h2: 36px;
+        --font-size-h3: 28px;
+        --font-size-h4: 24px;
+        --font-size-p-1: 17px;
+        --font-size-p-2: 15px;
+        --font-size-p-3: 12px;
+        --font-size-caption: 12px;
+        --font-size-labels: 12px;
+        --font-size-buttons: 15px;
+        --font-size-links: 15px;
+        --font-size-code: 12px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        /* SPACING */
+        --spacing-none: 0;
+        --spacing-x05: 2px;
+        --spacing-x1: 4px;
+        --spacing-x2: 4px;
+        --spacing-x3: 6px;
+        --spacing-x4: 8px;
+        --spacing-x5: 10px;
+        --spacing-x6: 12px;
+        --spacing-x8: 16px;
+        --spacing-x10: 20px;
+        --spacing-x12: 24px;
+        --spacing-x14: 28px;
+        --spacing-x16: 32px;
+
+        /* BORDER RADIUS */
+        --border-radius-none: 0;
+        --border-radius-x05: 2px;
+        --border-radius-x1: 4px;
+        --border-radius-x2: 6px;
+
+        /* FONT SIZE */
+        --font-size-h1: 40px;
+        --font-size-h2: 32px;
+        --font-size-h3: 24px;
+        --font-size-h4: 20px;
+        --font-size-p-1: 17px;
+        --font-size-p-2: 15px;
+        --font-size-p-3: 12px;
+        --font-size-caption: 12px;
+        --font-size-labels: 12px;
+        --font-size-buttons: 15px;
+        --font-size-links: 15px;
+        --font-size-code: 12px;
+    }
+}
