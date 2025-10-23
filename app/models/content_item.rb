@@ -1,8 +1,7 @@
 class ContentItem < ApplicationRecord
   belongs_to :day
-  belongs_to :article, optional: true
 
-  KINDS = %w[image gif video audio link article].freeze
+  KINDS = %w[image gif video audio link].freeze
 
   validates :kind, presence: true, inclusion: { in: KINDS }
   validates :day, presence: true
@@ -14,8 +13,8 @@ class ContentItem < ApplicationRecord
 
   def validate_payload
     case kind
-    when 'article'
-      errors.add(:article, 'must be present for article kind') if article_id.blank?
+    when 'image', 'gif', 'video', 'audio', 'link'
+      errors.add(:url, 'must be present for media kind') if url.blank?
     end
   end
 end
