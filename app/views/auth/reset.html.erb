@@ -1,28 +1,15 @@
 <h1>Сброс пароля</h1>
-<form id="reset-form">
-  <label>Новый пароль</label>
-  <input type="password" name="password" required maxlength="64">
-  <label>Подтверждение пароля</label>
-  <input type="password" name="password_confirmation" required maxlength="64">
-  <button type="submit">Продолжить</button>
-</form>
-<script>
-const presetToken = '<%= @token %>';
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>
 
-document.getElementById('reset-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const token = presetToken;
-  const password = e.target.password.value;
-  const password_confirmation = e.target.password_confirmation.value;
-  const res = await fetch('/api/v1/auth/password/reset', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, password, password_confirmation }) });
-  const data = await res.json();
-  if (res.ok) {
-    localStorage.setItem('token', data.token);
-    window.location.href = '/';
-  } else {
-    alert(data.error || 'Ошибка сброса пароля');
-  }
-});
-</script>
+<%= form_with url: reset_path, method: :post do |f| %>
+  <%= hidden_field_tag :token, @token %>
+  <%= label_tag :password, 'Новый пароль' %>
+  <%= password_field_tag :password, nil, required: true, maxlength: 64 %>
+  <%= label_tag :password_confirmation, 'Подтверждение пароля' %>
+  <%= password_field_tag :password_confirmation, nil, required: true, maxlength: 64 %>
+  <%= submit_tag 'Продолжить' %>
+<% end %>
 
 

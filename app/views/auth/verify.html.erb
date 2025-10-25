@@ -1,4 +1,14 @@
-<form id="verify-form">
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<%= form_with url: verify_path, method: :post, html: { id: 'verify-form' } do |f| %>
+  <%= hidden_field_tag :email, params[:email].presence || session[:pending_email] %>
+  <%= hidden_field_tag :code, nil, id: 'code' %>
+  <%= label_tag :code_inputs, 'Код' %>
   <div id="otp" class="otp-inputs">
     <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="0">
     <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="1">
@@ -7,90 +17,12 @@
     <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="4">
     <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="5">
   </div>
-</form>
+<% end %>
 
-<button id="resend" disabled>Отправить повторно (60)</button>
-<p><a href="/auth/login">Вернуться назад</a></p>
+ <%= form_with url: resend_path(email: (params[:email].presence || session[:pending_email])), method: :post do %>
+   <%= submit_tag((@resend_wait_left.to_i > 0 ? "Отправить повторно (#{@resend_wait_left.to_i})" : 'Отправить повторно'), id: 'resend', disabled: @resend_wait_left.to_i > 0, data: { left: @resend_wait_left.to_i }) %>
+ <% end %>
+ 
+ <%= javascript_include_tag 'auth/verify' %>
 
-<script>
-const pendingEmail = sessionStorage.getItem('pending_email') || '';
-
-const inputs = Array.from(document.querySelectorAll('#otp input'));
-function focusInput(index){
-  if (index >= 0 && index < inputs.length) inputs[index].focus();
-}
-function getCode(){
-  return inputs.map(i => i.value).join('');
-}
-async function autoSubmitIfReady(){
-  const code = getCode();
-  if (code.length !== 6 || !/^\d{6}$/.test(code)) return;
-  inputs.forEach(i => i.disabled = true);
-  try {
-    const res = await fetch('/api/v1/auth/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: pendingEmail, code })
-    });
-    const data = await res.json();
-    if (res.ok) {
-      localStorage.setItem('token', data.token);
-      window.location.href = '/';
-    } else {
-      alert(data.error || 'Неверный код');
-      inputs.forEach(i => { i.value = ''; i.disabled = false; });
-      focusInput(0);
-    }
-  } catch (e) {
-    alert('Ошибка сети');
-    inputs.forEach(i => i.disabled = false);
-    focusInput(0);
-  }
-}
-
-inputs.forEach((input, idx) => {
-  input.addEventListener('input', (e) => {
-    let v = e.target.value.replace(/\D/g, '');
-    if (v.length > 1) v = v.slice(-1);
-    e.target.value = v;
-    if (v && idx < inputs.length - 1) focusInput(idx + 1);
-    if (idx === inputs.length - 1 && v) autoSubmitIfReady();
-  });
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Backspace' && !e.target.value && idx > 0) {
-      focusInput(idx - 1);
-    }
-  });
-});
-
-document.getElementById('otp').addEventListener('paste', (e) => {
-  e.preventDefault();
-  const text = (e.clipboardData || window.clipboardData).getData('text');
-  const digits = (text || '').replace(/\D/g, '').slice(0, 6);
-  if (!digits) return;
-  for (let i = 0; i < inputs.length; i++) {
-    inputs[i].value = digits[i] || '';
-  }
-  if (digits.length === 6) autoSubmitIfReady(); else focusInput(digits.length);
-});
-
-focusInput(0);
-
-let timeLeft = 60, timer;
-function startTimer(){
-  clearInterval(timer); timeLeft = 60; updateBtn();
-  timer = setInterval(() => { timeLeft--; updateBtn(); if (timeLeft<=0) clearInterval(timer); }, 1000);
-}
-function updateBtn(){
-  const btn = document.getElementById('resend');
-  if (timeLeft > 0) { btn.disabled = true; btn.textContent = `Отправить повторно (${timeLeft})`; }
-  else { btn.disabled = false; btn.textContent = 'Отправить повторно'; }
-}
-startTimer();
-
-document.getElementById('resend').addEventListener('click', async () => {
-  if (!pendingEmail) return alert('Email не найден. Вернитесь и введите email.');
-  const res = await fetch('/api/v1/auth/resend', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: pendingEmail }) });
-  if (res.ok) startTimer();
-});
-</script>
+<a href="/auth/login">Вернуться назад</a>

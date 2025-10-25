@@ -17,6 +17,7 @@ ru:
   layouts:
     application:
       title: 'Проект'
+  auth:
   shared:
     navigation:
       home: 'Главная'
