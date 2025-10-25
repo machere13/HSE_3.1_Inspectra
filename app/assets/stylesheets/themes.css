@@ -11,9 +11,9 @@
     --color-notification: rgb(0 123 255 / 100%);
     --color-state-inactive: rgb(77 77 77 / 100%);
     --color-state-text-inactive: rgb(93 93 93 / 100%);
-    --color-state-active: rgb(0 0 0 / 100%);
+    --color-state-active: rgb(19 18 18 / 100%);
     --color-state-text-active: rgb(255 255 255 / 100%);
-    --color-state-hover: rgb(0 0 0 / 100%);
+    --color-state-hover: rgb(31 31 31 / 100%);
     --color-state-text-hover: rgb(255 255 255 / 100%);
     --color-state-loading: rgb(77 77 77 / 100%);
     --color-state-text-loading: rgb(159 159 159 / 100%);
