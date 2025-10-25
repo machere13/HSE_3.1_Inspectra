@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64"><svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M37 24.6699L57 10L60.2109 12.3848L41.6494 26H64V30H33V9H37V24.6699Z" fill="black"></path>
+<path d="M27 38.3301L7 53L3.78906 50.6152L22.3496 37H0V33H31V54H27V38.3301Z" fill="black"></path>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: invert(100%); } }
+</style></svg>
