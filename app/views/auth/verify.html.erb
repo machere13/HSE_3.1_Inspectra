@@ -1,17 +1,80 @@
 <form id="verify-form">
-  <label>Email</label>
-  <input type="email" name="email" id="email" required>
-  <label>Код</label>
-  <input type="text" name="code" maxlength="6" required>
-  <button type="submit">Продолжить</button>
+  <div id="otp" class="otp-inputs">
+    <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="0">
+    <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="1">
+    <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="2">
+    <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="3">
+    <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="4">
+    <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="5">
+  </div>
 </form>
 
 <button id="resend" disabled>Отправить повторно (60)</button>
 <p><a href="/auth/login">Вернуться назад</a></p>
 
 <script>
-const emailEl = document.getElementById('email');
-emailEl.value = sessionStorage.getItem('pending_email') || '';
+const pendingEmail = sessionStorage.getItem('pending_email') || '';
+
+const inputs = Array.from(document.querySelectorAll('#otp input'));
+function focusInput(index){
+  if (index >= 0 && index < inputs.length) inputs[index].focus();
+}
+function getCode(){
+  return inputs.map(i => i.value).join('');
+}
+async function autoSubmitIfReady(){
+  const code = getCode();
+  if (code.length !== 6 || !/^\d{6}$/.test(code)) return;
+  inputs.forEach(i => i.disabled = true);
+  try {
+    const res = await fetch('/api/v1/auth/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: pendingEmail, code })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      localStorage.setItem('token', data.token);
+      window.location.href = '/';
+    } else {
+      alert(data.error || 'Неверный код');
+      inputs.forEach(i => { i.value = ''; i.disabled = false; });
+      focusInput(0);
+    }
+  } catch (e) {
+    alert('Ошибка сети');
+    inputs.forEach(i => i.disabled = false);
+    focusInput(0);
+  }
+}
+
+inputs.forEach((input, idx) => {
+  input.addEventListener('input', (e) => {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length > 1) v = v.slice(-1);
+    e.target.value = v;
+    if (v && idx < inputs.length - 1) focusInput(idx + 1);
+    if (idx === inputs.length - 1 && v) autoSubmitIfReady();
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+      focusInput(idx - 1);
+    }
+  });
+});
+
+document.getElementById('otp').addEventListener('paste', (e) => {
+  e.preventDefault();
+  const text = (e.clipboardData || window.clipboardData).getData('text');
+  const digits = (text || '').replace(/\D/g, '').slice(0, 6);
+  if (!digits) return;
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].value = digits[i] || '';
+  }
+  if (digits.length === 6) autoSubmitIfReady(); else focusInput(digits.length);
+});
+
+focusInput(0);
 
 let timeLeft = 60, timer;
 function startTimer(){
@@ -25,25 +88,9 @@ function updateBtn(){
 }
 startTimer();
 
-document.getElementById('verify-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const email = e.target.email.value.trim();
-  const code = e.target.code.value.trim();
-  const res = await fetch('/api/v1/auth/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, code }) });
-  const data = await res.json();
-  if (res.ok) {
-    localStorage.setItem('token', data.token);
-    window.location.href = '/';
-  } else {
-    alert(data.error || 'Ошибка подтверждения');
-  }
-});
-
 document.getElementById('resend').addEventListener('click', async () => {
-  const email = emailEl.value.trim(); if (!email) return alert('Введите email');
-  const res = await fetch('/api/v1/auth/resend', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+  if (!pendingEmail) return alert('Email не найден. Вернитесь и введите email.');
+  const res = await fetch('/api/v1/auth/resend', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: pendingEmail }) });
   if (res.ok) startTimer();
 });
 </script>
-
-
