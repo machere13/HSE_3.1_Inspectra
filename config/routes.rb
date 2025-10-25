@@ -36,9 +36,14 @@ Rails.application.routes.draw do
   get 'reset_password', to: 'auth#reset'
   scope :auth do
     get 'login', to: 'auth#login'
+    post 'login', to: 'auth#login_submit'
     get 'verify', to: 'auth#verify'
     get 'forgot', to: 'auth#forgot'
+    post 'forgot', to: 'auth#forgot_submit'
     get 'reset', to: 'auth#reset'
+    post 'reset', to: 'auth#reset_submit'
+    post 'verify', to: 'auth#verify_submit'
+    post 'resend', to: 'auth#resend'
   end
   
   resources :days, only: [:show] do

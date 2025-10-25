@@ -1,43 +1,17 @@
 <h1>Забыли пароль?</h1>
-<form id="forgot-form">
-  <label>Email</label>
-  <input type="email" name="email" id="email" required>
-  <button type="submit">Отправить письмо</button>
-</form>
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
 
-<button id="resend" disabled>Отправить письмо повторно (60)</button>
-<p><a href="/auth/login">Вернуться назад</a></p>
+<%= form_with url: forgot_path, method: :post do |f| %>
+  <%= label_tag :email, 'Email' %>
+  <%= email_field_tag :email, nil, required: true %>
+  <%= submit_tag 'Отправить письмо' %>
+<% end %>
 
-<script>
-let timeLeft = 0, timer;
-function startTimer(){
-  clearInterval(timer); timeLeft = 60; updateBtn();
-  timer = setInterval(() => { timeLeft--; updateBtn(); if (timeLeft<=0) clearInterval(timer); }, 1000);
-}
-function updateBtn(){
-  const btn = document.getElementById('resend');
-  if (timeLeft > 0) { btn.disabled = true; btn.textContent = `Отправить письмо повторно (${timeLeft})`; }
-  else { btn.disabled = false; btn.textContent = 'Отправить письмо повторно'; }
-}
-
-document.getElementById('forgot-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const email = e.target.email.value.trim(); if (!email) return;
-  const res = await fetch('/api/v1/auth/password/forgot', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
-  const data = await res.json();
-  if (res.ok) {
-    alert((data.message || 'Письмо отправлено') + (data.reset_url ? `\nDebug URL: ${data.reset_url}` : ''));
-    startTimer();
-  } else {
-    alert(data.error || 'Ошибка отправки');
-  }
-});
-
-document.getElementById('resend').addEventListener('click', async () => {
-  const email = document.getElementById('email').value.trim(); if (!email) return;
-  const res = await fetch('/api/v1/auth/password/forgot', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
-  if (res.ok) startTimer();
-});
-</script>
+<a href="/auth/login">Вернуться назад</a>
 
 
