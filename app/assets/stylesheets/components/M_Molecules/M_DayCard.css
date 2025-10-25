@@ -1,0 +1,16 @@
+.M_DayCard {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 20px;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+  }
+  
+  .M_DayCard:hover {
+    transform: translateY(-2px);
+    border-color: #666;
+    text-decoration: none;
+  }
