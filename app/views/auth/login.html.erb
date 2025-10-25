@@ -6,7 +6,7 @@
   <%= password_field_tag :password, nil, required: true %>
   <%= submit_tag t('auth.login.submit') %>
 <% end %>
-<p><a href="/auth/forgot"><%= t('auth.login.forgot_link') %></a></p>
+<p><%= link_to t('auth.login.forgot_link'), forgot_path %></p>
 <script></script>
 
 
