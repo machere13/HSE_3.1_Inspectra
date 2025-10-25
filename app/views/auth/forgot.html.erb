@@ -1,4 +1,4 @@
-<h1>Забыли пароль?</h1>
+<h1><%= t('auth.forgot.title') %></h1>
 <% if flash[:alert] %>
   <p><%= flash[:alert] %></p>
 <% end %>
@@ -7,11 +7,11 @@
 <% end %>
 
 <%= form_with url: forgot_path, method: :post do |f| %>
-  <%= label_tag :email, 'Email' %>
+  <%= label_tag :email, t('auth.shared.email') %>
   <%= email_field_tag :email, nil, required: true %>
-  <%= submit_tag 'Отправить письмо' %>
+  <%= submit_tag t('auth.forgot.submit') %>
 <% end %>
 
-<a href="/auth/login">Вернуться назад</a>
+<a href="/auth/login"><%= t('auth.shared.back_to_login') %></a>
 
 

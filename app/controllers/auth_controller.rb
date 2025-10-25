@@ -5,7 +5,7 @@ class AuthController < WebController
     email = params[:email].to_s.strip
     password = params[:password]
     if email.blank? || password.blank?
-      flash.now[:alert] = 'Email и пароль обязательны'
+      flash.now[:alert] = t('auth.flashes.email_and_password_required')
       return render :login, status: :unprocessable_entity
     end
 
@@ -16,9 +16,9 @@ class AuthController < WebController
         VerificationMailer.send_verification_code(user).deliver_now
         session[:pending_email] = user.email
         session[:last_verification_code_sent_at] = Time.current.to_i
-        redirect_to verify_path(email: user.email), notice: 'Код отправлен на email'
+        redirect_to verify_path(email: user.email), notice: t('auth.flashes.code_sent')
       else
-        flash.now[:alert] = 'Неверный пароль'
+        flash.now[:alert] = t('auth.flashes.wrong_password')
         render :login, status: :unauthorized
       end
     else
@@ -28,7 +28,7 @@ class AuthController < WebController
         VerificationMailer.send_verification_code(user).deliver_now
         session[:pending_email] = user.email
         session[:last_verification_code_sent_at] = Time.current.to_i
-        redirect_to verify_path(email: user.email), notice: 'Проверьте email для подтверждения'
+        redirect_to verify_path(email: user.email), notice: t('auth.flashes.check_email_for_verification')
       else
         flash.now[:alert] = user.errors.full_messages.join(', ')
         render :login, status: :unprocessable_entity
@@ -54,14 +54,14 @@ class AuthController < WebController
     code = params[:code].to_s.strip
 
     if email.blank? || code.blank?
-      flash.now[:alert] = 'Email и код обязательны'
+      flash.now[:alert] = t('auth.flashes.email_and_code_required')
       @email = email
       return render :verify, status: :unprocessable_entity
     end
 
     user = User.find_by(email: email)
     unless user
-      flash.now[:alert] = 'Пользователь не найден'
+      flash.now[:alert] = t('auth.flashes.user_not_found')
       @email = email
       return render :verify, status: :not_found
     end
@@ -70,9 +70,9 @@ class AuthController < WebController
       user.update!(verification_code: nil, verification_code_expires_at: nil)
       token = encode_token({ user_id: user.id })
       cookies[:token] = { value: token, httponly: true }
-      redirect_to root_path, notice: 'Вход выполнен'
+      redirect_to root_path, notice: t('auth.flashes.login_success')
     else
-      flash.now[:alert] = 'Неверный или истекший код'
+      flash.now[:alert] = t('auth.flashes.invalid_or_expired_code')
       @email = email
       if (ts = session[:last_verification_code_sent_at]).present?
         wait = 60 - (Time.current.to_i - ts.to_i)
@@ -88,41 +88,41 @@ class AuthController < WebController
     email = (params[:email].to_s.strip.presence || session[:pending_email].to_s.strip)
 
     if email.blank?
-      flash[:alert] = 'Email обязателен'
+      flash[:alert] = t('auth.flashes.email_required')
       return redirect_to verify_path(email: email)
     end
 
     user = User.find_by(email: email)
     unless user
-      flash[:alert] = 'Пользователь не найден'
+      flash[:alert] = t('auth.flashes.user_not_found')
       return redirect_to verify_path(email: email)
     end
 
     last = session[:last_verification_code_sent_at]
     if last && (Time.current.to_i - last.to_i) < 60
       wait = 60 - (Time.current.to_i - last.to_i)
-      flash[:alert] = "Повторная отправка доступна через #{wait} сек"
+      flash[:alert] = t('auth.flashes.resend_wait', seconds: wait)
       return redirect_to verify_path(email: email)
     end
 
     user.generate_verification_code!
     VerificationMailer.send_verification_code(user).deliver_now
     session[:last_verification_code_sent_at] = Time.current.to_i
-    flash[:notice] = 'Код отправлен повторно'
+    flash[:notice] = t('auth.flashes.code_resent')
     redirect_to verify_path(email: email)
   end
 
   def forgot_submit
     email = params[:email].to_s.strip
     if email.blank?
-      flash.now[:alert] = 'Email обязателен'
+      flash.now[:alert] = t('auth.flashes.email_required')
       return render :forgot, status: :unprocessable_entity
     end
 
     user = User.find_by(email: email)
     if user
       if user.reset_password_requested_at && user.reset_password_requested_at > 60.seconds.ago
-        flash[:alert] = 'Письмо уже отправлено, попробуйте позже'
+        flash[:alert] = t('auth.flashes.email_already_sent_try_later')
         return redirect_to forgot_path
       end
 
@@ -131,15 +131,15 @@ class AuthController < WebController
         ResetPasswordMailer.with(user: user).reset_instructions.deliver_now
       rescue => e
         if Rails.env.development? || Rails.env.test?
-          flash[:notice] = "Debug: письмо не отправлено (SMTP). URL: #{root_url}reset_password?token=#{user.reset_password_token}"
+          flash[:notice] = t('auth.flashes.smtp_debug_link', url: "#{root_url}reset_password?token=#{user.reset_password_token}")
         else
-          flash[:alert] = 'Не удалось отправить письмо'
+          flash[:alert] = t('auth.flashes.failed_to_send_email')
         end
         return redirect_to forgot_path
       end
     end
 
-    flash[:notice] = 'Если email существует, мы отправили ссылку для сброса'
+    flash[:notice] = t('auth.flashes.if_email_exists_sent_link')
     redirect_to forgot_path
   end
 
@@ -149,25 +149,25 @@ class AuthController < WebController
     password_confirmation = params[:password_confirmation]
 
     if token.blank? || password.blank? || password_confirmation.blank?
-      flash.now[:alert] = 'Токен и пароли обязательны'
+      flash.now[:alert] = t('auth.flashes.token_and_passwords_required')
       @token = token
       return render :reset, status: :unprocessable_entity
     end
 
     if password.length < 8 || password.length > 64
-      flash.now[:alert] = 'Пароль должен быть от 8 до 64 символов'
+      flash.now[:alert] = t('auth.flashes.password_length_invalid')
       @token = token
       return render :reset, status: :unprocessable_entity
     end
 
     user = User.find_by(reset_password_token: token)
     unless user
-      flash.now[:alert] = 'Неверный токен'
+      flash.now[:alert] = t('auth.flashes.invalid_token')
       @token = token
       return render :reset, status: :unauthorized
     end
     unless user.reset_token_valid?(ttl_minutes: 30)
-      flash.now[:alert] = 'Ссылка истекла'
+      flash.now[:alert] = t('auth.flashes.link_expired')
       @token = token
       return render :reset, status: :unauthorized
     end
@@ -176,7 +176,7 @@ class AuthController < WebController
     user.password_confirmation = password_confirmation
     if user.save
       user.clear_reset_password_token!
-      redirect_to root_path, notice: 'Пароль обновлён'
+      redirect_to root_path, notice: t('auth.flashes.password_updated')
     else
       flash.now[:alert] = user.errors.full_messages.join(', ')
       @token = token

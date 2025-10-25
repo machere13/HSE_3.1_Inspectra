@@ -46,16 +46,18 @@ document.addEventListener('DOMContentLoaded', function(){
   const resendBtn = document.getElementById('resend');
   if (resendBtn) {
     let left = parseInt(resendBtn.dataset.left || '0', 10);
+    const label = resendBtn.dataset.label || 'Отправить повторно';
+    const countdownTpl = resendBtn.dataset.countdownTemplate || 'Отправить повторно (%{seconds})';
     if (left > 0) {
       resendBtn.disabled = true;
       const tick = () => {
         left -= 1;
         if (left <= 0) {
           resendBtn.disabled = false;
-          resendBtn.value = 'Отправить повторно';
+          resendBtn.value = label;
           return;
         }
-        resendBtn.value = `Отправить повторно (${left})`;
+        resendBtn.value = countdownTpl.replace('%{seconds}', String(left));
         setTimeout(tick, 1000);
       };
       setTimeout(tick, 1000);
