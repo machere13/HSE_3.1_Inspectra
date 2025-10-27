@@ -66,7 +66,4 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   root 'pages#home'
 
-  if Rails.env.development?
-    get '/dev/make_me_admin', to: 'dev#make_me_admin'
-  end
 end
