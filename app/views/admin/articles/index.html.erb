@@ -1,0 +1,16 @@
+<h1>Статьи дня <%= @day.number %></h1>
+
+<p><%= link_to 'Новая статья', new_admin_day_article_path(@day) %></p>
+
+<ul>
+  <% @articles.each do |article| %>
+    <li>
+      <%= link_to article.title, admin_day_article_path(@day, article) %>
+      — <%= link_to 'Редактировать', edit_admin_day_article_path(@day, article) %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Назад к дню', admin_day_path(@day) %>
+
+

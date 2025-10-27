@@ -1,0 +1,35 @@
+<%= form_with model: [:admin, @day, @content_item] do |f| %>
+  <div>
+    <%= f.label :position, 'Позиция' %><br/>
+    <%= f.number_field :position, min: 0, step: 1 %>
+  </div>
+  <div>
+    <%= f.label :kind, 'Тип' %><br/>
+    <%= f.select :kind, ContentItem::KINDS.map { |k| [k, k] } %>
+  </div>
+  <div>
+    <%= f.label :title, 'Заголовок' %><br/>
+    <%= f.text_field :title %>
+  </div>
+  <div>
+    <%= f.label :url, 'URL' %><br/>
+    <%= f.text_field :url %>
+  </div>
+  <div>
+    <%= f.label :body, 'Текст' %><br/>
+    <%= f.text_area :body, rows: 5 %>
+  </div>
+  <div>
+    <%= f.label :article_id, 'Статья (опционально)' %><br/>
+    <%= f.collection_select :article_id, @day.articles, :id, :title, include_blank: true %>
+  </div>
+  <div>
+    <%= f.label :metadata, 'Метаданные (JSON)' %><br/>
+    <%= f.text_area :metadata, rows: 4, value: (@content_item.metadata.present? ? JSON.pretty_generate(@content_item.metadata) : "{}") %>
+  </div>
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>
+
+

@@ -1,0 +1,9 @@
+<h1><%= @article.title %></h1>
+<div>
+  <%= simple_format @article.body %>
+  </div>
+
+<p>
+  <%= link_to 'Редактировать', edit_admin_day_article_path(@day, @article) %> |
+  <%= link_to 'Назад к списку', admin_day_articles_path(@day) %>
+</p>

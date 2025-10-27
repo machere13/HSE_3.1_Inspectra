@@ -1,0 +1,15 @@
+<%= form_with model: [:admin, @day, @article] do |f| %>
+  <div>
+    <%= f.label :title, 'Заголовок' %><br/>
+    <%= f.text_field :title %>
+  </div>
+  <div>
+    <%= f.label :body, 'Текст' %><br/>
+    <%= f.text_area :body, rows: 10 %>
+  </div>
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>
+
+

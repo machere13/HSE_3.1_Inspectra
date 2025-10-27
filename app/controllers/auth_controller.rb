@@ -67,7 +67,7 @@ class AuthController < WebController
     end
 
     if user.verification_code_valid?(code)
-      user.update!(verification_code: nil, verification_code_expires_at: nil)
+      user.verify_email!
       token = encode_token({ user_id: user.id })
       cookies[:token] = { value: token, httponly: true }
       redirect_to root_path, notice: t('auth.flashes.login_success')

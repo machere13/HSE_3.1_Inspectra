@@ -18,22 +18,12 @@ def create_mock_days_with_content(total_days)
   total_days.times do |i|
     number = i + 1
 
-    if number < current_day
-      published_at = Time.current - 48.hours
-      expires_at   = published_at + 24.hours
-    elsif number == current_day
-      published_at = Time.current
-      expires_at   = published_at + 24.hours
-    else
-      next
-    end
+    next if number > current_day
 
     day = Day.create!(
       number: number,
       title: "Мок-День #{number}",
-      description: Faker::Lorem.paragraph(sentence_count: 1),
-      published_at: published_at,
-      expires_at: expires_at
+      description: Faker::Lorem.paragraph(sentence_count: 1)
     )
 
         articles = Array.new(rand(2..4)) do |j|

@@ -50,10 +50,23 @@ Rails.application.routes.draw do
     resources :articles, only: [:show]
   end
 
+  namespace :admin do
+    resources :days do
+      resources :articles
+      resources :content_items
+    end
+  end
+
+  get 'admin', to: redirect('/admin/days')
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
   root 'pages#home'
+
+  if Rails.env.development?
+    get '/dev/make_me_admin', to: 'dev#make_me_admin'
+  end
 end

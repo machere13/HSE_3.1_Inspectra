@@ -1,0 +1,12 @@
+<h1>День <%= @day.number %>: <%= @day.title %></h1>
+<p><%= simple_format @day.description %></p>
+<p><strong>Период:</strong> <%= l @day.published_at.in_time_zone %> — <%= l @day.expires_at.in_time_zone %></p>
+
+<p>
+  <%= link_to 'Редактировать', edit_admin_day_path(@day) %> |
+  <%= link_to 'Статьи', admin_day_articles_path(@day) %> |
+  <%= link_to 'Контент', admin_day_content_items_path(@day) %> |
+  <%= link_to 'Назад', admin_days_path %>
+  </p>
+
+
