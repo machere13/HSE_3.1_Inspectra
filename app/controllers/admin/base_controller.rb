@@ -20,8 +20,6 @@ class Admin::BaseController < WebController
   end
 
   def require_admin
-    return if Rails.env.development? && current_user.present?
-
     unless current_user&.email_verified? && current_user&.admin?
       redirect_to auth_path, alert: t('auth.flashes.login_required', default: 'Требуется вход в систему')
     end
