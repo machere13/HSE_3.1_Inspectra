@@ -21,9 +21,7 @@ if Day.count.zero?
   day = Day.create!(
     number: 1,
     title: 'День 1',
-    description: 'Описание дня 1',
-    published_at: Time.current,
-    expires_at: 24.hours.from_now
+    description: 'Описание дня 1'
   )
   article = Article.create!(day: day, title: 'Введение', body: 'Добро пожаловать! Это реальный контент без моков.')
   ContentItem.create!(day: day, kind: 'article', position: 1, title: 'Статья дня', article: article)

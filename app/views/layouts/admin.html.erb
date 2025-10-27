@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", media: "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= favicon_link_tag '/favicons/favicon.ico' %>
+    <%= favicon_link_tag '/favicons/favicon.svg', rel: 'icon', type: 'image/svg+xml' %>
+    <%= favicon_link_tag '/favicons/favicon-96x96.png', rel: 'icon', type: 'image/png', sizes: '96x96' %>
+    <%= tag.link rel: 'apple-touch-icon', href: '/favicons/apple-touch-icon.png', sizes: '180x180' %>
+    <%= tag.link rel: 'manifest', href: '/favicons/site.webmanifest' %>
+  </head>
+  <body>
+    <nav>
+      <%= link_to 'Дни', admin_days_path %> |
+      <% if defined?(@day) && @day.present? %>
+        <%= link_to 'Статьи', admin_day_articles_path(@day) %> |
+        <%= link_to 'Контент', admin_day_content_items_path(@day) %>
+      <% end %>
+      <span style="float:right"><%= link_to 'На сайт', root_path %></span>
+    </nav>
+    <hr/>
+    <%= yield %>
+  </body>
+  </html>
+
+
