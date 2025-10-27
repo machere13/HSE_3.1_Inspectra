@@ -1,5 +1,6 @@
 class ContentItem < ApplicationRecord
   belongs_to :day
+  has_one_attached :file
 
   KINDS = %w[image gif video audio link].freeze
 
@@ -13,8 +14,12 @@ class ContentItem < ApplicationRecord
 
   def validate_payload
     case kind
-    when 'image', 'gif', 'video', 'audio', 'link'
-      errors.add(:url, 'must be present for media kind') if url.blank?
+    when 'image', 'gif', 'video', 'audio'
+      if url.blank? && !file.attached?
+        errors.add(:base, 'Нужно указать URL или загрузить файл')
+      end
+    when 'link'
+      errors.add(:url, 'URL обязателен для ссылки') if url.blank?
     end
   end
 end

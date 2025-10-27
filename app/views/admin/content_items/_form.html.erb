@@ -1,4 +1,4 @@
-<%= form_with model: [:admin, @day, @content_item] do |f| %>
+<%= form_with model: [:admin, @day, @content_item], html: { multipart: true } do |f| %>
   <div>
     <%= f.label :position, 'Позиция' %><br/>
     <%= f.number_field :position, min: 0, step: 1 %>
@@ -26,6 +26,15 @@
   <div>
     <%= f.label :metadata, 'Метаданные (JSON)' %><br/>
     <%= f.text_area :metadata, rows: 4, value: (@content_item.metadata.present? ? JSON.pretty_generate(@content_item.metadata) : "{}") %>
+  </div>
+  <div>
+    <%= f.label :file, 'Загрузить файл (из компьютера)' %><br/>
+    <%= f.file_field :file, accept: 'image/*,video/*,audio/*' %>
+    <% if @content_item&.file&.attached? %>
+      <div>
+        Текущий файл: <%= @content_item.file.filename.to_s %>
+      </div>
+    <% end %>
   </div>
   <div>
     <%= f.submit %>

@@ -15,6 +15,7 @@ class Admin::ContentItemsController < Admin::BaseController
   def create
     attrs = build_attributes_with_metadata
     @content_item = @day.content_items.new(attrs)
+    attach_file(@content_item)
     if @content_item.save
       redirect_to admin_day_content_item_path(@day, @content_item), notice: 'Контент добавлен'
     else
@@ -27,7 +28,9 @@ class Admin::ContentItemsController < Admin::BaseController
 
   def update
     attrs = build_attributes_with_metadata
-    if @content_item.update(attrs)
+    @content_item.assign_attributes(attrs)
+    attach_file(@content_item)
+    if @content_item.save
       redirect_to admin_day_content_item_path(@day, @content_item), notice: 'Контент обновлён'
     else
       flash.now[:alert] = @content_item.errors.full_messages.join(', ')
@@ -78,6 +81,12 @@ class Admin::ContentItemsController < Admin::BaseController
     end
 
     permitted
+  end
+
+  def attach_file(record)
+    uploaded = params.dig(:content_item, :file)
+    return unless uploaded.present?
+    record.file.attach(uploaded)
   end
 end
 
