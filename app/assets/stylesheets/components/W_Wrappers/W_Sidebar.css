@@ -1,0 +1,27 @@
+.W_Sidebar{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 360px;
+    height: 100%;
+    padding: var(--spacing-x2) var(--spacing-x4);
+    gap: var(--spacing-x3);
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.W_Sidebar-Top{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x8);
+}
+
+.W_Sidebar-Top-Content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x3);
+}
