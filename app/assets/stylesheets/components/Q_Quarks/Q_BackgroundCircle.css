@@ -23,3 +23,12 @@
     stroke-dasharray: 4px 4px;
     vector-effect: non-scaling-stroke;
 }
+
+@media (max-width: 1280px) {
+    .Q_BackgroundCircle{
+        width: 100vh;
+        height: 100vh;
+        min-width: 0;
+        min-height: 0;
+    }
+}
