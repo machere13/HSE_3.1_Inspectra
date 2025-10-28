@@ -13,8 +13,8 @@
 }
 
 body {
-  background-color: #131313;
-  color: #fff;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
   box-sizing: border-box;
   font-family: 'GeistMono';
 }

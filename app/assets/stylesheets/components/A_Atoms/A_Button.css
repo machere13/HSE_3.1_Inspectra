@@ -2,6 +2,7 @@
     width: fit-content;
     height: fit-content;
     display: inline-block;
+    position: relative;
     padding: var(--spacing-x3);
     background: transparent;
     color: var(--color-text-primary);
@@ -25,25 +26,32 @@
 
 .A_Button[disabled],
 .A_Button.A_Button--Loading{
-    opacity: .6;
     cursor: not-allowed;
+    color: var(--color-state-text-inactive);
+    border-color: var(--color-border-tertiary);
+    background: var(--color-secondary);
 }
 
 .A_Button-Content{ display: inline-flex; align-items: center; gap: var(--spacing-x2); }
 
 .A_Button-Spinner{
     display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
     width: 1em;
     height: 1em;
     border-radius: 50%;
-    border: 2px solid rgba(255,255,255,.25);
-    border-top-color: #fff;
-    animation: A_Button_spin .8s linear infinite;
+    border: 2px solid var(--color-state-loading);
+    border-top-color: var(--color-accent);
+    animation: A_Button_Spin .8s linear infinite;
 }
 
 .A_Button.A_Button--Loading .A_Button-Spinner{ display: inline-block; }
-.A_Button.A_Button--Loading .A_Button-Content{ opacity: .85; }
+.A_Button.A_Button--Loading .A_Button-Content{ opacity: 0; pointer-events: none; }
 
-@keyframes A_Button_spin {
-    to { transform: rotate(360deg); }
+@keyframes A_Button_Spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
 }
