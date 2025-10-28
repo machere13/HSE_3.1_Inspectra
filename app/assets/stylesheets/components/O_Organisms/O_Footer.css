@@ -1,0 +1,29 @@
+.O_Footer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x2);
+    padding: var(--spacing-x4) var(--spacing-x4) var(--spacing-x2) var(--spacing-x4);
+    background: var(--color-primary);
+}
+
+.O_Footer-Content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: var(--spacing-x4);
+}
+
+.O_Footer-Content-Side{
+    width: 100%;
+}
+
+.O_Footer-Content-Side-List{
+    display: flex;
+    flex-direction: column;
+}
+
+.O_Footer-Content-Side-Item{
+    color: var(--color-text-primary);
+}
