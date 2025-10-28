@@ -1,0 +1,9 @@
+.A_Input-Control{
+  width: 100%;
+  padding: var(--spacing-x3);
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  border: var(--border-x05) solid var(--color-border-primary);
+  outline: none;
+}
+.A_Input-Control::placeholder{ color: var(--color-text-tertiary); }

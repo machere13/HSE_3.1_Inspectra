@@ -1,0 +1,4 @@
+.M_FormPlug{
+    display: flex;
+    gap: var(--spacing-x4);
+}
