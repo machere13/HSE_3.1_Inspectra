@@ -12,6 +12,7 @@
   const onClick = (e) => {
     const btn = e.target.closest('.A_Button');
     if(!btn) return;
+    e.preventDefault();
     if(btn.hasAttribute('disabled') || btn.classList.contains('A_Button--Loading')) return;
 
     const actionName = btn.dataset.action;
