@@ -6,3 +6,7 @@
     padding: var(--spacing-x2);
     background: var(--color-primary);
 }
+
+.W_NavigationBar-Item{
+    flex: 1 1 0;
+}

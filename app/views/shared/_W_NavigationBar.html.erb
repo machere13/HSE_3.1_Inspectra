@@ -1,4 +1,8 @@
 <div class="W_NavigationBar">
-  <%= render 'shared/M_NavigationBar' icon_name: 'Q_FolderIcon', icon_width: 16, icon_height: 16, text: 'Pages' %>
-  <%= render 'shared/M_NavigationBar' %>
+  <div class="W_NavigationBar-Item" data-index="0">
+    <%= render 'shared/M_NavigationBar', icon_name: 'Q_FolderIcon', icon_width: 16, icon_height: 16, text: 'Pages', arrow: { opened: true } %>
+  </div>
+  <div class="W_NavigationBar-Item" data-index="1">
+    <%= render 'shared/M_NavigationBar', text: 'Blocks', arrow: { opened: true } %>
+  </div>
 </div>
