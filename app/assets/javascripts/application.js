@@ -1,5 +1,5 @@
 //= require_self
-//= require A_Button
+//= require ./A_Button
 
 (function(){
     
