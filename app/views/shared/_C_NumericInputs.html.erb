@@ -6,6 +6,6 @@
 
 <div class="C_NumericInputs" <%= %(id="#{container_id}") if container_id %> data-length="<%= length %>">
   <% length.times do |i| %>
-    <%= render 'shared/A_NumericInput', maxlength: 1, data: { idx: i } %>
+    <%= render 'shared/A_NumericInput', maxlength: 1, autocomplete: local_assigns[:autocomplete], data: { idx: i } %>
   <% end %>
 </div>

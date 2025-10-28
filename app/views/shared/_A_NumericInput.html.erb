@@ -10,5 +10,7 @@
   attrs[:maxlength] = local_assigns[:maxlength] if local_assigns[:maxlength]
   attrs[:value] = local_assigns[:value] if local_assigns[:value]
   attrs[:disabled] = true if local_assigns[:disabled]
+  attrs[:autocomplete] = local_assigns[:autocomplete] if local_assigns[:autocomplete]
+  attrs[:data] = local_assigns[:data] if local_assigns[:data]
 %>
 <%= tag.input **attrs %>

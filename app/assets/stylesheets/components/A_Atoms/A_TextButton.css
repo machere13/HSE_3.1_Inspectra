@@ -1,0 +1,16 @@
+.A_TextButton{
+    width: fit-content;
+    height: fit-content;
+    display: inline-block;
+    background: transparent;
+    color: var(--color-text-primary);
+    border: none;
+    cursor: pointer;
+    transition: all .2s ease;
+    text-align: center;
+}
+
+.A_TextButton:disabled{
+    cursor: not-allowed;
+    color: var(--color-state-text-inactive);
+}
