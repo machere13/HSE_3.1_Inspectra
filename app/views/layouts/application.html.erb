@@ -6,6 +6,7 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", defer: true %>
   <%= favicon_link_tag '/favicons/favicon.ico' %>
   <%= favicon_link_tag '/favicons/favicon.svg', rel: 'icon', type: 'image/svg+xml' %>
   <%= favicon_link_tag '/favicons/favicon-96x96.png', rel: 'icon', type: 'image/png', sizes: '96x96' %>
@@ -14,7 +15,7 @@
 </head>
 
 <body>
-  <%= render 'shared/navigation' %>
+  <%= render 'shared/W_Navigation' %>
   <%= yield %>
 </body>
 </html>
