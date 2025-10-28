@@ -1,0 +1,14 @@
+<%
+  attrs = {
+    class: 'A_NumericInput text-p-3',
+    type: 'text',
+    inputmode: 'numeric',
+    pattern: '[0-9]*'
+  }
+  attrs[:id] = local_assigns[:id] if local_assigns[:id]
+  attrs[:name] = local_assigns[:name] if local_assigns[:name]
+  attrs[:maxlength] = local_assigns[:maxlength] if local_assigns[:maxlength]
+  attrs[:value] = local_assigns[:value] if local_assigns[:value]
+  attrs[:disabled] = true if local_assigns[:disabled]
+%>
+<%= tag.input **attrs %>

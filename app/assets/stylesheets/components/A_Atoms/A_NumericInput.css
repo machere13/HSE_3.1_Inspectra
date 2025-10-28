@@ -1,0 +1,33 @@
+.A_NumericInput{
+    width: 100%;
+    max-width: 42px;
+    text-align: center;
+    padding: var(--spacing-x3);
+    background: var(--color-background);
+    color: var(--color-state-text-inactive);
+    border: var(--border-x05) solid var(--color-state-inactive);
+    outline: none;
+    transition: all .2s ease;
+}
+
+.A_NumericInput::placeholder{
+  color: var(--color-text-tertiary);
+}
+
+.A_NumericInput:focus,
+.A_NumericInput:active{
+  border-color: var(--color-border-primary);
+  color: var(--color-state-text-active);
+}
+
+.A_NumericInput--Error{
+  border-color: var(--color-status-error);
+  color: var(--color-status-error);
+}
+
+.A_NumericInput:disabled{
+  cursor: not-allowed;
+  color: var(--color-state-text-inactive);
+  border-color: var(--color-state-inactive);
+  background: var(--color-secondary);
+}
