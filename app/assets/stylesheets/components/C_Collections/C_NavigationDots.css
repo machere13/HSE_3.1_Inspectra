@@ -1,0 +1,7 @@
+.C_NavigationDots {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: var(--spacing-x4);
+}
