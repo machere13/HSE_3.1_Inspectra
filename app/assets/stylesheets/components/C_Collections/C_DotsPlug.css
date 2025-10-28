@@ -12,3 +12,9 @@
     width: 100%;
     justify-content: space-between;
 }
+
+@media (max-width: 768px) {
+    .C_DotsPlug-Left-Square {
+        display: none;
+    }
+}

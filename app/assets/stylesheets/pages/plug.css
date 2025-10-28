@@ -33,5 +33,18 @@
     flex-direction: column;
     gap: var(--spacing-x5);
     width: 100%;
-    max-width: fit-content;
+    max-width: 520px;
+}
+
+@media (max-width: 1024px) {
+    .PagePlug-Container{
+        flex-direction: column;
+    }
+    .PagePlug-Title{
+        font-size: 10vw;
+    }
+
+    .PagePlug-Form{
+        text-align: center;
+    }
 }
