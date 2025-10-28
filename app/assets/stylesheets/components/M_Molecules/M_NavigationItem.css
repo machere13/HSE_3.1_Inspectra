@@ -1,0 +1,5 @@
+.M_NavigationItem{
+    display: inline-flex;
+    align-items: center;
+    outline: none;
+}
