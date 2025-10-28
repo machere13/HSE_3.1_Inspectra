@@ -7,8 +7,8 @@
   data_attrs[:autoreset] = true if local_assigns[:autoreset]
 %>
 
-<button type="button" class="<%= button_classes.join(' ') %>" <%= "disabled" if button_disabled %> <%= tag.attributes(data: data_attrs) %>>
-  <span class="A_Button-Content text-button"><%= text %></span>
+<button type="<%= local_assigns[:type] || 'button' %>" class="<%= button_classes.join(' ') %>" <%= "disabled" if button_disabled %> <%= tag.attributes(data: data_attrs) %>>
+  <span class="A_Button-Content text-button"><%= local_assigns[:text] || local_assigns[:label] %></span>
   <span class="A_Button-Spinner" aria-hidden="true"></span>
 </button>
 

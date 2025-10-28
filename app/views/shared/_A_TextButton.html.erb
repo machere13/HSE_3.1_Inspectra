@@ -1,0 +1,17 @@
+<%
+  text_class = local_assigns[:variant] == 'code' ? 'text-code' : 'text-p-3'
+%>
+<button 
+  type="button" 
+  class="A_TextButton <%= text_class %>"
+  <%= "id=\"#{local_assigns[:id]}\"".html_safe if local_assigns[:id] %>
+  <%= "disabled" if local_assigns[:disabled] %>
+  <% if local_assigns[:onclick] %>
+    onclick="<%= local_assigns[:onclick] %>"
+  <% end %>
+  <% if local_assigns[:data].is_a?(Hash) %>
+    <% local_assigns[:data].each do |key, value| %>
+      data-<%= key %>="<%= value %>"
+    <% end %>
+  <% end %>
+><%= local_assigns[:label] %></button>

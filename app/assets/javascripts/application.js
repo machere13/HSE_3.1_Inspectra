@@ -6,6 +6,7 @@
 //= require ./navigation_roving
 //= require ./a_arrow_button
 //= require ./navigation_sections
+//= require ./a_password_toggle
 
 (function(){
     

@@ -1,5 +1,6 @@
 <%
   input_id = local_assigns[:id] || "inp_#{name}"
+  style_attr = "max-width: #{max_width};" if local_assigns[:max_width]
 %>
 
 <input
@@ -9,8 +10,12 @@
   type="<%= local_assigns[:type] || 'text' %>"
   value="<%= local_assigns[:value] %>"
   placeholder="<%= local_assigns[:placeholder] %>"
+  style="<%= style_attr %>"
   aria-invalid="<%= local_assigns[:error] ? 'true' : 'false' %>"
   <%= 'disabled' if local_assigns[:disabled] %>
   <%= 'required' if local_assigns[:required] %>
   <%= %(autocomplete="#{autocomplete}") if local_assigns[:autocomplete] %>
+  <%= %(autocapitalize="#{autocapitalize}") if local_assigns[:autocapitalize] %>
+  <%= %(spellcheck="false") if local_assigns[:spellcheck] == false %>
+  <%= %(data-form-type="#{data_form_type}") if local_assigns[:data_form_type] %>
 />

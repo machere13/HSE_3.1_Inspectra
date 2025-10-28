@@ -1,29 +1,22 @@
-<% if flash[:alert] %>
-  <p><%= flash[:alert] %></p>
-<% end %>
-<% if flash[:notice] %>
-  <p><%= flash[:notice] %></p>
-<% end %>
+<div class="PageAuth-Form-Wrapper">
+  <div class="PageAuth-Form-Title">
+    <h3><%= t('auth.verify.title') %></h3>
+    <p class="text-p-2"><%= t('auth.verify.description') %></p>
+  </div>
+  <%= form_with url: verify_path, method: :post, html: { id: 'verify-form', autocomplete: 'off', class: 'PageAuth-Form' } do |f| %>
+    <%= hidden_field_tag :email, params[:email].presence || session[:pending_email] %>
+    <%= hidden_field_tag :code, nil, id: 'code' %>
+    <div class="PageAuth-Form-Fields">
+      <%= render 'shared/C_NumericInputs', id: 'otp', length: 6, autocomplete: 'one-time-code', max_width: '358px' %>
+    </div>
+  <% end %>
+  <%= form_with url: resend_path(email: (params[:email].presence || session[:pending_email])), method: :post, html: { class: 'PageAuth-Form' } do %>
+    <%= button_tag type: 'submit', disabled: @resend_wait_left.to_i > 0, data: { left: @resend_wait_left.to_i, label: t('auth.verify.resend'), countdown_template: t('auth.verify.resend_countdown', seconds: '%{seconds}') }, style: 'display: none' %>
+  <% end %>
+  <%= render 'shared/A_TextButton', id: 'resend', variant: 'code', label: (@resend_wait_left.to_i > 0 ? t('auth.verify.resend_countdown', seconds: @resend_wait_left.to_i) : t('auth.verify.resend')), disabled: @resend_wait_left.to_i > 0, data: { left: @resend_wait_left.to_i, label: t('auth.verify.resend'), countdown_template: t('auth.verify.resend_countdown', seconds: '%{seconds}') }, onclick: 'document.querySelector(\'.PageAuth-Form\').querySelector(\'button[type=submit]\').click(); return false;' %>
+  <%= link_to login_path, class: 'A_TextButton text-p-3' do %>
+    <%= t('auth.verify.back_link') %>
+  <% end %>
+</div>
 
-<%= form_with url: verify_path, method: :post, html: { id: 'verify-form' } do |f| %>
-  <%= hidden_field_tag :email, params[:email].presence || session[:pending_email] %>
-  <%= hidden_field_tag :code, nil, id: 'code' %>
-  <%= label_tag :code_inputs, t('auth.verify.code_label') %>
-  <%= render 'shared/C_NumericInputs', id: 'otp', length: 6 %>
-<% end %>
-
- <%= form_with url: resend_path(email: (params[:email].presence || session[:pending_email])), method: :post do %>
-   <%= submit_tag((@resend_wait_left.to_i > 0 ? t('auth.verify.resend_countdown', seconds: @resend_wait_left.to_i) : t('auth.verify.resend')),
-     id: 'resend',
-     disabled: @resend_wait_left.to_i > 0,
-     data: {
-       left: @resend_wait_left.to_i,
-       label: t('auth.verify.resend'),
-       countdown_template: t('auth.verify.resend_countdown', seconds: '%{seconds}')
-     }
-   ) %>
- <% end %>
- 
- <%= javascript_include_tag 'auth/verify' %>
-
-<%= link_to t('auth.verify.back_link'), login_path %>
+<%= javascript_include_tag 'auth/verify' %>
