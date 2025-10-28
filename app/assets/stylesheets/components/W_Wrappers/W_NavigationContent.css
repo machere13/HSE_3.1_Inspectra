@@ -1,0 +1,7 @@
+.W_NavigationContent{
+    display: flex;
+    width: 100%;
+    gap: var(--spacing-x1);
+    padding: var(--spacing-x2);
+    background: var(--color-primary);
+}
