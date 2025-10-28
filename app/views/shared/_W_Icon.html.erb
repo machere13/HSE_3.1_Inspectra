@@ -1,0 +1,9 @@
+<%
+  show_icon = local_assigns.key?(:show) ? local_assigns[:show] : true
+%>
+
+<span class="W_Icon">
+  <% if show_icon %>
+    <%= render 'shared/Q_Icon', name: 'Q_ArrowIcon' %>
+  <% end %>
+</span>
