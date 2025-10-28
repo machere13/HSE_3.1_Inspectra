@@ -7,6 +7,7 @@
     color: var(--color-text-primary);
     transition: all .2s ease;
     justify-content: space-between;
+    width: 100%;
 }
 
 .A_NavigationItem:hover {

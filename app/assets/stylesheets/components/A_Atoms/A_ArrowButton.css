@@ -5,10 +5,14 @@
     background: transparent;
     border: none;
     cursor: pointer;
+    width: 8px;
+    min-width: 8px;
+    height: 8px;
+    min-height: 8px;
 }
 
 .A_ArrowButton-Icon{ display: inline-flex; }
 
-.A_ArrowButton[aria-expanded="true"] .A_ArrowButton-Icon{ transform: rotate(180deg); }
+.A_ArrowButton[aria-expanded="false"] .A_ArrowButton-Icon{ transform: rotate(-90deg); }
 .A_ArrowButton-Icon{ transition: transform .15s ease; }
 

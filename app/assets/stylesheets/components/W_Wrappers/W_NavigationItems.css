@@ -1,6 +1,12 @@
 .W_NavigationItems{
     display: flex;
-    align-items: center;
     width: 100%;
     gap: var(--spacing-x1);
+    flex: 1 1 0;
+}
+
+.W_NavigationItems.W_NavigationItems--Hidden{
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
 }
