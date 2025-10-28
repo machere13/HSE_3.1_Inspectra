@@ -1,0 +1,14 @@
+.A_ArrowButton{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.A_ArrowButton-Icon{ display: inline-flex; }
+
+.A_ArrowButton[aria-expanded="true"] .A_ArrowButton-Icon{ transform: rotate(180deg); }
+.A_ArrowButton-Icon{ transition: transform .15s ease; }
+
