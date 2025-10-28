@@ -1,0 +1,14 @@
+.C_DotsPlug {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: var(--spacing-x4);
+}
+
+.C_DotsPlug-Left {
+    display: flex;
+    max-width: 360px;
+    width: 100%;
+    justify-content: space-between;
+}
