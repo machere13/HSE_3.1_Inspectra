@@ -1,0 +1,8 @@
+.W_NavigationBar{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: var(--spacing-x1);
+    padding: var(--spacing-x2);
+    background: var(--color-primary);
+}
