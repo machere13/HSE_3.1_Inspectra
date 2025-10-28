@@ -27,3 +27,15 @@
 .O_Footer-Content-Side-Item{
     color: var(--color-text-primary);
 }
+
+.O_Footer-Content-Center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-x4);
+}
+
+.O_Footer-Content-Center-Text{
+    color: var(--color-text-primary);
+    text-align: center;
+}
