@@ -1,0 +1,13 @@
+<%
+  icon_name = local_assigns[:icon_name] || 'Q_FolderIcon'
+  icon_width = local_assigns[:icon_width]
+  icon_height = local_assigns[:icon_height]
+  label_text = local_assigns[:text]
+  arrow_locals = (local_assigns[:arrow] || {}).slice(:opened)
+%>
+
+<div class="M_NavigationBar">
+  <%= render 'shared/A_ArrowButton', arrow_locals %>
+  <%= render 'shared/Q_Icon', name: icon_name, width: icon_width, height: icon_height %>
+  <span class="M_NavigationBar-Text text-p-3"><%= label_text %></span>
+</div>
