@@ -1,0 +1,24 @@
+.A_LinkButton{
+    width: fit-content;
+    height: fit-content;
+    display: inline-block;
+    padding: var(--spacing-x3);
+    background: transparent;
+    color: var(--color-text-primary);
+    border: var(--border-x05) solid var(--color-border-primary);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .2s ease;
+    text-align: center;
+}
+
+.A_LinkButton:hover{
+    background: var(--color-state-hover);
+    color: var(--color-text-primary);
+}
+
+.A_LinkButton:active{
+    background: var(--color-primary);
+    color: var(--color-text-primary);
+    border-color: var(--color-border-tertiary);
+}
