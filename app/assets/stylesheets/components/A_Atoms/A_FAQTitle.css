@@ -1,0 +1,7 @@
+.A_FAQTitle{
+    display: flex;
+    width: 100%;
+    padding-bottom: var(--spacing-x2);
+    border-bottom: var(--border-x05) dashed var(--color-border-primary);
+    max-width: 644px;
+}

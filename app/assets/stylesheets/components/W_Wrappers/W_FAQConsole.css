@@ -1,0 +1,32 @@
+.W_FAQConsole{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: var(--border-radius-x2);
+    overflow: hidden;
+}
+
+.W_FAQConsole-Header{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--spacing-x2);
+    background: var(--color-state-inactive);
+    gap: var(--spacing-x2);
+}
+
+.W_FAQConsole-Content{
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-x2);
+    gap: var(--spacing-x4);
+    background: var(--color-secondary);
+}
+
+.W_FAQConsole-Content-Code-Question{
+    color: var(--color-text-secondary);
+}
+
+.W_FAQConsole-Content-Code-Response{
+    color: var(--color-text-primary);
+}

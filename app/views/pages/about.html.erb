@@ -1,2 +1,204 @@
-<h1><%= t('pages.about.title') %></h1>
-<%= link_to t('pages.about.back_to_home'), root_path %>
+<div class="PageAbout">
+  <section class="PageAbout-Section-Main">
+    <div class="PageAbout-Section-Title">
+        <%= render 'shared/A_Logo', name: 'A_Logo', size: 'Large' %>
+        <h1>ГЕЙМИФИЦИРОВАННОЕ МЕДИА ПРО WEB</h1>
+        <h3>Мы&nbsp;превращаем сложные темы по&nbsp;IT в&nbsp;реальные расследования&nbsp;&mdash; миссиями и&nbsp;кодом, который нужно взломать, чтобы понять.</h3>
+    </div>
+    <div class="PageAbout-Section-Main-Content">
+      <%= render 'pages/Q_Square' %>
+      <div class="PageAbout-Section-Main-Content-Plate">
+        <h3>INSPECTRA создана для тех, кто хочет понимать, как работает цифровой мир&nbsp;&mdash; изнутри.</h3>
+      </div>
+      <div class="PageAbout-Section-Main-Content-Square"><%= render 'pages/Q_Square' %></div>
+    </div>
+    <div class="PageAbout-Section-Content-Interactions">
+      <%= render 'shared/A_Button', text: 'Погрузиться в веб', href: root_path %>
+      <%= render 'shared/A_Button', text: 'Узнать больше о вебе', href: root_path %>
+    </div>
+  </section>
+  <section class="PageAbout-Section-FAQ">
+    <%= render 'shared/W_FAQConsole', 
+    title: 'about/log', 
+    question: 
+    '>_ init system --media Inspectra
+[system] initializing core...
+[system] loading modules...
+[ok] environment loaded successfully.
+    ', 
+    response: 'INSPECTRA — интерактивное медиа, где обучение вебу превращается в расследование.  
+Каждый материал — это миссия. Каждый баг — улика. Каждый пользователь — агент.
+    ',
+    max_width: '1464px'
+    %>
+    <div class="PageAbout-Section-FAQ-Content">
+        <div class="PageAbout-Section-FAQ-Content-Block">
+            <div class="PageAbout-Section-FAQ-Content-Left">
+                <img src="<%= asset_path('Q_FAQImage_1.png') %>" alt="About 1">
+            </div>
+            <div class="PageAbout-Section-FAQ-Content-Right">
+                <%= render 'shared/W_FAQConsole',
+                    title: 'whoami',
+                    question:
+                    '>_ whoami
+[user] querying identity...
+                ',
+                response: 'Мы — команда исследователей цифровой среды.
+→ разработчики, дизайнеры и энтузиасты безопасности
+→ создаём обучающие миссии, где теория и практика переплетены
+→ верим, что баг — это не ошибка, а начало расследования
+                ',
+                max_width: '100%'
+                %>
+                <%= render 'shared/W_FAQConsole',
+                    title: 'mission',
+                    question:
+                    '>_ mission --get
+fetching mission data...]
+                ',
+                response: 'Миссия Inspectra:
+. сделать обучение по веб-технологиям практичным и увлекательным
+. обучать через действие, а не сухую теорию
+. вернуть интерес к исследованию, вниманию и цифровому мышлению
+                ',
+                max_width: '100%'
+                %>
+            </div>
+        </div>
+        <div class="PageAbout-Section-FAQ-Content-Block">
+        <%= render 'shared/A_FAQTitle', title: 'Наше медиа имеет 5 направлений для погружения в исследования_>' %>
+        <div class="PageAbout-Section-FAQ-Content-Right">
+                <%= render 'shared/W_FAQConsole',
+                    title: 'modules',
+                    question:
+                    '>_ modules --list
+[system] listing active modules...
+                ',
+                response: '<dev_dive>         → погружение в структуру сайтов (DOM, cookies, network)
+<legacy_mode>      → изучение устаревших систем и ретро-кода
+<security_lab>     → безопасные симуляции фишинга, XSS и других IT-рисков
+<bughunt>          → поиск и устранение ошибок в интерактивных сценариях
+<theory_decoder>   → упрощаем сложное, объясняем логично
+
+[ok] 5 modules active
+                ',
+                max_width: '100%'
+                %>
+        </div>
+        </div>
+        <div class="PageAbout-Section-FAQ-Content-Vertical-Block">
+            <%= render 'shared/W_FAQConsole',
+                    title: 'content_info',
+                    question:
+                    '>_ load content_layer --info
+[system] scanning media database...
+                ',
+                response: '[ok] content channels detected.',
+                max_width: '100%'
+            %>
+            <div class="PageAbout-Section-FAQ-Content-Vertical-Block-Content">
+                <%= render 'shared/A_FAQTitle', title: 'Контент Inspectra' %>
+                <p class="text-p-2">Мы не ограничиваемся интерактивами — в системе есть полноценное медиа-пространство</p>
+            </div>
+        </div>
+        <div class="PageAbout-Section-FAQ-Content-Block">
+            <div class="PageAbout-Section-FAQ-Content-Left">
+                <img src="<%= asset_path('Q_FAQImage_2.png') %>" alt="About 2">
+            </div>
+            <div class="PageAbout-Section-FAQ-Content-Right" style="align-items: flex-end;">
+            <%= render 'shared/W_FAQConsole',
+                title: 'content_info',
+                question:
+                'content_layer/',
+                response: '  ├── articles/     
+  ├── visuals/      
+  ├── video_logs/   
+  └── micro_posts/
+
+каждая статья связана с интерактивом:
+читаешь материал → запускаешь симуляцию → проверяешь теорию в действии.
+
+[ok] content_layer synchronized with investigation_engine.',
+                max_width: '832px'
+            %>
+            </div>
+        </div>
+        <div class="PageAbout-Section-FAQ-Content-Block" style="align-items: flex-start;">
+        <%= render 'shared/A_FAQTitle', title: '>_ run gamification_engine' %>
+        <div class="PageAbout-Section-FAQ-Content-Right">
+                <%= render 'shared/W_FAQConsole',
+                    title: 'modules',
+                    question:
+                    '>_ run gamification_engine
+[system] checking gamification_engine...
+                ',
+                response: 'STATUS: ACTIVE
+→ Достижения,титулы и уровни для каждого агента  
+→ Таймеры и интерактивные задачи 
+→ Ошибки приносят опыт, а не штраф  
+→ Игровая динамика без попсы — всё встроено в процесс обучения
+                ',
+                max_width: '100%'
+                %>
+        </div>
+        </div>
+        <div class="PageAbout-Section-FAQ-Content-Block" style="align-items: flex-start;">
+        <%= render 'shared/A_FAQTitle', title: '>_ access community_layer' %>
+        <div class="PageAbout-Section-FAQ-Content-Right">
+                <%= render 'shared/W_FAQConsole',
+                    title: 'community',
+                    question:
+                    '>_ access community_layer
+[connect] establishing link to agent network...
+                ',
+                response: 'INSPECTRA_NETWORK connected.
+→ обсуждения под миссиями  
+→ советы от опытных агентов  
+→ обсуждение и постинг контента  
+→ рейтинги, лайки и обратная связь
+
+[ok] community online.
+            ',
+            max_width: '100%'
+            %>
+        </div>
+        </div>
+    </div>
+  </section>
+  <section class="PageAbout-Section-Summary">
+    <div class="PageAbout-Section-Summary-Content-Code">
+        <%= render 'shared/W_FAQCode', code: '>_ output --result
+[system] compiling session summary...
+        
+Результат:
+Inspectra превращает обучение в цифровое расследование.  
+Ты не просто читаешь — ты анализируешь, взаимодействуешь,  
+понимаешь, как устроен веб и как его исследовать безопасно.
+        
+[complete] user_experience = engaged
+        ' %>
+        <%= render 'shared/W_FAQCode', code: '>_ join --community
+[network] establishing secure channel...
+        
+Подключиться:
+- telegram://inspectra  
+        
+- github://inspectra
+        
+[ok] channels active.
+        ' %>
+        <%= render 'shared/W_FAQCode', code: '>_ time left
+23:13_till
+        
+[ok]
+        ' %>
+    </div>
+    <div class='PageAbout-Section-Summary-Content-Form'>
+      <p class="text-p-1">
+        Медиа о&nbsp;цифровых расследованиях и&nbsp;интерактивах. Расследование цифровой среды начинается скоро.
+      </p>
+      <%= render 'pages/M_FormPlug' %>
+    </div>
+  </div>
+  </section>
+</div>

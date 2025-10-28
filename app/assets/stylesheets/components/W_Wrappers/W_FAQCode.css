@@ -1,0 +1,8 @@
+.W_FAQCode{
+    padding-left: var(--spacing-x8);
+    border-left: var(--border-x05) dashed var(--color-border-primary);
+}
+
+.W_FAQCode-Content-Code{
+    color: var(--color-text-primary);
+}

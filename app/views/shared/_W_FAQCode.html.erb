@@ -1,0 +1,12 @@
+<%
+  max_w = local_assigns[:max_width]
+  style_attr = ""
+  if max_w.present?
+    style_value = max_w.is_a?(String) ? max_w : "#{max_w}px"
+    style_attr = "max-width: #{style_value}"
+  end
+%>
+
+<div class="W_FAQCode" style="<%= style_attr %>">
+    <pre class="W_FAQCode-Content-Code text-code"><%= local_assigns[:code] %></pre>
+</div>

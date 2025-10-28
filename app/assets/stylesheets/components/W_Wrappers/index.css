@@ -5,5 +5,7 @@
  *= require ./W_NavigationItems
  *= require ./W_NavigationContent
  *= require ./W_Sidebar
+ *= require ./W_FAQConsole
+ *= require ./W_FAQCode
 */
 
