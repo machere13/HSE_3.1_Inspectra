@@ -17,6 +17,7 @@
 
 .O_Footer-Content-Side{
     width: 100%;
+    display: flex;
 }
 
 .O_Footer-Content-Side-List{
@@ -33,9 +34,14 @@
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-x4);
+    width: 100%;
 }
 
 .O_Footer-Content-Center-Text{
     color: var(--color-text-primary);
     text-align: center;
+}
+
+.O_Footer-Content-Side-Right{
+    justify-content: flex-end;
 }

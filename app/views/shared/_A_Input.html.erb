@@ -4,11 +4,12 @@
 
 <input
   id="<%= input_id %>"
-  class="A_Input-Control"
+  class="A_Input text-p-3 <%= 'A_Input--Error' if local_assigns[:error] %>"
   name="<%= name %>"
   type="<%= local_assigns[:type] || 'text' %>"
   value="<%= local_assigns[:value] %>"
   placeholder="<%= local_assigns[:placeholder] %>"
+  aria-invalid="<%= local_assigns[:error] ? 'true' : 'false' %>"
   <%= 'disabled' if local_assigns[:disabled] %>
   <%= 'required' if local_assigns[:required] %>
   <%= %(autocomplete="#{autocomplete}") if local_assigns[:autocomplete] %>

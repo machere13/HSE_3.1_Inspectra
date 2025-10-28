@@ -1,0 +1,17 @@
+.PagePlug-Container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: var(--spacing-x4);
+    padding: 0 var(--spacing-x4);
+}
+
+.PagePlug-Title{
+    font-weight: var(--font-weight-paragraphs);
+    font-family: var(--font-family-geist);
+    font-size: 6vw;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    display: inline-block;
+}
