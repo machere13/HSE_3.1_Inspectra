@@ -39,6 +39,10 @@
     pointer-events: none;
 }
 
+.A_InspectraBackground-Sides .Q_BackgroundCircle{
+    will-change: transform;
+}
+
 .A_InspectraBackground-Circle-Center{
     position: absolute;
     left: 50%;
