@@ -4,6 +4,7 @@ Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'javas
 
 Rails.application.config.assets.precompile += %w[
   auth/verify.js
+  plug.css
 ]
 
 

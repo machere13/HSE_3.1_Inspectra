@@ -20,15 +20,15 @@
     <%= f.text_area :body, rows: 5 %>
   </div>
   <div>
-    <%= f.label :article_id, 'Статья (опционально)' %><br/>
+    <%= f.label :article_id, 'Статья' %><br/>
     <%= f.collection_select :article_id, @day.articles, :id, :title, include_blank: true %>
   </div>
   <div>
-    <%= f.label :metadata, 'Метаданные (JSON)' %><br/>
+    <%= f.label :metadata, 'Метаданные' %><br/>
     <%= f.text_area :metadata, rows: 4, value: (@content_item.metadata.present? ? JSON.pretty_generate(@content_item.metadata) : "{}") %>
   </div>
   <div>
-    <%= f.label :file, 'Загрузить файл (из компьютера)' %><br/>
+    <%= f.label :file, 'Загрузить файл' %><br/>
     <%= f.file_field :file, accept: 'image/*,video/*,audio/*' %>
     <% if @content_item&.file&.attached? %>
       <div>
