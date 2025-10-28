@@ -1,0 +1,49 @@
+.A_Button{
+    width: fit-content;
+    height: fit-content;
+    display: inline-block;
+    padding: var(--spacing-x3);
+    background: transparent;
+    color: var(--color-text-primary);
+    border: var(--border-x05) solid var(--color-border-primary);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .2s ease;
+    text-align: center;
+}
+
+.A_Button:hover{
+    background: var(--color-state-hover);
+    color: var(--color-text-primary);
+}
+
+.A_Button:active{
+    background: var(--color-primary);
+    color: var(--color-text-primary);
+    border-color: var(--color-border-tertiary);
+}
+
+.A_Button[disabled],
+.A_Button.A_Button--Loading{
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.A_Button-Content{ display: inline-flex; align-items: center; gap: var(--spacing-x2); }
+
+.A_Button-Spinner{
+    display: none;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.25);
+    border-top-color: #fff;
+    animation: A_Button_spin .8s linear infinite;
+}
+
+.A_Button.A_Button--Loading .A_Button-Spinner{ display: inline-block; }
+.A_Button.A_Button--Loading .A_Button-Content{ opacity: .85; }
+
+@keyframes A_Button_spin {
+    to { transform: rotate(360deg); }
+}

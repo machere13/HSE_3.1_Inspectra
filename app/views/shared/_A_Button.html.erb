@@ -1,0 +1,14 @@
+<%
+  button_classes = ["A_Button"]
+  button_classes << "A_Button--Loading" if local_assigns[:isLoading]
+  button_disabled = local_assigns[:disabled] ? true : false
+  data_attrs = {}
+  data_attrs[:action] = action if local_assigns[:action]
+  data_attrs[:autoreset] = true if local_assigns[:autoreset]
+%>
+
+<button class="<%= button_classes.join(' ') %>" <%= "disabled" if button_disabled %> <%= tag.attributes(data: data_attrs) %>>
+  <span class="A_Button-Content text-button"><%= text %></span>
+  <span class="A_Button-Spinner" aria-hidden="true"></span>
+</button>
+
