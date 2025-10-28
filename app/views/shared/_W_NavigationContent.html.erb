@@ -1,0 +1,10 @@
+<div class="W_NavigationContent">
+  <%= render 'shared/W_NavigationItems', items: [
+    { text: 'HOME', href: root_path,  hotkey: 'H' },
+    { text: 'ABOUT', href: about_path, hotkey: 'A' }
+  ] %>
+
+  <%= render 'shared/W_NavigationItems', items: [
+    { text: 'BLOCKS', href: '#blocks' }
+  ] %>
+</div>

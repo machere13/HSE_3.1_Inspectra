@@ -3,5 +3,6 @@
  *= require ./W_NavigationLine
  *= require ./W_NavigationBar
  *= require ./W_NavigationItems
+ *= require ./W_NavigationContent
 */
 
