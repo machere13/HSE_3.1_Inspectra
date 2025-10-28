@@ -1,0 +1,24 @@
+<%
+  size_class = nil
+  case local_assigns[:size]
+  when 'Small' then size_class = 'A_Logo--Small'
+  when 'Large' then size_class = 'A_Logo--Large'
+  end
+
+  style_attr = []
+  w = local_assigns[:width]
+  h = local_assigns[:height]
+  style_attr << "width: #{w}px" if w
+  style_attr << "height: #{h}px" if h
+  style_attr = style_attr.join('; ')
+%>
+
+<span class="A_Logo <%= size_class %>" style="<%= style_attr %>">
+  <%
+    dir = local_assigns[:dir]
+    logical_name = dir.present? ? "#{dir}/#{name}.svg" : "#{name}.svg"
+  %>
+  <%= image_tag asset_path(logical_name), alt: name, draggable: false %>
+</span>
+
+
