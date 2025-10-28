@@ -9,14 +9,7 @@
   <%= hidden_field_tag :email, params[:email].presence || session[:pending_email] %>
   <%= hidden_field_tag :code, nil, id: 'code' %>
   <%= label_tag :code_inputs, t('auth.verify.code_label') %>
-  <div id="otp" class="otp-inputs">
-    <%= render 'shared/A_NumericInput', maxlength: 1, data: { idx: 0 } %>
-    <%= render 'shared/A_NumericInput', maxlength: 1, data: { idx: 1 } %>
-    <%= render 'shared/A_NumericInput', maxlength: 1, data: { idx: 2 } %>
-    <%= render 'shared/A_NumericInput', maxlength: 1, data: { idx: 3 } %>
-    <%= render 'shared/A_NumericInput', maxlength: 1, data: { idx: 4 } %>
-    <%= render 'shared/A_NumericInput', maxlength: 1, data: { idx: 5 } %>
-  </div>
+  <%= render 'shared/C_NumericInputs', id: 'otp', length: 6 %>
 <% end %>
 
  <%= form_with url: resend_path(email: (params[:email].presence || session[:pending_email])), method: :post do %>

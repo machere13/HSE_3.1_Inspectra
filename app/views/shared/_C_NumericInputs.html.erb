@@ -1,0 +1,11 @@
+<%
+  length = (local_assigns[:length] || 6).to_i
+  length = 1 if length < 1
+  container_id = local_assigns[:id]
+%>
+
+<div class="C_NumericInputs" <%= %(id="#{container_id}") if container_id %> data-length="<%= length %>">
+  <% length.times do |i| %>
+    <%= render 'shared/A_NumericInput', maxlength: 1, data: { idx: i } %>
+  <% end %>
+</div>
