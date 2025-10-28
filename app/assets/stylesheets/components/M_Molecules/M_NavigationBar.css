@@ -1,0 +1,6 @@
+.M_NavigationBar{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: var(--spacing-x1);
+}
