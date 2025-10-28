@@ -76,7 +76,8 @@ h1, .text-h1 {
     font-family: var(--font-family-geist);
     font-weight: var(--font-weight-headers);
     line-height: var(--line-height-big);
-    letter-spacing: var(--letter-spacing-tiny);
+    /* TODO: 2 module: исправить на tiny */
+    letter-spacing: var(--letter-spacing-normal);
     text-transform: var(--text-transform-as-typed);
     text-decoration: var(--text-decoration-none);
 }
