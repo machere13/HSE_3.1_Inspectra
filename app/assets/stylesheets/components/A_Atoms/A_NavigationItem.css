@@ -1,0 +1,18 @@
+.A_NavigationItem {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-x1);
+    padding: var(--spacing-x05) var(--spacing-x1);
+    background: transparent;
+    color: var(--color-text-primary);
+    transition: all .2s ease;
+    justify-content: space-between;
+}
+
+.A_NavigationItem:hover {
+    background: var(--color-state-hover);
+}
+
+.A_NavigationItem--Active {
+    background: var(--color-state-active);
+}

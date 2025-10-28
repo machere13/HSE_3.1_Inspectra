@@ -1,0 +1,15 @@
+<%
+  hk = (local_assigns[:hotkey] || '').to_s.strip.upcase
+  data_attrs = {}
+  data_attrs[:hotkey] = hk if hk.present?
+  is_active = current_page?(href)
+  classes = ["A_NavigationItem", "text-p-1"]
+  classes << "A_NavigationItem--Active" if is_active
+%>
+
+<%= link_to href, class: classes.join(' '), data: data_attrs do %>
+  <span class="A_NavigationItem-Label"><%= text %></span>
+  <% if hk.present? %>
+    <span class="A_NavigationItem-Hotkey">[<%= hk %>]</span>
+  <% end %>
+<% end %>
