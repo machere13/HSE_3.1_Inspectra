@@ -15,9 +15,12 @@
 </head>
 
 <body>
-  <div class="PageLayout">
-    <%= render 'shared/W_Sidebar' %>
-    <%= yield %>
+  <div class="PageWrapper">
+    <div class="PageLayout">
+      <%= render 'shared/W_Sidebar' %>
+      <%= yield %>
+    </div>
+    <%= render 'shared/O_Footer' %>
   </div>
 </body>
 </html>
