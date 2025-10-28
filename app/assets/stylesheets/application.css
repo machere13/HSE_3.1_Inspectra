@@ -47,3 +47,120 @@ ul{
   width: 100%;
   height: 100%;
 }
+
+.PageAbout{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0 var(--spacing-x4);
+  gap: var(--spacing-x16);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.PageAbout-Section-Main{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--spacing-x16);
+  padding-top: var(--spacing-x24);
+}
+
+.PageAbout-Section-Title{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--spacing-x2);
+}
+
+.PageAbout-Section-Main-Content{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--spacing-x16);
+}
+
+.PageAbout-Section-Main-Content-Plate{
+  padding: var(--spacing-x16) var(--spacing-x8);
+  background: var(--color-secondary);
+  border: var(--border-x05) solid var(--color-border-primary);
+}
+
+.PageAbout-Section-Main-Content-Square{
+  align-self: flex-end;
+}
+
+.PageAbout-Section-Content-Interactions{
+  display: flex;
+  gap: var(--spacing-x3);
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.PageAbout-Section-FAQ{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--spacing-x8);
+}
+
+.PageAbout-Section-FAQ-Content{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--spacing-x8);
+}
+
+.PageAbout-Section-FAQ-Content-Block{
+  display: flex;
+  width: 100%;
+  gap: var(--spacing-x12);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.PageAbout-Section-FAQ-Content-Right{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--spacing-x6);
+}
+
+.PageAbout-Section-FAQ-Content-Vertical-Block{
+  display: flex;
+  flex-direction: column;
+  max-width: 689px;
+  width: 100%;
+  gap: var(--spacing-x10);
+}
+
+.PageAbout-Section-FAQ-Content-Vertical-Block-Content{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--spacing-x6);
+}
+
+.PageAbout-Section-Summary{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.PageAbout-Section-Summary-Content-Code{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-x4);
+}
+
+.PageAbout-Section-Summary-Content-Form{
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-x5);
+  width: 100%;
+  max-width: 520px;
+}

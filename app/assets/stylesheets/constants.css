@@ -13,6 +13,7 @@
     --spacing-x12: 48px;
     --spacing-x14: 56px;
     --spacing-x16: 64px;
+    --spacing-x24: 96px;
 
     /* BORDER RADIUS */
     --border-radius-none: 0;
@@ -97,7 +98,8 @@ h3, .text-h3 {
     font-family: var(--font-family-geist);
     font-weight: var(--font-weight-headers);
     line-height: var(--line-height-normal);
-    letter-spacing: var(--letter-spacing-tiny);
+    /* TODO: 2 module: исправить на tiny */
+    letter-spacing: var(--letter-spacing-normal);
     text-transform: var(--text-transform-as-typed);
     text-decoration: var(--text-decoration-none);
 }
@@ -212,6 +214,7 @@ h4, .text-h4 {
         --spacing-x12: 36px;
         --spacing-x14: 42px;
         --spacing-x16: 48px;
+        --spacing-x24: 72px;
 
         /* BORDER RADIUS */
         --border-radius-none: 0;
@@ -251,6 +254,7 @@ h4, .text-h4 {
         --spacing-x12: 24px;
         --spacing-x14: 28px;
         --spacing-x16: 32px;
+        --spacing-x24: 48px;
 
         /* BORDER RADIUS */
         --border-radius-none: 0;
