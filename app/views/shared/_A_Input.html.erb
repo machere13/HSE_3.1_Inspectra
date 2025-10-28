@@ -1,0 +1,15 @@
+<%
+  input_id = local_assigns[:id] || "inp_#{name}"
+%>
+
+<input
+  id="<%= input_id %>"
+  class="A_Input-Control"
+  name="<%= name %>"
+  type="<%= local_assigns[:type] || 'text' %>"
+  value="<%= local_assigns[:value] %>"
+  placeholder="<%= local_assigns[:placeholder] %>"
+  <%= 'disabled' if local_assigns[:disabled] %>
+  <%= 'required' if local_assigns[:required] %>
+  <%= %(autocomplete="#{autocomplete}") if local_assigns[:autocomplete] %>
+/>
