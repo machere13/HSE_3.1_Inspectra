@@ -6,4 +6,10 @@
     height: 18px;
     min-width: 18px;
     min-height: 18px;
+    opacity: 0;
+    transition: opacity .15s ease;
+}
+
+.M_NavigationItem:focus-within .W_Icon{
+    opacity: 1;
 }
