@@ -1,0 +1,9 @@
+.M_NavigationTitle {
+    width: 100%;
+    padding: var(--spacing-x2);
+    background: var(--color-primary);
+}
+
+.M_NavigationTitle-Text {
+    color: var(--color-text-primary);
+}
