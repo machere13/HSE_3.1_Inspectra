@@ -6,6 +6,7 @@
 //= require ./NavigationRoving
 //= require ./A_ArrowButton
 //= require ./NavigationSections
+//= require ./NavigationContentKeys
 //= require ./A_PasswordToggle
 //= require ./HomeCountdown
 //= require ./HomeNavigationHide
