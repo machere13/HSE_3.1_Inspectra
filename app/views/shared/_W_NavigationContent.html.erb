@@ -1,5 +1,6 @@
 <% is_home = request.path == '/' || request.path == '/pages/home' %>
 <% is_day_page = request.path.include?('/days/') %>
+<% is_article_page = request.path.include?('/articles/') %>
 <% 
   article_count = is_day_page && defined?(@day) ? @day.articles.count : 0
   filter_items = is_day_page && defined?(@content_counts) ? [
@@ -20,7 +21,7 @@
 
   <% if is_day_page %>
     <%= render 'shared/W_NavigationItems', index: 1, items: filter_items, radio: true %>
-  <% else %>
+  <% elsif !is_article_page %>
     <%= render 'shared/W_NavigationItems', index: 1, items: [
       { text: 'BLOCKS', href: '#blocks' }
     ], style: is_home ? 'visibility: hidden; opacity: 0; height: 0;' : '' %>
