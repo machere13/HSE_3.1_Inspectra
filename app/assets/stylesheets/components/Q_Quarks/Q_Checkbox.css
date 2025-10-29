@@ -9,7 +9,8 @@
     transition: all .2s ease;
 }
 
-.Q_Checkbox:checked{
+.Q_Checkbox.checked,
+.A_RadioButton--Active .Q_Checkbox{
     background: var(--color-accent);
     border-color: var(--color-border-primary);
 }

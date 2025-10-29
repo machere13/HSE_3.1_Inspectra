@@ -1,4 +1,16 @@
 <% is_home = request.path == '/' || request.path == '/pages/home' %>
+<% is_day_page = request.path.include?('/days/') %>
+<% 
+  article_count = is_day_page && defined?(@day) ? @day.articles.count : 0
+  filter_items = is_day_page && defined?(@content_counts) ? [
+    { label: "Articles (#{article_count})", value: 'article', checked: false },
+    { label: "Image (#{@content_counts['image'] || 0})", value: 'image', checked: false },
+    { label: "GIF (#{@content_counts['gif'] || 0})", value: 'gif', checked: false },
+    { label: "Video (#{@content_counts['video'] || 0})", value: 'video', checked: false },
+    { label: "Audio (#{@content_counts['audio'] || 0})", value: 'audio', checked: false },
+    { label: "Link (#{@content_counts['link'] || 0})", value: 'link', checked: false }
+  ] : []
+%>
 
 <div class="W_NavigationContent">
   <%= render 'shared/W_NavigationItems', index: 0, items: [
@@ -6,7 +18,11 @@
     { text: 'ABOUT', href: about_path, hotkey: 'A' }
   ] %>
 
-  <%= render 'shared/W_NavigationItems', index: 1, items: [
-    { text: 'BLOCKS', href: '#blocks' }
-  ], style: is_home ? 'visibility: hidden; opacity: 0; height: 0;' : '' %>
+  <% if is_day_page %>
+    <%= render 'shared/W_NavigationItems', index: 1, items: filter_items, radio: true %>
+  <% else %>
+    <%= render 'shared/W_NavigationItems', index: 1, items: [
+      { text: 'BLOCKS', href: '#blocks' }
+    ], style: is_home ? 'visibility: hidden; opacity: 0; height: 0;' : '' %>
+  <% end %>
 </div>
