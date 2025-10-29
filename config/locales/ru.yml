@@ -30,7 +30,7 @@ ru:
       back_to_home: 'На главную'
   layouts:
     application:
-      title: 'Проект'
+      title: 'Inspectra'
   auth:
     shared:
       email: 'Email'

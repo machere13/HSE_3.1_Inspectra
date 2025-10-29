@@ -1,6 +1,6 @@
 class PagesController < WebController
-  layout 'plug', only: [:plug]
-  layout 'application', except: [:plug]
+  layout :determine_layout
+
   def home
     @days = Day.order(number: :desc)
   end
@@ -9,5 +9,15 @@ class PagesController < WebController
   end
 
   def plug
+  end
+
+private
+
+  def determine_layout
+    if action_name == 'plug'
+      'plug'
+    else
+      'application'
+    end
   end
 end

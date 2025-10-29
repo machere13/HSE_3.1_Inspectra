@@ -1,0 +1,8 @@
+.M_CardDay404{
+    padding: var(--spacing-x2);
+    background: var(--color-primary);
+}
+
+.M_CardDay404-Label{
+    color: var(--color-state-text-inactive);
+}
