@@ -10,6 +10,8 @@
 //= require ./HomeCountdown
 //= require ./HomeNavigationHide
 //= require ./ContentFilter
+//= require ./ContentLayout
+//= require ./ContentDraggable
 //= require ./ContentPreview
 
 (function(){

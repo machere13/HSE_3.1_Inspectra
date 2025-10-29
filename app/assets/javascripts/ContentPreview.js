@@ -50,11 +50,14 @@
     const card = e.currentTarget;
     const type = (card.getAttribute('data-type') || 'content').toLowerCase();
     const url = card.getAttribute('data-preview-url') || '';
+    if (type === 'article') return;
     openPreview(type, url);
   }
 
   function bind(){
     document.querySelectorAll('.M_ContentCard').forEach((card)=>{
+      const type = (card.getAttribute('data-type') || '').toLowerCase();
+      if (type === 'article') return;
       card.addEventListener('click', onCardClick);
     });
     const closeBtn = document.querySelector('.O_ContentPreview-Close');
