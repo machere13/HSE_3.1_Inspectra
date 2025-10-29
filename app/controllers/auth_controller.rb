@@ -1,5 +1,6 @@
 class AuthController < WebController
   include JwtHelper
+  layout 'auth'
   def login; end
   def login_submit
     email = params[:email].to_s.strip

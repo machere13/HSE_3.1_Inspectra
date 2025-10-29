@@ -3,7 +3,9 @@
       <%= render 'shared/C_NavigationDots' %>
       <div class="W_Sidebar-Top-Content">
           <%= render 'shared/A_Logo', name: 'A_Logo', size: 'Small' %>
-          <%= render 'shared/O_Navigation' %>
+          <% unless local_assigns[:skip_navigation] %>
+            <%= render 'shared/O_Navigation' %>
+          <% end %>
       </div>
   </div>
 </div>

@@ -3,20 +3,20 @@
     <h3><%= t('auth.verify.title') %></h3>
     <p class="text-p-2"><%= t('auth.verify.description') %></p>
   </div>
-  <%= form_with url: verify_path, method: :post, html: { id: 'verify-form', autocomplete: 'off', class: 'PageAuth-Form' } do |f| %>
+  <%= form_with url: verify_path, method: :post, html: { id: 'verify-form', autocomplete: 'on', class: 'PageAuth-Form' } do |f| %>
     <%= hidden_field_tag :email, params[:email].presence || session[:pending_email] %>
     <%= hidden_field_tag :code, nil, id: 'code' %>
     <div class="PageAuth-Form-Fields">
       <%= render 'shared/C_NumericInputs', id: 'otp', length: 6, autocomplete: 'one-time-code', max_width: '358px' %>
     </div>
   <% end %>
-  <%= form_with url: resend_path(email: (params[:email].presence || session[:pending_email])), method: :post, html: { class: 'PageAuth-Form' } do %>
+  <%= form_with url: resend_path(email: (params[:email].presence || session[:pending_email])), method: :post, html: { id: 'resend-form', class: 'PageAuth-Form' } do %>
     <%= button_tag type: 'submit', disabled: @resend_wait_left.to_i > 0, data: { left: @resend_wait_left.to_i, label: t('auth.verify.resend'), countdown_template: t('auth.verify.resend_countdown', seconds: '%{seconds}') }, style: 'display: none' %>
   <% end %>
-  <%= render 'shared/A_TextButton', id: 'resend', variant: 'code', label: (@resend_wait_left.to_i > 0 ? t('auth.verify.resend_countdown', seconds: @resend_wait_left.to_i) : t('auth.verify.resend')), disabled: @resend_wait_left.to_i > 0, data: { left: @resend_wait_left.to_i, label: t('auth.verify.resend'), countdown_template: t('auth.verify.resend_countdown', seconds: '%{seconds}') }, onclick: 'document.querySelector(\'.PageAuth-Form\').querySelector(\'button[type=submit]\').click(); return false;' %>
+  <%= render 'shared/A_TextButton', id: 'resend', variant: 'code', label: (@resend_wait_left.to_i > 0 ? t('auth.verify.resend_countdown', seconds: @resend_wait_left.to_i) : t('auth.verify.resend')), disabled: @resend_wait_left.to_i > 0, data: { left: @resend_wait_left.to_i, label: t('auth.verify.resend'), countdown_template: t('auth.verify.resend_countdown', seconds: '%{seconds}') }, onclick: 'document.getElementById(\'resend-form\').querySelector(\'button[type=submit]\').click(); return false;' %>
   <%= link_to login_path, class: 'A_TextButton text-p-3' do %>
     <%= t('auth.verify.back_link') %>
   <% end %>
 </div>
 
-<%= javascript_include_tag 'auth/verify' %>
+<%= javascript_include_tag 'auth/verify', defer: false %>
