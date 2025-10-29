@@ -1,6 +1,11 @@
 <h1><%= t('pages.home.title') %></h1>
+
 <div class="C_DaysGrid">
-  <% @days.each do |day| %>
+  <% @active_days.each do |day| %>
     <%= render 'shared/day_card', day: day %>
   <% end %>
 </div>
+
+<% if @expired_days.any? %>
+  <%= render 'shared/W_CardsDay404', cards: @expired_days %>
+<% end %>

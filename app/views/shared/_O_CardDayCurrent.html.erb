@@ -1,0 +1,15 @@
+<%= link_to day_path(day), class: "O_CardDayCurrent" do %>
+    <div class="O_CardDayCurrent-Header">
+        <span class="O_CardDayCurrent-Label text-label">DAY_{day.number}</span>
+    </div>
+    <div class="O_CardDayCurrent-Body">
+        <div class="O_CardDayCurrent-Body-Image">
+            <%= image_tag day.image, class: "O_CardDayCurrent-Body-Image-Image" %>
+        </div>
+        <div class="O_CardDayCurrent-Body-Content">
+            <span class="O_CardDayCurrent-Body-Content-Label text-p-3">CASE_{day.number}</span>
+            <span class="O_CardDayCurrent-Body-Content-Label text-p-3">TIME_LEFT: {day.time_left}</span>
+            <span class="O_CardDayCurrent-Body-Content-Label text-p-3">[> ОТКРЫТЬ ДЕНЬ]</span>
+        </div>
+    </div>
+<% end %>
