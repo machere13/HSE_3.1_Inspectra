@@ -1,0 +1,4 @@
+<button type="button" class="A_RadioButton" <%= "id=\"#{local_assigns[:id]}\"".html_safe if local_assigns[:id] %> <%= "disabled" if local_assigns[:disabled] %> <%= "onclick=\"#{local_assigns[:onclick]}\"".html_safe if local_assigns[:onclick] %>>
+    <%= render 'shared/W_Checkbox' %>
+    <%= local_assigns[:label] class: 'A_RadioButton-Label text-p-3' %>
+</button>

@@ -10,4 +10,5 @@
  *= require ./A_NumericInput
  *= require ./A_TextButton
  *= require ./A_IconButton
+ *= require ./A_RadioButton
 */
