@@ -17,6 +17,8 @@ body {
   color: var(--color-text-primary);
   box-sizing: border-box;
   font-family: 'GeistMono';
+  min-height: 100vh;
+  height: 100%;
 }
 
 a{
@@ -35,12 +37,14 @@ ul{
   flex-direction: column;
   width: 100%;
   height: 100%;
+  min-height: 100vh;
 }
 
 .PageLayout{
   display: flex;
   width: 100%;
   height: 100%;
+  min-height: 100vh;
 }
 
 .PageAbout{
@@ -214,6 +218,11 @@ ul{
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: var(--spacing-x24);
+  flex: 1 1 auto;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .PageHome-Days-List{
