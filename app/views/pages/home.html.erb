@@ -1,7 +1,12 @@
-<% if @current_day %>
-  <%= render 'shared/W_CardDayCurrent', day: @current_day %>
-<% end %>
-
-<% if @expired_days.any? %>
-  <%= render 'shared/W_CardsDay404', cards: @expired_days %>
-<% end %>
+<div class="PageHome">
+  <%= render 'shared/O_Header' %>
+  <div class="PageHome-Days-List">
+    <% if @current_day %>
+      <%= render 'shared/W_CardDayCurrent', day: @current_day %>
+    <% end %>
+    
+    <% if @expired_days.any? %>
+      <%= render 'shared/W_CardsDay404', cards: @expired_days %>
+    <% end %>
+  </div>
+</div>

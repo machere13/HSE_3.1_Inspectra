@@ -8,6 +8,7 @@
 //= require ./NavigationSections
 //= require ./A_PasswordToggle
 //= require ./HomeCountdown
+//= require ./HomeNavigationHide
 
 (function(){
     

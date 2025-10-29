@@ -10,3 +10,11 @@
 .W_NavigationBar-Item{
     flex: 1 1 0;
 }
+
+.W_NavigationBar-Item:only-child{
+    flex: 1 1 100%;
+}
+
+.W_NavigationBar-Item--Hidden{
+    display: none;
+}

@@ -1,4 +1,4 @@
-<div class="W_NavigationItems" data-index="<%= local_assigns[:index] %>">
+<div class="W_NavigationItems" data-index="<%= local_assigns[:index] %>" style="<%= local_assigns[:style] %>">
   <%= render 'shared/W_NavigationLine' %>
   <%= render 'shared/C_NavigationItems', items: (local_assigns[:items] || []) %>
 </div>
