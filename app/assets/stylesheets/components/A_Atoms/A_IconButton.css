@@ -1,0 +1,19 @@
+.A_IconButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--color-secondary);
+    border: none;
+    cursor: pointer;
+}
+
+.A_IconButton:disabled{
+    cursor: not-allowed;
+    color: var(--color-state-text-inactive);
+}
+
+.A_IconButton:disabled img{
+    opacity: 0.5;
+}

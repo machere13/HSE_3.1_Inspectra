@@ -1,3 +1,5 @@
+<% is_home = request.path == '/' || request.path == '/pages/home' %>
+
 <div class="W_NavigationContent">
   <%= render 'shared/W_NavigationItems', index: 0, items: [
     { text: 'HOME', href: root_path,  hotkey: 'H' },
@@ -6,5 +8,5 @@
 
   <%= render 'shared/W_NavigationItems', index: 1, items: [
     { text: 'BLOCKS', href: '#blocks' }
-  ] %>
+  ], style: is_home ? 'visibility: hidden; opacity: 0; height: 0;' : '' %>
 </div>
