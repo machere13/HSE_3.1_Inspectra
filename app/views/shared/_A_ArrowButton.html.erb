@@ -2,7 +2,7 @@
   opened = local_assigns[:opened] ? 'true' : 'false'
 %>
 
-<button class="A_ArrowButton" type="button" aria-expanded="<%= opened %>">
+<button class="A_ArrowButton" type="button" aria-expanded="<%= opened %>" tabindex="-1">
   <span class="A_ArrowButton-Icon">
     <%= render 'shared/Q_Icon', name: 'A_ArrowButtonIcon', width: 8, height: 8 %>
   </span>
