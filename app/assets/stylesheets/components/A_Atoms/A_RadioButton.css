@@ -1,0 +1,15 @@
+.A_RadioButton{
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-x1);
+    width: 100%;
+}
+
+.A_RadioButton-Label{
+    color: var(--color-state-text-inactive);
+    padding: var(--spacing-x05) 0;
+}
+
+.A_RadioButton:checked .A_RadioButton-Label{
+    color: var(--color-text-primary);
+}
