@@ -8,6 +8,8 @@
     padding: var(--spacing-x2) var(--spacing-x4);
     gap: var(--spacing-x3);
     position: sticky;
+    top: 0;
+    align-self: flex-start;
 }
 
 .W_Sidebar-Top{

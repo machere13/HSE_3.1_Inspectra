@@ -67,4 +67,7 @@ Rails.application.routes.draw do
   get 'plug', to: 'pages#plug'
   root 'pages#home'
 
+  # Catch-all for non-existent routes (must be last)
+  match '*unmatched', to: 'errors#not_found', via: :all
+
 end

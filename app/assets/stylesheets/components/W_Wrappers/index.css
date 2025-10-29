@@ -12,5 +12,6 @@
  *= require ./W_CardDayCurrent
  *= require ./W_PageHeader
  *= require ./W_Checkbox
+ *= require ./W_ErrorConsole
 */
 
