@@ -231,3 +231,15 @@ ul{
   gap: var(--spacing-x6);
   width: 100%;
 }
+
+.PageDay{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--spacing-x24);
+  flex: 1 1 auto;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 var(--spacing-x4);
+}

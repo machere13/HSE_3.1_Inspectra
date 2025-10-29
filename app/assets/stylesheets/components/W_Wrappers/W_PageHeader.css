@@ -13,3 +13,12 @@
     border-bottom: var(--border-x05) dashed var(--color-border-primary);
     gap: var(--spacing-x1);
 }
+
+.W_PageHeader-Timer{
+    padding: var(--spacing-x6);
+    max-width: 350px;
+    width: 100%;
+    text-align: center;
+    background: var(--color-secondary);
+    border: var(--border-x05) solid var(--color-border-primary);
+}
