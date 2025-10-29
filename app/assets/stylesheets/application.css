@@ -247,3 +247,20 @@ ul{
 .PageDay-Content{
   flex: 1 1 auto;
 }
+
+.PageArticle{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--spacing-x24);
+  flex: 1 1 auto;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 var(--spacing-x4);
+}
+
+.PageArticle-Content{
+  padding-left: var(--spacing-x4);
+  border-left: var(--border-x05) dashed var(--color-border-primary);
+}
