@@ -19,7 +19,10 @@
         <td><%= ci.kind %></td>
         <td><%= link_to(ci.title.presence || '(без названия)', admin_day_content_item_path(@day, ci)) %></td>
         <td><%= ci.url %></td>
-        <td><%= link_to 'Редактировать', edit_admin_day_content_item_path(@day, ci) %></td>
+        <td>
+          <%= link_to 'Редактировать', edit_admin_day_content_item_path(@day, ci) %> |
+          <%= button_to 'Удалить', admin_day_content_item_path(@day, ci), method: :delete, form: { data: { turbo_confirm: 'Удалить этот контент?' }, style: 'display:inline' } %>
+        </td>
       </tr>
     <% end %>
   </tbody>

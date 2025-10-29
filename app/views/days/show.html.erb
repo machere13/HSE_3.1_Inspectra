@@ -12,8 +12,8 @@
   <% end %>
   <%
     articles_with_positions = @day.articles.map { |article| { item: article, position: rand(0..@content_items.length), type: 'article' } }
-    content_with_positions = @content_items.map { |item| { item: item, position: item.position, type: 'content' } }
-    all_items = (articles_with_positions + content_with_positions).sort_by { |x| x[:position] }
+    content_with_positions = @content_items.map { |item| { item: item, position: (item.position || 0), type: 'content' } }
+    all_items = (articles_with_positions + content_with_positions).sort_by { |x| (x[:position] || 0).to_i }
   %>
   
   <div class="PageDay-Content" data-filter-group="content-filters">
