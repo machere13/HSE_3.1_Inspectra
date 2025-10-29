@@ -45,3 +45,15 @@
 .O_Footer-Content-Side-Right{
     justify-content: flex-end;
 }
+
+@media (max-width: 768px) {
+    .O_Footer-Content{
+        flex-direction: column;
+        align-items: center;
+        gap: var(--spacing-x8);
+    }
+
+    .O_Footer-Content-Side-Right, .O_Footer-Content-Side{
+        justify-content: center;
+    }
+}
