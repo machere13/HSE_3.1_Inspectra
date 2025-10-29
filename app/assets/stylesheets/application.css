@@ -127,6 +127,21 @@ ul{
   gap: var(--spacing-x6);
 }
 
+.PageAbout-Section-FAQ-Content > .PageAbout-Section-FAQ-Content-Block:first-of-type > .PageAbout-Section-FAQ-Content-Left{
+  flex: 1 1 50%;
+  min-width: 0;
+}
+.PageAbout-Section-FAQ-Content > .PageAbout-Section-FAQ-Content-Block:first-of-type > .PageAbout-Section-FAQ-Content-Right{
+  flex: 1 1 50%;
+  min-width: 0;
+}
+.PageAbout-Section-FAQ-Content > .PageAbout-Section-FAQ-Content-Block:first-of-type .PageAbout-Section-FAQ-Content-Left img{
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+}
+
 .PageAbout-Section-FAQ-Content-Vertical-Block{
   display: flex;
   flex-direction: column;
@@ -263,4 +278,38 @@ ul{
 .PageArticle-Content{
   padding-left: var(--spacing-x4);
   border-left: var(--border-x05) dashed var(--color-border-primary);
+}
+
+@media (max-width: 1024px) {
+  .PageAbout-Section-Content-Interactions{
+    flex-wrap: wrap;
+  }
+  .PageAbout-Section-Summary{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .PageAbout-Section-Summary-Content-Code{
+    align-items: stretch;
+  }
+  .PageAbout-Section-FAQ-Content-Block {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 640px) {
+  .PageAbout-Section-FAQ-Content > .PageAbout-Section-FAQ-Content-Block:first-of-type{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .PageAbout-Section-FAQ-Content-Left img{
+    width: 100%;
+    height: auto;
+  }
+  .PageAbout-Section-FAQ-Content-Right{
+    gap: var(--spacing-x4);
+  }
+  .PageAbout-Section-FAQ-Content-Vertical-Block{
+    max-width: 100%;
+  }
 }
