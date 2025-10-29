@@ -23,3 +23,9 @@
     width: 100%;
     gap: var(--spacing-x3);
 }
+
+@media (max-width: 768px) {
+    .W_Sidebar{
+        display: none;
+    }
+}
