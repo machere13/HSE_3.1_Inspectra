@@ -19,14 +19,9 @@ body {
   font-family: 'GeistMono';
 }
 
-a {
-  color: #d9d9d9;
+a{
+  color: var(--color-text-primary);
   text-decoration: none;
-  font-family: 'Geist';
-}
-
-a:hover {
-  color: #fff;
 }
 
 ul{

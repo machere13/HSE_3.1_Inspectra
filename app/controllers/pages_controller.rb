@@ -2,7 +2,7 @@ class PagesController < WebController
   layout :determine_layout
 
   def home
-    @active_days = Day.visible_now.order(number: :desc)
+    @current_day = Day.visible_now.order(number: :desc).first
     @expired_days = Day.where('expires_at <= ?', Time.current).order(number: :desc)
   end
 
