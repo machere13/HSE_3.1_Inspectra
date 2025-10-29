@@ -10,6 +10,7 @@
 //= require ./HomeCountdown
 //= require ./HomeNavigationHide
 //= require ./ContentFilter
+//= require ./ContentPreview
 
 (function(){
     

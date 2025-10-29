@@ -1,0 +1,27 @@
+.O_ContentPreview{
+    display: none;
+}
+
+.O_ContentPreview-Header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-x1) 0;
+    background: var(--color-secondary);
+}
+
+.O_ContentPreview-Body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-x2);
+    width: 100%;
+}
+
+.O_ContentPreview img,
+.O_ContentPreview video{
+    max-width: 100%;
+    height: auto;
+}
+
+
