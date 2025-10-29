@@ -15,7 +15,7 @@
   <body>
     <nav>
       <%= link_to 'Дни', admin_days_path %> |
-      <% if defined?(@day) && @day.present? %>
+      <% if defined?(@day) && @day&.persisted? %>
         <%= link_to 'Статьи', admin_day_articles_path(@day) %> |
         <%= link_to 'Контент', admin_day_content_items_path(@day) %>
       <% end %>

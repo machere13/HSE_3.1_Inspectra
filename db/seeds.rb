@@ -22,5 +22,5 @@ when 'all'
   load_seed_file('real')
   load_seed_file('mock')
 else
-  puts "Неизвестное значение SEED=#{ENV['SEED']}. Используйте real|mock|all."
+  puts "Неизвестное значение SEED=#{ENV['SEED']}. real|mock|all."
 end
