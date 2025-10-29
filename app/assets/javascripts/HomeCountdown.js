@@ -12,6 +12,8 @@
     const expiresAt = new Date(expiresAtStr);
     if (Number.isNaN(expiresAt.getTime())) return;
 
+    const isTimerValue = el.classList.contains('timer-value');
+
     const update = () => {
       const now = new Date();
       const diffSeconds = Math.max(0, Math.floor((expiresAt.getTime() - now.getTime()) / 1000));
@@ -20,7 +22,8 @@
       const minutes = Math.floor((diffSeconds % 3600) / 60);
       const seconds = diffSeconds % 60;
 
-      el.textContent = `TIME_LEFT: ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      const timeStr = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      el.textContent = isTimerValue ? timeStr : `TIME_LEFT: ${timeStr}`;
 
       if (diffSeconds === 0) {
         clearInterval(intervalId);

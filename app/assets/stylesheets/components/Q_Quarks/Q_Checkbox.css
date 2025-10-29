@@ -1,0 +1,15 @@
+.Q_Checkbox{
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border: var(--border-x05) solid var(--color-border-secondary);
+    border-radius: var(--border-radius-x05);
+    background: transparent;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.Q_Checkbox:checked{
+    background: var(--color-accent);
+    border-color: var(--color-border-primary);
+}
