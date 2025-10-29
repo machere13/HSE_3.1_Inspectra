@@ -18,14 +18,12 @@
     const autoreset = btn.dataset.autoreset !== undefined;
     const actionFn = findGlobalFunction(actionName);
 
-    // если нет кастомного экшна — даём нативному поведению работать (submit и т.п.)
     const typeAttr = (btn.getAttribute('type') || 'button').toLowerCase();
     if(!actionFn){
-      if(typeAttr === 'submit') return; // позволяем форме отправиться
-      return; // обычная кнопка без action
+      if(typeAttr === 'submit') return;
+      return;
     }
 
-    // кастомный экшн → берём управление на себя
     e.preventDefault();
     btn.classList.add('A_Button--Loading');
     btn.setAttribute('disabled', 'disabled');

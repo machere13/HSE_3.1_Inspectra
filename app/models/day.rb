@@ -15,6 +15,16 @@ class Day < ApplicationRecord
     Time.current >= expires_at
   end
 
+  def time_left
+    return '00:00:00' unless expires_at
+
+    remaining = [expires_at - Time.zone.now, 0].max.to_i
+    hours = remaining / 1.hour
+    minutes = (remaining % 1.hour) / 1.minute
+    seconds = remaining % 1.minute
+    format('%02d:%02d:%02d', hours, minutes, seconds)
+  end
+
   def to_param
     number.to_s
   end

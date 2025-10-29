@@ -3,10 +3,11 @@
 //= require ./M_FormPlug
 //= require ./A_InspectraBackground
 //= require ./A_NavigationHotkeys
-//= require ./navigation_roving
-//= require ./a_arrow_button
-//= require ./navigation_sections
-//= require ./a_password_toggle
+//= require ./NavigationRoving
+//= require ./A_ArrowButton
+//= require ./NavigationSections
+//= require ./A_PasswordToggle
+//= require ./HomeCountdown
 
 (function(){
     
