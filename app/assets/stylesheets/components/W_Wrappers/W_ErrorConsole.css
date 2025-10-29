@@ -1,0 +1,32 @@
+.W_ErrorConsole{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: var(--border-radius-x2);
+    overflow: hidden;
+}
+
+.W_ErrorConsole-Header{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--spacing-x2);
+    background: var(--color-state-inactive);
+    gap: var(--spacing-x2);
+}
+
+.W_ErrorConsole-Content{
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-x2);
+    gap: var(--spacing-x4);
+    background: var(--color-secondary);
+}
+
+.W_ErrorConsole-Content-Code-Error{
+    color: var(--color-status-error);
+}
+
+.W_ErrorConsole-Content-Code-Response{
+    color: var(--color-text-primary);
+}
