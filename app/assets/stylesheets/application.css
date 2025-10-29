@@ -252,7 +252,7 @@ ul{
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: var(--spacing-x24);
+  gap: var(--spacing-x10);
   flex: 1 1 auto;
   overflow-y: auto;
   scrollbar-width: none;
