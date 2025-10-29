@@ -1,0 +1,8 @@
+.O_Header{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+    padding: var(--spacing-x4);
+    gap: var(--spacing-x8);
+}
