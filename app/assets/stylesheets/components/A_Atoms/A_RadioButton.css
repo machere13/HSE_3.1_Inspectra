@@ -3,13 +3,16 @@
     align-items: center;
     gap: var(--spacing-x1);
     width: 100%;
+    border: none;
+    background: transparent;
 }
 
 .A_RadioButton-Label{
     color: var(--color-state-text-inactive);
     padding: var(--spacing-x05) 0;
+    transition: color .2s ease;
 }
 
-.A_RadioButton:checked .A_RadioButton-Label{
+.A_RadioButton--Active .A_RadioButton-Label{
     color: var(--color-text-primary);
 }

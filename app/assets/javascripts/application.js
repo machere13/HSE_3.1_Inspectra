@@ -9,6 +9,7 @@
 //= require ./A_PasswordToggle
 //= require ./HomeCountdown
 //= require ./HomeNavigationHide
+//= require ./ContentFilter
 
 (function(){
     
