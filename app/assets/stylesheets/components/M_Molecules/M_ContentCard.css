@@ -3,14 +3,13 @@
     gap: var(--spacing-x1);
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    max-width: 200px;
     padding: var(--spacing-x2);
     background: var(--color-primary);
     cursor: pointer;
     transition: background .15s ease, border-color .15s ease;
     border: none;
     outline: none;
+    box-sizing: border-box;
 }
 
 .M_ContentCard:hover{
@@ -19,4 +18,14 @@
 
 .M_ContentCard-Label{
     color: var(--color-text-primary);
+}
+
+.M_ContentCard-Handle{
+    margin-left: var(--spacing-x2);
+    color: var(--color-text-primary);
+    cursor: grab;
+}
+
+.M_ContentCard-Handle:active{
+    cursor: grabbing;
 }

@@ -16,18 +16,17 @@
     all_items = (articles_with_positions + content_with_positions).sort_by { |x| x[:position] }
   %>
   
-  <div class="mixed-content" data-filter-group="content-filters">
+  <div class="PageDay-Content" data-filter-group="content-filters">
     <% all_items.each do |item_data| %>
-      <div class="content-item" data-content-type="<%= item_data[:type] == 'article' ? 'article' : item_data[:item].kind %>">
+      <div class="PageDay-Content-Item" data-content-type="<%= item_data[:type] == 'article' ? 'article' : item_data[:item].kind %>">
         <% if item_data[:type] == 'article' %>
-          <h3><%= item_data[:item].title %></h3>
-          <p><%= link_to "#{t('shared.day_card.article_prefix')} #{item_data[:item].title}", day_article_path(@day, item_data[:item]) %></p>
+          <%= render 'shared/O_ArticleCard', day: @day, article: item_data[:item] %>
         <% else %>
           <%= render 'shared/M_ContentCard',
-                type: item_data[:item].kind,
-                label: item_data[:item].kind&.upcase,
-                id: "content_card_#{item_data[:item].id}",
-                preview_url: item_data[:item].respond_to?(:url) ? item_data[:item].url : nil %>
+            type: item_data[:item].kind,
+            label: item_data[:item].kind&.upcase,
+            id: "content_card_#{item_data[:item].id}",
+            preview_url: item_data[:item].respond_to?(:url) ? item_data[:item].url : nil %>
         <% end %>
       </div>
     <% end %>

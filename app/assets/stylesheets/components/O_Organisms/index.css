@@ -5,4 +5,5 @@
  *= require ./O_CardDayCurrent
  *= require ./O_Header
  *= require ./O_ContentPreview
+ *= require ./O_ArticleCard
 */

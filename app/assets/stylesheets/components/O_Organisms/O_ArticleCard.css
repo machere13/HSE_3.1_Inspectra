@@ -1,0 +1,20 @@
+.O_ArticleCard{
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-x2);
+    border: var(--border-x05) solid var(--color-border-primary);
+    width: 468px;
+}
+
+.O_ArticleCard-Title{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x05);
+}
+
+.O_ArticleCard-Footer{
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-x2);
+    background: var(--color-secondary);
+}
