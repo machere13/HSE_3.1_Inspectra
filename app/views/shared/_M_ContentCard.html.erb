@@ -1,0 +1,19 @@
+<%
+  card_type = (local_assigns[:type] || 'content').to_s
+  card_id = local_assigns[:id]
+  card_title = local_assigns[:title]
+  card_label = local_assigns[:label] || card_type.upcase
+  preview_url = local_assigns[:preview_url]
+  onclick = local_assigns[:onclick]
+%>
+
+<button
+  type="button"
+  class="M_ContentCard"
+  <%= "id=\"#{card_id}\"".html_safe if card_id %>
+  data-type="<%= card_type %>"
+  <%= "data-preview-url=\"#{preview_url}\"".html_safe if preview_url %>
+  <%= "onclick=\"#{onclick}\"".html_safe if onclick %>
+>
+  <span class="M_ContentCard-Label text-label"> <%= card_label %> </span>
+</button>

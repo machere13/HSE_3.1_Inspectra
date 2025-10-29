@@ -1,0 +1,22 @@
+.M_ContentCard{
+    display: flex;
+    gap: var(--spacing-x1);
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 200px;
+    padding: var(--spacing-x2);
+    background: var(--color-primary);
+    cursor: pointer;
+    transition: background .15s ease, border-color .15s ease;
+    border: none;
+    outline: none;
+}
+
+.M_ContentCard:hover{
+    background: var(--color-state-hover);
+}
+
+.M_ContentCard-Label{
+    color: var(--color-text-primary);
+}
