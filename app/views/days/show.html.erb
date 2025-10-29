@@ -23,8 +23,11 @@
           <h3><%= item_data[:item].title %></h3>
           <p><%= link_to "#{t('shared.day_card.article_prefix')} #{item_data[:item].title}", day_article_path(@day, item_data[:item]) %></p>
         <% else %>
-          <h3><%= item_data[:item].title %></h3>
-          <%= render_content_item(item_data[:item]) %>
+          <%= render 'shared/M_ContentCard',
+                type: item_data[:item].kind,
+                label: item_data[:item].kind&.upcase,
+                id: "content_card_#{item_data[:item].id}",
+                preview_url: item_data[:item].respond_to?(:url) ? item_data[:item].url : nil %>
         <% end %>
       </div>
     <% end %>
