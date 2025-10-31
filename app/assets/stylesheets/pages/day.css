@@ -1,0 +1,16 @@
+
+.PageDay{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x24);
+    flex: 1 1 auto;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0 var(--spacing-x4);
+}
+  
+.PageDay-Content{
+    flex: 1 1 auto;
+}
