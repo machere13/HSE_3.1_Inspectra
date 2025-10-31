@@ -1,3 +1,9 @@
 /*
  *= require ./plug
+ *= require ./home
+ *= require ./about
+ *= require ./article
+ *= require ./day
+ *= require ./not-found
+ *= require ./auth
 */
