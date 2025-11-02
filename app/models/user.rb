@@ -5,8 +5,7 @@ class User < ApplicationRecord
   has_many :achievements, through: :user_achievements
   
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, length: { minimum: 6 }, if: -> { new_record? || !password.nil? }
-  validates :password, length: { maximum: 64 }, allow_nil: true
+  validates :password, length: { minimum: 8, maximum: 64 }, if: -> { new_record? || !password.nil? }
   
   after_create :check_registration_achievements
   
