@@ -6,7 +6,7 @@ class Api::V1::AuthController < ApplicationController
     password = params[:password]
 
     if email.blank? || password.blank?
-      return render json: { error: 'Email и пароль обязательны' }, status: :bad_request
+      return render_validation_error(message: 'Email и пароль обязательны')
     end
 
     user = User.find_by(email: email)
@@ -16,13 +16,15 @@ class Api::V1::AuthController < ApplicationController
         user.generate_verification_code!
         VerificationMailer.send_verification_code(user).deliver_later
         
-        render json: { 
-          message: 'Код подтверждения отправлен на email',
-          requires_verification: true,
-          email: user.email
-        }, status: :ok
+        render_success(
+          data: {
+            requires_verification: true,
+            email: user.email
+          },
+          message: 'Код подтверждения отправлен на email'
+        )
       else
-        render json: { error: 'Неверный пароль' }, status: :unauthorized
+        render_unauthorized(message: 'Неверный пароль')
       end
     else
       user = User.new(email: email, password: password)
@@ -31,16 +33,21 @@ class Api::V1::AuthController < ApplicationController
         user.generate_verification_code!
         VerificationMailer.send_verification_code(user).deliver_later
         
-        render json: {
+        render_success(
+          data: {
+            requires_verification: true,
+            email: user.email
+          },
           message: 'Пользователь зарегистрирован. Проверьте email для подтверждения.',
-          requires_verification: true,
-          email: user.email
-        }, status: :created
+          status: :created
+        )
       else
-        render json: { 
-          error: 'Ошибка регистрации',
-          details: user.errors.full_messages 
-        }, status: :unprocessable_entity
+        render_error(
+          code: ERROR_CODES[:validation_error],
+          message: 'Ошибка регистрации',
+          details: user.errors.full_messages,
+          status: :unprocessable_entity
+        )
       end
     end
   end
@@ -50,29 +57,31 @@ class Api::V1::AuthController < ApplicationController
     code = params[:code]
 
     if email.blank? || code.blank?
-      return render json: { error: 'Email и код обязательны' }, status: :bad_request
+      return render_validation_error(message: 'Email и код обязательны')
     end
 
     user = User.find_by(email: email)
     
     unless user
-      return render json: { error: 'Пользователь не найден' }, status: :not_found
+      return render_not_found(message: 'Пользователь не найден')
     end
 
     if user.verification_code_valid?(code)
       user.verify_email!
       token = encode_token({ user_id: user.id })
       
-      render json: {
-        message: 'Email успешно подтвержден',
-        token: token,
-        user: {
-          id: user.id,
-          email: user.email
-        }
-      }, status: :ok
+      render_success(
+        data: {
+          token: token,
+          user: {
+            id: user.id,
+            email: user.email
+          }
+        },
+        message: 'Email успешно подтвержден'
+      )
     else
-      render json: { error: 'Неверный или истекший код' }, status: :unauthorized
+      render_unauthorized(message: 'Неверный или истекший код')
     end
   end
 
@@ -80,60 +89,62 @@ class Api::V1::AuthController < ApplicationController
     email = params[:email]
 
     if email.blank?
-      return render json: { error: 'Email обязателен' }, status: :bad_request
+      return render_validation_error(message: 'Email обязателен')
     end
 
     user = User.find_by(email: email)
     
     unless user
-      return render json: { error: 'Пользователь не найден' }, status: :not_found
+      return render_not_found(message: 'Пользователь не найден')
     end
 
     if user.email_verified?
-      return render json: { error: 'Email уже подтвержден' }, status: :bad_request
+      return render_validation_error(message: 'Email уже подтвержден')
     end
 
     user.generate_verification_code!
     VerificationMailer.send_verification_code(user).deliver_later
 
-    render json: {
-      message: 'Код подтверждения отправлен повторно'
-    }, status: :ok
+    render_success(message: 'Код подтверждения отправлен повторно')
   end
 
   before_action :require_auth, only: [:me]
 
   def me
-    render json: {
-      user: {
-        id: current_user.id,
-        email: current_user.email
+    render_success(
+      data: {
+        user: {
+          id: current_user.id,
+          email: current_user.email
+        }
       }
-    }, status: :ok
+    )
   end
 
   def supported_email_domains
-    render json: {
-      supported_domains: SmtpConfigService.supported_domains,
+    render_success(
+      data: {
+        supported_domains: SmtpConfigService.supported_domains
+      },
       message: 'Поддерживаемые почтовые домены для регистрации'
-    }, status: :ok
+    )
   end
 
   def forgot_password
     email = params[:email]
-    return render json: { error: 'Email обязателен' }, status: :bad_request if email.blank?
+    return render_validation_error(message: 'Email обязателен') if email.blank?
 
     user = User.find_by(email: email)
     if user
       if user.reset_password_requested_at && user.reset_password_requested_at > 60.seconds.ago
-        return render json: { error: 'Письмо уже отправлено, попробуйте позже' }, status: :too_many_requests
+        return render_too_many_requests(message: 'Письмо уже отправлено, попробуйте позже')
       end
 
       user.generate_reset_password_token!
       ResetPasswordMailer.with(user: user).reset_instructions.deliver_later
     end
 
-    render json: { message: 'Если email существует, мы отправили ссылку для сброса' }, status: :ok
+    render_success(message: 'Если email существует, мы отправили ссылку для сброса')
   end
 
   def reset_password
@@ -142,25 +153,37 @@ class Api::V1::AuthController < ApplicationController
     password_confirmation = params[:password_confirmation]
 
     if token.blank? || password.blank? || password_confirmation.blank?
-      return render json: { error: 'Токен и пароли обязательны' }, status: :bad_request
+      return render_validation_error(message: 'Токен и пароли обязательны')
     end
 
     if password.length < 8 || password.length > 64
-      return render json: { error: 'Пароль должен быть от 8 до 64 символов' }, status: :unprocessable_entity
+      return render_error(
+        code: ERROR_CODES[:validation_error],
+        message: 'Пароль должен быть от 8 до 64 символов',
+        status: :unprocessable_entity
+      )
     end
 
     user = User.find_by(reset_password_token: token)
-    return render json: { error: 'Неверный токен' }, status: :unauthorized unless user
-    return render json: { error: 'Ссылка истекла' }, status: :unauthorized unless user.reset_token_valid?(ttl_minutes: 30)
+    return render_unauthorized(message: 'Неверный токен') unless user
+    return render_unauthorized(message: 'Ссылка истекла') unless user.reset_token_valid?(ttl_minutes: 30)
 
     user.password = password
     user.password_confirmation = password_confirmation
     if user.save
       user.clear_reset_password_token!
       token_jwt = encode_token({ user_id: user.id })
-      render json: { message: 'Пароль обновлён', token: token_jwt }, status: :ok
+      render_success(
+        data: { token: token_jwt },
+        message: 'Пароль обновлён'
+      )
     else
-      render json: { error: 'Не удалось обновить пароль', details: user.errors.full_messages }, status: :unprocessable_entity
+      render_error(
+        code: ERROR_CODES[:validation_error],
+        message: 'Не удалось обновить пароль',
+        details: user.errors.full_messages,
+        status: :unprocessable_entity
+      )
     end
   end
 end
