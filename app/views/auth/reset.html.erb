@@ -3,7 +3,7 @@
     <h3><%= t('auth.reset.title') %></h3>
     <p class="text-p-2"><%= t('auth.reset.description') %></p>
   </div>
-  <%= form_with url: reset_path, method: :post, html: { autocomplete: 'off', class: 'PageAuth-Form' } do |f| %>
+  <%= form_with url: reset_path, method: :post, html: { autocomplete: 'off', class: 'PageAuth-Form', id: 'reset-form' } do |f| %>
     <%= hidden_field_tag :token, @token %>
     <div class="PageAuth-Form-Fields">
       <%= render 'shared/wrappers/W_InputPassword', name: 'password', required: true, autocomplete: 'new-password', placeholder: t('auth.reset.password_placeholder'), max_width: '358px' %>
