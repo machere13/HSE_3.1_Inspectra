@@ -29,5 +29,7 @@ module Project31
 
     config.i18n.available_locales = [:ru]
     config.i18n.default_locale = :ru
+
+    config.middleware.use Rack::Attack
   end
 end
