@@ -1,6 +1,8 @@
 class Api::V1::AchievementsController < ApplicationController
   include JwtHelper
   
+  before_action :block_test_endpoints_in_production, only: [:test_interactive_completion, :test_consecutive_days, :test_registration_order]
+  
   def index
     achievements = Achievement.all
     render json: achievements, status: :ok
@@ -79,6 +81,13 @@ class Api::V1::AchievementsController < ApplicationController
   end
   
   private
+  
+  def block_test_endpoints_in_production
+    if Rails.env.production?
+      head :not_found
+      return false
+    end
+  end
   
   def format_user_achievement(user_achievement)
     {
