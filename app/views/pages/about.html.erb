@@ -6,19 +6,19 @@
         <h3>Мы&nbsp;превращаем сложные темы по&nbsp;IT в&nbsp;реальные расследования&nbsp;&mdash; миссиями и&nbsp;кодом, который нужно взломать, чтобы понять.</h3>
     </div>
     <div class="PageAbout-Section-Main-Content">
-      <%= render 'pages/Q_Square' %>
+      <%= render 'shared/quarks/Q_Square' %>
       <div class="PageAbout-Section-Main-Content-Plate">
         <h3>INSPECTRA создана для тех, кто хочет понимать, как работает цифровой мир&nbsp;&mdash; изнутри.</h3>
       </div>
-      <div class="PageAbout-Section-Main-Content-Square"><%= render 'pages/Q_Square' %></div>
+      <div class="PageAbout-Section-Main-Content-Square"><%= render 'shared/quarks/Q_Square' %></div>
     </div>
     <div class="PageAbout-Section-Content-Interactions">
-      <%= render 'shared/A_Button', text: 'Погрузиться в веб', href: root_path %>
-      <%= render 'shared/A_Button', text: 'Узнать больше о вебе', href: root_path %>
+      <%= render 'shared/atoms/A_Button', text: 'Погрузиться в веб', href: root_path %>
+      <%= render 'shared/atoms/A_Button', text: 'Узнать больше о вебе', href: root_path %>
     </div>
   </section>
   <section class="PageAbout-Section-FAQ">
-    <%= render 'shared/W_FAQConsole', 
+    <%= render 'shared/wrappers/W_FAQConsole', 
     title: 'about/log', 
     question: 
     '>_ init system --media Inspectra
@@ -37,7 +37,7 @@
                 <img src="<%= asset_path('Q_FAQImage_1.png') %>" alt="About 1">
             </div>
             <div class="PageAbout-Section-FAQ-Content-Right">
-                <%= render 'shared/W_FAQConsole',
+                <%= render 'shared/wrappers/W_FAQConsole',
                     title: 'whoami',
                     question:
                     '>_ whoami
@@ -50,7 +50,7 @@
                 ',
                 max_width: '100%'
                 %>
-                <%= render 'shared/W_FAQConsole',
+                <%= render 'shared/wrappers/W_FAQConsole',
                     title: 'mission',
                     question:
                     '>_ mission --get
@@ -68,7 +68,7 @@ fetching mission data...]
         <div class="PageAbout-Section-FAQ-Content-Block">
         <%= render 'shared/A_FAQTitle', title: 'Наше медиа имеет 5 направлений для погружения в исследования_>' %>
         <div class="PageAbout-Section-FAQ-Content-Right">
-                <%= render 'shared/W_FAQConsole',
+                <%= render 'shared/wrappers/W_FAQConsole',
                     title: 'modules',
                     question:
                     '>_ modules --list
@@ -87,7 +87,7 @@ fetching mission data...]
         </div>
         </div>
         <div class="PageAbout-Section-FAQ-Content-Vertical-Block">
-            <%= render 'shared/W_FAQConsole',
+            <%= render 'shared/wrappers/W_FAQConsole',
                     title: 'content_info',
                     question:
                     '>_ load content_layer --info
@@ -106,7 +106,7 @@ fetching mission data...]
                 <img src="<%= asset_path('Q_FAQImage_2.png') %>" alt="About 2">
             </div>
             <div class="PageAbout-Section-FAQ-Content-Right" style="align-items: flex-end;">
-            <%= render 'shared/W_FAQConsole',
+            <%= render 'shared/wrappers/W_FAQConsole',
                 title: 'content_info',
                 question:
                 'content_layer/',
@@ -126,7 +126,7 @@ fetching mission data...]
         <div class="PageAbout-Section-FAQ-Content-Block" style="align-items: flex-start;">
         <%= render 'shared/A_FAQTitle', title: '>_ run gamification_engine' %>
         <div class="PageAbout-Section-FAQ-Content-Right">
-                <%= render 'shared/W_FAQConsole',
+                <%= render 'shared/wrappers/W_FAQConsole',
                     title: 'modules',
                     question:
                     '>_ run gamification_engine
@@ -145,7 +145,7 @@ fetching mission data...]
         <div class="PageAbout-Section-FAQ-Content-Block" style="align-items: flex-start;">
         <%= render 'shared/A_FAQTitle', title: '>_ access community_layer' %>
         <div class="PageAbout-Section-FAQ-Content-Right">
-                <%= render 'shared/W_FAQConsole',
+                <%= render 'shared/wrappers/W_FAQConsole',
                     title: 'community',
                     question:
                     '>_ access community_layer
@@ -167,7 +167,7 @@ fetching mission data...]
   </section>
   <section class="PageAbout-Section-Summary">
     <div class="PageAbout-Section-Summary-Content-Code">
-        <%= render 'shared/W_FAQCode', code: '>_ output --result
+        <%= render 'shared/wrappers/W_FAQCode', code: '>_ output --result
 [system] compiling session summary...
         
 Результат:
@@ -177,7 +177,7 @@ Inspectra превращает обучение в цифровое рассле
         
 [complete] user_experience = engaged
         ' %>
-        <%= render 'shared/W_FAQCode', code: '>_ join --community
+        <%= render 'shared/wrappers/W_FAQCode', code: '>_ join --community
 [network] establishing secure channel...
         
 Подключиться:
@@ -187,7 +187,7 @@ Inspectra превращает обучение в цифровое рассле
         
 [ok] channels active.
         ' %>
-        <%= render 'shared/W_FAQCode', code: '>_ time left
+        <%= render 'shared/wrappers/W_FAQCode', code: '>_ time left
 23:13_till
         
 [ok]
@@ -197,7 +197,7 @@ Inspectra превращает обучение в цифровое рассле
       <p class="text-p-1">
         Медиа о&nbsp;цифровых расследованиях и&nbsp;интерактивах. Расследование цифровой среды начинается скоро.
       </p>
-      <%= render 'pages/M_FormPlug' %>
+      <%= render 'shared/molecules/M_FormPlug' %>
     </div>
   </div>
   </section>

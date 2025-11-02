@@ -5,9 +5,9 @@
   </div>
   <%= form_with url: forgot_path, method: :post, html: { autocomplete: 'off', class: 'PageAuth-Form' } do |f| %>
     <div class="PageAuth-Form-Fields">
-      <%= render 'shared/A_Input', name: 'email', type: 'email', required: true, autocomplete: 'off', autocapitalize: 'none', spellcheck: false, data_form_type: 'other', placeholder: t('auth.forgot.email_placeholder'), max_width: '358px' %>
+      <%= render 'shared/atoms/A_Input', name: 'email', type: 'email', required: true, autocomplete: 'off', autocapitalize: 'none', spellcheck: false, data_form_type: 'other', placeholder: t('auth.forgot.email_placeholder'), max_width: '358px' %>
     </div>
-    <%= render 'shared/A_Button', type: 'submit', label: t('auth.forgot.submit') %>
+    <%= render 'shared/atoms/A_Button', type: 'submit', label: t('auth.forgot.submit') %>
   <% end %>
   <p><%= link_to t('auth.shared.back_to_login'), login_path %></p>
 </div>

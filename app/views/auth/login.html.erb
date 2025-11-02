@@ -5,10 +5,10 @@
   </div>
   <%= form_with url: login_path, method: :post, html: { autocomplete: 'off', class: 'PageAuth-Form' } do |f| %>
     <div class="PageAuth-Form-Fields">
-      <%= render 'shared/A_Input', name: 'email', type: 'email', required: true, autocomplete: 'off', autocapitalize: 'none', spellcheck: false, data_form_type: 'other', placeholder: t('auth.login.email_placeholder'), max_width: '358px' %>
-      <%= render 'shared/W_InputPassword', name: 'password', required: true, autocomplete: 'new-password', placeholder: t('auth.login.password_placeholder'), max_width: '358px' %>
+      <%= render 'shared/atoms/A_Input', name: 'email', type: 'email', required: true, autocomplete: 'off', autocapitalize: 'none', spellcheck: false, data_form_type: 'other', placeholder: t('auth.login.email_placeholder'), max_width: '358px' %>
+      <%= render 'shared/wrappers/W_InputPassword', name: 'password', required: true, autocomplete: 'new-password', placeholder: t('auth.login.password_placeholder'), max_width: '358px' %>
     </div>
-    <%= render 'shared/A_Button', type: 'submit', label: t('auth.login.submit') %>
+    <%= render 'shared/atoms/A_Button', type: 'submit', label: t('auth.login.submit') %>
   <% end %>
   <p><%= link_to t('auth.login.forgot_link'), forgot_path %></p>
 </div>
