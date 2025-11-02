@@ -14,6 +14,8 @@
   aria-invalid="<%= local_assigns[:error] ? 'true' : 'false' %>"
   <%= 'disabled' if local_assigns[:disabled] %>
   <%= 'required' if local_assigns[:required] %>
+  <%= %(minlength="#{minlength}") if local_assigns[:minlength] %>
+  <%= %(maxlength="#{maxlength}") if local_assigns[:maxlength] %>
   <%= %(autocomplete="#{autocomplete}") if local_assigns[:autocomplete] %>
   <%= %(autocapitalize="#{autocapitalize}") if local_assigns[:autocapitalize] %>
   <%= %(spellcheck="false") if local_assigns[:spellcheck] == false %>
