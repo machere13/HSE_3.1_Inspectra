@@ -73,15 +73,21 @@ class SmtpConfigService
   }.freeze
 
   def self.get_smtp_config(email)
-    {
-      address: 'smtp.mail.ru',
-      port: 587,
-      domain: 'mail.ru',
-      user_name: ENV['DEFAULT_EMAIL_USERNAME'],
-      password: ENV['DEFAULT_EMAIL_PASSWORD'],
-      authentication: 'plain',
-      enable_starttls_auto: true
-    }
+    domain = email.to_s.split('@').last&.downcase
+    return default_config unless domain
+    
+    config = SMTP_CONFIGS[domain]
+    if config
+      username = get_username_for_domain(domain) || ENV['DEFAULT_EMAIL_USERNAME']
+      password = get_password_for_domain(domain) || ENV['DEFAULT_EMAIL_PASSWORD']
+      
+      config.merge(
+        user_name: username,
+        password: password
+      )
+    else
+      default_config
+    end
   end
 
   def self.supported_domains
