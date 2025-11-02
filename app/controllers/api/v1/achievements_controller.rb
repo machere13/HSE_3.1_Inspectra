@@ -1,6 +1,7 @@
 class Api::V1::AchievementsController < ApplicationController
   include JwtHelper
   
+  before_action :require_auth, only: [:user_achievements, :test_interactive_completion, :test_consecutive_days, :test_registration_order]
   before_action :block_test_endpoints_in_production, only: [:test_interactive_completion, :test_consecutive_days, :test_registration_order]
   
   def index
@@ -9,9 +10,6 @@ class Api::V1::AchievementsController < ApplicationController
   end
   
   def user_achievements
-    require_auth
-    return unless logged_in?
-    
     user_achievements = current_user.user_achievements.includes(:achievement)
     
     render json: {
@@ -32,9 +30,6 @@ class Api::V1::AchievementsController < ApplicationController
   end
   
   def test_interactive_completion
-    require_auth
-    return unless logged_in?
-    
     content_category = params[:content_category] || 'dev_diving'
     
     service = AchievementService.new(current_user)
@@ -49,9 +44,6 @@ class Api::V1::AchievementsController < ApplicationController
   end
   
   def test_consecutive_days
-    require_auth
-    return unless logged_in?
-    
     days = params[:days]&.to_i || 7
     
     service = AchievementService.new(current_user)
@@ -66,9 +58,6 @@ class Api::V1::AchievementsController < ApplicationController
   end
   
   def test_registration_order
-    require_auth
-    return unless logged_in?
-    
     service = AchievementService.new(current_user)
     service.check_achievements_for_registration_order
     

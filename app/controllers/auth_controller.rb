@@ -14,7 +14,7 @@ class AuthController < WebController
     if user
       if user.authenticate(password)
         user.generate_verification_code!
-        VerificationMailer.send_verification_code(user).deliver_now
+        VerificationMailer.send_verification_code(user).deliver_later
         session[:pending_email] = user.email
         session[:last_verification_code_sent_at] = Time.current.to_i
         redirect_to verify_path(email: user.email), notice: t('auth.flashes.code_sent')
@@ -26,7 +26,7 @@ class AuthController < WebController
       user = User.new(email: email, password: password)
       if user.save
         user.generate_verification_code!
-        VerificationMailer.send_verification_code(user).deliver_now
+        VerificationMailer.send_verification_code(user).deliver_later
         session[:pending_email] = user.email
         session[:last_verification_code_sent_at] = Time.current.to_i
         redirect_to verify_path(email: user.email), notice: t('auth.flashes.check_email_for_verification')
@@ -133,17 +133,8 @@ class AuthController < WebController
         return redirect_to forgot_path
       end
 
-      begin
-        user.generate_reset_password_token!
-        ResetPasswordMailer.with(user: user).reset_instructions.deliver_now
-      rescue => e
-        if Rails.env.development? || Rails.env.test?
-          flash[:notice] = t('auth.flashes.smtp_debug_link', url: "#{root_url}reset_password?token=#{user.reset_password_token}")
-        else
-          flash[:alert] = t('auth.flashes.failed_to_send_email')
-        end
-        return redirect_to forgot_path
-      end
+      user.generate_reset_password_token!
+      ResetPasswordMailer.with(user: user).reset_instructions.deliver_later
     end
 
     flash[:notice] = t('auth.flashes.if_email_exists_sent_link')
