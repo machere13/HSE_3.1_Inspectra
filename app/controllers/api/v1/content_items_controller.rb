@@ -2,8 +2,8 @@ class Api::V1::ContentItemsController < ApplicationController
   def index
     @day = Day.find(params[:day_id])
     @content_items = @day.content_items.includes(:article).order(:position)
-    render json: @content_items, include: [:article]
+    render_success(data: @content_items.as_json(include: [:article]))
   rescue ActiveRecord::RecordNotFound
-    render json: { error: 'День не найден' }, status: :not_found
+    render_not_found(message: 'День не найден')
   end
 end
