@@ -50,7 +50,7 @@ paths:
                   example: password123
       responses:
         '200':
-          description: Успешный вход
+          description: Код подтверждения отправлен на email (при логине)
           content:
             application/json:
               schema:
@@ -58,19 +58,13 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Успешный вход
-                  token:
+                    example: Код подтверждения отправлен на email
+                  requires_verification:
+                    type: boolean
+                    example: true
+                  email:
                     type: string
-                    example: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2MzQwNzI4MDB9.example
-                  user:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 1
-                      email:
-                        type: string
-                        example: user@example.com
+                    example: user@example.com
         '201':
           description: Пользователь зарегистрирован, требуется подтверждение email
           content:

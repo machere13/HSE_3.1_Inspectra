@@ -19,8 +19,7 @@ class Api::V1::AuthController < ApplicationController
         render json: { 
           message: 'Код подтверждения отправлен на email',
           requires_verification: true,
-          email: user.email,
-          verification_code: user.verification_code
+          email: user.email
         }, status: :ok
       else
         render json: { error: 'Неверный пароль' }, status: :unauthorized
@@ -35,8 +34,7 @@ class Api::V1::AuthController < ApplicationController
         render json: {
           message: 'Пользователь зарегистрирован. Проверьте email для подтверждения.',
           requires_verification: true,
-          email: user.email,
-          verification_code: user.verification_code
+          email: user.email
         }, status: :created
       else
         render json: { 
@@ -99,8 +97,7 @@ class Api::V1::AuthController < ApplicationController
     VerificationMailer.send_verification_code(user).deliver_now
 
     render json: {
-      message: 'Код подтверждения отправлен повторно',
-      verification_code: user.verification_code
+      message: 'Код подтверждения отправлен повторно'
     }, status: :ok
   end
 
