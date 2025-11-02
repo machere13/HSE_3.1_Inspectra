@@ -20,9 +20,9 @@
     <% all_items.each do |item_data| %>
       <div class="PageDay-Content-Item" data-content-type="<%= item_data[:type] == 'article' ? 'article' : item_data[:item].kind %>">
         <% if item_data[:type] == 'article' %>
-          <%= render 'shared/organisms/O_ArticleCard', day: @day, article: item_data[:item] %>
+          <%= render 'days/O_ArticleCard', day: @day, article: item_data[:item] %>
         <% else %>
-          <%= render 'shared/molecules/M_ContentCard',
+          <%= render 'days/M_ContentCard',
             type: item_data[:item].kind,
             label: item_data[:item].kind&.upcase,
             id: "content_card_#{item_data[:item].id}",

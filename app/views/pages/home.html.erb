@@ -9,11 +9,11 @@
   <% end %>
   <div class="PageHome-Days-List">
     <% if @current_day %>
-      <%= render 'shared/wrappers/W_CardDayCurrent', day: @current_day %>
+      <%= render 'pages/home/W_CardDayCurrent', day: @current_day %>
     <% end %>
     
     <% if @expired_days.any? %>
-      <%= render 'shared/wrappers/W_CardsDay404', cards: @expired_days %>
+      <%= render 'pages/home/W_CardsDay404', cards: @expired_days %>
     <% end %>
   </div>
 </div>
