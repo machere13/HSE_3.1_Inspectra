@@ -1,5 +1,5 @@
 <div class="C_CardsDay404">
     <% (local_assigns[:cards] || []).each do |card| %>
-        <%= render 'pages/home/M_CardDay404' %>
+        <%= render 'pages/home/M_CardDay404', card: card %>
     <% end %>
 </div>
