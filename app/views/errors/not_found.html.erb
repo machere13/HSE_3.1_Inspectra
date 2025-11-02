@@ -1,12 +1,12 @@
 <div class="PageNotFound">
-  <%= render 'pages/O_HeaderPlug' %>
+  <%= render 'shared/organisms/O_HeaderPlug' %>
   <div class="PageNotFound-Content">
     <h1 class="PageNotFound-Title">ERROR404</h1>
-    <%= render 'shared/W_ErrorConsole', title: '[error]', error: '404_not_found', response: '>_ The requested resource was not found
+    <%= render 'errors/W_ErrorConsole', title: '[error]', error: '404_not_found', response: '>_ The requested resource was not found
 >_ Path: /article
 >_ Status: 404 Not Found
 >_ Solution: Check URL or return to homepage' %>
   </div>
-  <%= render 'shared/A_InspectraBackground' %>
-  <%= render 'pages/C_DotsPlug' %>
+  <%= render 'shared/atoms/A_InspectraBackground' %>
+  <%= render 'shared/collections/C_DotsPlug' %>
 </div>

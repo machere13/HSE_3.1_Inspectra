@@ -1,0 +1,19 @@
+<%
+  max_w = local_assigns[:max_width]
+  style_attr = ""
+  if max_w.present?
+    style_value = max_w.is_a?(String) ? max_w : "#{max_w}px"
+    style_attr = "max-width: #{style_value}"
+  end
+%>
+
+<div class="W_FAQConsole" style="<%= style_attr %>">
+  <div class="W_FAQConsole-Header">
+    <%= render 'shared/quarks/Q_Icon', name: 'Q_ConsoleIcon' %>
+    <h4 class="text-code"><%= local_assigns[:title] %></h4>
+  </div>
+  <div class="W_FAQConsole-Content">
+    <pre class="W_FAQConsole-Content-Code-Question text-code"><%= local_assigns[:question] %></pre>
+    <pre class="W_FAQConsole-Content-Code-Response text-code"><%= local_assigns[:response] %></pre>
+  </div>
+</div>

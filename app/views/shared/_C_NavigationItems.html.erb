@@ -1,5 +1,0 @@
-<div class="C_NavigationItems">
-  <% (local_assigns[:items] || []).each do |item| %>
-    <%= render 'shared/M_NavigationItem', text: item[:text], href: item[:href], hotkey: item[:hotkey] %>
-  <% end %>
-</div>

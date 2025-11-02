@@ -1,8 +1,0 @@
-<div class="W_NavigationItems" data-index="<%= local_assigns[:index] %>" style="<%= local_assigns[:style] %>">
-  <%= render 'shared/W_NavigationLine' %>
-  <% if local_assigns[:radio] %>
-    <%= render 'shared/C_RadioButtons', items: (local_assigns[:items] || []) %>
-  <% else %>
-    <%= render 'shared/C_NavigationItems', items: (local_assigns[:items] || []) %>
-  <% end %>
-</div>

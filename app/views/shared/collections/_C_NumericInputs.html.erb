@@ -1,0 +1,11 @@
+<%  length = (local_assigns[:length] || 6).to_i
+  length = 1 if length < 1
+  container_id = local_assigns[:id]
+%>
+<div class="C_NumericInputs" <% if container_id %>id="<%= container_id %>"<% end %> data-length="<%= length %>">
+  <% length.times do |i| %>
+    <% name_attr = (i == 0 ? 'one-time-code' : "otp[#{i}]") %>
+    <% ac_attr = (i == 0 ? local_assigns[:autocomplete] : nil) %>
+    <%= render 'shared/atoms/A_NumericInput', maxlength: 1, autocomplete: ac_attr, data: { idx: i }, name: name_attr, autofocus: (i == 0) %>
+  <% end %>
+</div>

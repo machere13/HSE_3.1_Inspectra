@@ -6,10 +6,10 @@
   <%= form_with url: reset_path, method: :post, html: { autocomplete: 'off', class: 'PageAuth-Form' } do |f| %>
     <%= hidden_field_tag :token, @token %>
     <div class="PageAuth-Form-Fields">
-      <%= render 'shared/W_InputPassword', name: 'password', required: true, autocomplete: 'new-password', placeholder: t('auth.reset.password_placeholder'), max_width: '358px' %>
-      <%= render 'shared/W_InputPassword', name: 'password_confirmation', required: true, autocomplete: 'new-password', placeholder: t('auth.reset.password_confirmation_placeholder'), max_width: '358px' %>
+      <%= render 'shared/wrappers/W_InputPassword', name: 'password', required: true, autocomplete: 'new-password', placeholder: t('auth.reset.password_placeholder'), max_width: '358px' %>
+      <%= render 'shared/wrappers/W_InputPassword', name: 'password_confirmation', required: true, autocomplete: 'new-password', placeholder: t('auth.reset.password_confirmation_placeholder'), max_width: '358px' %>
     </div>
-    <%= render 'shared/A_Button', type: 'submit', label: t('auth.reset.submit') %>
+    <%= render 'shared/atoms/A_Button', type: 'submit', label: t('auth.reset.submit') %>
   <% end %>
 </div>
 
