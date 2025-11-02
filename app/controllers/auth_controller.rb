@@ -70,7 +70,13 @@ class AuthController < WebController
     if user.verification_code_valid?(code)
       user.verify_email!
       token = encode_token({ user_id: user.id })
-      cookies[:token] = { value: token, httponly: true }
+      cookies[:token] = {
+        value: token,
+        httponly: true,
+        secure: Rails.env.production?,
+        same_site: :lax,
+        expires: 168.hours.from_now
+      }
       redirect_to root_path, notice: t('auth.flashes.login_success')
     else
       flash.now[:alert] = t('auth.flashes.invalid_or_expired_code')
