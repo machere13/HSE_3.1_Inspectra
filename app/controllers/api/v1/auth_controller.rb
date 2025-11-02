@@ -14,7 +14,7 @@ class Api::V1::AuthController < ApplicationController
     if user
       if user.authenticate(password)
         user.generate_verification_code!
-        VerificationMailer.send_verification_code(user).deliver_now
+        VerificationMailer.send_verification_code(user).deliver_later
         
         render json: { 
           message: 'Код подтверждения отправлен на email',
@@ -29,7 +29,7 @@ class Api::V1::AuthController < ApplicationController
       
       if user.save
         user.generate_verification_code!
-        VerificationMailer.send_verification_code(user).deliver_now
+        VerificationMailer.send_verification_code(user).deliver_later
         
         render json: {
           message: 'Пользователь зарегистрирован. Проверьте email для подтверждения.',
@@ -131,20 +131,7 @@ class Api::V1::AuthController < ApplicationController
       end
 
       user.generate_reset_password_token!
-      begin
-        ResetPasswordMailer.with(user: user).reset_instructions.deliver_now
-      rescue => e
-        if Rails.env.development? || Rails.env.test?
-          return render json: {
-            message: 'Debug: письмо не отправлено (SMTP)',
-            reset_token: user.reset_password_token,
-            reset_url: root_url + "reset_password?token=#{user.reset_password_token}",
-            error: e.class.name
-          }, status: :ok
-        else
-          return render json: { error: 'Не удалось отправить письмо' }, status: :service_unavailable
-        end
-      end
+      ResetPasswordMailer.with(user: user).reset_instructions.deliver_later
     end
 
     render json: { message: 'Если email существует, мы отправили ссылку для сброса' }, status: :ok
