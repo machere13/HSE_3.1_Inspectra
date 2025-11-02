@@ -55,6 +55,13 @@ Rails.application.routes.draw do
       resources :articles
       resources :content_items
     end
+
+    resources :jwt_secrets, only: [:index, :create] do
+      collection do
+        post 'rotate', to: 'jwt_secrets#rotate'
+        get 'stats', to: 'jwt_secrets#stats'
+      end
+    end
   end
 
   get 'admin', to: redirect('/admin/days')
