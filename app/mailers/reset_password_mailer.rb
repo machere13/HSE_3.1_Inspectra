@@ -2,12 +2,14 @@ class ResetPasswordMailer < ApplicationMailer
   def reset_instructions
     @user = params[:user]
     @reset_url = reset_url(@user.reset_password_token)
-    DynamicSmtpMailer.send_with_dynamic_smtp(@user.email) do
-      mail(
-        from: ENV['DEFAULT_EMAIL_USERNAME'],
-        to: @user.email, subject: 'Сброс пароля'
-      )
-    end
+    smtp_config = SmtpConfigService.get_smtp_config(@user.email)
+
+    mail(
+      from: ENV['DEFAULT_EMAIL_USERNAME'],
+      to: @user.email, 
+      subject: 'Сброс пароля',
+      delivery_method_options: smtp_config
+    )
   end
 
   private
