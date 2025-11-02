@@ -14,15 +14,15 @@
 %>
 
 <div class="W_NavigationContent">
-  <%= render 'shared/W_NavigationItems', index: 0, items: [
+  <%= render 'shared/wrappers/W_NavigationItems', index: 0, items: [
     { text: 'HOME', href: root_path,  hotkey: 'H' },
     { text: 'ABOUT', href: about_path, hotkey: 'A' }
   ] %>
 
   <% if is_day_page %>
-    <%= render 'shared/W_NavigationItems', index: 1, items: filter_items, radio: true %>
+    <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: filter_items, radio: true %>
   <% elsif !is_article_page %>
-    <%= render 'shared/W_NavigationItems', index: 1, items: [
+    <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: [
       { text: 'BLOCKS', href: '#blocks' }
     ], style: is_home ? 'visibility: hidden; opacity: 0; height: 0;' : '' %>
   <% end %>

@@ -1,5 +1,5 @@
 <div class="C_RadioButtons">
     <% (local_assigns[:items] || []).each do |item| %>
-        <%= render 'shared/A_RadioButton', label: item[:label], value: item[:value], checked: item[:checked] %>
+        <%= render 'shared/atoms/A_RadioButton', label: item[:label], value: item[:value], checked: item[:checked] %>
     <% end %>
 </div>

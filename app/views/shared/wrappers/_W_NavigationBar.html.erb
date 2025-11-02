@@ -3,11 +3,11 @@
 
 <div class="W_NavigationBar">
   <div class="W_NavigationBar-Item" data-index="0">
-    <%= render 'shared/M_NavigationBar', icon_name: 'Q_FolderIcon', icon_width: 16, icon_height: 16, text: 'Pages', arrow: { opened: true } %>
+    <%= render 'shared/molecules/M_NavigationBar', icon_name: 'Q_FolderIcon', icon_width: 16, icon_height: 16, text: 'Pages', arrow: { opened: true } %>
   </div>
   <div class="W_NavigationBar-Item" data-index="1">
     <% unless is_article_page %>
-      <%= render 'shared/M_NavigationBar', icon_name: is_day_page ? 'Q_FilterIcon' : nil, icon_width: 16, icon_height: 16, text: is_day_page ? 'Filter' : 'Blocks', arrow: { opened: true } %>
+      <%= render 'shared/molecules/M_NavigationBar', icon_name: is_day_page ? 'Q_FilterIcon' : nil, icon_width: 16, icon_height: 16, text: is_day_page ? 'Filter' : 'Blocks', arrow: { opened: true } %>
     <% end %>
   </div>
 </div>

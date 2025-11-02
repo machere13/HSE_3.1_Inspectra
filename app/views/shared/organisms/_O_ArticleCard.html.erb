@@ -1,5 +1,5 @@
 <%= link_to day_article_path(day, article), class: 'O_ArticleCard' do %>
-  <%= render 'shared/M_ContentCard', type: 'article', label: 'ARTICLE', width: '100%' %>
+  <%= render 'shared/molecules/M_ContentCard', type: 'article', label: 'ARTICLE', width: '100%' %>
   <div class="O_ArticleCard-Title">
     <h4><%= article.title %></h4>
     <p><%= article.description.presence || truncate(article.body, length: 120) %></p>
