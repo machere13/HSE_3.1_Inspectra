@@ -94,17 +94,16 @@ class Api::V1::AuthController < ApplicationController
     end
 
     user.generate_verification_code!
-    VerificationMailer.send_verification_code(user).deliver_now
+    VerificationMailer.send_verification_code(user).deliver_later
 
     render json: {
       message: 'Код подтверждения отправлен повторно'
     }, status: :ok
   end
 
-  def me
-    require_auth
-    return unless logged_in?
+  before_action :require_auth, only: [:me]
 
+  def me
     render json: {
       user: {
         id: current_user.id,

@@ -92,6 +92,7 @@ module JwtHelper
   def require_auth
     unless logged_in?
       render json: { error: 'Требуется авторизация' }, status: :unauthorized
+      return false
     end
   end
 end
