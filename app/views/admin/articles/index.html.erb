@@ -2,6 +2,10 @@
 
 <p><%= link_to 'Новая статья', new_admin_day_article_path(@day) %></p>
 
+<% if @pagy.count > 0 %>
+  <p><%= @pagy.from %>-<%= @pagy.to %> из <%= @pagy.count %></p>
+<% end %>
+
 <ul>
   <% @articles.each do |article| %>
     <li>
@@ -11,6 +15,7 @@
   <% end %>
 </ul>
 
-<%= link_to 'Назад к дню', admin_day_path(@day) %>
+<%= pagy_nav(@pagy) if @pagy.pages > 1 %>
 
+<%= link_to 'Назад к дню', admin_day_path(@day) %>
 

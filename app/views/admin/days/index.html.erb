@@ -2,6 +2,10 @@
 
 <p><%= link_to 'Новый день', new_admin_day_path %></p>
 
+<% if @pagy.count > 0 %>
+  <p><%= @pagy.from %>-<%= @pagy.to %> из <%= @pagy.count %></p>
+<% end %>
+
 <table>
   <thead>
     <tr>
@@ -26,4 +30,5 @@
   </tbody>
   </table>
 
+<%= pagy_nav(@pagy) if @pagy.pages > 1 %>
 

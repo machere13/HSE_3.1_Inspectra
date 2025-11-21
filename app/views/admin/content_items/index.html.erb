@@ -2,6 +2,10 @@
 
 <p><%= link_to 'Добавить контент', new_admin_day_content_item_path(@day) %></p>
 
+<% if @pagy.count > 0 %>
+  <p><%= @pagy.from %>-<%= @pagy.to %> из <%= @pagy.count %></p>
+<% end %>
+
 <table>
   <thead>
     <tr>
@@ -27,5 +31,7 @@
     <% end %>
   </tbody>
 </table>
+
+<%= pagy_nav(@pagy) if @pagy.pages > 1 %>
 
 <%= link_to 'Назад к дню', admin_day_path(@day) %>
