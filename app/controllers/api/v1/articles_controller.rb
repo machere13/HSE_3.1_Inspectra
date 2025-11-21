@@ -1,8 +1,8 @@
 class Api::V1::ArticlesController < ApplicationController
   def index
     @day = Day.find(params[:day_id])
-    @articles = @day.articles
-    render_success(data: @articles)
+    @pagy, @articles = pagy(@day.articles.order(:created_at))
+    render_success(data: @articles, pagy: @pagy)
   rescue ActiveRecord::RecordNotFound
     render_not_found(message: 'День не найден')
   end
