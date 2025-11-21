@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_29_052513) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_02_193849) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -90,6 +90,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_29_052513) do
     t.index ["number"], name: "index_days_on_number", unique: true
     t.index ["published_at", "expires_at"], name: "index_days_on_published_at_and_expires_at"
     t.index ["published_at"], name: "index_days_on_published_at"
+  end
+
+  create_table "jwt_secret_rotations", force: :cascade do |t|
+    t.datetime "rotated_at", null: false
+    t.string "rotated_by", null: false
+    t.string "rotation_type", null: false
+    t.text "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rotated_at"], name: "index_jwt_secret_rotations_on_rotated_at"
+    t.index ["rotation_type"], name: "index_jwt_secret_rotations_on_rotation_type"
+  end
+
+  create_table "revoked_tokens", force: :cascade do |t|
+    t.string "jti"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["jti"], name: "index_revoked_tokens_on_jti", unique: true
   end
 
   create_table "user_achievements", force: :cascade do |t|

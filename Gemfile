@@ -53,4 +53,7 @@ group :development, :test do
   gem 'rswag-ui'
   gem 'dotenv-rails'
   gem 'faker'
+
+  # Testing framework
+  gem 'rspec-rails'
 end

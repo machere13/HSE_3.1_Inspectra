@@ -1,0 +1,19 @@
+one:
+  day: one
+  article: one
+  kind: MyString
+  title: MyString
+  body: MyText
+  url: MyString
+  position: 1
+  metadata:
+
+two:
+  day: two
+  article: two
+  kind: MyString
+  title: MyString
+  body: MyText
+  url: MyString
+  position: 1
+  metadata:

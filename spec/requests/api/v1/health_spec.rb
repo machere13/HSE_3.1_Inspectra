@@ -10,13 +10,19 @@ RSpec.describe 'Health Check API', type: :request do
       response '200', 'API is healthy' do
         schema type: :object,
                properties: {
-                 status: { type: :string, example: 'ok' },
-                 timestamp: { type: :string, example: '2023-01-01T00:00:00Z' }
+                 success: { type: :boolean, example: true },
+                 data: {
+                   type: :object,
+                   properties: {
+                     timestamp: { type: :string, example: '2023-01-01T00:00:00Z' }
+                   }
+                 }
                }
 
         run_test! do |response|
           data = JSON.parse(response.body)
-          expect(data['status']).to eq('ok')
+          expect(data['success']).to be true
+          expect(data.dig('data', 'timestamp')).to be_present
         end
       end
     end
