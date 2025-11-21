@@ -1,0 +1,50 @@
+service: project3_1
+
+image: project3_1
+
+servers:
+  web:
+    hosts:
+      - your-server.com
+    cmd: ./bin/thrust ./bin/rails server
+    options:
+      - '--label traefik.http.routers.project3_1.rule=Host(`your-server.com`)'
+      - '--label traefik.http.services.project3_1.loadbalancer.server.port=80'
+
+  worker:
+    hosts:
+      - your-server.com
+    cmd: bin/rails solid_queue:start
+    options:
+      - '--label traefik.enable=false'
+
+registry:
+  username: project3_1
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+env:
+  clear:
+    RAILS_ENV: production
+    SOLID_QUEUE_IN_PUMA: 'false'
+  secret:
+    - RAILS_MASTER_KEY
+    - DATABASE_URL
+    - PROJECT3_1_DATABASE_PASSWORD
+
+builder:
+  multiarch: false
+
+accessories:
+  db:
+    image: postgres:16
+    host: your-server.com
+    port: 5432
+    env:
+      clear:
+        POSTGRES_USER: project3_1
+        POSTGRES_PASSWORD: <%= ENV["PROJECT3_1_DATABASE_PASSWORD"] %>
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data
