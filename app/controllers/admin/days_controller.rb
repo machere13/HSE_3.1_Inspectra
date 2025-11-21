@@ -1,5 +1,5 @@
 class Admin::DaysController < Admin::BaseController
-  before_action :set_day, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
 
   def index
     @days = Day.order(:number)
@@ -38,10 +38,6 @@ class Admin::DaysController < Admin::BaseController
   end
 
   private
-
-  def set_day
-    @day = Day.find_by!(number: params[:id]) rescue Day.find(params[:id])
-  end
 
   def day_params
     params.require(:day).permit(:number, :title, :description, :published_at, :expires_at)

@@ -4,16 +4,21 @@ class Admin::ArticlesController < Admin::BaseController
 
   def index
     @articles = @day.articles.order(:created_at)
+    authorize! :read, Article
   end
 
-  def show; end
+  def show
+    authorize! :read, @article
+  end
 
   def new
     @article = @day.articles.new
+    authorize! :create, @article
   end
 
   def create
     @article = @day.articles.new(article_params)
+    authorize! :create, @article
     if @article.save
       redirect_to admin_day_article_path(@day, @article), notice: 'Статья создана'
     else
@@ -22,9 +27,12 @@ class Admin::ArticlesController < Admin::BaseController
     end
   end
 
-  def edit; end
+  def edit
+    authorize! :update, @article
+  end
 
   def update
+    authorize! :update, @article
     if @article.update(article_params)
       redirect_to admin_day_article_path(@day, @article), notice: 'Статья обновлена'
     else
@@ -34,6 +42,7 @@ class Admin::ArticlesController < Admin::BaseController
   end
 
   def destroy
+    authorize! :destroy, @article
     @article.destroy
     redirect_to admin_day_articles_path(@day), notice: 'Статья удалена'
   end

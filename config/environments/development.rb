@@ -23,32 +23,17 @@ Rails.application.configure do
     config.action_controller.perform_caching = false
   end
 
-  # Change to :null_store to avoid any caching.
   config.cache_store = :memory_store
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
 
-  # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
 
-  # Set localhost to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
   
-  # Configure mail delivery method for development
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: 'smtp.mail.ru',
-    port: AppConfig::Email.smtp_port,
-    domain: 'mail.ru',
-    user_name: AppConfig::Email.default_username,
-    password: AppConfig::Email.default_password,
-    authentication: 'plain',
-    enable_starttls_auto: true
-  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

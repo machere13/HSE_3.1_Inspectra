@@ -4,6 +4,13 @@ class User < ApplicationRecord
   has_many :user_achievements, dependent: :destroy
   has_many :achievements, through: :user_achievements
   
+  enum role: {
+    user: 0,
+    moderator: 1,
+    admin: 2,
+    super_admin: 3
+  }
+  
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: AppConfig::Auth.password_min_length, maximum: AppConfig::Auth.password_max_length }, if: -> { new_record? || !password.nil? }
   
