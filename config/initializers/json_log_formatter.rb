@@ -16,6 +16,14 @@ class JsonLogFormatter < ActiveSupport::Logger::SimpleFormatter
       log_entry[:request_id] = request_id
     end
     
+    if (http_context = Thread.current[:http_context])
+      log_entry[:http] = http_context
+    end
+    
+    if (metrics = Thread.current[:metrics])
+      log_entry[:metrics] = metrics
+    end
+    
     exception = $!
     if exception && severity.to_s == 'ERROR'
       log_entry[:exception] = {
