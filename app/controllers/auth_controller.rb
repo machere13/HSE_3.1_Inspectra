@@ -39,7 +39,8 @@ class AuthController < WebController
   def verify
     session[:pending_email] = params[:email] if params[:email].present?
     if (ts = session[:last_verification_code_sent_at]).present?
-      wait = 60 - (Time.current.to_i - ts.to_i)
+      cooldown = AppConfig::Auth.resend_code_cooldown_seconds.to_i
+      wait = cooldown - (Time.current.to_i - ts.to_i)
       @resend_wait_left = wait.positive? ? wait : 0
     else
       @resend_wait_left = 0
@@ -75,7 +76,7 @@ class AuthController < WebController
         httponly: true,
         secure: Rails.env.production?,
         same_site: :lax,
-        expires: 168.hours.from_now
+        expires: AppConfig::JWT.token_ttl_hours.from_now
       }
       redirect_to root_path, notice: t('auth.flashes.login_success')
     else
@@ -128,7 +129,7 @@ class AuthController < WebController
 
     user = User.find_by(email: email)
     if user
-      if user.reset_password_requested_at && user.reset_password_requested_at > 60.seconds.ago
+      if user.reset_password_requested_at && user.reset_password_requested_at > AppConfig::Auth.resend_code_cooldown_seconds.ago
         flash[:alert] = t('auth.flashes.email_already_sent_try_later')
         return redirect_to forgot_path
       end
@@ -164,7 +165,7 @@ class AuthController < WebController
       @token = token
       return render :reset, status: :unauthorized
     end
-    unless user.reset_token_valid?(ttl_minutes: 30)
+    unless user.reset_token_valid?
       flash.now[:alert] = t('auth.flashes.link_expired')
       @token = token
       return render :reset, status: :unauthorized

@@ -2,8 +2,14 @@ class JwtSecretService
   CACHE_KEY_CURRENT = 'jwt_secret:current'
   CACHE_KEY_PREVIOUS = 'jwt_secret:previous'
   CACHE_KEY_LAST_ROTATION = 'jwt_secret:last_rotation'
-  SECRET_TTL = 90.days
-  ROTATION_INTERVAL = 30.days # Ротация каждые 30 дней
+  
+  def self.secret_ttl
+    AppConfig::JWT.secret_ttl_days
+  end
+  
+  def self.rotation_interval
+    AppConfig::JWT.rotation_interval_days
+  end
 
   def self.current_secret
     Rails.cache.fetch(CACHE_KEY_CURRENT) do
@@ -22,16 +28,16 @@ class JwtSecretService
   def self.rotation_due?
     last = last_rotation_at
     return true if last.nil?
-    Time.current >= (last + ROTATION_INTERVAL)
+    Time.current >= (last + rotation_interval)
   end
 
   def self.rotate_secret(rotation_type: 'manual', rotated_by: 'system', metadata: {})
     previous = current_secret
     new_secret = generate_secret
     
-    Rails.cache.write(CACHE_KEY_PREVIOUS, previous, expires_in: SECRET_TTL)
-    Rails.cache.write(CACHE_KEY_CURRENT, new_secret, expires_in: SECRET_TTL)
-    Rails.cache.write(CACHE_KEY_LAST_ROTATION, Time.current, expires_in: SECRET_TTL)
+    Rails.cache.write(CACHE_KEY_PREVIOUS, previous, expires_in: secret_ttl)
+    Rails.cache.write(CACHE_KEY_CURRENT, new_secret, expires_in: secret_ttl)
+    Rails.cache.write(CACHE_KEY_LAST_ROTATION, Time.current, expires_in: secret_ttl)
     
     rotation = JwtSecretRotation.create!(
       rotated_at: Time.current,
@@ -72,13 +78,13 @@ class JwtSecretService
   def self.rotation_stats
     {
       last_rotation: last_rotation_at,
-      next_rotation_due: last_rotation_at ? (last_rotation_at + ROTATION_INTERVAL) : nil,
+      next_rotation_due: last_rotation_at ? (last_rotation_at + rotation_interval) : nil,
       rotation_due: rotation_due?,
       total_rotations: JwtSecretRotation.count,
       automatic_rotations: JwtSecretRotation.automatic.count,
       manual_rotations: JwtSecretRotation.manual.count,
       emergency_rotations: JwtSecretRotation.emergency.count,
-      recent_rotations: JwtSecretRotation.recent.limit(5).map do |r|
+      recent_rotations: JwtSecretRotation.recent.limit(AppConfig::Achievements.recent_rotations_limit).map do |r|
         {
           id: r.id,
           rotated_at: r.rotated_at,
@@ -93,12 +99,12 @@ class JwtSecretService
   private
 
   def self.generate_secret
-    SecureRandom.hex(64)
+    SecureRandom.hex(AppConfig::JWT.secret_length)
   end
 
   def self.generate_and_store_secret
     secret = generate_secret
-    Rails.cache.write(CACHE_KEY_CURRENT, secret, expires_in: SECRET_TTL)
+    Rails.cache.write(CACHE_KEY_CURRENT, secret, expires_in: secret_ttl)
     secret
   end
 end
