@@ -1,17 +1,14 @@
 module JwtHelper
   extend ActiveSupport::Concern
 
-  JWT_ISSUER = ENV.fetch('JWT_ISSUER', 'inspectra')
-  JWT_AUDIENCE = ENV.fetch('JWT_AUDIENCE', 'inspectra-api')
-
   def jwt_secret
     JwtSecretService.current_secret
   end
 
   def encode_token(payload)
-    payload[:exp] = 168.hours.from_now.to_i
-    payload[:iss] = JWT_ISSUER
-    payload[:aud] = JWT_AUDIENCE
+    payload[:exp] = AppConfig::JWT.token_ttl_hours.from_now.to_i
+    payload[:iss] = AppConfig::JWT.issuer
+    payload[:aud] = AppConfig::JWT.audience
     payload[:jti] = SecureRandom.uuid
     payload[:iat] = Time.current.to_i
     
@@ -28,9 +25,9 @@ module JwtHelper
       true, 
       { 
         algorithm: 'HS256',
-        iss: JWT_ISSUER,
+        iss: AppConfig::JWT.issuer,
         verify_iss: true,
-        aud: JWT_AUDIENCE,
+        aud: AppConfig::JWT.audience,
         verify_aud: true
       }
     )[0]

@@ -42,10 +42,10 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'smtp.mail.ru',
-    port: 587,
+    port: AppConfig::Email.smtp_port,
     domain: 'mail.ru',
-    user_name: ENV['DEFAULT_EMAIL_USERNAME'],
-    password: ENV['DEFAULT_EMAIL_PASSWORD'],
+    user_name: AppConfig::Email.default_username,
+    password: AppConfig::Email.default_password,
     authentication: 'plain',
     enable_starttls_auto: true
   }

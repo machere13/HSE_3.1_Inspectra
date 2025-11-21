@@ -33,7 +33,7 @@ Rails.application.configure do
   # Log to STDOUT with the current request id as a default log tag.
   config.log_tags = [ :request_id ]
   
-  if ENV.fetch('JSON_LOGS', 'false') == 'true'
+  if AppConfig::App.json_logs?
     logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = JsonLogFormatter.new
     config.logger = ActiveSupport::TaggedLogging.new(logger)
@@ -61,7 +61,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.default_url_options = { 
-    host: ENV.fetch("MAILER_HOST"),
+    host: AppConfig::App.mailer_host,
     protocol: :https
   }
 

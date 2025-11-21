@@ -136,7 +136,7 @@ class Api::V1::AuthController < ApplicationController
 
     user = User.find_by(email: email)
     if user
-      if user.reset_password_requested_at && user.reset_password_requested_at > 60.seconds.ago
+      if user.reset_password_requested_at && user.reset_password_requested_at > AppConfig::Auth.resend_code_cooldown_seconds.ago
         return render_too_many_requests(message: 'Письмо уже отправлено, попробуйте позже')
       end
 
@@ -166,7 +166,7 @@ class Api::V1::AuthController < ApplicationController
 
     user = User.find_by(reset_password_token: token)
     return render_unauthorized(message: 'Неверный токен') unless user
-    return render_unauthorized(message: 'Ссылка истекла') unless user.reset_token_valid?(ttl_minutes: 30)
+    return render_unauthorized(message: 'Ссылка истекла') unless user.reset_token_valid?
 
     user.password = password
     user.password_confirmation = password_confirmation

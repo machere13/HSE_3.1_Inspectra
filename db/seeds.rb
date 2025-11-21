@@ -2,18 +2,15 @@
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
-ENV['SEED'] ||= 'mock'
-
 def load_seed_file(name)
   path = Rails.root.join('db', 'seeds', "#{name}.rb")
   load(path) if File.exist?(path)
 end
 
-if Rails.env.production?
-  ENV['SEED'] = 'real' if ENV['SEED'] == 'all'
-end
+seed_type = AppConfig::App.seed_type
+seed_type = 'real' if Rails.env.production? && seed_type == 'all'
 
-case ENV['SEED']
+case seed_type
 when 'real'
   load_seed_file('real')
 when 'mock'
@@ -22,5 +19,5 @@ when 'all'
   load_seed_file('real')
   load_seed_file('mock')
 else
-  puts "Неизвестное значение SEED=#{ENV['SEED']}. real|mock|all."
+  puts "Неизвестное значение SEED=#{seed_type}. real|mock|all."
 end

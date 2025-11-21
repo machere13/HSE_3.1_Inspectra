@@ -5,9 +5,9 @@ module JwtTestHelper
 
   def encode_test_jwt(payload)
     payload = payload.dup
-    payload[:exp] = 168.hours.from_now.to_i
-    payload[:iss] = JWT_ISSUER
-    payload[:aud] = JWT_AUDIENCE
+    payload[:exp] = AppConfig::JWT.token_ttl_hours.from_now.to_i
+    payload[:iss] = AppConfig::JWT.issuer
+    payload[:aud] = AppConfig::JWT.audience
     payload[:jti] = SecureRandom.uuid
     payload[:iat] = Time.current.to_i
 

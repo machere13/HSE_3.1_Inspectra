@@ -48,7 +48,7 @@ class Api::V1::AchievementsController < ApplicationController
   end
   
   def test_consecutive_days
-    days = params[:days]&.to_i || 7
+    days = params[:days]&.to_i || AppConfig::Achievements.default_consecutive_days
     
     service = AchievementService.new(current_user)
     service.check_achievements_for_consecutive_days(days)

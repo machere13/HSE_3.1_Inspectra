@@ -41,6 +41,6 @@ class Day < ApplicationRecord
 
     base_start = Time.zone.local(start_date.year, start_date.month, start_date.day, switch_hour, 0) + (number.to_i - 1).days
     self.published_at ||= base_start
-    self.expires_at   ||= base_start + 24.hours
+    self.expires_at   ||= base_start + AppConfig::Content.day_expiration_hours
   end
 end

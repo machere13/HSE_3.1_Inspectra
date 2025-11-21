@@ -14,7 +14,7 @@ def reset_mock_content
 end
 
 def create_mock_days_with_content(total_days)
-  current_day = ENV.fetch('CURRENT_DAY', '1').to_i
+  current_day = AppConfig::Content.current_day || 1
   total_days.times do |i|
     number = i + 1
 

@@ -5,13 +5,13 @@ class User < ApplicationRecord
   has_many :achievements, through: :user_achievements
   
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, length: { minimum: 8, maximum: 64 }, if: -> { new_record? || !password.nil? }
+  validates :password, length: { minimum: AppConfig::Auth.password_min_length, maximum: AppConfig::Auth.password_max_length }, if: -> { new_record? || !password.nil? }
   
   after_create :check_registration_achievements
   
   def generate_verification_code!
     self.verification_code = SecureRandom.random_number(1000000).to_s.rjust(6, '0')
-    self.verification_code_expires_at = 15.minutes.from_now
+    self.verification_code_expires_at = AppConfig::Auth.verification_code_ttl_minutes.from_now
     save!
   end
   
@@ -65,7 +65,8 @@ class User < ApplicationRecord
     update!(reset_password_token: nil, reset_password_sent_at: nil)
   end
 
-  def reset_token_valid?(ttl_minutes: 30)
-    reset_password_token.present? && reset_password_sent_at.present? && reset_password_sent_at > ttl_minutes.minutes.ago
+  def reset_token_valid?(ttl_minutes: nil)
+    ttl = ttl_minutes || AppConfig::Auth.reset_password_token_ttl_minutes.to_i / 60
+    reset_password_token.present? && reset_password_sent_at.present? && reset_password_sent_at > ttl.minutes.ago
   end
 end
