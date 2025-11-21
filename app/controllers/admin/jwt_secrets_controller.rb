@@ -1,10 +1,12 @@
 class Admin::JwtSecretsController < Admin::BaseController
   def index
+    authorize! :read, JwtSecretRotation
     @stats = JwtSecretService.rotation_stats
     @rotations = JwtSecretRotation.recent.limit(50)
   end
 
   def rotate
+    authorize! :create, JwtSecretRotation
     rotation_type = params[:rotation_type] || 'manual'
     metadata = {
       source: 'admin_ui',
@@ -28,6 +30,7 @@ class Admin::JwtSecretsController < Admin::BaseController
   end
 
   def stats
+    authorize! :read, JwtSecretRotation
     render json: JwtSecretService.rotation_stats
   end
 end

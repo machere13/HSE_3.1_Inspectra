@@ -4,17 +4,22 @@ class Admin::ContentItemsController < Admin::BaseController
 
   def index
     @content_items = @day.content_items.order(:position)
+    authorize! :read, ContentItem
   end
 
-  def show; end
+  def show
+    authorize! :read, @content_item
+  end
 
   def new
     @content_item = @day.content_items.new
+    authorize! :create, @content_item
   end
 
   def create
     attrs = build_attributes_with_metadata
     @content_item = @day.content_items.new(attrs)
+    authorize! :create, @content_item
     attach_file(@content_item)
     if @content_item.save
       redirect_to admin_day_content_item_path(@day, @content_item), notice: 'Контент добавлен'
@@ -24,9 +29,12 @@ class Admin::ContentItemsController < Admin::BaseController
     end
   end
 
-  def edit; end
+  def edit
+    authorize! :update, @content_item
+  end
 
   def update
+    authorize! :update, @content_item
     attrs = build_attributes_with_metadata
     @content_item.assign_attributes(attrs)
     attach_file(@content_item)
@@ -39,6 +47,7 @@ class Admin::ContentItemsController < Admin::BaseController
   end
 
   def destroy
+    authorize! :destroy, @content_item
     @content_item.destroy
     redirect_to admin_day_content_items_path(@day), notice: 'Контент удалён'
   end
