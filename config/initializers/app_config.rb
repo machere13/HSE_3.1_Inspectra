@@ -111,6 +111,18 @@ module AppConfig
     def seed_type
       ENV.fetch('SEED', 'mock')
     end
+
+    def log_level
+      ENV.fetch('RAILS_LOG_LEVEL', 'info')
+    end
+
+    def log_to_file?
+      ENV.fetch('LOG_TO_FILE', 'false') == 'true'
+    end
+
+    def log_file_path
+      ENV.fetch('LOG_FILE_PATH', Rails.root.join('log', "#{Rails.env}.log").to_s)
+    end
   end
 end
 

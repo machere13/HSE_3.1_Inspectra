@@ -30,19 +30,26 @@ Rails.application.configure do
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
 
-  # Log to STDOUT with the current request id as a default log tag.
+  # Log to STDOUT (for Docker/K8s) or file based on configuration
+  # STDOUT is preferred for containerized deployments as logs are collected by log aggregators
   config.log_tags = [ :request_id ]
   
+  log_output = if AppConfig::App.log_to_file?
+    File.open(AppConfig::App.log_file_path, 'a')
+  else
+    STDOUT
+  end
+  
   if AppConfig::App.json_logs?
-    logger = ActiveSupport::Logger.new(STDOUT)
+    logger = ActiveSupport::Logger.new(log_output)
     logger.formatter = JsonLogFormatter.new
     config.logger = ActiveSupport::TaggedLogging.new(logger)
   else
-    config.logger = ActiveSupport::TaggedLogging.logger(STDOUT)
+    config.logger = ActiveSupport::TaggedLogging.logger(log_output)
   end
 
   # Change to "debug" to log everything (including potentially personally-identifiable information!)
-  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
+  config.log_level = AppConfig::App.log_level
 
   # Prevent health checks from clogging up the logs.
   config.silence_healthcheck_path = "/up"
