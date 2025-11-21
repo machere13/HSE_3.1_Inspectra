@@ -5,8 +5,8 @@ class Api::V1::AchievementsController < ApplicationController
   before_action :block_test_endpoints_in_production, only: [:test_interactive_completion, :test_consecutive_days, :test_registration_order]
   
   def index
-    achievements = Achievement.all
-    render_success(data: achievements)
+    @pagy, achievements = pagy(Achievement.all.order(:id))
+    render_success(data: achievements, pagy: @pagy)
   end
   
   def user_achievements
@@ -27,8 +27,8 @@ class Api::V1::AchievementsController < ApplicationController
       return render_validation_error(message: 'Неверная категория')
     end
     
-    achievements = Achievement.where(category: category)
-    render_success(data: achievements)
+    @pagy, achievements = pagy(Achievement.where(category: category).order(:id))
+    render_success(data: achievements, pagy: @pagy)
   end
   
   def test_interactive_completion

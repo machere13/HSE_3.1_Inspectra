@@ -14,10 +14,24 @@ module ApiResponseFormatter
 
   protected
 
-  def render_success(data: nil, message: nil, status: :ok)
+  def render_success(data: nil, message: nil, status: :ok, pagy: nil)
     response = { success: true }
     response[:data] = data if data
     response[:message] = message if message
+    if pagy
+      response[:meta] = {
+        pagination: {
+          page: pagy.page,
+          per_page: pagy.items,
+          total_pages: pagy.pages,
+          total_count: pagy.count,
+          from: pagy.from,
+          to: pagy.to,
+          prev_page: pagy.prev,
+          next_page: pagy.next
+        }
+      }
+    end
     render json: response, status: status
   end
 

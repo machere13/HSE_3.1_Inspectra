@@ -168,6 +168,9 @@ GEM
     nokogiri (1.18.9-x64-mingw-ucrt)
       racc (~> 1.4)
     ostruct (0.6.3)
+    pagy (43.1.1)
+      json
+      yaml
     parallel (1.27.0)
     parser (3.3.9.0)
       ast (~> 2.4.1)
@@ -345,6 +348,7 @@ GEM
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    yaml (0.4.0)
     zeitwerk (2.7.3)
 
 PLATFORMS
@@ -360,6 +364,7 @@ DEPENDENCIES
   faker
   jwt (~> 2.7)
   kamal
+  pagy
   pg (~> 1.1)
   puma (>= 5.0)
   rack-attack

@@ -1,7 +1,10 @@
 class Api::V1::DaysController < ApplicationController
   def index
-    @days = Day.visible_now.includes(:articles, :content_items).order(:number)
-    render_success(data: @days.as_json(include: [:articles, :content_items]))
+    @pagy, @days = pagy(Day.visible_now.includes(:articles, :content_items).order(:number))
+    render_success(
+      data: @days.as_json(include: [:articles, :content_items]),
+      pagy: @pagy
+    )
   end
 
   def show
