@@ -3,7 +3,7 @@ class Admin::ContentItemsController < Admin::BaseController
   before_action :set_content_item, only: [:show, :edit, :update, :destroy]
 
   def index
-    @content_items = @day.content_items.order(:position)
+    @pagy, @content_items = pagy(@day.content_items.order(:position), items: 20)
     authorize! :read, ContentItem
   end
 

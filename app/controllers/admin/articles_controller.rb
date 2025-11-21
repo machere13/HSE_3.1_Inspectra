@@ -3,7 +3,7 @@ class Admin::ArticlesController < Admin::BaseController
   before_action :set_article, only: [:show, :edit, :update, :destroy]
 
   def index
-    @articles = @day.articles.order(:created_at)
+    @pagy, @articles = pagy(@day.articles.order(:created_at), items: 20)
     authorize! :read, Article
   end
 

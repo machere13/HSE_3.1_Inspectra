@@ -2,7 +2,7 @@ class Admin::DaysController < Admin::BaseController
   load_and_authorize_resource
 
   def index
-    @days = Day.order(:number)
+    @pagy, @days = pagy(Day.order(:number), items: 20)
   end
 
   def show; end
