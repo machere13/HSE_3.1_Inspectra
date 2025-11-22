@@ -6,4 +6,5 @@
  *= require ./day
  *= require ./not-found
  *= require ./auth
+ *= require ./profile
 */

@@ -1,0 +1,69 @@
+.PageProfile{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 0 var(--spacing-x4);
+    gap: var(--spacing-x16);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.PageProfile-Section-Main{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x16);
+    padding-top: var(--spacing-x24);
+}
+
+.PageProfile-Section-Title{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x2);
+}
+
+.PageProfile-Section-Content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x8);
+}
+
+.PageProfile-Section-Content-Plate{
+    padding: var(--spacing-x8);
+    background: var(--color-secondary);
+    border: var(--border-x05) solid var(--color-border-primary);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x6);
+}
+
+.PageProfile-Stats{
+    display: flex;
+    gap: var(--spacing-x8);
+    width: 100%;
+}
+
+.PageProfile-Stat{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageProfile-Achievements{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x4);
+}
+
+.PageProfile-Achievement{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-x3);
+    background: var(--color-primary);
+    border: var(--border-x025) solid var(--color-border-secondary);
+}
+

@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   end
 
   get 'about', to: 'pages#about'
+  get 'profile', to: 'pages#profile'
   get 'auth', to: redirect('/auth/login')
   get 'reset_password', to: 'auth#reset'
   scope :auth do
