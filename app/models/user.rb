@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :user_achievements, dependent: :destroy
   has_many :achievements, through: :user_achievements
   
-  enum role: {
+  enum :role, {
     user: 0,
     moderator: 1,
     admin: 2,

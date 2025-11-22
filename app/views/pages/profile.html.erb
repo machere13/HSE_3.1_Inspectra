@@ -1,0 +1,52 @@
+<div class="PageProfile">
+  <section class="PageProfile-Section-Main">
+    <div class="PageProfile-Section-Title">
+      <h1><%= t('pages.profile.title') %></h1>
+      <p class="text-p-2"><%= @user.email %></p>
+    </div>
+
+    <div class="PageProfile-Section-Content">
+      <div class="PageProfile-Section-Content-Plate">
+        <h3 class="text-h3"><%= t('pages.profile.stats.title') %></h3>
+        <div class="PageProfile-Stats">
+          <div class="PageProfile-Stat">
+            <span class="text-label"><%= t('pages.profile.stats.completed_achievements') %></span>
+            <span class="text-h4"><%= @completed_achievements.count %></span>
+          </div>
+          <div class="PageProfile-Stat">
+            <span class="text-label"><%= t('pages.profile.stats.in_progress_achievements') %></span>
+            <span class="text-h4"><%= @in_progress_achievements.count %></span>
+          </div>
+        </div>
+      </div>
+
+      <% if @completed_achievements.any? %>
+        <div class="PageProfile-Section-Content-Plate">
+          <h3 class="text-h3"><%= t('pages.profile.achievements.completed.title') %></h3>
+          <div class="PageProfile-Achievements">
+            <% @completed_achievements.each do |user_achievement| %>
+              <div class="PageProfile-Achievement">
+                <span class="text-p-2"><%= user_achievement.achievement.name %></span>
+                <span class="text-caption"><%= user_achievement.completed_at.strftime(t('time.formats.short')) %></span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <% if @in_progress_achievements.any? %>
+        <div class="PageProfile-Section-Content-Plate">
+          <h3 class="text-h3"><%= t('pages.profile.achievements.in_progress.title') %></h3>
+          <div class="PageProfile-Achievements">
+            <% @in_progress_achievements.each do |user_achievement| %>
+              <div class="PageProfile-Achievement">
+                <span class="text-p-2"><%= user_achievement.achievement.name %></span>
+                <span class="text-caption"><%= t('pages.profile.achievements.in_progress.progress', progress: user_achievement.progress) %>%</span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+</div>

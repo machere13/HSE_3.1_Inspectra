@@ -14,7 +14,7 @@ class AuthController < WebController
     if user
       if user.authenticate(password)
         user.generate_verification_code!
-        VerificationMailer.send_verification_code(user).deliver_later
+        VerificationMailer.send_verification_code(user).deliver_now
         session[:pending_email] = user.email
         session[:last_verification_code_sent_at] = Time.current.to_i
         redirect_to verify_path(email: user.email), notice: t('auth.flashes.code_sent')
@@ -26,7 +26,7 @@ class AuthController < WebController
       user = User.new(email: email, password: password)
       if user.save
         user.generate_verification_code!
-        VerificationMailer.send_verification_code(user).deliver_later
+        VerificationMailer.send_verification_code(user).deliver_now
         session[:pending_email] = user.email
         session[:last_verification_code_sent_at] = Time.current.to_i
         redirect_to verify_path(email: user.email), notice: t('auth.flashes.check_email_for_verification')

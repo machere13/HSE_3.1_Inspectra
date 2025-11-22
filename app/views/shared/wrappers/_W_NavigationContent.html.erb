@@ -11,13 +11,17 @@
     { label: "Audio (#{@content_counts['audio'] || 0})", value: 'audio', checked: false },
     { label: "Link (#{@content_counts['link'] || 0})", value: 'link', checked: false }
   ] : []
+  navigation_items = [
+    { text: 'HOME', href: root_path, hotkey: 'H' },
+    { text: 'ABOUT', href: about_path, hotkey: 'A' }
+  ]
+  if defined?(current_user) && current_user&.email_verified?
+    navigation_items << { text: 'PROFILE', href: profile_path, hotkey: 'P' }
+  end
 %>
 
 <div class="W_NavigationContent">
-  <%= render 'shared/wrappers/W_NavigationItems', index: 0, items: [
-    { text: 'HOME', href: root_path,  hotkey: 'H' },
-    { text: 'ABOUT', href: about_path, hotkey: 'A' }
-  ] %>
+  <%= render 'shared/wrappers/W_NavigationItems', index: 0, items: navigation_items %>
 
   <% if is_day_page %>
     <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: filter_items, radio: true %>
