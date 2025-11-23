@@ -1,0 +1,126 @@
+<h1><%= t('admin.dashboard.title') %></h1>
+
+<h2><%= t('admin.dashboard.users.title') %></h2>
+<table>
+  <thead>
+    <tr>
+      <th><%= t('admin.dashboard.users.statistic') %></th>
+      <th><%= t('admin.dashboard.users.count') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= t('admin.dashboard.users.total') %></td>
+      <td><%= @stats[:users][:total] %></td>
+    </tr>
+    <tr>
+      <td><%= t('admin.dashboard.users.super_admins') %></td>
+      <td><%= @stats[:users][:super_admins] %></td>
+    </tr>
+    <tr>
+      <td><%= t('admin.dashboard.users.admins') %></td>
+      <td><%= @stats[:users][:admins] %></td>
+    </tr>
+    <tr>
+      <td><%= t('admin.dashboard.users.moderators') %></td>
+      <td><%= @stats[:users][:moderators] %></td>
+    </tr>
+    <tr>
+      <td><%= t('admin.dashboard.users.regular') %></td>
+      <td><%= @stats[:users][:regular] %></td>
+    </tr>
+    <tr>
+      <td><%= t('admin.dashboard.users.email_verified') %></td>
+      <td><%= @stats[:users][:email_verified] %></td>
+    </tr>
+    <tr>
+      <td><%= t('admin.dashboard.users.email_unverified') %></td>
+      <td><%= @stats[:users][:email_unverified] %></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2><%= t('admin.dashboard.content.title') %></h2>
+<table>
+  <thead>
+    <tr>
+      <th><%= t('admin.dashboard.content.statistic') %></th>
+      <th><%= t('admin.dashboard.content.count') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= t('admin.dashboard.content.days_total') %></td>
+      <td><%= @stats[:days][:total] %></td>
+    </tr>
+    <tr>
+      <td><%= t('admin.dashboard.content.days_visible') %></td>
+      <td><%= @stats[:days][:visible] %></td>
+    </tr>
+    <tr>
+      <td><%= t('admin.dashboard.content.days_expired') %></td>
+      <td><%= @stats[:days][:expired] %></td>
+    </tr>
+    <tr>
+      <td><%= t('admin.dashboard.content.articles_total') %></td>
+      <td><%= @stats[:articles][:total] %></td>
+    </tr>
+    <tr>
+      <td><%= t('admin.dashboard.content.content_items_total') %></td>
+      <td><%= @stats[:content_items][:total] %></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2><%= t('admin.dashboard.achievements.title') %></h2>
+<table>
+  <thead>
+    <tr>
+      <th><%= t('admin.dashboard.achievements.statistic') %></th>
+      <th><%= t('admin.dashboard.achievements.count') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= t('admin.dashboard.achievements.total') %></td>
+      <td><%= @stats[:achievements][:total] %></td>
+    </tr>
+    <tr>
+      <td><%= t('admin.dashboard.achievements.completed') %></td>
+      <td><%= @stats[:achievements][:completed] %></td>
+    </tr>
+    <tr>
+      <td><%= t('admin.dashboard.achievements.in_progress') %></td>
+      <td><%= @stats[:achievements][:in_progress] %></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2><%= t('admin.dashboard.recent_users.title') %></h2>
+<% if @stats[:recent_users].any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th><%= t('admin.dashboard.recent_users.role') %></th>
+        <th><%= t('admin.dashboard.recent_users.registered') %></th>
+        <th><%= t('admin.dashboard.recent_users.verified') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @stats[:recent_users].each do |user| %>
+        <tr>
+          <td><%= link_to user.email, admin_user_path(user) %></td>
+          <td><%= t("admin.users.roles.#{user.role}") %></td>
+          <td><%= l user.created_at.in_time_zone %></td>
+          <td><%= user.email_verified? ? t('admin.dashboard.recent_users.yes') : t('admin.dashboard.recent_users.no') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p><%= t('admin.dashboard.recent_users.none') %></p>
+<% end %>
+
+<p><%= link_to t('admin.dashboard.view_all_users'), admin_users_path %></p>
+

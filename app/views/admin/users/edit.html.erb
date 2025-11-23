@@ -1,0 +1,35 @@
+<h1><%= t('admin.users.edit.title') %></h1>
+
+<p><%= link_to t('admin.users.edit.back_to_user'), admin_user_path(@user) %> | <%= link_to t('admin.users.edit.back_to_list'), admin_users_path %></p>
+
+<%= form_with model: [:admin, @user], method: :patch do |f| %>
+  <% if @user.errors.any? %>
+    <div>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :email, t('admin.users.edit.email') %>
+    <%= f.email_field :email %>
+  </div>
+
+  <div>
+    <%= f.label :role, t('admin.users.edit.role') %>
+    <%= f.select :role, options_for_select(User.roles.map { |k, v| [t("admin.users.roles.#{k}"), k] }, @user.role) %>
+  </div>
+
+  <div>
+    <%= f.label :email_verified, t('admin.users.edit.email_verified') %>
+    <%= f.check_box :email_verified %>
+  </div>
+
+  <div>
+    <%= f.submit t('admin.users.edit.update') %>
+  </div>
+<% end %>
+

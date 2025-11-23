@@ -1,0 +1,54 @@
+<h1><%= t('admin.users.index.title') %></h1>
+
+<h2><%= t('admin.users.index.statistics') %></h2>
+<p>
+  <%= t('admin.users.index.total') %>: <%= @stats[:total] %> |
+  <%= t('admin.users.index.super_admins') %>: <%= @stats[:super_admins] %> |
+  <%= t('admin.users.index.admins') %>: <%= @stats[:admins] %> |
+  <%= t('admin.users.index.moderators') %>: <%= @stats[:moderators] %> |
+  <%= t('admin.users.index.regular') %>: <%= @stats[:regular] %>
+</p>
+
+<h2><%= t('admin.users.index.filters') %></h2>
+<p>
+  <%= link_to t('admin.users.index.all'), admin_users_path, class: (@role_filter.blank? ? 'active' : '') %> |
+  <%= link_to t('admin.users.index.super_admins'), admin_users_path(role: 'super_admin'), class: (@role_filter == 'super_admin' ? 'active' : '') %> |
+  <%= link_to t('admin.users.index.admins'), admin_users_path(role: 'admin'), class: (@role_filter == 'admin' ? 'active' : '') %> |
+  <%= link_to t('admin.users.index.moderators'), admin_users_path(role: 'moderator'), class: (@role_filter == 'moderator' ? 'active' : '') %> |
+  <%= link_to t('admin.users.index.regular'), admin_users_path(role: 'user'), class: (@role_filter == 'user' ? 'active' : '') %>
+</p>
+
+<% if @pagy.count > 0 %>
+  <p><%= @pagy.from %>-<%= @pagy.to %> из <%= @pagy.count %></p>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th><%= t('admin.users.index.role') %></th>
+      <th><%= t('admin.users.index.email_verified') %></th>
+      <th><%= t('admin.users.index.registered') %></th>
+      <th><%= t('admin.users.index.actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= link_to user.email, admin_user_path(user) %></td>
+        <td><%= t("admin.users.roles.#{user.role}") %></td>
+        <td><%= user.email_verified? ? t('admin.users.index.yes') : t('admin.users.index.no') %></td>
+        <td><%= l user.created_at.in_time_zone %></td>
+        <td>
+          <%= link_to t('admin.users.index.view'), admin_user_path(user) %> |
+          <%= link_to t('admin.users.index.edit'), edit_admin_user_path(user) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= pagy_nav(@pagy) if @pagy.pages > 1 %>
+
