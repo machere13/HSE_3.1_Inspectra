@@ -29,3 +29,14 @@
   border-color: var(--color-state-inactive);
   background: var(--color-secondary);
 }
+
+.A_Input:-webkit-autofill,
+.A_Input:-webkit-autofill:hover,
+.A_Input:-webkit-autofill:focus,
+.A_Input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--color-state-text-active);
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-background) inset;
+  box-shadow: 0 0 0px 1000px var(--color-background) inset;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: var(--color-state-text-active);
+}
