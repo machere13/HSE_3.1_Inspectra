@@ -12,6 +12,9 @@ class Ability
       can :manage, ContentItem
       can :read, :admin_panel
       can :manage, JwtSecretRotation
+      can :read, User
+      can :update, User
+      can :read, :admin_dashboard
     elsif user.moderator?
       can :read, Day
       can :update, Day

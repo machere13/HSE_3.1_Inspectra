@@ -52,6 +52,10 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    get 'dashboard', to: 'dashboard#index'
+    
+    resources :users, only: [:index, :show, :edit, :update]
+    
     resources :days do
       resources :articles
       resources :content_items
@@ -65,7 +69,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'admin', to: redirect('/admin/days')
+  get 'admin', to: redirect('/admin/dashboard')
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
