@@ -34,11 +34,11 @@ ru:
   articles:
     show:
       title: 'Статья'
-      back_to_day: 'Назад к %{day_title}'
+      back_to_week: 'Назад к %{week_title}'
       back_to_home: 'На главную'
-  days:
+  weeks:
     show:
-      title: 'День'
+      title: 'Неделя'
       back_to_home: 'На главную'
   layouts:
     application:

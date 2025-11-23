@@ -1,9 +1,9 @@
 <% is_home = request.path == '/' || request.path == '/pages/home' %>
-<% is_day_page = request.path.include?('/days/') %>
+<% is_week_page = request.path.include?('/weeks/') %>
 <% is_article_page = request.path.include?('/articles/') %>
 <% 
-  article_count = is_day_page && defined?(@day) ? @day.articles.count : 0
-  filter_items = is_day_page && defined?(@content_counts) ? [
+  article_count = is_week_page && defined?(@week) ? @week.articles.count : 0
+  filter_items = is_week_page && defined?(@content_counts) ? [
     { label: "Articles (#{article_count})", value: 'article', checked: false },
     { label: "Image (#{@content_counts['image'] || 0})", value: 'image', checked: false },
     { label: "GIF (#{@content_counts['gif'] || 0})", value: 'gif', checked: false },
@@ -23,7 +23,7 @@
 <div class="W_NavigationContent">
   <%= render 'shared/wrappers/W_NavigationItems', index: 0, items: navigation_items %>
 
-  <% if is_day_page %>
+  <% if is_week_page %>
     <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: filter_items, radio: true %>
   <% elsif !is_article_page %>
     <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: [
