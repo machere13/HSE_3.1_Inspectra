@@ -3,8 +3,8 @@ class PagesController < WebController
   before_action :authenticate_user!, only: [:profile]
 
   def home
-    @current_day = Day.visible_now.order(number: :desc).first
-    @expired_days = Day.where('expires_at <= ?', Time.current).order(number: :desc)
+    @current_week = Week.visible_now.order(number: :desc).first
+    @expired_weeks = Week.where('expires_at <= ?', Time.current).order(number: :desc)
   end
 
   def about

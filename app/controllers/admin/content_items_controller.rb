@@ -1,9 +1,9 @@
 class Admin::ContentItemsController < Admin::BaseController
-  before_action :set_day
+  before_action :set_week
   before_action :set_content_item, only: [:show, :edit, :update, :destroy]
 
   def index
-    @pagy, @content_items = pagy(@day.content_items.order(:position), items: 20)
+    @pagy, @content_items = pagy(@week.content_items.order(:position), items: 20)
     authorize! :read, ContentItem
   end
 
@@ -12,17 +12,17 @@ class Admin::ContentItemsController < Admin::BaseController
   end
 
   def new
-    @content_item = @day.content_items.new
+    @content_item = @week.content_items.new
     authorize! :create, @content_item
   end
 
   def create
     attrs = build_attributes_with_metadata
-    @content_item = @day.content_items.new(attrs)
+    @content_item = @week.content_items.new(attrs)
     authorize! :create, @content_item
     attach_file(@content_item)
     if @content_item.save
-      redirect_to admin_day_content_item_path(@day, @content_item), notice: 'Контент добавлен'
+      redirect_to admin_week_content_item_path(@week, @content_item), notice: 'Контент добавлен'
     else
       flash.now[:alert] = @content_item.errors.full_messages.join(', ')
       render :new, status: :unprocessable_entity
@@ -39,7 +39,7 @@ class Admin::ContentItemsController < Admin::BaseController
     @content_item.assign_attributes(attrs)
     attach_file(@content_item)
     if @content_item.save
-      redirect_to admin_day_content_item_path(@day, @content_item), notice: 'Контент обновлён'
+      redirect_to admin_week_content_item_path(@week, @content_item), notice: 'Контент обновлён'
     else
       flash.now[:alert] = @content_item.errors.full_messages.join(', ')
       render :edit, status: :unprocessable_entity
@@ -49,17 +49,17 @@ class Admin::ContentItemsController < Admin::BaseController
   def destroy
     authorize! :destroy, @content_item
     @content_item.destroy
-    redirect_to admin_day_content_items_path(@day), notice: 'Контент удалён'
+    redirect_to admin_week_content_items_path(@week), notice: 'Контент удалён'
   end
 
   private
 
-  def set_day
-    @day = Day.find_by!(number: params[:day_id]) rescue Day.find(params[:day_id])
+  def set_week
+    @week = Week.find_by!(number: params[:week_id]) rescue Week.find(params[:week_id])
   end
 
   def set_content_item
-    @content_item = @day.content_items.find(params[:id])
+    @content_item = @week.content_items.find(params[:id])
   end
 
   def content_item_params
@@ -79,7 +79,7 @@ class Admin::ContentItemsController < Admin::BaseController
         begin
           permitted[:metadata] = JSON.parse(raw)
         rescue JSON::ParserError
-          @content_item ||= @day.content_items.new(permitted)
+          @content_item ||= @week.content_items.new(permitted)
           @content_item.errors.add(:metadata, 'Некорректный JSON')
           raise ActiveRecord::RecordInvalid.new(@content_item)
         end

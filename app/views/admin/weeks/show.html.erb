@@ -1,0 +1,12 @@
+<h1>Неделя <%= @week.number %>: <%= @week.title %></h1>
+<p><%= simple_format @week.description %></p>
+<p><strong>Период:</strong> <%= l @week.published_at.in_time_zone %> — <%= l @week.expires_at.in_time_zone %></p>
+
+<p>
+  <%= link_to 'Редактировать', edit_admin_week_path(@week) %> |
+  <%= link_to 'Статьи', admin_week_articles_path(@week) %> |
+  <%= link_to 'Контент', admin_week_content_items_path(@week) %> |
+  <%= button_to 'Удалить', admin_week_path(@week), method: :delete, form: { data: { turbo_confirm: 'Точно удалить неделю?' }, style: 'display:inline' } %> |
+  <%= link_to 'Назад', admin_weeks_path %>
+  </p>
+

@@ -11,10 +11,10 @@ class Admin::DashboardController < Admin::BaseController
         email_verified: User.where(email_verified: true).count,
         email_unverified: User.where(email_verified: false).count
       },
-      days: {
-        total: Day.count,
-        visible: Day.visible_now.count,
-        expired: Day.where('expires_at <= ?', Time.current).count
+      weeks: {
+        total: Week.count,
+        visible: Week.visible_now.count,
+        expired: Week.where('expires_at <= ?', Time.current).count
       },
       articles: {
         total: Article.count

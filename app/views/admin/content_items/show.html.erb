@@ -10,9 +10,9 @@
 <% end %>
 
 <p>
-  <%= link_to 'Редактировать', edit_admin_day_content_item_path(@day, @content_item) %> |
-  <%= button_to 'Удалить', admin_day_content_item_path(@day, @content_item), method: :delete, form: { data: { turbo_confirm: 'Удалить этот контент?' }, style: 'display:inline' } %> |
-  <%= link_to 'Назад к списку', admin_day_content_items_path(@day) %>
+  <%= link_to 'Редактировать', edit_admin_week_content_item_path(@week, @content_item) %> |
+  <%= button_to 'Удалить', admin_week_content_item_path(@week, @content_item), method: :delete, form: { data: { turbo_confirm: 'Удалить этот контент?' }, style: 'display:inline' } %> |
+  <%= link_to 'Назад к списку', admin_week_content_items_path(@week) %>
 </p>
 
 

@@ -17,13 +17,13 @@ end
 
 puts "Создано достижений: #{Achievement.count}"
 
-if Day.count.zero?
-  day = Day.create!(
+if Week.count.zero?
+  week = Week.create!(
     number: 1,
-    title: 'День 1',
-    description: 'Описание дня 1'
+    title: 'Неделя 1',
+    description: 'Описание недели 1'
   )
-  article = Article.create!(day: day, title: 'Введение', body: 'Добро пожаловать! Это реальный контент без моков.')
-  ContentItem.create!(day: day, kind: 'article', position: 1, title: 'Статья дня', article: article)
-  puts 'Создан базовый день с одной статьёй.'
+  article = Article.create!(week: week, title: 'Введение', body: 'Добро пожаловать! Это реальный контент без моков.')
+  ContentItem.create!(week: week, kind: 'article', position: 1, title: 'Статья недели', article: article)
+  puts 'Создана базовая неделя с одной статьёй.'
 end
