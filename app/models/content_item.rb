@@ -1,11 +1,11 @@
 class ContentItem < ApplicationRecord
-  belongs_to :day
+  belongs_to :week
   has_one_attached :file
 
   KINDS = %w[image gif video audio link].freeze
 
   validates :kind, presence: true, inclusion: { in: KINDS }
-  validates :day, presence: true
+  validates :week, presence: true
   validates :position, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   validate :validate_payload

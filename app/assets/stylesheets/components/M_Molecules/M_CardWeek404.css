@@ -1,10 +1,10 @@
-.M_CardDay404{
+.M_CardWeek404{
     padding: var(--spacing-x2);
     background: var(--color-primary);
     max-width: 184px;
     width: 100%;
 }
 
-.M_CardDay404-Label{
+.M_CardWeek404-Label{
     color: var(--color-state-text-inactive);
 }

@@ -7,7 +7,7 @@ class Ability
     if user.super_admin?
       can :manage, :all
     elsif user.admin?
-      can :manage, Day
+      can :manage, Week
       can :manage, Article
       can :manage, ContentItem
       can :read, :admin_panel
@@ -16,14 +16,14 @@ class Ability
       can :update, User
       can :read, :admin_dashboard
     elsif user.moderator?
-      can :read, Day
-      can :update, Day
+      can :read, Week
+      can :update, Week
       can :read, Article
       can :update, Article
       can :read, ContentItem
       can :update, ContentItem
     else
-      can :read, Day
+      can :read, Week
       can :read, Article
       can :read, ContentItem
     end

@@ -7,28 +7,28 @@ _prev_enforce = I18n.enforce_available_locales
 I18n.enforce_available_locales = false
 
 def reset_mock_content
-  puts 'Очистка мок-данных (Days, Articles, ContentItems)...'
+  puts 'Очистка мок-данных (Weeks, Articles, ContentItems)...'
   ContentItem.delete_all
   Article.delete_all
-  Day.delete_all
+  Week.delete_all
 end
 
-def create_mock_days_with_content(total_days)
-  current_day = AppConfig::Content.current_day || 1
-  total_days.times do |i|
+def create_mock_weeks_with_content(total_weeks)
+  current_week = AppConfig::Content.current_week || 1
+  total_weeks.times do |i|
     number = i + 1
 
-    next if number > current_day
+    next if number > current_week
 
-    day = Day.create!(
+    week = Week.create!(
       number: number,
-      title: "Мок-День #{number}",
+      title: "Мок-Неделя #{number}",
       description: Faker::Lorem.paragraph(sentence_count: 1)
     )
 
         articles = Array.new(rand(2..4)) do |j|
           Article.create!(
-            day: day,
+            week: week,
             title: "Статья #{j+1}",
             body: Faker::Lorem.paragraphs(number: 3).join("\n\n")
           )
@@ -38,7 +38,7 @@ def create_mock_days_with_content(total_days)
         rand(4..10).times do |pos|
           kind = kinds.sample
           attrs = {
-            day: day,
+            week: week,
             kind: kind,
             position: pos,
             title: Faker::Lorem.sentence(word_count: 3).chomp('.')
@@ -81,9 +81,9 @@ def create_mock_days_with_content(total_days)
         end
   end
 
-  puts "Создано мок-дней: #{Day.count}, статей: #{Article.count}, контента: #{ContentItem.count}"
+  puts "Создано мок-недель: #{Week.count}, статей: #{Article.count}, контента: #{ContentItem.count}"
 end
 
 reset_mock_content
-create_mock_days_with_content(15)
+create_mock_weeks_with_content(15)
 I18n.enforce_available_locales = _prev_enforce

@@ -16,10 +16,10 @@
     <nav>
       <%= link_to t('admin.navigation.dashboard'), admin_dashboard_path %> |
       <%= link_to t('admin.navigation.users'), admin_users_path %> |
-      <%= link_to t('admin.navigation.days'), admin_days_path %> |
-      <% if defined?(@day) && @day&.persisted? %>
-        <%= link_to t('admin.navigation.articles'), admin_day_articles_path(@day) %> |
-        <%= link_to t('admin.navigation.content'), admin_day_content_items_path(@day) %>
+      <%= link_to t('admin.navigation.weeks'), admin_weeks_path %> |
+      <% if defined?(@week) && @week&.persisted? %>
+        <%= link_to t('admin.navigation.articles'), admin_week_articles_path(@week) %> |
+        <%= link_to t('admin.navigation.content'), admin_week_content_items_path(@week) %>
       <% end %>
       <span style="float:right"><%= link_to t('admin.navigation.to_site'), root_path %></span>
     </nav>

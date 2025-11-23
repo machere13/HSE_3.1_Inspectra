@@ -84,16 +84,16 @@ module AppConfig
   module Content
     extend self
 
-    def day_expiration_hours
-      ENV.fetch('DAY_EXPIRATION_HOURS', '24').to_i.hours
+    def week_expiration_hours
+      ENV.fetch('WEEK_EXPIRATION_HOURS', '168').to_i.hours
     end
 
-    def day_switch_hour
-      ENV.fetch('DAY_SWITCH_HOUR', '0').to_i
+    def week_switch_hour
+      ENV.fetch('WEEK_SWITCH_HOUR', '0').to_i
     end
 
-    def current_day
-      ENV.fetch('CURRENT_DAY', nil)&.to_i
+    def current_week
+      ENV.fetch('CURRENT_WEEK', nil)&.to_i
     end
   end
 

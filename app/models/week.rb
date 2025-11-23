@@ -1,4 +1,4 @@
-class Day < ApplicationRecord
+class Week < ApplicationRecord
   has_many :articles, dependent: :destroy
   has_many :content_items, dependent: :destroy
 
@@ -39,8 +39,9 @@ class Day < ApplicationRecord
     start_date = Rails.configuration.x.schedule.start_date
     switch_hour = Rails.configuration.x.schedule.switch_hour
 
-    base_start = Time.zone.local(start_date.year, start_date.month, start_date.day, switch_hour, 0) + (number.to_i - 1).days
+    base_start = Time.zone.local(start_date.year, start_date.month, start_date.day, switch_hour, 0) + (number.to_i - 1).weeks
     self.published_at ||= base_start
-    self.expires_at   ||= base_start + AppConfig::Content.day_expiration_hours
+    self.expires_at   ||= base_start + AppConfig::Content.week_expiration_hours
   end
 end
+

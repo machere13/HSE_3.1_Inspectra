@@ -4,16 +4,16 @@
         <div class="W_PageHeader-Console-Line text-p-2">>_ init system - media Inspectra</div>
         <div class="W_PageHeader-Console-Line text-p-2">>_ media_web</div>
         <div class="W_PageHeader-Console-Line text-p-2">>_ global_timer</div>
-        <div class="W_PageHeader-Console-Line text-p-2">[system] content expires in: <span data-countdown data-expires-at="<%= @current_day&.expires_at&.iso8601 %>"><%= @current_day ? @current_day.time_left : '00:00:00' %></span></div>
+        <div class="W_PageHeader-Console-Line text-p-2">[system] content expires in: <span data-countdown data-expires-at="<%= @current_week&.expires_at&.iso8601 %>"><%= @current_week ? @current_week.time_left : '00:00:00' %></span></div>
     </div>
   <% end %>
-  <div class="PageHome-Days-List">
-    <% if @current_day %>
-      <%= render 'pages/home/W_CardDayCurrent', day: @current_day %>
+  <div class="PageHome-Weeks-List">
+    <% if @current_week %>
+      <%= render 'pages/home/W_CardWeekCurrent', week: @current_week %>
     <% end %>
     
-    <% if @expired_days.any? %>
-      <%= render 'pages/home/W_CardsDay404', cards: @expired_days %>
+    <% if @expired_weeks.any? %>
+      <%= render 'pages/home/W_CardsWeek404', cards: @expired_weeks %>
     <% end %>
   </div>
 </div>

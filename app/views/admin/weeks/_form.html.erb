@@ -1,4 +1,4 @@
-<%= form_with model: [:admin, @day] do |f| %>
+<%= form_with model: [:admin, @week] do |f| %>
   <div>
     <%= f.label :number, 'Номер (1..15)' %><br/>
     <%= f.number_field :number, in: 1..15, step: 1 %>
@@ -11,17 +11,16 @@
     <%= f.label :description, 'Описание' %><br/>
     <%= f.text_area :description %>
   </div>
-  <% if @day.persisted? %>
+  <% if @week.persisted? %>
     <div>
-      <strong>Публикуется с:</strong> <%= l @day.published_at %>
+      <strong>Публикуется с:</strong> <%= l @week.published_at %>
     </div>
     <div>
-      <strong>Скрывается после:</strong> <%= l @day.expires_at %>
+      <strong>Скрывается после:</strong> <%= l @week.expires_at %>
     </div>
   <% end %>
   <div>
     <%= f.submit %>
   </div>
 <% end %>
-
 

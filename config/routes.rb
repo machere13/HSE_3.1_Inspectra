@@ -21,7 +21,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :days, only: [:index, :show] do
+      resources :weeks, only: [:index, :show] do
         resources :articles, only: [:index, :show]
         resources :content_items, only: [:index]
       end
@@ -47,7 +47,7 @@ Rails.application.routes.draw do
     post 'resend', to: 'auth#resend'
   end
   
-  resources :days, only: [:show] do
+  resources :weeks, only: [:show] do
     resources :articles, only: [:show]
   end
 
@@ -56,7 +56,7 @@ Rails.application.routes.draw do
     
     resources :users, only: [:index, :show, :edit, :update]
     
-    resources :days do
+    resources :weeks do
       resources :articles
       resources :content_items
     end

@@ -34,11 +34,11 @@ ru:
   articles:
     show:
       title: 'Статья'
-      back_to_day: 'Назад к %{day_title}'
+      back_to_week: 'Назад к %{week_title}'
       back_to_home: 'На главную'
-  days:
+  weeks:
     show:
-      title: 'День'
+      title: 'Неделя'
       back_to_home: 'На главную'
   layouts:
     application:
@@ -106,7 +106,7 @@ ru:
     navigation:
       dashboard: 'Панель управления'
       users: 'Пользователи'
-      days: 'Дни'
+      weeks: 'Недели'
       articles: 'Статьи'
       content: 'Контент'
       to_site: 'На сайт'
@@ -127,9 +127,9 @@ ru:
         title: 'Контент'
         statistic: 'Статистика'
         count: 'Количество'
-        days_total: 'Всего дней'
-        days_visible: 'Видимых дней'
-        days_expired: 'Истекших дней'
+        weeks_total: 'Всего недель'
+        weeks_visible: 'Видимых недель'
+        weeks_expired: 'Истекших недель'
         articles_total: 'Всего статей'
         content_items_total: 'Всего элементов контента'
       achievements:

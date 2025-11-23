@@ -4,7 +4,7 @@
         <div class="W_PageHeader-Console-Line text-p-2">>_ init system - media Inspectra</div>
         <div class="W_PageHeader-Console-Line text-p-2">>_ media_web</div>
         <div class="W_PageHeader-Console-Line text-p-2">>_ global_timer</div>
-        <div class="W_PageHeader-Console-Line text-p-2">[system] content expires in: <span data-countdown data-expires-at="<%= @day&.expires_at&.iso8601 %>" class="timer-value"><%= @day ? @day.time_left : '00:00:00' %></span></div>
+        <div class="W_PageHeader-Console-Line text-p-2">[system] content expires in: <span data-countdown data-expires-at="<%= @week&.expires_at&.iso8601 %>" class="timer-value"><%= @week ? @week.time_left : '00:00:00' %></span></div>
     </div>
     <h3><%= @article.title %></h3>
     <h4><%= @article.description %></h4>
