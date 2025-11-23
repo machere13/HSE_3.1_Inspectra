@@ -8,8 +8,8 @@
  *= require ./W_FAQConsole
  *= require ./W_FAQCode
  *= require ./W_InputPassword
- *= require ./W_CardsDay404
- *= require ./W_CardDayCurrent
+ *= require ./W_CardsWeek404
+ *= require ./W_CardWeekCurrent
  *= require ./W_PageHeader
  *= require ./W_Checkbox
  *= require ./W_ErrorConsole

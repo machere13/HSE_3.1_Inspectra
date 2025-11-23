@@ -1,4 +1,4 @@
-.W_CardDayCurrent{
+.W_CardWeekCurrent{
     padding: var(--spacing-x2) var(--spacing-x4);
     border-left: var(--border-x05) dashed var(--color-border-primary);
     width: 100%;
