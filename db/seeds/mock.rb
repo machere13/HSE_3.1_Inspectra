@@ -84,6 +84,60 @@ def create_mock_weeks_with_content(total_weeks)
   puts "Создано мок-недель: #{Week.count}, статей: #{Article.count}, контента: #{ContentItem.count}"
 end
 
+def create_mock_titles
+  puts 'Создание мок-титулов...'
+  
+  titles_data = [
+    { name: 'Новичок', description: 'Ваш первый титул' },
+    { name: 'Искатель', description: 'За активное участие' },
+    { name: 'Мастер', description: 'За выдающиеся достижения' },
+    { name: 'Легенда', description: 'За невероятные заслуги' },
+    { name: 'Эксперт', description: 'За глубокие знания' },
+    { name: 'Пионер', description: 'За первопроходство' },
+    { name: 'Хранитель', description: 'За сохранение традиций' }
+  ]
+  
+  titles_data.each do |title_data|
+    Title.find_or_create_by!(name: title_data[:name]) do |title|
+      title.description = title_data[:description]
+    end
+  end
+  
+  puts "Создано титулов: #{Title.count}"
+end
+
+def give_titles_to_users
+  puts 'Выдача титулов пользователям...'
+  
+  titles = Title.all
+  users = User.all
+  
+  return if titles.empty? || users.empty?
+  
+  users.each do |user|
+    num_titles = rand(1..3)
+    selected_titles = titles.sample(num_titles)
+    
+    selected_titles.each do |title|
+      unless user.has_title?(title)
+        UserTitle.create!(
+          user: user,
+          title: title,
+          earned_at: rand(1..30).days.ago
+        )
+      end
+    end
+    
+    if user.titles.any? && user.current_title.nil?
+      user.update!(current_title: user.titles.first)
+    end
+  end
+  
+  puts "Выдано титулов пользователям: #{UserTitle.count}"
+end
+
 reset_mock_content
 create_mock_weeks_with_content(15)
+create_mock_titles
+give_titles_to_users
 I18n.enforce_available_locales = _prev_enforce

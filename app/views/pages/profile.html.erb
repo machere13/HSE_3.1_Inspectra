@@ -3,6 +3,9 @@
     <div class="PageProfile-Section-Title">
       <h1><%= t('pages.profile.title') %></h1>
       <p class="text-p-2"><%= @user.email %></p>
+      <% if @user.current_title %>
+        <p class="text-p-2"><%= t('pages.profile.current_title') %>: <strong><%= @user.current_title.name %></strong></p>
+      <% end %>
     </div>
 
     <div class="PageProfile-Section-Content">
@@ -44,6 +47,37 @@
                 <span class="text-caption"><%= t('pages.profile.achievements.in_progress.progress', progress: user_achievement.progress) %>%</span>
               </div>
             <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <% if @available_titles.any? %>
+        <div class="PageProfile-Section-Content-Plate">
+          <h3 class="text-h3"><%= t('pages.profile.titles.title') %></h3>
+          <div class="PageProfile-Titles">
+            <% @available_titles.each do |title| %>
+              <div class="PageProfile-Title <%= 'PageProfile-Title--selected' if @user.current_title_id == title.id %>">
+                <span class="text-p-2"><%= title.name %></span>
+                <% if @user.current_title_id == title.id %>
+                  <span class="text-caption"><%= t('pages.profile.titles.selected') %></span>
+                <% else %>
+                  <%= form_with url: select_title_path, method: :patch, local: true do |f| %>
+                    <%= f.hidden_field :title_id, value: title.id %>
+                    <%= f.submit t('pages.profile.titles.select'), class: 'PageProfile-Title-Select' %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% elsif @user.current_title %>
+        <div class="PageProfile-Section-Content-Plate">
+          <h3 class="text-h3"><%= t('pages.profile.titles.title') %></h3>
+          <div class="PageProfile-Titles">
+            <div class="PageProfile-Title PageProfile-Title--selected">
+              <span class="text-p-2"><%= @user.current_title.name %></span>
+              <span class="text-caption"><%= t('pages.profile.titles.selected') %></span>
+            </div>
           </div>
         </div>
       <% end %>
