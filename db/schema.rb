@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_23_203629) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_24_193341) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -218,6 +218,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_23_203629) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
+  create_table "titles", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_titles_on_name", unique: true
+  end
+
   create_table "user_achievements", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "achievement_id", null: false
@@ -227,6 +235,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_23_203629) do
     t.datetime "updated_at", null: false
     t.index ["achievement_id"], name: "index_user_achievements_on_achievement_id"
     t.index ["user_id"], name: "index_user_achievements_on_user_id"
+  end
+
+  create_table "user_titles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "title_id", null: false
+    t.datetime "earned_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["title_id"], name: "index_user_titles_on_title_id"
+    t.index ["user_id", "title_id"], name: "index_user_titles_on_user_id_and_title_id", unique: true
+    t.index ["user_id"], name: "index_user_titles_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -242,7 +261,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_23_203629) do
     t.datetime "reset_password_requested_at"
     t.boolean "admin", default: false, null: false
     t.integer "role", default: 0, null: false
+    t.bigint "current_title_id"
     t.index ["admin"], name: "index_users_on_admin"
+    t.index ["current_title_id"], name: "index_users_on_current_title_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role"], name: "index_users_on_role"
@@ -275,4 +296,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_23_203629) do
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "user_achievements", "achievements"
   add_foreign_key "user_achievements", "users"
+  add_foreign_key "user_titles", "titles"
+  add_foreign_key "user_titles", "users"
+  add_foreign_key "users", "titles", column: "current_title_id"
 end

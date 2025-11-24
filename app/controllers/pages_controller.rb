@@ -1,6 +1,6 @@
 class PagesController < WebController
   layout :determine_layout
-  before_action :authenticate_user!, only: [:profile]
+  before_action :authenticate_user!, only: [:profile, :select_title]
 
   def home
     @current_week = Week.visible_now.order(number: :desc).first
@@ -17,6 +17,19 @@ class PagesController < WebController
     @user = current_user
     @completed_achievements = @user.completed_achievements
     @in_progress_achievements = @user.in_progress_achievements
+    @available_titles = @user.available_titles
+  end
+  
+  def select_title
+    @user = current_user
+    title = Title.find(params[:title_id])
+    
+    begin
+      @user.select_title!(title)
+      redirect_to profile_path, notice: t('pages.profile.title_selected', title: title.name)
+    rescue ArgumentError
+      redirect_to profile_path, alert: t('pages.profile.title_not_available')
+    end
   end
 
 private

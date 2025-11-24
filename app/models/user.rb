@@ -4,6 +4,10 @@ class User < ApplicationRecord
   has_many :user_achievements, dependent: :destroy
   has_many :achievements, through: :user_achievements
   
+  has_many :user_titles, dependent: :destroy
+  has_many :titles, through: :user_titles
+  belongs_to :current_title, class_name: 'Title', optional: true
+  
   enum :role, {
     user: 0,
     moderator: 1,
@@ -50,6 +54,23 @@ class User < ApplicationRecord
   
   def has_achievement?(achievement)
     user_achievements.exists?(achievement: achievement, completed_at: ..Time.current)
+  end
+  
+  def has_title?(title)
+    user_titles.exists?(title: title)
+  end
+  
+  def available_titles
+    Title.joins(:user_titles).where(user_titles: { user_id: id }).order('user_titles.earned_at DESC')
+  end
+  
+  def select_title!(title)
+    raise ArgumentError unless has_title?(title)
+    update!(current_title: title)
+  end
+  
+  def current_title_name
+    current_title&.name
   end
   
   private

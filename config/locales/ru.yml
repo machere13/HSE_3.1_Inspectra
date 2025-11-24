@@ -21,6 +21,8 @@ ru:
       back_to_home: 'На главную'
     profile:
       title: 'Профиль'
+      current_title: 'Текущий титул'
+      title_selected: 'Титул "%{title}" выбран'
       stats:
         title: 'Статистика'
         completed_achievements: 'Завершённых достижений'
@@ -31,6 +33,12 @@ ru:
         in_progress:
           title: 'Достижения в процессе'
           progress: 'Прогресс: %{progress}%'
+      titles:
+        title: 'Титулы'
+        selected: 'Выбран'
+        select: 'Выбрать'
+        no_titles: 'Нет доступных титулов'
+      title_not_available: 'Титул не доступен'
   articles:
     show:
       title: 'Статья'
