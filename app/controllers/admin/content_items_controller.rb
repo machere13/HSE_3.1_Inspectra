@@ -21,6 +21,7 @@ class Admin::ContentItemsController < Admin::BaseController
     @content_item = @week.content_items.new(attrs)
     authorize! :create, @content_item
     attach_file(@content_item)
+    detect_kind_if_blank(@content_item)
     if @content_item.save
       redirect_to admin_week_content_item_path(@week, @content_item), notice: 'Контент добавлен'
     else
@@ -38,6 +39,7 @@ class Admin::ContentItemsController < Admin::BaseController
     attrs = build_attributes_with_metadata
     @content_item.assign_attributes(attrs)
     attach_file(@content_item)
+    detect_kind_if_blank(@content_item)
     if @content_item.save
       redirect_to admin_week_content_item_path(@week, @content_item), notice: 'Контент обновлён'
     else
@@ -63,7 +65,7 @@ class Admin::ContentItemsController < Admin::BaseController
   end
 
   def content_item_params
-    params.require(:content_item).permit(:kind, :title, :body, :url, :position, :article_id)
+    params.require(:content_item).permit(:title, :body, :url, :position, :article_id)
   end
 
   def build_attributes_with_metadata
@@ -95,7 +97,41 @@ class Admin::ContentItemsController < Admin::BaseController
   def attach_file(record)
     uploaded = params.dig(:content_item, :file)
     return unless uploaded.present?
+    
     record.file.attach(uploaded)
+  end
+
+  def detect_kind_if_blank(record)
+    return if record.kind.present?
+    
+    uploaded = params.dig(:content_item, :file)
+    
+    if uploaded.present?
+      detected_kind = detect_file_kind_from_upload(uploaded)
+      record.kind = detected_kind if detected_kind
+    elsif record.url.present?
+      record.kind = 'link'
+    end
+  end
+
+  def detect_file_kind_from_upload(uploaded_file)
+    return nil unless uploaded_file.respond_to?(:content_type)
+    
+    content_type = uploaded_file.content_type
+    return nil if content_type.blank?
+    
+    case content_type
+    when /^image\/gif/
+      'gif'
+    when /^image\//
+      'image'
+    when /^video\//
+      'video'
+    when /^audio\//
+      'audio'
+    else
+      nil
+    end
   end
 end
 
