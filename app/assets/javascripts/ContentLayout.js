@@ -4,11 +4,11 @@
   }
 
   function placeRandom(){
-    const container = document.querySelector('.PageDay-Content');
+    const container = document.querySelector('.PageWeek-Content');
     if (!container) return;
     container.style.position = 'relative';
 
-    const items = Array.from(container.querySelectorAll('.PageDay-Content-Item'))
+    const items = Array.from(container.querySelectorAll('.PageWeek-Content-Item'))
       .filter((n) => n.querySelector('.M_ContentCard'));
 
     items.forEach((item) => {

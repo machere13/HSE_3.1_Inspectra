@@ -1,5 +1,4 @@
-
-.PageDay{
+.PageWeek{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -11,6 +10,6 @@
     padding: 0 var(--spacing-x4);
 }
   
-.PageDay-Content{
+.PageWeek-Content{
     flex: 1 1 auto;
 }
