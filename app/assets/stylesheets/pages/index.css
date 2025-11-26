@@ -3,7 +3,7 @@
  *= require ./home
  *= require ./about
  *= require ./article
- *= require ./day
+ *= require ./week
  *= require ./not-found
  *= require ./auth
  *= require ./profile

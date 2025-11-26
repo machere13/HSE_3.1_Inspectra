@@ -2,7 +2,7 @@
   function makeDraggable(item){
     const handle = item.querySelector('.M_ContentCard-Handle');
     if (!handle) return;
-    const container = item.closest('.PageDay-Content');
+    const container = item.closest('.PageWeek-Content');
     if (!container) return;
 
     let startX = 0, startY = 0, origLeft = 0, origTop = 0, dragging = false;
@@ -50,7 +50,7 @@
   }
 
   function init(){
-    document.querySelectorAll('.PageDay-Content .PageDay-Content-Item').forEach((item)=>{
+    document.querySelectorAll('.PageWeek-Content .PageWeek-Content-Item').forEach((item)=>{
       if (item.querySelector('.M_ContentCard') || item.querySelector('.O_ArticleCard')){
         item.style.position = item.style.position || 'absolute';
         makeDraggable(item);
