@@ -49,6 +49,13 @@ class AuthController < WebController
   def forgot; end
   def reset
     @token = params[:token]
+    if current_user && @token.present?
+      user = User.find_by(reset_password_token: @token)
+      if user && user.id == current_user.id && user.reset_token_valid?
+        redirect_to profile_path(token: @token)
+        return
+      end
+    end
   end
 
   def verify_submit
@@ -135,7 +142,7 @@ class AuthController < WebController
       end
 
       user.generate_reset_password_token!
-      ResetPasswordMailer.with(user: user).reset_instructions.deliver_later
+      ResetPasswordMailer.with(user: user).reset_instructions.deliver_now
     end
 
     flash[:notice] = t('auth.flashes.if_email_exists_sent_link')
@@ -175,7 +182,11 @@ class AuthController < WebController
     user.password_confirmation = password_confirmation
     if user.save
       user.clear_reset_password_token!
-      redirect_to root_path, notice: t('auth.flashes.password_updated')
+      if current_user && current_user.id == user.id
+        redirect_to profile_path, notice: t('auth.flashes.password_updated')
+      else
+        redirect_to root_path, notice: t('auth.flashes.password_updated')
+      end
     else
       flash.now[:alert] = user.errors.full_messages.join(', ')
       @token = token

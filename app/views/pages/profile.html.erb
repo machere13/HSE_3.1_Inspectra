@@ -6,7 +6,13 @@
           <img src="<%= @user.avatar %>" alt="<%= @user.name || @user.email %>" class="PageProfile-Avatar" />
         <% end %>
         <div class="PageProfile-Header-Info">
-          <h1><%= @user.name.presence || t('pages.profile.no_name') %></h1>
+          <div class="PageProfile-Name">
+            <h1><%= @user.name.presence || t('pages.profile.no_name') %></h1>
+            <%= form_with url: update_name_path, method: :patch, local: true, class: 'PageProfile-Name-Form' do |f| %>
+              <%= f.text_field :name, value: @user.name, placeholder: t('pages.profile.name_placeholder'), class: 'PageProfile-Name-Input text-p-2', maxlength: 50 %>
+              <%= f.submit t('pages.profile.update_name'), class: 'PageProfile-Name-Submit text-button' %>
+            <% end %>
+          </div>
           <p class="text-p-2"><%= @user.email %></p>
           <% if @user.current_title %>
             <p class="text-p-2"><%= t('pages.profile.current_title') %>: <strong><%= @user.current_title.name %></strong></p>
@@ -16,6 +22,24 @@
     </div>
 
     <div class="PageProfile-Section-Content">
+      <div class="PageProfile-Section-Content-Plate">
+        <h3 class="text-h3"><%= t('pages.profile.password_change.title') %></h3>
+        <% if @show_reset_form %>
+          <p class="text-p-2"><%= t('pages.profile.password_change.reset_description') %></p>
+          <%= form_with url: reset_path, method: :post, local: true, html: { autocomplete: 'off', class: 'PageProfile-Password-Form' } do |f| %>
+            <%= hidden_field_tag :token, @reset_token %>
+            <div class="PageProfile-Password-Fields">
+              <%= render 'shared/wrappers/W_InputPassword', name: 'password', required: true, autocomplete: 'new-password', placeholder: t('pages.profile.password_change.new_password_placeholder') %>
+              <%= render 'shared/wrappers/W_InputPassword', name: 'password_confirmation', required: true, autocomplete: 'new-password', placeholder: t('pages.profile.password_change.password_confirmation_placeholder') %>
+            </div>
+            <%= render 'shared/atoms/A_Button', type: 'submit', label: t('pages.profile.password_change.submit') %>
+          <% end %>
+        <% else %>
+          <p class="text-p-2"><%= t('pages.profile.password_change.description') %></p>
+          <%= button_to t('pages.profile.password_change.send_email'), request_password_change_path, method: :post, class: 'A_Button text-button', form_class: 'PageProfile-Password-Email-Form' %>
+        <% end %>
+      </div>
+
       <div class="PageProfile-Section-Content-Plate">
         <h3 class="text-h3"><%= t('pages.profile.stats.title') %></h3>
         <div class="PageProfile-Stats">

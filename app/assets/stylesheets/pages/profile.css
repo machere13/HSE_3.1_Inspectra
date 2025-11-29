@@ -67,3 +67,19 @@
     border: var(--border-x025) solid var(--color-border-secondary);
 }
 
+.PageProfile-Password-Email-Form{
+    display: inline-block;
+}
+
+.PageProfile-Password-Form{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x6);
+}
+
+.PageProfile-Password-Fields{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x4);
+}
+
