@@ -1,11 +1,18 @@
 <div class="PageProfile">
   <section class="PageProfile-Section-Main">
     <div class="PageProfile-Section-Title">
-      <h1><%= t('pages.profile.title') %></h1>
-      <p class="text-p-2"><%= @user.email %></p>
-      <% if @user.current_title %>
-        <p class="text-p-2"><%= t('pages.profile.current_title') %>: <strong><%= @user.current_title.name %></strong></p>
-      <% end %>
+      <div class="PageProfile-Header">
+        <% if @user.avatar.present? %>
+          <img src="<%= @user.avatar %>" alt="<%= @user.name || @user.email %>" class="PageProfile-Avatar" />
+        <% end %>
+        <div class="PageProfile-Header-Info">
+          <h1><%= @user.name.presence || t('pages.profile.no_name') %></h1>
+          <p class="text-p-2"><%= @user.email %></p>
+          <% if @user.current_title %>
+            <p class="text-p-2"><%= t('pages.profile.current_title') %>: <strong><%= @user.current_title.name %></strong></p>
+          <% end %>
+        </div>
+      </div>
     </div>
 
     <div class="PageProfile-Section-Content">
