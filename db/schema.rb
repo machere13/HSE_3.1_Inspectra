@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_24_193341) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_29_130834) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -262,6 +262,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_24_193341) do
     t.boolean "admin", default: false, null: false
     t.integer "role", default: 0, null: false
     t.bigint "current_title_id"
+    t.string "name"
+    t.string "avatar"
     t.index ["admin"], name: "index_users_on_admin"
     t.index ["current_title_id"], name: "index_users_on_current_title_id"
     t.index ["email"], name: "index_users_on_email", unique: true
