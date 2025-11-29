@@ -23,6 +23,10 @@ ru:
       title: 'Профиль'
       current_title: 'Текущий титул'
       title_selected: 'Титул "%{title}" выбран'
+      no_name: 'Без имени'
+      name_placeholder: 'Введите имя'
+      update_name: 'Изменить'
+      name_updated: 'Имя обновлено'
       stats:
         title: 'Статистика'
         completed_achievements: 'Завершённых достижений'

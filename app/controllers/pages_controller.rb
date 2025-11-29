@@ -1,6 +1,6 @@
 class PagesController < WebController
   layout :determine_layout
-  before_action :authenticate_user!, only: [:profile, :select_title]
+  before_action :authenticate_user!, only: [:profile, :select_title, :update_name]
 
   def home
     @current_week = Week.visible_now.order(number: :desc).first
@@ -29,6 +29,15 @@ class PagesController < WebController
       redirect_to profile_path, notice: t('pages.profile.title_selected', title: title.name)
     rescue ArgumentError
       redirect_to profile_path, alert: t('pages.profile.title_not_available')
+    end
+  end
+
+  def update_name
+    @user = current_user
+    if @user.update(name: params[:name])
+      redirect_to profile_path, notice: t('pages.profile.name_updated')
+    else
+      redirect_to profile_path, alert: @user.errors.full_messages.join(', ')
     end
   end
 

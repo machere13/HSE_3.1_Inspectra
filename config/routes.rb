@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   get 'about', to: 'pages#about'
   get 'profile', to: 'pages#profile'
   patch 'profile/select_title', to: 'pages#select_title', as: 'select_title'
+  patch 'profile/update_name', to: 'pages#update_name', as: 'update_name'
   get 'auth', to: redirect('/auth/login')
   get 'reset_password', to: 'auth#reset'
   scope :auth do

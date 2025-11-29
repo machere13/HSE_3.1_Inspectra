@@ -6,7 +6,13 @@
           <img src="<%= @user.avatar %>" alt="<%= @user.name || @user.email %>" class="PageProfile-Avatar" />
         <% end %>
         <div class="PageProfile-Header-Info">
-          <h1><%= @user.name.presence || t('pages.profile.no_name') %></h1>
+          <div class="PageProfile-Name">
+            <h1><%= @user.name.presence || t('pages.profile.no_name') %></h1>
+            <%= form_with url: update_name_path, method: :patch, local: true, class: 'PageProfile-Name-Form' do |f| %>
+              <%= f.text_field :name, value: @user.name, placeholder: t('pages.profile.name_placeholder'), class: 'PageProfile-Name-Input text-p-2', maxlength: 50 %>
+              <%= f.submit t('pages.profile.update_name'), class: 'PageProfile-Name-Submit text-button' %>
+            <% end %>
+          </div>
           <p class="text-p-2"><%= @user.email %></p>
           <% if @user.current_title %>
             <p class="text-p-2"><%= t('pages.profile.current_title') %>: <strong><%= @user.current_title.name %></strong></p>
