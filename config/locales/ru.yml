@@ -27,6 +27,15 @@ ru:
       name_placeholder: 'Введите имя'
       update_name: 'Изменить'
       name_updated: 'Имя обновлено'
+      password_change:
+        title: 'Смена пароля'
+        description: 'Мы отправим ссылку для смены пароля на вашу почту'
+        reset_description: 'Введите новый пароль'
+        new_password_placeholder: 'Новый пароль'
+        password_confirmation_placeholder: 'Подтвердите новый пароль'
+        submit: 'Изменить пароль'
+        send_email: 'Отправить ссылку на почту'
+        email_sent: 'Ссылка для смены пароля отправлена на вашу почту'
       stats:
         title: 'Статистика'
         completed_achievements: 'Завершённых достижений'
