@@ -2,9 +2,19 @@
   <section class="PageProfile-Section-Main">
     <div class="PageProfile-Section-Title">
       <div class="PageProfile-Header">
-        <% if @user.avatar.present? %>
-          <img src="<%= @user.avatar %>" alt="<%= @user.name || @user.email %>" class="PageProfile-Avatar" />
-        <% end %>
+        <div class="PageProfile-Avatar-Wrapper">
+          <% if @user.avatar.attached? %>
+            <%= image_tag @user.avatar, alt: @user.name || @user.email, class: 'PageProfile-Avatar' %>
+          <% elsif @user.avatar.present? %>
+            <img src="<%= @user.avatar %>" alt="<%= @user.name || @user.email %>" class="PageProfile-Avatar" />
+          <% end %>
+          <%= form_with url: update_avatar_path, method: :patch, local: true, multipart: true, class: 'PageProfile-Avatar-Form' do |f| %>
+            <%= f.file_field :avatar, accept: 'image/*', class: 'PageProfile-Avatar-Input', id: 'avatar-upload' %>
+            <label for="avatar-upload" class="PageProfile-Avatar-Label">
+              <span class="text-caption"><%= t('pages.profile.avatar.change') %></span>
+            </label>
+          <% end %>
+        </div>
         <div class="PageProfile-Header-Info">
           <div class="PageProfile-Name">
             <h1><%= @user.name.presence || t('pages.profile.no_name') %></h1>

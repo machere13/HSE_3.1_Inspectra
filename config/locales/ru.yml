@@ -27,6 +27,10 @@ ru:
       name_placeholder: 'Введите имя'
       update_name: 'Изменить'
       name_updated: 'Имя обновлено'
+      avatar:
+        change: 'Изменить'
+        updated: 'Аватар обновлён'
+        required: 'Выберите файл'
       password_change:
         title: 'Смена пароля'
         description: 'Мы отправим ссылку для смены пароля на вашу почту'

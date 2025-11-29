@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :titles, through: :user_titles
   belongs_to :current_title, class_name: 'Title', optional: true
   
+  has_one_attached :avatar
+  
   enum :role, {
     user: 0,
     moderator: 1,

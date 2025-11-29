@@ -14,6 +14,7 @@
 //= require ./ContentLayout
 //= require ./ContentDraggable
 //= require ./ContentPreview
+//= require ./PageProfile
 
 (function(){
     
