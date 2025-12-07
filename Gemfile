@@ -44,6 +44,10 @@ gem "cancancan"
 # Pagination
 gem "pagy", "~> 8.0"
 
+# Error tracking and performance monitoring
+gem "sentry-ruby"
+gem "sentry-rails"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

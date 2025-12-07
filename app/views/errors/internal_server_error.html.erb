@@ -1,0 +1,12 @@
+<div class="PageNotFound">
+  <%= render 'shared/organisms/O_HeaderPlug' %>
+  <div class="PageNotFound-Content">
+    <h1 class="PageNotFound-Title">ERROR500</h1>
+    <%= render 'errors/W_ErrorConsole', title: '[error]', error: '500_internal_server_error', response: '>_ An internal server error occurred
+>_ Status: 500 Internal Server Error
+>_ Solution: The error has been reported. Please try again later or return to homepage' %>
+  </div>
+  <%= render 'shared/atoms/A_InspectraBackground' %>
+  <%= render 'shared/collections/C_DotsPlug' %>
+</div>
+

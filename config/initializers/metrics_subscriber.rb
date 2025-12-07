@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Metrics subscriber for collecting performance metrics
-# Tracks database queries, view rendering, and other operations
 ActiveSupport::Notifications.subscribe('process_action.action_controller') do |name, start, finish, id, payload|
   Thread.current[:request_id] = payload[:request_id]
   
@@ -45,11 +43,18 @@ end
 ActiveSupport::Notifications.subscribe('exception.action_controller') do |name, start, finish, id, payload|
   exception = payload[:exception]
   
+  exception_obj = exception.is_a?(Array) ? exception[1] : exception
+  exception_class = exception.is_a?(Array) ? exception[0] : exception.class.name
+  
+  if defined?(Sentry) && exception_obj
+    Sentry.capture_exception(exception_obj)
+  end
+  
   Rails.logger.error({
     event: 'exception',
-    exception_class: exception.class.name,
-    exception_message: exception.message,
-    backtrace: exception.backtrace&.first(5),
+    exception_class: exception_class,
+    exception_message: exception_obj&.message,
+    backtrace: exception_obj&.backtrace&.first(5),
     controller: payload[:controller],
     action: payload[:action],
     request_id: payload[:request_id]
