@@ -1,6 +1,6 @@
 class PagesController < WebController
   layout :determine_layout
-  before_action :authenticate_user!, only: [:profile, :select_title, :update_name, :request_password_change]
+  before_action :authenticate_user!, only: [:profile, :select_title, :update_name, :update_avatar, :request_password_change]
 
   def home
     @current_week = Week.visible_now.order(number: :desc).first
@@ -42,6 +42,24 @@ class PagesController < WebController
       redirect_to profile_path, notice: t('pages.profile.name_updated')
     else
       redirect_to profile_path, alert: @user.errors.full_messages.join(', ')
+    end
+  end
+
+  def update_avatar
+    @user = current_user
+    avatar_param = params[:avatar] || params.dig(:user, :avatar)
+    if avatar_param.present?
+      @user.avatar.attach(avatar_param)
+      if @user.avatar.attached?
+        Rails.logger.info "Avatar attached successfully: #{@user.avatar.blob.filename}, URL: #{url_for(@user.avatar)}"
+        redirect_to profile_path, notice: t('pages.profile.avatar.updated')
+      else
+        Rails.logger.error "Failed to attach avatar"
+        redirect_to profile_path, alert: 'Ошибка при загрузке аватара'
+      end
+    else
+      Rails.logger.error "Avatar param missing. Params: #{params.keys.inspect}"
+      redirect_to profile_path, alert: t('pages.profile.avatar.required')
     end
   end
 

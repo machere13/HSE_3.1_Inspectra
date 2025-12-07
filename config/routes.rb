@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  if defined?(ActiveStorage::Engine)
+    mount ActiveStorage::Engine => '/rails/active_storage'
+  end
+  
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   
@@ -35,6 +39,7 @@ Rails.application.routes.draw do
   get 'profile', to: 'pages#profile'
   patch 'profile/select_title', to: 'pages#select_title', as: 'select_title'
   patch 'profile/update_name', to: 'pages#update_name', as: 'update_name'
+  patch 'profile/update_avatar', to: 'pages#update_avatar', as: 'update_avatar'
   post 'profile/request_password_change', to: 'pages#request_password_change', as: 'request_password_change'
   get 'auth', to: redirect('/auth/login')
   get 'reset_password', to: 'auth#reset'
@@ -83,6 +88,6 @@ Rails.application.routes.draw do
   root 'pages#home'
 
   # Catch-all for non-existent routes (must be last)
-  match '*unmatched', to: 'errors#not_found', via: :all
+  match '*unmatched', to: 'errors#not_found', via: :all, constraints: lambda { |req| !req.path.start_with?('/rails/active_storage') }
 
 end

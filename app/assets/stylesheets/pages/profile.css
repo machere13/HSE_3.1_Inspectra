@@ -83,3 +83,101 @@
     gap: var(--spacing-x4);
 }
 
+.PageProfile-Header{
+    display: flex;
+    gap: var(--spacing-x6);
+    align-items: flex-start;
+}
+
+.PageProfile-Avatar-Wrapper{
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.PageProfile-Avatar{
+    width: 80px;
+    height: 80px;
+    border-radius: var(--border-radius-x2);
+    object-fit: cover;
+    border: var(--border-x05) solid var(--color-border-primary);
+    display: block;
+}
+
+.PageProfile-Avatar--placeholder{
+    background: var(--color-secondary);
+    border: var(--border-x05) solid var(--color-border-primary);
+}
+
+.PageProfile-Avatar-Form{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.PageProfile-Avatar-Input{
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.PageProfile-Avatar-Label{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-x1);
+    background: var(--color-background-overlay);
+    border-radius: 0 0 var(--border-radius-x2) var(--border-radius-x2);
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.PageProfile-Avatar-Label:hover{
+    background: var(--color-primary);
+}
+
+.PageProfile-Header-Info{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+    flex: 1;
+}
+
+.PageProfile-Name{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageProfile-Name-Form{
+    display: flex;
+    gap: var(--spacing-x2);
+    align-items: center;
+}
+
+.PageProfile-Name-Input{
+    padding: var(--spacing-x2) var(--spacing-x3);
+    background: var(--color-secondary);
+    border: var(--border-x05) solid var(--color-border-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-family-geist);
+    max-width: 300px;
+}
+
+.PageProfile-Name-Input:focus{
+    outline: none;
+    border-color: var(--color-state-focus);
+}
+
+.PageProfile-Name-Submit{
+    padding: var(--spacing-x2) var(--spacing-x4);
+}
+
