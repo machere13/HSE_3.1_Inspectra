@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include NicknameGenerator
+  
   has_secure_password
   
   has_many :user_achievements, dependent: :destroy
@@ -16,10 +18,11 @@ class User < ApplicationRecord
     admin: 2,
     super_admin: 3
   }
-  
+
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: AppConfig::Auth.password_min_length, maximum: AppConfig::Auth.password_max_length }, if: -> { new_record? || !password.nil? }
   
+  before_validation :generate_name_if_blank, on: :create
   after_create :check_registration_achievements
   
   def generate_verification_code!
@@ -98,5 +101,12 @@ class User < ApplicationRecord
   def reset_token_valid?(ttl_minutes: nil)
     ttl = ttl_minutes || AppConfig::Auth.reset_password_token_ttl_minutes.to_i / 60
     reset_password_token.present? && reset_password_sent_at.present? && reset_password_sent_at > ttl.minutes.ago
+  end
+
+  private
+
+  def generate_name_if_blank
+    return if name.present?
+    generate_code_metaphor_name!
   end
 end
