@@ -47,10 +47,18 @@ class PagesController < WebController
 
   def update_avatar
     @user = current_user
-    if params[:avatar].present?
-      @user.avatar.attach(params[:avatar])
-      redirect_to profile_path, notice: t('pages.profile.avatar.updated')
+    avatar_param = params[:avatar] || params.dig(:user, :avatar)
+    if avatar_param.present?
+      @user.avatar.attach(avatar_param)
+      if @user.avatar.attached?
+        Rails.logger.info "Avatar attached successfully: #{@user.avatar.blob.filename}, URL: #{url_for(@user.avatar)}"
+        redirect_to profile_path, notice: t('pages.profile.avatar.updated')
+      else
+        Rails.logger.error "Failed to attach avatar"
+        redirect_to profile_path, alert: 'Ошибка при загрузке аватара'
+      end
     else
+      Rails.logger.error "Avatar param missing. Params: #{params.keys.inspect}"
       redirect_to profile_path, alert: t('pages.profile.avatar.required')
     end
   end

@@ -29,6 +29,7 @@ ru:
       name_updated: 'Имя обновлено'
       avatar:
         change: 'Изменить'
+        upload: 'Загрузить'
         updated: 'Аватар обновлён'
         required: 'Выберите файл'
       password_change:

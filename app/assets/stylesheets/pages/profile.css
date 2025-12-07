@@ -101,6 +101,12 @@
     border-radius: var(--border-radius-x2);
     object-fit: cover;
     border: var(--border-x05) solid var(--color-border-primary);
+    display: block;
+}
+
+.PageProfile-Avatar--placeholder{
+    background: var(--color-secondary);
+    border: var(--border-x05) solid var(--color-border-primary);
 }
 
 .PageProfile-Avatar-Form{

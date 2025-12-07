@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  if defined?(ActiveStorage::Engine)
+    mount ActiveStorage::Engine => '/rails/active_storage'
+  end
+  
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   
@@ -84,6 +88,6 @@ Rails.application.routes.draw do
   root 'pages#home'
 
   # Catch-all for non-existent routes (must be last)
-  match '*unmatched', to: 'errors#not_found', via: :all
+  match '*unmatched', to: 'errors#not_found', via: :all, constraints: lambda { |req| !req.path.start_with?('/rails/active_storage') }
 
 end
