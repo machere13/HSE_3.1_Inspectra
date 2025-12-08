@@ -42,6 +42,6 @@ Sentry.init do |config|
     'Rack::Attack::Throttle'
   ]
   
-  config.logger = Rails.logger
+  config.sdk_logger = Rails.logger
 end
 
