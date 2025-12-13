@@ -48,7 +48,7 @@
     return { ctx, adjust, getSize };
   };
 
-  const render = (ctx, width, height, time, mouseX, mouseY, spacing) => {
+  const render = (ctx, width, height, time, mouseX, mouseY, spacing, state) => {
     ctx.clearRect(0, 0, width, height);
     if (!width || !height) {
       return;
@@ -56,23 +56,32 @@
 
     const hasMouse = mouseX !== undefined && mouseY !== undefined;
 
-    let centerX, centerY, radius, intensity, secondaryRadius, secondaryIntensity;
+    let targetCenterX, targetCenterY, targetRadius, targetIntensity;
 
     if (hasMouse) {
-      centerX = mouseX;
-      centerY = mouseY;
-      radius = Math.max(width, height) * 0.5;
-      intensity = 0.7;
-      secondaryRadius = radius * 0.55;
-      secondaryIntensity = intensity * 1.4;
+      targetCenterX = mouseX;
+      targetCenterY = mouseY;
+      targetRadius = Math.max(width, height) * 0.5;
+      targetIntensity = 0.7;
     } else {
-      centerX = width * 0.5 + Math.sin(time * 0.25) * width * 0.1;
-      centerY = height * 0.5 + Math.cos(time * 0.3) * height * 0.08;
-      radius = Math.max(width, height) * 0.15 + Math.sin(time * 0.6) * Math.min(width, height) * 0.03;
-      intensity = 0.25 + Math.sin(time * 0.8) * 0.05;
-      secondaryRadius = radius * 0.55;
-      secondaryIntensity = intensity * 1.4;
+      targetCenterX = width * 0.5 + Math.sin(time * 0.25) * width * 0.1;
+      targetCenterY = height * 0.5 + Math.cos(time * 0.3) * height * 0.08;
+      targetRadius = Math.max(width, height) * 0.15 + Math.sin(time * 0.6) * Math.min(width, height) * 0.03;
+      targetIntensity = 0.25 + Math.sin(time * 0.8) * 0.05;
     }
+
+    const lerpFactor = 0.08;
+    state.currCenterX += (targetCenterX - state.currCenterX) * lerpFactor;
+    state.currCenterY += (targetCenterY - state.currCenterY) * lerpFactor;
+    state.currRadius += (targetRadius - state.currRadius) * lerpFactor;
+    state.currIntensity += (targetIntensity - state.currIntensity) * lerpFactor;
+
+    const centerX = state.currCenterX;
+    const centerY = state.currCenterY;
+    const radius = state.currRadius;
+    const intensity = state.currIntensity;
+    const secondaryRadius = radius * 0.55;
+    const secondaryIntensity = intensity * 1.4;
 
     const startX = spacing || 0;
     const startY = 0;
@@ -115,6 +124,13 @@
     let mouseX = undefined;
     let mouseY = undefined;
     let spacing = 0;
+    
+    const state = {
+      currCenterX: 0,
+      currCenterY: 0,
+      currRadius: 0,
+      currIntensity: 0
+    };
 
     const getSpacing = () => {
       const computedStyle = window.getComputedStyle(container);
@@ -129,9 +145,17 @@
       if (!running) return;
 
       const { width, height } = getSize();
+      
+      if (state.currCenterX === 0 && state.currCenterY === 0) {
+        state.currCenterX = width * 0.5;
+        state.currCenterY = height * 0.5;
+        state.currRadius = Math.max(width, height) * 0.15;
+        state.currIntensity = 0.25;
+      }
+      
       const time = timestamp * 0.001;
       spacing = getSpacing();
-      render(ctx, width, height, time, mouseX, mouseY, spacing);
+      render(ctx, width, height, time, mouseX, mouseY, spacing, state);
       animationFrame = requestAnimationFrame(loop);
     };
 
