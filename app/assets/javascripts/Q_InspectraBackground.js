@@ -71,8 +71,9 @@
     }
 
     if (hasMouse) {
-      state.currCenterX = targetCenterX;
-      state.currCenterY = targetCenterY;
+      const mouseLerpFactor = 0.15;
+      state.currCenterX += (targetCenterX - state.currCenterX) * mouseLerpFactor;
+      state.currCenterY += (targetCenterY - state.currCenterY) * mouseLerpFactor;
       state.currRadius += (targetRadius - state.currRadius) * 0.15;
       state.currIntensity += (targetIntensity - state.currIntensity) * 0.15;
     } else {
