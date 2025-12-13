@@ -15,6 +15,7 @@
 //= require ./ContentDraggable
 //= require ./ContentPreview
 //= require ./PageProfile
+//= require ./Q_InspectraBackground
 
 (function(){
     
