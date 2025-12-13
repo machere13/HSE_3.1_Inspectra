@@ -130,7 +130,6 @@
     let running = true;
     let mouseX = undefined;
     let mouseY = undefined;
-    let spacing = 0;
     
     const state = {
       currCenterX: 0,
@@ -148,6 +147,10 @@
       return 24;
     };
 
+    let cachedSpacing = getSpacing();
+    let lastWidth = 0;
+    let lastHeight = 0;
+
     const loop = (timestamp) => {
       if (!running) return;
 
@@ -160,14 +163,23 @@
         state.currIntensity = 0.25;
       }
       
+      if (width !== lastWidth || height !== lastHeight) {
+        cachedSpacing = getSpacing();
+        lastWidth = width;
+        lastHeight = height;
+      }
+      
       const time = timestamp * 0.001;
-      spacing = getSpacing();
-      render(ctx, width, height, time, mouseX, mouseY, spacing, state);
+      render(ctx, width, height, time, mouseX, mouseY, cachedSpacing, state);
       animationFrame = requestAnimationFrame(loop);
     };
 
     const handleResize = () => {
       adjust();
+      cachedSpacing = getSpacing();
+      const { width, height } = getSize();
+      lastWidth = width;
+      lastHeight = height;
     };
 
     const onMove = (e) => {
