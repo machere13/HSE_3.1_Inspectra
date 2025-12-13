@@ -196,8 +196,9 @@
     window.addEventListener('mousemove', onMove);
     container.addEventListener('mouseleave', onLeave);
 
+    let resizeObserver = null;
     if ('ResizeObserver' in window) {
-      const resizeObserver = new ResizeObserver(handleResize);
+      resizeObserver = new ResizeObserver(handleResize);
       resizeObserver.observe(container);
     }
 
@@ -219,6 +220,9 @@
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', onMove);
       container.removeEventListener('mouseleave', onLeave);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
       document.removeEventListener('visibilitychange', onVisibilityChange);
     };
 
