@@ -219,6 +219,7 @@
       cancelAnimationFrame(animationFrame);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('beforeunload', cleanup);
       container.removeEventListener('mouseleave', onLeave);
       if (resizeObserver) {
         resizeObserver.disconnect();
