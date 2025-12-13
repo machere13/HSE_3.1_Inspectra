@@ -1,0 +1,190 @@
+(function(){
+  const DOT_SIZE = 3;
+  const DOT_SPACING = 40;
+  const DOT_STEP = DOT_SIZE + DOT_SPACING;
+  const COLOR_ROW_1 = '#4c4c4c';
+  const COLOR_ROW_2 = '#282828';
+
+  const isTouchDevice = () => {
+    return ("ontouchstart" in window) || (navigator.maxTouchPoints || 0) > 0 || (navigator.msMaxTouchPoints || 0) > 0;
+  };
+
+  const prefersReduceMotion = () => {
+    try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(_) { return false; }
+  };
+
+  const lens = (x, y, centerX, centerY, radius, intensity) => {
+    const dx = x - centerX;
+    const dy = y - centerY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    if (!radius || distance > radius) {
+      return { x, y, influence: 0 };
+    }
+    const ratio = distance / radius;
+    const strength = 1 - ratio * ratio;
+    const factor = 1 + intensity * strength * strength;
+    return {
+      x: centerX + dx * factor,
+      y: centerY + dy * factor,
+      influence: strength
+    };
+  };
+
+  const createContext = (canvas) => {
+    const ctx = canvas.getContext('2d');
+    let width = 0;
+    let height = 0;
+    const adjust = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    adjust();
+    const getSize = () => ({ width, height });
+    return { ctx, adjust, getSize };
+  };
+
+  const render = (ctx, width, height, time, mouseX, mouseY, spacing) => {
+    ctx.clearRect(0, 0, width, height);
+    if (!width || !height) {
+      return;
+    }
+
+    const centerX = mouseX !== undefined && mouseY !== undefined 
+      ? mouseX 
+      : width * 0.5 + Math.sin(time * 0.25) * width * 0.18;
+    const centerY = mouseX !== undefined && mouseY !== undefined 
+      ? mouseY 
+      : height * 0.5 + Math.cos(time * 0.3) * height * 0.12;
+    
+    const radius = Math.max(width, height) * 0.38 + Math.sin(time * 0.6) * Math.min(width, height) * 0.08;
+    const intensity = 0.55 + Math.sin(time * 0.8) * 0.1;
+    const secondaryRadius = radius * 0.55;
+    const secondaryIntensity = intensity * 1.4;
+
+    const startX = spacing || 0;
+    const startY = 0;
+
+    for (let row = 0; row < Math.ceil(height / DOT_STEP) + 2; row++) {
+      const baseY = startY + row * DOT_STEP;
+      const isEvenRow = row % 2 === 0;
+      const color = isEvenRow ? COLOR_ROW_1 : COLOR_ROW_2;
+
+      for (let col = 0; col < Math.ceil(width / DOT_STEP) + 2; col++) {
+        const baseX = startX + col * DOT_STEP;
+
+        let rawX = baseX;
+        let rawY = baseY;
+
+        const primary = lens(rawX, rawY, centerX, centerY, radius, intensity);
+        const secondary = lens(primary.x, primary.y, width - centerX, height - centerY, secondaryRadius, secondaryIntensity);
+
+        const finalX = secondary.x;
+        const finalY = secondary.y;
+
+        if (finalX >= -DOT_SIZE && finalX <= width + DOT_SIZE && 
+            finalY >= -DOT_SIZE && finalY <= height + DOT_SIZE) {
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          ctx.arc(finalX, finalY, DOT_SIZE / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+  };
+
+  const initBackground = (container) => {
+    const canvas = container.querySelector('canvas');
+    if (!canvas) return;
+
+    const { ctx, adjust, getSize } = createContext(canvas);
+    let animationFrame = 0;
+    let running = true;
+    let mouseX = undefined;
+    let mouseY = undefined;
+    let spacing = 0;
+
+    const getSpacing = () => {
+      const computedStyle = window.getComputedStyle(container);
+      const spacingValue = computedStyle.getPropertyValue('--spacing-x6').trim();
+      if (spacingValue) {
+        return parseInt(spacingValue) || 0;
+      }
+      return 24;
+    };
+
+    const loop = (timestamp) => {
+      if (!running) return;
+
+      const { width, height } = getSize();
+      const time = timestamp * 0.001;
+      spacing = getSpacing();
+      render(ctx, width, height, time, mouseX, mouseY, spacing);
+      animationFrame = requestAnimationFrame(loop);
+    };
+
+    const handleResize = () => {
+      adjust();
+    };
+
+    const onMove = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+    };
+
+    const onLeave = () => {
+      mouseX = undefined;
+      mouseY = undefined;
+    };
+
+    handleResize();
+    animationFrame = requestAnimationFrame(loop);
+    
+    window.addEventListener('resize', handleResize);
+    canvas.addEventListener('mousemove', onMove);
+    canvas.addEventListener('mouseleave', onLeave);
+
+    if ('ResizeObserver' in window) {
+      const resizeObserver = new ResizeObserver(handleResize);
+      resizeObserver.observe(container);
+    }
+
+    const onVisibilityChange = () => {
+      if (!running) return;
+      if (document.visibilityState === 'hidden') {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = 0;
+      } else if (!animationFrame) {
+        animationFrame = requestAnimationFrame(loop);
+      }
+    };
+
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    const cleanup = () => {
+      running = false;
+      cancelAnimationFrame(animationFrame);
+      window.removeEventListener('resize', handleResize);
+      canvas.removeEventListener('mousemove', onMove);
+      canvas.removeEventListener('mouseleave', onLeave);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    };
+
+    window.addEventListener('beforeunload', cleanup);
+  };
+
+  const boot = () => {
+    if (isTouchDevice() || prefersReduceMotion()) return;
+    
+    document.querySelectorAll('.Q_InspectraBackground').forEach(initBackground);
+  };
+
+  document.addEventListener('DOMContentLoaded', boot);
+  document.addEventListener('turbo:load', boot);
+})();
+
