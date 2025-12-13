@@ -59,10 +59,12 @@
     let targetCenterX, targetCenterY, targetRadius, targetIntensity;
 
     if (hasMouse) {
-      targetCenterX = mouseX;
-      targetCenterY = mouseY;
-      targetRadius = Math.max(width, height) * 0.5;
-      targetIntensity = 0.7;
+      const offsetX = Math.sin(time * 0.4) * 20;
+      const offsetY = Math.cos(time * 0.5) * 15;
+      targetCenterX = mouseX + offsetX;
+      targetCenterY = mouseY + offsetY;
+      targetRadius = Math.max(width, height) * 0.5 + Math.sin(time * 0.6) * Math.min(width, height) * 0.05;
+      targetIntensity = 0.7 + Math.sin(time * 0.8) * 0.05;
     } else {
       targetCenterX = width * 0.5 + Math.sin(time * 0.25) * width * 0.1;
       targetCenterY = height * 0.5 + Math.cos(time * 0.3) * height * 0.08;
