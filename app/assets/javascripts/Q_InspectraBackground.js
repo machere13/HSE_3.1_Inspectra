@@ -224,15 +224,25 @@
         resizeObserver.disconnect();
       }
       document.removeEventListener('visibilitychange', onVisibilityChange);
+      cleanupMap.delete(container);
     };
 
+    cleanupMap.set(container, cleanup);
     window.addEventListener('beforeunload', cleanup);
   };
+
+  const cleanupMap = new WeakMap();
 
   const boot = () => {
     if (isTouchDevice() || prefersReduceMotion()) return;
     
-    document.querySelectorAll('.Q_InspectraBackground').forEach(initBackground);
+    document.querySelectorAll('.Q_InspectraBackground').forEach((container) => {
+      const existingCleanup = cleanupMap.get(container);
+      if (existingCleanup) {
+        existingCleanup();
+      }
+      initBackground(container);
+    });
   };
 
   document.addEventListener('DOMContentLoaded', boot);
