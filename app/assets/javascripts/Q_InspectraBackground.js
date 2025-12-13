@@ -54,17 +54,25 @@
       return;
     }
 
-    const centerX = mouseX !== undefined && mouseY !== undefined 
-      ? mouseX 
-      : width * 0.5 + Math.sin(time * 0.25) * width * 0.18;
-    const centerY = mouseX !== undefined && mouseY !== undefined 
-      ? mouseY 
-      : height * 0.5 + Math.cos(time * 0.3) * height * 0.12;
-    
-    const radius = Math.max(width, height) * 0.38 + Math.sin(time * 0.6) * Math.min(width, height) * 0.08;
-    const intensity = 0.55 + Math.sin(time * 0.8) * 0.1;
-    const secondaryRadius = radius * 0.55;
-    const secondaryIntensity = intensity * 1.4;
+    const hasMouse = mouseX !== undefined && mouseY !== undefined;
+
+    let centerX, centerY, radius, intensity, secondaryRadius, secondaryIntensity;
+
+    if (hasMouse) {
+      centerX = mouseX;
+      centerY = mouseY;
+      radius = Math.max(width, height) * 0.5;
+      intensity = 0.7;
+      secondaryRadius = radius * 0.55;
+      secondaryIntensity = intensity * 1.4;
+    } else {
+      centerX = width * 0.5 + Math.sin(time * 0.25) * width * 0.1;
+      centerY = height * 0.5 + Math.cos(time * 0.3) * height * 0.08;
+      radius = Math.max(width, height) * 0.15 + Math.sin(time * 0.6) * Math.min(width, height) * 0.03;
+      intensity = 0.25 + Math.sin(time * 0.8) * 0.05;
+      secondaryRadius = radius * 0.55;
+      secondaryIntensity = intensity * 1.4;
+    }
 
     const startX = spacing || 0;
     const startY = 0;
@@ -132,9 +140,17 @@
     };
 
     const onMove = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+        mouseX = x;
+        mouseY = y;
+      } else {
+        mouseX = undefined;
+        mouseY = undefined;
+      }
     };
 
     const onLeave = () => {
@@ -146,8 +162,8 @@
     animationFrame = requestAnimationFrame(loop);
     
     window.addEventListener('resize', handleResize);
-    canvas.addEventListener('mousemove', onMove);
-    canvas.addEventListener('mouseleave', onLeave);
+    window.addEventListener('mousemove', onMove);
+    container.addEventListener('mouseleave', onLeave);
 
     if ('ResizeObserver' in window) {
       const resizeObserver = new ResizeObserver(handleResize);
@@ -170,8 +186,8 @@
       running = false;
       cancelAnimationFrame(animationFrame);
       window.removeEventListener('resize', handleResize);
-      canvas.removeEventListener('mousemove', onMove);
-      canvas.removeEventListener('mouseleave', onLeave);
+      window.removeEventListener('mousemove', onMove);
+      container.removeEventListener('mouseleave', onLeave);
       document.removeEventListener('visibilitychange', onVisibilityChange);
     };
 
