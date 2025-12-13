@@ -59,10 +59,8 @@
     let targetCenterX, targetCenterY, targetRadius, targetIntensity;
 
     if (hasMouse) {
-      const offsetX = Math.sin(time * 0.4) * 20;
-      const offsetY = Math.cos(time * 0.5) * 15;
-      targetCenterX = mouseX + offsetX;
-      targetCenterY = mouseY + offsetY;
+      targetCenterX = width - mouseX;
+      targetCenterY = height - mouseY;
       targetRadius = Math.max(width, height) * 0.5 + Math.sin(time * 0.6) * Math.min(width, height) * 0.05;
       targetIntensity = 0.7 + Math.sin(time * 0.8) * 0.05;
     } else {
@@ -72,11 +70,18 @@
       targetIntensity = 0.25 + Math.sin(time * 0.8) * 0.05;
     }
 
-    const lerpFactor = 0.08;
-    state.currCenterX += (targetCenterX - state.currCenterX) * lerpFactor;
-    state.currCenterY += (targetCenterY - state.currCenterY) * lerpFactor;
-    state.currRadius += (targetRadius - state.currRadius) * lerpFactor;
-    state.currIntensity += (targetIntensity - state.currIntensity) * lerpFactor;
+    if (hasMouse) {
+      state.currCenterX = targetCenterX;
+      state.currCenterY = targetCenterY;
+      state.currRadius += (targetRadius - state.currRadius) * 0.15;
+      state.currIntensity += (targetIntensity - state.currIntensity) * 0.15;
+    } else {
+      const lerpFactor = 0.08;
+      state.currCenterX += (targetCenterX - state.currCenterX) * lerpFactor;
+      state.currCenterY += (targetCenterY - state.currCenterY) * lerpFactor;
+      state.currRadius += (targetRadius - state.currRadius) * lerpFactor;
+      state.currIntensity += (targetIntensity - state.currIntensity) * lerpFactor;
+    }
 
     const centerX = state.currCenterX;
     const centerY = state.currCenterY;
@@ -166,7 +171,7 @@
     };
 
     const onMove = (e) => {
-      const rect = container.getBoundingClientRect();
+      const rect = canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       
