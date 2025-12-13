@@ -61,8 +61,8 @@
     if (hasMouse) {
       targetCenterX = width - mouseX;
       targetCenterY = height - mouseY;
-      targetRadius = Math.max(width, height) * 0.5 + Math.sin(time * 0.6) * Math.min(width, height) * 0.05;
-      targetIntensity = 0.7 + Math.sin(time * 0.8) * 0.05;
+      targetRadius = Math.max(width, height) * 0.35 + Math.sin(time * 0.6) * Math.min(width, height) * 0.03;
+      targetIntensity = 0.5 + Math.sin(time * 0.8) * 0.04;
     } else {
       targetCenterX = width * 0.5 + Math.sin(time * 0.25) * width * 0.1;
       targetCenterY = height * 0.5 + Math.cos(time * 0.3) * height * 0.08;
