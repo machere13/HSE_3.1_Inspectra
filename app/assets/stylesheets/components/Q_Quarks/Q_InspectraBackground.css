@@ -1,8 +1,8 @@
 .Q_InspectraBackground {
     position: absolute;
     top: var(--spacing-x6);
-    left: var(--spacing-x6);
-    right: var(--spacing-x6);
+    left: 0;
+    right: 0;
     bottom: var(--spacing-x6);
     background-image: 
         radial-gradient(circle, #4c4c4c 1.5px, transparent 1.5px),
