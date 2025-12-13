@@ -1,0 +1,17 @@
+.Q_InspectraBackground {
+    position: absolute;
+    top: var(--spacing-x6);
+    left: var(--spacing-x6);
+    right: var(--spacing-x6);
+    bottom: var(--spacing-x6);
+    background-image: 
+        radial-gradient(circle, #4c4c4c 1.5px, transparent 1.5px),
+        radial-gradient(circle, #282828 1.5px, transparent 1.5px);
+    background-size: 43px 86px;
+    background-position: 
+        0 0,
+        0 43px;
+    background-repeat: repeat;
+    z-index: -1;
+}
+
