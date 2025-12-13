@@ -175,12 +175,21 @@
       animationFrame = requestAnimationFrame(loop);
     };
 
+    const updateContainerHeight = () => {
+      const parent = container.parentElement;
+      if (parent) {
+        const spacing = cachedSpacing || getSpacing();
+        container.style.height = `${parent.scrollHeight - spacing * 2}px`;
+      }
+    };
+
     const handleResize = () => {
       adjust();
       cachedSpacing = getSpacing();
       const { width, height } = getSize();
       lastWidth = width;
       lastHeight = height;
+      updateContainerHeight();
     };
 
     const onMove = (e) => {
@@ -213,6 +222,10 @@
     if ('ResizeObserver' in window) {
       resizeObserver = new ResizeObserver(handleResize);
       resizeObserver.observe(container);
+      const parent = container.parentElement;
+      if (parent) {
+        resizeObserver.observe(parent);
+      }
     }
 
     const onVisibilityChange = () => {

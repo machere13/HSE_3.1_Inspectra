@@ -1,10 +1,15 @@
 .Q_InspectraBackground {
     position: absolute;
-    top: var(--spacing-x6);
+    top: 0;
     left: 0;
     right: 0;
-    bottom: var(--spacing-x6);
+    bottom: 0;
     z-index: -1;
+}
+
+.Q_InspectraBackground:has(canvas) {
+    height: auto;
+    min-height: 100vh;
 }
 
 .Q_InspectraBackground-Canvas {
