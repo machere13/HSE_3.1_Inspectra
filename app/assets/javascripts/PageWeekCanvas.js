@@ -13,8 +13,8 @@
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     
-    const canvasWidth = viewportWidth * 3;
-    const canvasHeight = viewportHeight * 3;
+    const canvasWidth = viewportWidth * 2;
+    const canvasHeight = viewportHeight * 2;
     
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
