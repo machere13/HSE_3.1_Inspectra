@@ -3,6 +3,8 @@
     flex-direction: column;
     width: 100%;
     gap: var(--spacing-x3);
+    position: relative;
+    z-index: 1;
 }
 
 .W_PageHeader-Console{

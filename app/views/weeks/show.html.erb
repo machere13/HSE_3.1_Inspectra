@@ -17,19 +17,26 @@
   %>
   
   <div class="PageWeek-Content" data-filter-group="content-filters">
-    <% all_items.each do |item_data| %>
-      <div class="PageWeek-Content-Item" data-content-type="<%= item_data[:type] == 'article' ? 'article' : item_data[:item].kind %>">
-        <% if item_data[:type] == 'article' %>
-          <%= render 'weeks/O_ArticleCard', week: @week, article: item_data[:item] %>
-        <% else %>
-          <%= render 'weeks/M_ContentCard',
-            type: item_data[:item].kind,
-            label: item_data[:item].kind&.upcase,
-            id: "content_card_#{item_data[:item].id}",
-            preview_url: item_data[:item].respond_to?(:url) ? item_data[:item].url : nil %>
+    <div class="PageWeek-Content-Canvas">
+      <canvas class="PageWeek-Content-Canvas-Lines"></canvas>
+      <div class="PageWeek-Content-Canvas-Items">
+        <% all_items.each_with_index do |item_data, index| %>
+          <div class="PageWeek-Content-Item" 
+               data-content-type="<%= item_data[:type] == 'article' ? 'article' : item_data[:item].kind %>"
+               data-node-index="<%= index %>">
+            <% if item_data[:type] == 'article' %>
+              <%= render 'weeks/O_ArticleCard', week: @week, article: item_data[:item] %>
+            <% else %>
+              <%= render 'weeks/M_ContentCard',
+                type: item_data[:item].kind,
+                label: item_data[:item].kind&.upcase,
+                id: "content_card_#{item_data[:item].id}",
+                preview_url: item_data[:item].respond_to?(:url) ? item_data[:item].url : nil %>
+            <% end %>
+          </div>
         <% end %>
       </div>
-    <% end %>
+    </div>
   </div>
 </div>
 

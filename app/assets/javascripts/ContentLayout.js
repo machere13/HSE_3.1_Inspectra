@@ -6,6 +6,8 @@
   function placeRandom(){
     const container = document.querySelector('.PageWeek-Content');
     if (!container) return;
+    const canvasContainer = container.querySelector('.PageWeek-Content-Canvas');
+    if (canvasContainer) return;
     container.style.position = 'relative';
 
     const items = Array.from(container.querySelectorAll('.PageWeek-Content-Item'))

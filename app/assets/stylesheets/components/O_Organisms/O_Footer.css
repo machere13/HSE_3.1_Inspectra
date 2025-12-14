@@ -5,6 +5,8 @@
     gap: var(--spacing-x2);
     padding: var(--spacing-x4) var(--spacing-x4) var(--spacing-x2) var(--spacing-x4);
     background: var(--color-primary);
+    position: relative;
+    z-index: 1;
 }
 
 .O_Footer-Content{
