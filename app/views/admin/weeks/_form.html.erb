@@ -1,7 +1,7 @@
 <%= form_with model: [:admin, @week] do |f| %>
   <div>
-    <%= f.label :number, 'Номер (1..15)' %><br/>
-    <%= f.number_field :number, in: 1..15, step: 1 %>
+    <%= f.label :number, 'Номер (1..24)' %><br/>
+    <%= f.number_field :number, in: 1..24, step: 1 %>
   </div>
   <div>
     <%= f.label :title, 'Заголовок' %><br/>
