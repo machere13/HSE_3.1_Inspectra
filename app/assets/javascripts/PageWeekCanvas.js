@@ -92,7 +92,7 @@
 
     const drawLines = () => {
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-      ctx.strokeStyle = 'rgba(77, 77, 77, 0.3)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
       ctx.lineWidth = 1;
       
       uniqueConnections.forEach(conn => {
