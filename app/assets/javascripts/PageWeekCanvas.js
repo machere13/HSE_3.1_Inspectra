@@ -117,7 +117,7 @@
       const newConnections = [];
       
       if (visibleNodes.length > 0) {
-        const centerNode = visibleNodes[Math.floor(visibleNodes.length / 2)];
+        const centerNode = visibleNodes.find(n => n === nodes[0]) || visibleNodes[0];
         visibleNodes.forEach(node => {
           if (node !== centerNode) {
             newConnections.push({ from: centerNode, to: node });
@@ -151,6 +151,42 @@
       return unique;
     };
 
+    const getNearestCorners = (node1, node2) => {
+      const corners1 = [
+        { x: node1.x - node1.width / 2, y: node1.y - node1.height / 2 },
+        { x: node1.x + node1.width / 2, y: node1.y - node1.height / 2 },
+        { x: node1.x - node1.width / 2, y: node1.y + node1.height / 2 },
+        { x: node1.x + node1.width / 2, y: node1.y + node1.height / 2 }
+      ];
+      
+      const corners2 = [
+        { x: node2.x - node2.width / 2, y: node2.y - node2.height / 2 },
+        { x: node2.x + node2.width / 2, y: node2.y - node2.height / 2 },
+        { x: node2.x - node2.width / 2, y: node2.y + node2.height / 2 },
+        { x: node2.x + node2.width / 2, y: node2.y + node2.height / 2 }
+      ];
+      
+      let minDistance = Infinity;
+      let nearestCorner1 = null;
+      let nearestCorner2 = null;
+      
+      corners1.forEach(corner1 => {
+        corners2.forEach(corner2 => {
+          const dx = corner2.x - corner1.x;
+          const dy = corner2.y - corner1.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < minDistance) {
+            minDistance = distance;
+            nearestCorner1 = corner1;
+            nearestCorner2 = corner2;
+          }
+        });
+      });
+      
+      return { from: nearestCorner1, to: nearestCorner2 };
+    };
+
     const drawLines = () => {
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
@@ -161,14 +197,11 @@
       visibleConnections.forEach(conn => {
         if (!isNodeVisible(conn.from) || !isNodeVisible(conn.to)) return;
         
-        const fromX = conn.from.x;
-        const fromY = conn.from.y;
-        const toX = conn.to.x;
-        const toY = conn.to.y;
+        const corners = getNearestCorners(conn.from, conn.to);
         
         ctx.beginPath();
-        ctx.moveTo(fromX, fromY);
-        ctx.lineTo(toX, toY);
+        ctx.moveTo(corners.from.x, corners.from.y);
+        ctx.lineTo(corners.to.x, corners.to.y);
         ctx.stroke();
       });
     };
