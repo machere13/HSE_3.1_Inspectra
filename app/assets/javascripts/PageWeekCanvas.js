@@ -90,12 +90,66 @@
       }
     });
 
+    const isNodeVisible = (node) => {
+      return node.element.style.display !== 'none' && 
+             node.element.offsetParent !== null;
+    };
+
+    const getVisibleNodes = () => {
+      return nodes.filter(isNodeVisible);
+    };
+
+    const recalculateConnections = () => {
+      const visibleNodes = getVisibleNodes();
+      if (visibleNodes.length === 0) return [];
+      
+      const newConnections = [];
+      
+      if (visibleNodes.length > 0) {
+        const centerNode = visibleNodes[Math.floor(visibleNodes.length / 2)];
+        visibleNodes.forEach(node => {
+          if (node !== centerNode) {
+            newConnections.push({ from: centerNode, to: node });
+          }
+        });
+      }
+      
+      for (let i = 0; i < visibleNodes.length; i++) {
+        const nextIndex = (i + 1) % visibleNodes.length;
+        newConnections.push({ from: visibleNodes[i], to: visibleNodes[nextIndex] });
+        
+        if (visibleNodes.length > 3) {
+          const skipIndex = (i + Math.floor(visibleNodes.length / 2)) % visibleNodes.length;
+          if (skipIndex !== i && skipIndex !== nextIndex) {
+            newConnections.push({ from: visibleNodes[i], to: visibleNodes[skipIndex] });
+          }
+        }
+      }
+      
+      const connectionSet = new Set();
+      const unique = [];
+      newConnections.forEach(conn => {
+        const key1 = `${conn.from.x},${conn.from.y}-${conn.to.x},${conn.to.y}`;
+        const key2 = `${conn.to.x},${conn.to.y}-${conn.from.x},${conn.from.y}`;
+        if (!connectionSet.has(key1) && !connectionSet.has(key2)) {
+          connectionSet.add(key1);
+          unique.push(conn);
+        }
+      });
+      
+      return unique;
+    };
+
     const drawLines = () => {
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
       ctx.lineWidth = 1;
       
-      uniqueConnections.forEach(conn => {
+      const visibleConnections = recalculateConnections();
+      
+      visibleConnections.forEach(conn => {
+        if (!isNodeVisible(conn.from) || !isNodeVisible(conn.to)) return;
+        
         const fromX = conn.from.x;
         const fromY = conn.from.y;
         const toX = conn.to.x;
@@ -110,6 +164,7 @@
 
     const updateNodePositions = () => {
       nodes.forEach(node => {
+        if (!isNodeVisible(node)) return;
         const rect = node.element.getBoundingClientRect();
         node.x = node.element.offsetLeft + (rect.width || 200) / 2;
         node.y = node.element.offsetTop + (rect.height || 150) / 2;
@@ -180,6 +235,17 @@
 
     window.addEventListener('resize', () => {
       updateNodePositions();
+    });
+
+    const mutationObserver = new MutationObserver(() => {
+      updateNodePositions();
+    });
+    
+    items.forEach(item => {
+      mutationObserver.observe(item, {
+        attributes: true,
+        attributeFilter: ['style']
+      });
     });
   };
 
