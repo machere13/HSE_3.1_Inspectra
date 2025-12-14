@@ -115,40 +115,24 @@
       if (visibleNodes.length === 0) return [];
       
       const newConnections = [];
-      
-      if (visibleNodes.length > 0) {
-        const centerNode = visibleNodes.find(n => n === nodes[0]) || visibleNodes[0];
-        visibleNodes.forEach(node => {
-          if (node !== centerNode) {
-            newConnections.push({ from: centerNode, to: node });
-          }
-        });
-      }
+      const maxDistance = Math.min(canvasWidth, canvasHeight) * 0.4;
       
       for (let i = 0; i < visibleNodes.length; i++) {
-        const nextIndex = (i + 1) % visibleNodes.length;
-        newConnections.push({ from: visibleNodes[i], to: visibleNodes[nextIndex] });
-        
-        if (visibleNodes.length > 3) {
-          const skipIndex = (i + Math.floor(visibleNodes.length / 2)) % visibleNodes.length;
-          if (skipIndex !== i && skipIndex !== nextIndex) {
-            newConnections.push({ from: visibleNodes[i], to: visibleNodes[skipIndex] });
+        for (let j = i + 1; j < visibleNodes.length; j++) {
+          const node1 = visibleNodes[i];
+          const node2 = visibleNodes[j];
+          
+          const dx = node2.x - node1.x;
+          const dy = node2.y - node1.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance <= maxDistance) {
+            newConnections.push({ from: node1, to: node2 });
           }
         }
       }
       
-      const connectionSet = new Set();
-      const unique = [];
-      newConnections.forEach(conn => {
-        const key1 = `${conn.from.x},${conn.from.y}-${conn.to.x},${conn.to.y}`;
-        const key2 = `${conn.to.x},${conn.to.y}-${conn.from.x},${conn.from.y}`;
-        if (!connectionSet.has(key1) && !connectionSet.has(key2)) {
-          connectionSet.add(key1);
-          unique.push(conn);
-        }
-      });
-      
-      return unique;
+      return newConnections;
     };
 
     const getNearestCorners = (node1, node2) => {
