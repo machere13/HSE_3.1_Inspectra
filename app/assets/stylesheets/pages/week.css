@@ -28,7 +28,7 @@
 .PageWeek-Content-Canvas {
     position: relative;
     width: 200%;
-    height: 200%;
+    height: 250%;
     transform-origin: 0 0;
     cursor: grab;
 }

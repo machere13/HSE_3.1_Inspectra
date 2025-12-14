@@ -14,7 +14,7 @@
     const viewportHeight = window.innerHeight;
     
     const canvasWidth = viewportWidth * 2;
-    const canvasHeight = viewportHeight * 2;
+    const canvasHeight = viewportHeight * 2.5;
     
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
@@ -27,21 +27,32 @@
     const centerX = canvasWidth / 2;
     const centerY = canvasHeight / 2;
     const baseRadius = Math.min(canvasWidth, canvasHeight) * 0.25;
+    const radiusX = baseRadius * 1.5;
+    const radiusY = baseRadius;
     
     items.forEach((item, index) => {
       const rect = item.getBoundingClientRect();
       const itemWidth = rect.width || 200;
       const itemHeight = rect.height || 150;
       
-      const angle = (index / items.length) * Math.PI * 2;
-      const radiusVariation = (index % 3) * 0.2;
-      const radius = baseRadius * (1 + radiusVariation);
+      let x, y;
       
-      const noiseX = (Math.random() - 0.5) * baseRadius * 0.3;
-      const noiseY = (Math.random() - 0.5) * baseRadius * 0.3;
-      
-      const x = centerX + Math.cos(angle) * radius + noiseX;
-      const y = centerY + Math.sin(angle) * radius + noiseY;
+      if (index === 0) {
+        x = centerX;
+        y = centerY;
+      } else {
+        const angle = ((index - 1) / (items.length - 1)) * Math.PI * 2;
+        const radiusVariationX = (index % 3) * 0.2;
+        const radiusVariationY = (index % 3) * 0.2;
+        const radiusXFinal = radiusX * (1 + radiusVariationX);
+        const radiusYFinal = radiusY * (1 + radiusVariationY);
+        
+        const noiseX = (Math.random() - 0.5) * baseRadius * 0.3;
+        const noiseY = (Math.random() - 0.5) * baseRadius * 0.3;
+        
+        x = centerX + Math.cos(angle) * radiusXFinal + noiseX;
+        y = centerY + Math.sin(angle) * radiusYFinal + noiseY;
+      }
       
       nodes.push({
         element: item,
