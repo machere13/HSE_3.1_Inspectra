@@ -30,6 +30,9 @@
     const radiusX = baseRadius * 1.5;
     const radiusY = baseRadius;
     
+    const articleIndex = items.findIndex(item => item.getAttribute('data-content-type') === 'article');
+    const centerIndex = articleIndex >= 0 ? articleIndex : 0;
+    
     items.forEach((item, index) => {
       const rect = item.getBoundingClientRect();
       const itemWidth = rect.width || 200;
@@ -37,11 +40,13 @@
       
       let x, y;
       
-      if (index === 0) {
+      if (index === centerIndex) {
         x = centerX;
         y = centerY;
       } else {
-        const angle = ((index - 1) / (items.length - 1)) * Math.PI * 2;
+        const otherItems = items.filter((_, i) => i !== centerIndex);
+        const otherIndex = index < centerIndex ? index : index - 1;
+        const angle = (otherIndex / otherItems.length) * Math.PI * 2;
         const radiusVariationX = (index % 3) * 0.2;
         const radiusVariationY = (index % 3) * 0.2;
         const radiusXFinal = radiusX * (1 + radiusVariationX);
