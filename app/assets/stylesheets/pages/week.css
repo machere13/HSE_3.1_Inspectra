@@ -4,7 +4,7 @@
     width: 100%;
     gap: var(--spacing-x24);
     flex: 1 1 auto;
-    overflow-y: auto;
+    overflow: hidden;
     scrollbar-width: none;
     -ms-overflow-style: none;
     padding: 0 var(--spacing-x4);
@@ -12,4 +12,41 @@
   
 .PageWeek-Content{
     flex: 1 1 auto;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.PageWeek-Content-Canvas {
+    position: relative;
+    width: 300%;
+    height: 300%;
+    transform-origin: 0 0;
+    cursor: grab;
+}
+
+.PageWeek-Content-Canvas:active {
+    cursor: grabbing;
+}
+
+.PageWeek-Content-Canvas-Lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.PageWeek-Content-Canvas-Items {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.PageWeek-Content-Item {
+    position: absolute;
 }

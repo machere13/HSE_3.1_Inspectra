@@ -16,6 +16,7 @@
 //= require ./ContentPreview
 //= require ./PageProfile
 //= require ./Q_InspectraBackground
+//= require ./PageWeekCanvas
 
 (function(){
     
