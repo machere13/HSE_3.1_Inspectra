@@ -27,22 +27,25 @@ RSpec.describe 'Pages', type: :request do
   end
 
   describe 'GET /profile' do
-    let(:user) { User.create!(email: 'test@example.com', password: 'password123', email_verified: true) }
-    let(:token) { encode_test_jwt({ user_id: user.id }) }
-
-    before do
-      cookies[:token] = token
+    context 'without authentication' do
+      it 'should require authentication' do
+        get profile_path
+        expect(response).to redirect_to(auth_path)
+      end
     end
 
-    it 'should require authentication' do
-      cookies.delete(:token) if cookies[:token]
-      get profile_path
-      expect([301, 302, 401, 403]).to include(response.status)
-    end
+    context 'with authentication' do
+      let(:user) { User.create!(email: 'test@example.com', password: 'password123', email_verified: true) }
+      let(:token) { encode_test_jwt({ user_id: user.id }) }
 
-    it 'should show profile for authenticated user' do
-      get profile_path
-      expect(response).to have_http_status(:success)
+      before do
+        cookies[:token] = token
+      end
+
+      it 'should show profile for authenticated user' do
+        get profile_path
+        expect(response).to have_http_status(:success)
+      end
     end
   end
 
@@ -85,4 +88,3 @@ RSpec.describe 'Pages', type: :request do
     end
   end
 end
-

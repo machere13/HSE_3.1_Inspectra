@@ -17,15 +17,25 @@ RSpec.describe 'Weeks', type: :request do
     end
 
     it 'should return 404 for expired week' do
-      expired_week = Week.create!(
-        number: 2,
-        title: 'Expired Week',
-        published_at: 1.day.ago,
-        expires_at: 1.day.from_now
-      )
-      expired_week.update_columns(published_at: 2.days.ago, expires_at: 1.day.ago)
-      get week_path(expired_week.reload)
-      expect(response).to have_http_status(:not_found)
+      Week.skip_callback(:create, :after, :create_next_week_if_needed)
+      begin
+        Week.where(number: 2).destroy_all
+        expired_week = Week.new(
+          number: 2,
+          title: 'Expired Week',
+          published_at: 1.day.ago,
+          expires_at: 1.day.from_now
+        )
+        expired_week.save(validate: false)
+        Week.where(id: expired_week.id).update_all(
+          published_at: 2.days.ago,
+          expires_at: 1.day.ago
+        )
+        get week_path(expired_week.reload)
+        expect(response).to have_http_status(:not_found)
+      ensure
+        Week.set_callback(:create, :after, :create_next_week_if_needed)
+      end
     end
 
     it 'should return 404 for non-existent week' do

@@ -1,5 +1,6 @@
 class ContentItem < ApplicationRecord
   belongs_to :week
+  belongs_to :article, optional: true
   has_one_attached :file
 
   KINDS = %w[image gif video audio link].freeze

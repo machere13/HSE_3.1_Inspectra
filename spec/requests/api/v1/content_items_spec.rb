@@ -22,12 +22,11 @@ RSpec.describe 'API::V1::ContentItems', type: :request do
 
     it 'should include article if present' do
       article = week.articles.create!(title: 'Test', body: 'Body')
-      content_item.update_column(:article_id, article.id)
+      content_item.update!(article: article)
       get "/api/v1/weeks/#{week.id}/content_items"
       json_response = JSON.parse(response.body)
-      if json_response['data'] && json_response['data'].first
-        expect(json_response['data'].first['article']).to be_present
-      end
+      expect(json_response['data']).to be_an(Array)
+      expect(json_response['data'].first['article']).to be_present
     end
 
     it 'should return 404 for non-existent week' do
