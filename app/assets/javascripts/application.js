@@ -1,13 +1,13 @@
 //= require_self
-//= require ./A_Button
-//= require ./M_FormPlug
-//= require ./A_InspectraBackground
-//= require ./A_NavigationHotkeys
+//= require ./components/atoms/A_Button
+//= require ./components/molecules/M_FormPlug
+//= require ./components/atoms/A_InspectraBackground
+//= require ./components/atoms/A_NavigationHotkeys
 //= require ./NavigationRoving
-//= require ./A_ArrowButton
+//= require ./components/atoms/A_ArrowButton
 //= require ./NavigationSections
 //= require ./NavigationContentKeys
-//= require ./A_PasswordToggle
+//= require ./components/atoms/A_PasswordToggle
 //= require ./HomeCountdown
 //= require ./HomeNavigationHide
 //= require ./ContentFilter
@@ -15,7 +15,7 @@
 //= require ./ContentDraggable
 //= require ./ContentPreview
 //= require ./PageProfile
-//= require ./Q_InspectraBackground
+//= require ./components/quarks/Q_InspectraBackground
 //= require ./PageWeekCanvas
 
 (function(){
