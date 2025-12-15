@@ -24,7 +24,9 @@ end
 RSpec.configure do |config|
   config.include JwtTestHelper
 
-  config.before(:each) do
-    stub_jwt_secret_store
+  config.before(:each) do |example|
+    unless example.metadata[:file_path].include?('jwt_secret_service_spec.rb')
+      stub_jwt_secret_store
+    end
   end
 end
