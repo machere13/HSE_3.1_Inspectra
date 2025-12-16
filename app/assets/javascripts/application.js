@@ -12,25 +12,25 @@
 //= require ./components/molecules/M_FormPlug
 //= require ./components/quarks/Q_InspectraBackground
 
-//= require ./modules/canvas/canvas-setup
-//= require ./modules/canvas/node-positioner
-//= require ./modules/canvas/connection-manager
-//= require ./modules/canvas/canvas-renderer
-//= require ./modules/canvas/canvas-drag
+//= require ./modules/canvas/CanvasSetup
+//= require ./modules/canvas/NodePositioner
+//= require ./modules/canvas/ConnectionManager
+//= require ./modules/canvas/CanvasRenderer
+//= require ./modules/canvas/CanvasDrag
 
-//= require ./modules/content/content-layout
-//= require ./modules/content/content-filter
-//= require ./modules/content/content-draggable
-//= require ./modules/content/content-preview
+//= require ./modules/content/ContentLayout
+//= require ./modules/content/ContentFilter
+//= require ./modules/content/ContentDraggable
+//= require ./modules/content/ContentPreview
 
-//= require ./modules/navigation/navigation-sections
-//= require ./modules/navigation/navigation-roving
-//= require ./modules/navigation/navigation-content-keys
+//= require ./modules/navigation/NavigationSections
+//= require ./modules/navigation/NavigationRoving
+//= require ./modules/navigation/NavigationContentKeys
 
-//= require ./pages/home-countdown
-//= require ./pages/home-navigation-hide
-//= require ./pages/page-profile
-//= require ./pages/page-week-canvas
+//= require ./pages/HomeCountdown
+//= require ./pages/HomeNavigationHide
+//= require ./pages/PageProfile
+//= require ./pages/PageWeekCanvas
 
 //= require ./auth/verify
 
