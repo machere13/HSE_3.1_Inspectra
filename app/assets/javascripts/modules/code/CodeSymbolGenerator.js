@@ -115,8 +115,8 @@
 
         const rect = container.getBoundingClientRect();
         const estimatedLines = Math.floor(rect.height / 80) + 2;
-        const minLineLength = 20;
-        const maxLineLength = 50;
+        const minLineLength = 50;
+        const maxLineLength = 120;
 
         CodeSymbolGenerator.generateCodeBlock(container, weekNumber, estimatedLines, minLineLength, maxLineLength);
         container.dataset.codeGenerated = '1';
