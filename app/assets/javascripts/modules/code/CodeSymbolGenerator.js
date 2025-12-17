@@ -33,15 +33,25 @@
 
     symbols: [';', '$', '%', '#', '@', '&', '*', '(', ')', '{', '}', '[', ']', '=', '+', '-', '/', '\\', '|', '<', '>', '?', ':', '!', '~', '^', '`', '"', "'", ',', '.'],
 
+    seed: 0,
+    seedRandom: function() {
+      this.seed = (this.seed * 9301 + 49297) % 233280;
+      return this.seed / 233280;
+    },
+
+    setSeed: function(seed) {
+      this.seed = seed;
+    },
+
     getRandomItem: function(array) {
-      return array[Math.floor(Math.random() * array.length)];
+      return array[Math.floor(this.seedRandom() * array.length)];
     },
 
     generateLine: function(minLength, maxLength) {
-      const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+      const length = Math.floor(this.seedRandom() * (maxLength - minLength + 1)) + minLength;
       const parts = [];
       let currentLength = 0;
-      let useWord = Math.random() > 0.3;
+      let useWord = this.seedRandom() > 0.3;
 
       while (currentLength < length) {
         if (useWord && this.codeWords.length > 0) {
@@ -57,22 +67,28 @@
           const symbol = this.getRandomItem(this.symbols);
           parts.push(symbol);
           currentLength += symbol.length;
-          useWord = Math.random() > 0.4;
+          useWord = this.seedRandom() > 0.4;
         }
       }
 
       return parts.join('');
     },
 
-    generateCodeBlock: function(container, linesCount, minLineLength, maxLineLength) {
+    generateCodeBlock: function(container, weekNumber, linesCount, minLineLength, maxLineLength) {
       if (!container) return;
 
       let backgroundElement = container.querySelector('.CodeSymbolGenerator-Background');
+      if (backgroundElement && backgroundElement.dataset.generated === '1') {
+        return;
+      }
+
       if (!backgroundElement) {
         backgroundElement = document.createElement('div');
         backgroundElement.className = 'CodeSymbolGenerator-Background';
         container.appendChild(backgroundElement);
       }
+
+      this.setSeed(weekNumber * 1000 + 12345);
 
       const fragment = document.createDocumentFragment();
       
@@ -85,6 +101,7 @@
 
       backgroundElement.innerHTML = '';
       backgroundElement.appendChild(fragment);
+      backgroundElement.dataset.generated = '1';
     },
 
     init: function() {
@@ -93,12 +110,15 @@
       containers.forEach(function(container) {
         if (container.dataset.codeGenerated === '1') return;
         
+        const weekNumber = parseInt(container.getAttribute('data-week-number'), 10);
+        if (isNaN(weekNumber)) return;
+
         const rect = container.getBoundingClientRect();
         const estimatedLines = Math.floor(rect.height / 80) + 2;
         const minLineLength = 20;
         const maxLineLength = 50;
 
-        CodeSymbolGenerator.generateCodeBlock(container, estimatedLines, minLineLength, maxLineLength);
+        CodeSymbolGenerator.generateCodeBlock(container, weekNumber, estimatedLines, minLineLength, maxLineLength);
         container.dataset.codeGenerated = '1';
       });
     }
