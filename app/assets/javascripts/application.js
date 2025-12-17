@@ -27,6 +27,8 @@
 //= require ./modules/navigation/NavigationRoving
 //= require ./modules/navigation/NavigationContentKeys
 
+//= require ./modules/code/CodeSymbolGenerator
+
 //= require ./pages/HomeCountdown
 //= require ./pages/HomeNavigationHide
 //= require ./pages/PageProfile
