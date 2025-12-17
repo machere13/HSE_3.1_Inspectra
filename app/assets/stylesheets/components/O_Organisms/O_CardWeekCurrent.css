@@ -37,11 +37,51 @@
     gap: 0;
     pointer-events: none;
     z-index: 0;
+    perspective: 1000px;
+    transform-style: preserve-3d;
 }
 
 .CodeSymbolGenerator-Line{
     white-space: nowrap;
     overflow: visible;
+    transform-origin: 50% 50%;
+    animation: codePerspectiveDistort 12s ease-in-out infinite;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.CodeSymbolGenerator-Line:nth-child(1) { animation-delay: 0s; }
+.CodeSymbolGenerator-Line:nth-child(2) { animation-delay: 0.2s; }
+.CodeSymbolGenerator-Line:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes codePerspectiveDistort {
+    0% {
+        transform: perspective(800px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+    }
+    12.5% {
+        transform: perspective(800px) rotateX(8deg) rotateY(-12deg) rotateZ(-1deg) scale(1.05);
+    }
+    25% {
+        transform: perspective(800px) rotateX(12deg) rotateY(-15deg) rotateZ(-2deg) scale(1.08);
+    }
+    37.5% {
+        transform: perspective(800px) rotateX(8deg) rotateY(-8deg) rotateZ(-1deg) scale(1.05);
+    }
+    50% {
+        transform: perspective(800px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+    }
+    62.5% {
+        transform: perspective(800px) rotateX(-8deg) rotateY(12deg) rotateZ(1deg) scale(1.05);
+    }
+    75% {
+        transform: perspective(800px) rotateX(-12deg) rotateY(15deg) rotateZ(2deg) scale(1.08);
+    }
+    87.5% {
+        transform: perspective(800px) rotateX(-8deg) rotateY(8deg) rotateZ(1deg) scale(1.05);
+    }
+    100% {
+        transform: perspective(800px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+    }
 }
 
 .O_CardWeekCurrent-Body-Image{
