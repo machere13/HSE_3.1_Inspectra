@@ -3,20 +3,7 @@
         <span class="O_CardWeekCurrent-Label text-label"><%= "WEEK_#{week.number}" %></span>
     </div>
     <div class="O_CardWeekCurrent-Body">
-        <div class="O_CardWeekCurrent-Body-Image">
-            <%= image_tag 'Q_DayElement.png', class: "O_CardWeekCurrent-Body-Image-Image" %>
-        </div>
-        <div class="O_CardWeekCurrent-Body-Content">
-            <span class="O_CardWeekCurrent-Body-Content-Label text-p-3"><%= "CASE_#{week.number}" %></span>
-            <span
-              class="O_CardWeekCurrent-Body-Content-Label text-p-3"
-              data-countdown
-              data-expires-at="<%= week.expires_at&.iso8601 %>"
-            >
-              <%= "TIME_LEFT: #{week.time_left}" %>
-            </span>
-            <span class="O_CardWeekCurrent-Body-Content-Label text-p-3">[> ОТКРЫТЬ НЕДЕЛЮ]</span>
-        </div>
+        
     </div>
 <% end %>
 

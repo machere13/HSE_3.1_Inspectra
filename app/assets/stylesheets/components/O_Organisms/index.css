@@ -2,7 +2,7 @@
  *= require ./O_HeaderPlug
  *= require ./O_Footer
  *= require ./O_Navigation
- *= require ./O_CardDayCurrent
+ *= require ./O_CardWeekCurrent
  *= require ./O_Header
  *= require ./O_ContentPreview
  *= require ./O_ArticleCard
