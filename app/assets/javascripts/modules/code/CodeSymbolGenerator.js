@@ -104,22 +104,70 @@
       backgroundElement.dataset.generated = '1';
     },
 
+    setupMouseInteraction: function(container) {
+      const backgroundElement = container.querySelector('.CodeSymbolGenerator-Background');
+      if (!backgroundElement) return;
+
+      const lines = backgroundElement.querySelectorAll('.CodeSymbolGenerator-Line');
+      if (lines.length === 0) return;
+
+      const handleMouseMove = function(e) {
+        const rect = container.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+
+        const rotateX = -(y - 0.5) * 20;
+        const rotateY = (x - 0.5) * 20;
+        const rotateZ = -(x - 0.5) * 5;
+
+        lines.forEach(function(line, index) {
+          const lineY = (index / lines.length);
+          const distanceFromCursor = Math.abs(y - lineY);
+          const intensity = Math.max(0, 1 - distanceFromCursor * 1.5);
+          
+          const finalRotateX = rotateX * intensity;
+          const finalRotateY = rotateY * intensity;
+          const finalRotateZ = rotateZ * intensity * 0.5;
+
+          line.style.setProperty('--mouse-rotate-x', finalRotateX + 'deg');
+          line.style.setProperty('--mouse-rotate-y', finalRotateY + 'deg');
+          line.style.setProperty('--mouse-rotate-z', finalRotateZ + 'deg');
+        });
+      };
+
+      const handleMouseLeave = function() {
+        lines.forEach(function(line) {
+          line.style.setProperty('--mouse-rotate-x', '0deg');
+          line.style.setProperty('--mouse-rotate-y', '0deg');
+          line.style.setProperty('--mouse-rotate-z', '0deg');
+        });
+      };
+
+      container.addEventListener('mousemove', handleMouseMove);
+      container.addEventListener('mouseleave', handleMouseLeave);
+    },
+
     init: function() {
       const containers = document.querySelectorAll('.O_CardWeekCurrent-Body');
       
       containers.forEach(function(container) {
-        if (container.dataset.codeGenerated === '1') return;
+        if (container.dataset.codeGenerated === '1') {
+          CodeSymbolGenerator.setupMouseInteraction(container);
+          return;
+        }
         
         const weekNumber = parseInt(container.getAttribute('data-week-number'), 10);
         if (isNaN(weekNumber)) return;
 
         const rect = container.getBoundingClientRect();
         const estimatedLines = Math.floor(rect.height / 80) + 2;
-        const minLineLength = 20;
-        const maxLineLength = 50;
+        const minLineLength = 50;
+        const maxLineLength = 120;
 
         CodeSymbolGenerator.generateCodeBlock(container, weekNumber, estimatedLines, minLineLength, maxLineLength);
         container.dataset.codeGenerated = '1';
+        
+        CodeSymbolGenerator.setupMouseInteraction(container);
       });
     }
   };
