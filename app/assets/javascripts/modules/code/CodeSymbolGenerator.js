@@ -54,10 +54,16 @@
       let useWord = this.seedRandom() > 0.3;
 
       while (currentLength < length) {
+        const shouldHighlight = this.seedRandom() < 0.15;
+        
         if (useWord && this.codeWords.length > 0) {
           const word = this.getRandomItem(this.codeWords);
           if (currentLength + word.length <= length) {
-            parts.push(word);
+            if (shouldHighlight) {
+              parts.push('<span class="CodeSymbolGenerator-Highlight">' + word + '</span>');
+            } else {
+              parts.push(word);
+            }
             currentLength += word.length;
             useWord = false;
           } else {
@@ -65,7 +71,11 @@
           }
         } else {
           const symbol = this.getRandomItem(this.symbols);
-          parts.push(symbol);
+          if (shouldHighlight) {
+            parts.push('<span class="CodeSymbolGenerator-Highlight">' + symbol + '</span>');
+          } else {
+            parts.push(symbol);
+          }
           currentLength += symbol.length;
           useWord = this.seedRandom() > 0.4;
         }
@@ -95,7 +105,7 @@
       for (let i = 0; i < linesCount; i++) {
         const line = document.createElement('div');
         line.className = 'CodeSymbolGenerator-Line';
-        line.textContent = this.generateLine(minLineLength, maxLineLength);
+        line.innerHTML = this.generateLine(minLineLength, maxLineLength);
         fragment.appendChild(line);
       }
 
@@ -111,36 +121,92 @@
       const lines = backgroundElement.querySelectorAll('.CodeSymbolGenerator-Line');
       if (lines.length === 0) return;
 
-      const handleMouseMove = function(e) {
-        const rect = container.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width;
-        const y = (e.clientY - rect.top) / rect.height;
+      let isMouseInside = false;
+      let animationFrameId = null;
+      let mouseX = 0.5;
+      let mouseY = 0.5;
 
-        const rotateX = -(y - 0.5) * 20;
-        const rotateY = (x - 0.5) * 20;
-        const rotateZ = -(x - 0.5) * 5;
+      const updateValues = function() {
+        let needsUpdate = false;
 
         lines.forEach(function(line, index) {
-          const lineY = (index / lines.length);
-          const distanceFromCursor = Math.abs(y - lineY);
-          const intensity = Math.max(0, 1 - distanceFromCursor * 1.5);
-          
-          const finalRotateX = rotateX * intensity;
-          const finalRotateY = rotateY * intensity;
-          const finalRotateZ = rotateZ * intensity * 0.5;
+          const currentX = parseFloat(line.style.getPropertyValue('--mouse-rotate-x') || '0');
+          const currentY = parseFloat(line.style.getPropertyValue('--mouse-rotate-y') || '0');
+          const currentZ = parseFloat(line.style.getPropertyValue('--mouse-rotate-z') || '0');
 
-          line.style.setProperty('--mouse-rotate-x', finalRotateX + 'deg');
-          line.style.setProperty('--mouse-rotate-y', finalRotateY + 'deg');
-          line.style.setProperty('--mouse-rotate-z', finalRotateZ + 'deg');
+          if (isMouseInside) {
+            const lineY = (index / lines.length);
+            const distanceFromCursor = Math.abs(mouseY - lineY);
+            const intensity = Math.max(0, 1 - distanceFromCursor * 1.5);
+            
+            const rotateX = -(mouseY - 0.5) * 20;
+            const rotateY = (mouseX - 0.5) * 20;
+            const rotateZ = -(mouseX - 0.5) * 5;
+            
+            const targetX = rotateX * intensity;
+            const targetY = rotateY * intensity;
+            const targetZ = rotateZ * intensity * 0.5;
+
+            const diffX = Math.abs(targetX - currentX);
+            const diffY = Math.abs(targetY - currentY);
+            const diffZ = Math.abs(targetZ - currentZ);
+
+            if (diffX > 0.1 || diffY > 0.1 || diffZ > 0.1) {
+              needsUpdate = true;
+              const newX = currentX + (targetX - currentX) * 0.2;
+              const newY = currentY + (targetY - currentY) * 0.2;
+              const newZ = currentZ + (targetZ - currentZ) * 0.2;
+              line.style.setProperty('--mouse-rotate-x', newX + 'deg');
+              line.style.setProperty('--mouse-rotate-y', newY + 'deg');
+              line.style.setProperty('--mouse-rotate-z', newZ + 'deg');
+            } else {
+              line.style.setProperty('--mouse-rotate-x', targetX + 'deg');
+              line.style.setProperty('--mouse-rotate-y', targetY + 'deg');
+              line.style.setProperty('--mouse-rotate-z', targetZ + 'deg');
+            }
+          } else {
+            if (Math.abs(currentX) > 0.1 || Math.abs(currentY) > 0.1 || Math.abs(currentZ) > 0.1) {
+              needsUpdate = true;
+              const newX = currentX * 0.85;
+              const newY = currentY * 0.85;
+              const newZ = currentZ * 0.85;
+              line.style.setProperty('--mouse-rotate-x', newX + 'deg');
+              line.style.setProperty('--mouse-rotate-y', newY + 'deg');
+              line.style.setProperty('--mouse-rotate-z', newZ + 'deg');
+            } else {
+              line.style.setProperty('--mouse-rotate-x', '0deg');
+              line.style.setProperty('--mouse-rotate-y', '0deg');
+              line.style.setProperty('--mouse-rotate-z', '0deg');
+            }
+          }
         });
+
+        if (needsUpdate) {
+          animationFrameId = requestAnimationFrame(updateValues);
+        } else {
+          animationFrameId = null;
+        }
+      };
+
+      const handleMouseMove = function(e) {
+        const rect = container.getBoundingClientRect();
+        mouseX = (e.clientX - rect.left) / rect.width;
+        mouseY = (e.clientY - rect.top) / rect.height;
+
+        if (!isMouseInside) {
+          isMouseInside = true;
+        }
+
+        if (!animationFrameId) {
+          animationFrameId = requestAnimationFrame(updateValues);
+        }
       };
 
       const handleMouseLeave = function() {
-        lines.forEach(function(line) {
-          line.style.setProperty('--mouse-rotate-x', '0deg');
-          line.style.setProperty('--mouse-rotate-y', '0deg');
-          line.style.setProperty('--mouse-rotate-z', '0deg');
-        });
+        isMouseInside = false;
+        if (!animationFrameId) {
+          animationFrameId = requestAnimationFrame(updateValues);
+        }
       };
 
       container.addEventListener('mousemove', handleMouseMove);
