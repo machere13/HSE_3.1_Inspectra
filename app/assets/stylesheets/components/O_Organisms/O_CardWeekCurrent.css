@@ -45,9 +45,13 @@
     white-space: nowrap;
     overflow: visible;
     transform-origin: 50% 50%;
-    animation: codePerspectiveDistort 12s ease-in-out infinite;
     transform-style: preserve-3d;
     will-change: transform;
+    --mouse-rotate-x: 0deg;
+    --mouse-rotate-y: 0deg;
+    --mouse-rotate-z: 0deg;
+    animation: codePerspectiveDistort 12s ease-in-out infinite;
+    transition: --mouse-rotate-x 0.15s ease-out, --mouse-rotate-y 0.15s ease-out, --mouse-rotate-z 0.15s ease-out;
 }
 
 .CodeSymbolGenerator-Line:nth-child(1) { animation-delay: 0s; }
@@ -56,31 +60,31 @@
 
 @keyframes codePerspectiveDistort {
     0% {
-        transform: perspective(800px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+        transform: perspective(800px) rotateX(calc(0deg + var(--mouse-rotate-x, 0deg))) rotateY(calc(0deg + var(--mouse-rotate-y, 0deg))) rotateZ(calc(0deg + var(--mouse-rotate-z, 0deg))) scale(1);
     }
     12.5% {
-        transform: perspective(800px) rotateX(8deg) rotateY(-12deg) rotateZ(-1deg) scale(1.05);
+        transform: perspective(800px) rotateX(calc(8deg + var(--mouse-rotate-x, 0deg))) rotateY(calc(-12deg + var(--mouse-rotate-y, 0deg))) rotateZ(calc(-1deg + var(--mouse-rotate-z, 0deg))) scale(1.05);
     }
     25% {
-        transform: perspective(800px) rotateX(12deg) rotateY(-15deg) rotateZ(-2deg) scale(1.08);
+        transform: perspective(800px) rotateX(calc(12deg + var(--mouse-rotate-x, 0deg))) rotateY(calc(-15deg + var(--mouse-rotate-y, 0deg))) rotateZ(calc(-2deg + var(--mouse-rotate-z, 0deg))) scale(1.08);
     }
     37.5% {
-        transform: perspective(800px) rotateX(8deg) rotateY(-8deg) rotateZ(-1deg) scale(1.05);
+        transform: perspective(800px) rotateX(calc(8deg + var(--mouse-rotate-x, 0deg))) rotateY(calc(-8deg + var(--mouse-rotate-y, 0deg))) rotateZ(calc(-1deg + var(--mouse-rotate-z, 0deg))) scale(1.05);
     }
     50% {
-        transform: perspective(800px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+        transform: perspective(800px) rotateX(calc(0deg + var(--mouse-rotate-x, 0deg))) rotateY(calc(0deg + var(--mouse-rotate-y, 0deg))) rotateZ(calc(0deg + var(--mouse-rotate-z, 0deg))) scale(1);
     }
     62.5% {
-        transform: perspective(800px) rotateX(-8deg) rotateY(12deg) rotateZ(1deg) scale(1.05);
+        transform: perspective(800px) rotateX(calc(-8deg + var(--mouse-rotate-x, 0deg))) rotateY(calc(12deg + var(--mouse-rotate-y, 0deg))) rotateZ(calc(1deg + var(--mouse-rotate-z, 0deg))) scale(1.05);
     }
     75% {
-        transform: perspective(800px) rotateX(-12deg) rotateY(15deg) rotateZ(2deg) scale(1.08);
+        transform: perspective(800px) rotateX(calc(-12deg + var(--mouse-rotate-x, 0deg))) rotateY(calc(15deg + var(--mouse-rotate-y, 0deg))) rotateZ(calc(2deg + var(--mouse-rotate-z, 0deg))) scale(1.08);
     }
     87.5% {
-        transform: perspective(800px) rotateX(-8deg) rotateY(8deg) rotateZ(1deg) scale(1.05);
+        transform: perspective(800px) rotateX(calc(-8deg + var(--mouse-rotate-x, 0deg))) rotateY(calc(8deg + var(--mouse-rotate-y, 0deg))) rotateZ(calc(1deg + var(--mouse-rotate-z, 0deg))) scale(1.05);
     }
     100% {
-        transform: perspective(800px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+        transform: perspective(800px) rotateX(calc(0deg + var(--mouse-rotate-x, 0deg))) rotateY(calc(0deg + var(--mouse-rotate-y, 0deg))) rotateZ(calc(0deg + var(--mouse-rotate-z, 0deg))) scale(1);
     }
 }
 
