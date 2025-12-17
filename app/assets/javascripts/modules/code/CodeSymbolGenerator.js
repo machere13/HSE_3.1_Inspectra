@@ -54,10 +54,16 @@
       let useWord = this.seedRandom() > 0.3;
 
       while (currentLength < length) {
+        const shouldHighlight = this.seedRandom() < 0.15;
+        
         if (useWord && this.codeWords.length > 0) {
           const word = this.getRandomItem(this.codeWords);
           if (currentLength + word.length <= length) {
-            parts.push(word);
+            if (shouldHighlight) {
+              parts.push('<span class="CodeSymbolGenerator-Highlight">' + word + '</span>');
+            } else {
+              parts.push(word);
+            }
             currentLength += word.length;
             useWord = false;
           } else {
@@ -65,7 +71,11 @@
           }
         } else {
           const symbol = this.getRandomItem(this.symbols);
-          parts.push(symbol);
+          if (shouldHighlight) {
+            parts.push('<span class="CodeSymbolGenerator-Highlight">' + symbol + '</span>');
+          } else {
+            parts.push(symbol);
+          }
           currentLength += symbol.length;
           useWord = this.seedRandom() > 0.4;
         }
@@ -95,7 +105,7 @@
       for (let i = 0; i < linesCount; i++) {
         const line = document.createElement('div');
         line.className = 'CodeSymbolGenerator-Line';
-        line.textContent = this.generateLine(minLineLength, maxLineLength);
+        line.innerHTML = this.generateLine(minLineLength, maxLineLength);
         fragment.appendChild(line);
       }
 
