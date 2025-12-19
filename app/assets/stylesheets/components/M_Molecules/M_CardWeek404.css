@@ -1,5 +1,6 @@
 .M_CardWeek404{
     padding: var(--spacing-x3);
+    /* TODO: вынести градиент в переменную */
     background: linear-gradient(30deg, rgb(132 132 132 / 20%) -10%, rgb(0 0 0 / 20%) 30%);
     background-position: left bottom;
     background-size: 200% 200%;
