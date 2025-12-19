@@ -9,9 +9,11 @@
     -ms-overflow-style: none;
 }
   
-.PageHome-Days-List{
+.PageHome-Weeks-List{
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-x6);
+    gap: var(--spacing-x4);
     width: 100%;
+    border-left: var(--border-x05) dashed var(--color-border-primary);
+    padding: var(--spacing-x2) 0;
 }
