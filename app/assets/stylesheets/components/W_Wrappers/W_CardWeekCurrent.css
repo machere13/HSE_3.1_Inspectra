@@ -1,6 +1,6 @@
 .W_CardWeekCurrent{
-    padding: var(--spacing-x2) var(--spacing-x4);
-    border-left: var(--border-x05) dashed var(--color-border-primary);
+    padding: 0 var(--spacing-x4);
+    /* border-left: var(--border-x05) dashed var(--color-border-primary); */
     width: 100%;
     height: fit-content;
 }
