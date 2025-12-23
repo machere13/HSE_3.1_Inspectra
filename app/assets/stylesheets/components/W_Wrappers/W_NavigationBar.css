@@ -5,6 +5,8 @@
     gap: var(--spacing-x1);
     padding: var(--spacing-x2);
     background: var(--color-primary);
+    border-radius: var(--border-radius-x2);
+    overflow: hidden;
 }
 
 .W_NavigationBar-Item{
