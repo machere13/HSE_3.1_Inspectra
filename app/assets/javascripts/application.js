@@ -26,6 +26,7 @@
 //= require ./modules/navigation/NavigationSections
 //= require ./modules/navigation/NavigationRoving
 //= require ./modules/navigation/NavigationContentKeys
+//= require ./modules/navigation/NavigationSwitcher
 
 //= require ./modules/code/CodeSymbolGenerator
 

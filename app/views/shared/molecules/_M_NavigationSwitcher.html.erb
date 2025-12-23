@@ -1,0 +1,15 @@
+<%
+  current_value = local_assigns[:current_value] || 'cobweb'
+  name = local_assigns[:name] || 'navigation_switcher'
+%>
+
+<button
+  type="button"
+  class="M_NavigationSwitcher<%= ' M_NavigationSwitcher--Active' if current_value == 'list' %>"
+  data-name="<%= name %>"
+  data-value="<%= current_value %>"
+>
+  <span class="M_NavigationSwitcher-Indicator"></span>
+  <span class="M_NavigationSwitcher-Label"><%= current_value == 'list' ? 'LIST' : 'COBWEB' %></span>
+</button>
+

@@ -1,0 +1,52 @@
+.M_NavigationSwitcher{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--spacing-x2) var(--spacing-x3);
+    background: var(--color-primary);
+    border: 1px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-x2);
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.3s ease, background 0.3s ease;
+    gap: var(--spacing-x3);
+}
+
+.M_NavigationSwitcher:hover{
+    border-color: var(--color-border-primary);
+    background: var(--color-state-hover);
+}
+
+.M_NavigationSwitcher-Indicator{
+    width: 52px;
+    height: 22px;
+    border-radius: var(--border-radius-x1);
+    border: 1px solid var(--color-border-secondary);
+    background: transparent;
+    flex-shrink: 0;
+    transition: left 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    position: absolute;
+    left: var(--spacing-x3);
+}
+
+.M_NavigationSwitcher--Active .M_NavigationSwitcher-Indicator{
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    left: calc(100% - 52px - var(--spacing-x3));
+}
+
+.M_NavigationSwitcher-Label{
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-headers);
+    text-transform: uppercase;
+    transition: margin 0.3s ease;
+    position: relative;
+    z-index: 1;
+    margin-left: calc(52px + var(--spacing-x3));
+}
+
+.M_NavigationSwitcher--Active .M_NavigationSwitcher-Label{
+    margin-left: 0;
+    margin-right: calc(52px + var(--spacing-x3));
+}
+
