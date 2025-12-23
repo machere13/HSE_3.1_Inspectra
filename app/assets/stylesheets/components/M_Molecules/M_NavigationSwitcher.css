@@ -1,0 +1,72 @@
+.M_NavigationSwitcher{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--spacing-x1) var(--spacing-x2);
+    background: transparent;
+    border-radius: var(--border-radius-x2);
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.3s ease, background 0.3s ease;
+    gap: var(--spacing-x3);
+    height: 38px;
+    align-items: center;
+    outline: none;
+    border: none;
+}
+
+.M_NavigationSwitcher::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    padding: 1px;
+    /* TODO: вынести градиент в переменную */
+    background: linear-gradient(85deg, rgb(58 58 58 / 50%), rgb(255 255 255 / 25%));
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+}
+
+.M_NavigationSwitcher-Indicator{
+    width: 52px;
+    height: 22px;
+    border-radius: var(--border-radius-x1);
+    border: 1px solid var(--color-border-secondary);
+    background: transparent;
+    flex-shrink: 0;
+    transition: left 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    position: absolute;
+    left: var(--spacing-x3);
+}
+
+.M_NavigationSwitcher--Active .M_NavigationSwitcher-Indicator{
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    left: calc(100% - 52px - var(--spacing-x3));
+}
+
+.M_NavigationSwitcher-Label{
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-headers);
+    text-transform: uppercase;
+    transition: left 0.3s ease, right 0.3s ease;
+    position: absolute;
+    z-index: 1;
+    left: calc(52px + 2*var(--spacing-x3));
+    width: fit-content;
+}
+
+.M_NavigationSwitcher--Active .M_NavigationSwitcher-Label{
+    right: calc(52px + 2*var(--spacing-x3));
+    left: auto;
+}
+
