@@ -4,13 +4,40 @@
     justify-content: space-between;
     width: 100%;
     max-width: 360px;
-    height: 100vh;
     padding: var(--spacing-x2) var(--spacing-x4);
     gap: var(--spacing-x3);
     position: sticky;
-    top: 0;
+    top: var(--spacing-x1);
     align-self: flex-start;
+    height: calc(100vh - 2 * var(--spacing-x1));
     z-index: 1;
+    border-radius: var(--spacing-x3);
+    background: radial-gradient(circle at center, rgb(0 0 0 / 10%),rgb(255 255 255 / 5%));
+    background-size: 200% 200%;
+    background-position: center center;
+    backdrop-filter: blur(6px);
+    overflow: hidden;
+}
+
+.W_Sidebar::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    padding: 1px;
+    /* TODO: вынести градиент в переменную */
+    background: linear-gradient(85deg, rgb(58 58 58 / 50%), rgb(255 255 255 / 25%));
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
 }
 
 .W_Sidebar-Top{
