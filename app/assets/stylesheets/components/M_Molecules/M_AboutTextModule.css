@@ -1,0 +1,11 @@
+.M_AboutTextModule{
+    border-radius: var(--border-radius-x3);
+    background: var(--color-tertiary);
+    padding: var(--spacing-x3);
+    border: var(--border-x05) solid var(--color-border-primary);
+    width: fit-content;
+}
+
+.M_AboutTextModule-Title{
+    color: var(--color-text-primary);
+}
