@@ -28,26 +28,10 @@
       <%= f.label :email_verified, t('admin.users.edit.email_verified'), class: 'O_AdminEditBlock-Label text-labels-1' %>
       <label for="user_email_verified_<%= @user.id %>" style="display: flex; align-items: center; gap: var(--spacing-x2); cursor: pointer;">
         <%= f.check_box :email_verified, id: "user_email_verified_#{@user.id}", style: 'display: none;', class: 'admin-checkbox-input' %>
-        <span id="q_checkbox_email_verified_<%= @user.id %>" class="Q_Checkbox <%= 'checked' if @user.email_verified %>"></span>
+        <span class="Q_Checkbox <%= 'checked' if @user.email_verified %>"></span>
       </label>
     </div>
   <% end %>
 
   <%= render 'shared/atoms/A_Button', type: 'submit', text: t('admin.users.edit.update') %>
 <% end %>
-
-<script>
-  (function() {
-    const input = document.querySelector('#user_email_verified_<%= @user.id %>');
-    const checkbox = document.querySelector('#q_checkbox_email_verified_<%= @user.id %>');
-    if (!input || !checkbox) return;
-
-    const updateCheckbox = function() {
-      checkbox.classList.toggle('checked', input.checked);
-    };
-
-    input.addEventListener('change', updateCheckbox);
-    updateCheckbox();
-  })();
-</script>
-
