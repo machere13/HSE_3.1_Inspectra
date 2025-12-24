@@ -7,6 +7,13 @@
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    padding-left: var(--spacing-x3);
+}
+
+.PageHome-Content{
+    display: flex;
+    width: 100%;
+    padding: 0 var(--spacing-x3);
 }
   
 .PageHome-Weeks-List{
