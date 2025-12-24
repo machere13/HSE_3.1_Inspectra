@@ -86,15 +86,39 @@
 }
 
 .PageWeek-Content-List {
-    padding: var(--spacing-x4);
+    padding: 0;
     width: 100%;
 }
 
+.PageWeek-Content-List::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
 .PageWeek-Content-List-Group {
-    width: auto;
-    margin-bottom: var(--spacing-x4);
+    width: calc(33.333% - var(--spacing-x8));
+    float: left;
+    margin-bottom: var(--spacing-x12);
     padding-left: var(--spacing-x12);
     border-left: var(--border-x05) dashed var(--color-border-primary);
+}
+
+.PageWeek-Content-List-Group:nth-child(3n) {
+    margin-right: 0;
+}
+
+@media (max-width: 1400px) {
+    .PageWeek-Content-List-Group {
+        width: calc(50% - var(--spacing-x6));
+    }
+}
+
+@media (max-width: 1024px) {
+    .PageWeek-Content-List-Group {
+        width: 100%;
+        margin-right: 0;
+    }
 }
 
 .PageWeek-Content-List-Item {
