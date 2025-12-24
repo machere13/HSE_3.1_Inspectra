@@ -31,6 +31,8 @@
 //= require ./modules/navigation/NavigationSwitcher
 //= require ./modules/notifications/NotificationsSwitcher
 
+//= require ./modules/admin/AdminCheckbox
+
 //= require ./modules/code/CodeSymbolGenerator
 
 //= require ./pages/HomeCountdown
