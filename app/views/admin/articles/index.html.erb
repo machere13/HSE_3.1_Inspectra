@@ -1,21 +1,31 @@
-<h1>Статьи недели <%= @week.number %></h1>
+<main class="PageAdminArticlesIndex">
+  <h1>Статьи недели <%= @week.number %></h1>
 
-<p><%= link_to 'Новая статья', new_admin_week_article_path(@week) %></p>
+  <%= render 'shared/atoms/A_Button', text: 'Новая статья', href: new_admin_week_article_path(@week) %>
 
-<% if @pagy.count > 0 %>
-  <p><%= @pagy.from %>-<%= @pagy.to %> из <%= @pagy.count %></p>
-<% end %>
-
-<ul>
-  <% @articles.each do |article| %>
-    <li>
-      <%= link_to article.title, admin_week_article_path(@week, article) %>
-      — <%= link_to 'Редактировать', edit_admin_week_article_path(@week, article) %>
-    </li>
+  <% pagination_info = @pagy.count > 0 ? "#{@pagy.from}-#{@pagy.to} из #{@pagy.count}" : nil %>
+  <%= render 'shared/organisms/O_ControlPanelTable',
+      title: 'Статьи',
+      actions: pagination_info do %>
+    <% if @articles.any? %>
+      <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
+        '#',
+        'Название',
+        'Действия'
+      ] %>
+      <% @articles.each do |article| %>
+        <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+          article.id,
+          link_to(article.title, admin_week_article_path(@week, article)),
+          "#{link_to('Редактировать', edit_admin_week_article_path(@week, article))} | #{button_to('Удалить', admin_week_article_path(@week, article), method: :delete, form: { data: { turbo_confirm: 'Удалить эту статью?' }, style: 'display:inline', class: 'button-text-style text-p-2' })}".html_safe
+        ] %>
+      <% end %>
+    <% else %>
+      <p>Нет статей</p>
+    <% end %>
   <% end %>
-</ul>
 
-<%= pagy_nav(@pagy) if @pagy.pages > 1 %>
+  <%= raw pagy_nav(@pagy) if @pagy.pages > 1 %>
 
-<%= link_to 'Назад к неделе', admin_week_path(@week) %>
-
+  <%= link_to 'Назад к неделе', admin_week_path(@week) %>
+</main>
