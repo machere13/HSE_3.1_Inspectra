@@ -1,7 +1,7 @@
 <main class="PageAdminContentItemsIndex">
   <h1>Контент недели <%= @week.number %></h1>
 
-  <p><%= link_to 'Добавить контент', new_admin_week_content_item_path(@week) %></p>
+  <%= render 'shared/atoms/A_Button', text: 'Добавить контент', href: new_admin_week_content_item_path(@week) %>
 
   <% pagination_info = @pagy.count > 0 ? "#{@pagy.from}-#{@pagy.to} из #{@pagy.count}" : nil %>
   <%= render 'shared/organisms/O_ControlPanelTable',
