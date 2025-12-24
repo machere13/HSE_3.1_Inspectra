@@ -1,8 +1,34 @@
 .W_NotificationsBar{
     display: flex;
-    flex-direction: column;
     width: 100%;
-    gap: var(--spacing-x1);
+    gap: var(--spacing-x4);
+    border-radius: var(--border-radius-x2);
+    background: var(--color-primary);
+    overflow: hidden;
+    padding: var(--spacing-x2) var(--spacing-x3);
+    position: relative;
+}
+
+.W_NotificationsBar::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    padding: 1px;
+    /* TODO: вынести градиент в переменную */
+    background: linear-gradient(85deg, rgb(58 58 58 / 50%), rgb(255 255 255 / 25%));
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    pointer-events: none;
 }
 
 .W_NotificationsBar-Item{
