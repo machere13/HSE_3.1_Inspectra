@@ -22,9 +22,6 @@
       <%= render 'shared/wrappers/W_Sidebar' %>
       <%= yield %>
     </div>
-    <% if request.path == '/about' || request.path == about_path %>
-      <%= render 'shared/organisms/O_Footer' %>
-    <% end %>
     <%= render 'shared/atoms/A_IconButton', position: 'fixed', right: 'var(--spacing-x5)', bottom: 'var(--spacing-x5)', icon_name: 'Q_ConsoleIcon', z_index: 100 %>
   </div>
 </body>
