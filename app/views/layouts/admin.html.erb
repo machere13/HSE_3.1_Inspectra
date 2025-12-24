@@ -13,19 +13,9 @@
     <%= tag.link rel: 'manifest', href: '/favicons/site.webmanifest' %>
   </head>
   <body>
-    <nav>
-      <%= link_to t('admin.navigation.dashboard'), admin_dashboard_path %> |
-      <%= link_to t('admin.navigation.users'), admin_users_path %> |
-      <%= link_to t('admin.navigation.weeks'), admin_weeks_path %> |
-      <% if defined?(@week) && @week&.persisted? %>
-        <%= link_to t('admin.navigation.articles'), admin_week_articles_path(@week) %> |
-        <%= link_to t('admin.navigation.content'), admin_week_content_items_path(@week) %>
-      <% end %>
-      <span style="float:right"><%= link_to t('admin.navigation.to_site'), root_path %></span>
-    </nav>
-    <hr/>
-    <%= yield %>
+    <div class="PageLayout">
+      <%= render 'shared/wrappers/W_Sidebar', admin_navigation: true %>
+      <%= yield %>
+    </div>
   </body>
-  </html>
-
-
+</html>

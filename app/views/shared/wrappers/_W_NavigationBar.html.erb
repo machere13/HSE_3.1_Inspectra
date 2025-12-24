@@ -1,13 +1,21 @@
-<% is_week_page = request.path.include?('/weeks/') %>
-<% is_article_page = request.path.include?('/articles/') %>
+<% if local_assigns[:admin_navigation] %>
+  <div class="W_NavigationBar">
+    <div class="W_NavigationBar-Item" data-index="0">
+      <%= render 'shared/molecules/M_NavigationBar', icon_name: 'Q_FolderIcon', icon_width: 16, icon_height: 16, text: 'Admin', arrow: { opened: true } %>
+    </div>
+  </div>
+<% else %>
+  <% is_week_page = request.path.include?('/weeks/') %>
+  <% is_article_page = request.path.include?('/articles/') %>
 
-<div class="W_NavigationBar">
-  <div class="W_NavigationBar-Item" data-index="0">
-    <%= render 'shared/molecules/M_NavigationBar', icon_name: 'Q_FolderIcon', icon_width: 16, icon_height: 16, text: 'Pages', arrow: { opened: true } %>
+  <div class="W_NavigationBar">
+    <div class="W_NavigationBar-Item" data-index="0">
+      <%= render 'shared/molecules/M_NavigationBar', icon_name: 'Q_FolderIcon', icon_width: 16, icon_height: 16, text: 'Pages', arrow: { opened: true } %>
+    </div>
+    <div class="W_NavigationBar-Item" data-index="1">
+      <% unless is_article_page %>
+        <%= render 'shared/molecules/M_NavigationBar', icon_name: is_week_page ? 'Q_FilterIcon' : nil, icon_width: 16, icon_height: 16, text: is_week_page ? 'Filter' : 'Blocks', arrow: { opened: true } %>
+      <% end %>
+    </div>
   </div>
-  <div class="W_NavigationBar-Item" data-index="1">
-    <% unless is_article_page %>
-      <%= render 'shared/molecules/M_NavigationBar', icon_name: is_week_page ? 'Q_FilterIcon' : nil, icon_width: 16, icon_height: 16, text: is_week_page ? 'Filter' : 'Blocks', arrow: { opened: true } %>
-    <% end %>
-  </div>
-</div>
+<% end %>
