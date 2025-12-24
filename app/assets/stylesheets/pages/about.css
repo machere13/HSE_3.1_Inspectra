@@ -73,3 +73,29 @@
     width: 100%;
     gap: var(--spacing-x14);
 }
+
+.PageAbout-Section-Modules{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x14);
+}
+
+.PageAbout-Section-Modules-Blocks{
+    display: flex;
+    width: 100%;
+    gap: var(--spacing-x4);
+}
+
+.PageAbout-Section-Modules-Text{
+    padding-left: var(--spacing-x5);
+    display: flex;
+    gap: var(--spacing-x3);
+    border-left: var(--border-x05) dashed var(--color-accent);
+}
+
+.PageAbout-Section-Modules-Text-Title{
+    color: var(--color-text-primary);
+    max-width: 985px;
+    text-align: left;
+}

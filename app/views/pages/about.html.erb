@@ -15,6 +15,19 @@
     <%= render 'pages/about/M_AboutTextPlug', texts: ['INSPECTRA — интерактивное медиа, где обучение вебу превращается в расследование.', 'Каждый материал — это миссия. Каждый баг — улика. Каждый пользователь — агент.'], max_width: '692px'%>
     <%= render 'pages/about/M_AboutTextPlug', texts: ['Мы — команда исследователей цифровой среды.', '>>> разработчики, дизайнеры и энтузиасты безопасности', '>>> создаём обучающие миссии, где теория и практика переплетены', '>>> верим, что баг — это не ошибка, а начало расследования'], max_width: '692px'%>
   </section>
+  <section class="PageAbout-Section-Modules">
+    <%= render 'pages/about/M_AboutContentPlug', info: 'Наше медиа имеет 5 направлений для погружения в исследования', additional_info: 'MODULES', show_asterisk: true %>
+    <div class="PageAbout-Section-Modules-Blocks">
+      <%= render 'pages/about/M_AboutTextModule', title: '<dev_dive> погружение в структуру сайтов (DOM, cookies, network)' %>
+      <%= render 'pages/about/M_AboutTextModule', title: '<legacy_mode>  изучение устаревших систем и ретро-кода' %>
+      <%= render 'pages/about/M_AboutTextModule', title: '<security_lab>  безопасные симуляции фишинга, XSS и других IT-рисков' %>
+      <%= render 'pages/about/M_AboutTextModule', title: '<bughunt>  поиск и устранение ошибок в интерактивных сценариях' %>
+    </div>
+    <div class="PageAbout-Section-Modules-Text">
+      <%= render 'shared/quarks/Q_Icon', name: 'Q_AsteriskIcon', width: 24, height: 24 %>
+      <h2 class="PageAbout-Section-Modules-Text-Title">&lt;THEORY DECODER&gt; упрощаем сложное, объясняем логично</h2>
+    </div>
+  </section>
   <section class="PageAbout-Section-Info">
     <%= render 'pages/about/M_AboutContentPlug', info: 'CONTENT', additional_info: 'INFO', show_asterisk: true %>
     <div class="PageAbout-Section-Info-Blocks">
