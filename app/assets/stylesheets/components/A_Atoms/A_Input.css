@@ -3,9 +3,10 @@
   padding: var(--spacing-x3);
   background: var(--color-background);
   color: var(--color-state-text-inactive);
-  border: var(--border-x05) solid var(--color-state-inactive);
+  border: var(--border-x025) solid var(--color-state-inactive);
   outline: none;
   transition: all .2s ease;
+  border-radius: var(--border-radius-x2);
 }
 
 .A_Input::placeholder{
