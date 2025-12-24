@@ -1,0 +1,16 @@
+<%
+  icon_name = case local_assigns[:type]
+  when 'home'
+    'Q_BreadcrumbHomeIcon'
+  when 'week'
+    'Q_BreadcrumbWeekIcon'
+  when 'article'
+    'Q_BreadcrumbArticleIcon'
+  else
+    'Q_ArrowDividerIcon'
+  end
+%>
+<%= link_to href, class: "M_BreadcrumbsItem text-labels-1" do %>
+  <%= render 'shared/quarks/Q_Icon', name: icon_name, width: 24, height: 24 %>
+  <span class="M_BreadcrumbsItem-Text text-labels-1"><%= text %></span>
+<% end %>

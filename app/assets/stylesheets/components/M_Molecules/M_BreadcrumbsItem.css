@@ -1,0 +1,5 @@
+.M_BreadcrumbsItem{
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-x2);
+}
