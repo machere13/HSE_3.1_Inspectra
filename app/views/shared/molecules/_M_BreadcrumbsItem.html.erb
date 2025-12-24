@@ -11,6 +11,8 @@
   end
 %>
 <%= link_to href, class: "M_BreadcrumbsItem text-labels-1" do %>
-  <%= render 'shared/quarks/Q_Icon', name: icon_name, width: 24, height: 24 %>
+  <% if icon_name %>
+    <%= render 'shared/quarks/Q_Icon', name: icon_name, width: 24, height: 24 %>
+  <% end %>
   <span class="M_BreadcrumbsItem-Text text-labels-1"><%= text %></span>
 <% end %>
