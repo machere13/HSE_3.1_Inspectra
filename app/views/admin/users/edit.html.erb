@@ -2,7 +2,7 @@
 
 <p><%= link_to t('admin.users.edit.back_to_user'), admin_user_path(@user) %> | <%= link_to t('admin.users.edit.back_to_list'), admin_users_path %></p>
 
-<%= form_with model: [:admin, @user], method: :patch do |f| %>
+<%= form_with class: 'AdminForm', model: [:admin, @user], method: :patch do |f| %>
   <% if @user.errors.any? %>
     <div>
       <ul>
@@ -13,23 +13,23 @@
     </div>
   <% end %>
 
-  <div>
-    <%= f.label :email, t('admin.users.edit.email') %>
-    <%= f.email_field :email %>
-  </div>
+  <%= render 'shared/organisms/O_AdminEditBlock' do %>
+    <div class="O_AdminEditBlock-Field">
+      <%= f.label :email, t('admin.users.edit.email'), class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= render 'shared/atoms/A_Input', name: "#{f.object_name}[email]", value: @user.email, type: 'email' %>
+    </div>
 
-  <div>
-    <%= f.label :role, t('admin.users.edit.role') %>
-    <%= f.select :role, options_for_select(User.roles.map { |k, v| [t("admin.users.roles.#{k}"), k] }, @user.role) %>
-  </div>
+    <div class="O_AdminEditBlock-Field">
+      <%= f.label :role, t('admin.users.edit.role'), class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= f.select :role, options_for_select(User.roles.map { |k, v| [t("admin.users.roles.#{k}"), k] }, @user.role), {}, { class: 'A_Input text-p-3' } %>
+    </div>
 
-  <div>
-    <%= f.label :email_verified, t('admin.users.edit.email_verified') %>
-    <%= f.check_box :email_verified %>
-  </div>
+    <div class="O_AdminEditBlock-Field">
+      <%= f.label :email_verified, t('admin.users.edit.email_verified'), class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= f.check_box :email_verified %>
+    </div>
+  <% end %>
 
-  <div>
-    <%= f.submit t('admin.users.edit.update') %>
-  </div>
+  <%= render 'shared/atoms/A_Button', type: 'submit', text: t('admin.users.edit.update') %>
 <% end %>
 
