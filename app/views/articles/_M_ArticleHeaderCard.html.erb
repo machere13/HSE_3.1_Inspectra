@@ -4,6 +4,10 @@
   </div>
   <div class="M_ArticleHeaderCard-Body">
     <h1 class="M_ArticleHeaderCard-Title text-p-1"><%= article.title %></h1>
-    <h2 class="M_ArticleHeaderCard-Description text-p-1-mono"><%= article.description %></h2>
+    <% if article.respond_to?(:description) && article.description.present? %>
+      <h2 class="M_ArticleHeaderCard-Description text-p-1-mono"><%= article.description %></h2>
+    <% elsif article.body.present? %>
+      <h2 class="M_ArticleHeaderCard-Description text-p-1-mono"><%= truncate(strip_tags(article.body), length: 120) %></h2>
+    <% end %>
   </div>
 </div>

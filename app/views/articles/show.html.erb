@@ -6,11 +6,13 @@
         { text: "WEEK #{@week.number}", href: week_path(@week), type: 'week' },
         { text: @article.title, href: week_article_path(@week, @article), type: 'article' }
       ] %>
-      <h3><%= @article.title %></h3>
-      <h4><%= @article.description %></h4>
+      <%= render 'shared/molecules/M_ContentTimer', week: @week %>
     </div>
   <% end %>
-    <div class="PageArticle-Content">
+  <main class="PageArticle-Content">
+    <%= render 'articles/M_ArticleHeaderCard', article: @article %>
+    <div class="PageArticle-Content-Body">
         <%= @article.body %>
     </div>
+  </main>
 </div>
