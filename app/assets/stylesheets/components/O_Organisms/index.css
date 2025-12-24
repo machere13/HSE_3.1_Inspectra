@@ -8,4 +8,5 @@
  *= require ./O_Breadcrumbs
  *= require ./O_Notifications
  *= require ./O_ControlPanelTable
+ *= require ./O_AdminEditBlock
 */

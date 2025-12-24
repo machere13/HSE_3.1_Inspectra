@@ -35,3 +35,10 @@
     text-transform: var(--text-transform-as-typed);
     text-decoration: var(--text-decoration-none);
 }
+
+.AdminForm{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x2);
+}
