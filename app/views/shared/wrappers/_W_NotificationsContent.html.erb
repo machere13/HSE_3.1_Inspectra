@@ -1,11 +1,11 @@
 <div class="W_NotificationsContent">
   <div class="W_NotificationsContent-Item" data-index="0">
-    <%= render 'shared/molecules/M_NotificationItem', text: 'Unread message 1' %>
-    <%= render 'shared/molecules/M_NotificationItem', text: 'Unread message 2' %>
+    <%= render 'shared/molecules/M_NotificationItem', title: 'Sender 1', text: 'Unread message 1', read: false %>
+    <%= render 'shared/molecules/M_NotificationItem', title: 'Sender 2', text: 'Unread message 2', read: false %>
   </div>
   <div class="W_NotificationsContent-Item W_NotificationsContent-Item--Hidden" data-index="1">
-    <%= render 'shared/molecules/M_NotificationItem', text: 'Archived message 1' %>
-    <%= render 'shared/molecules/M_NotificationItem', text: 'Archived message 2' %>
+    <%= render 'shared/molecules/M_NotificationItem', title: 'Sender 3', text: 'Archived message 1', read: true %>
+    <%= render 'shared/molecules/M_NotificationItem', title: 'Sender 4', text: 'Archived message 2', read: true %>
   </div>
 </div>
 

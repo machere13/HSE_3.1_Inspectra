@@ -1,11 +1,38 @@
 .M_NotificationItem{
     display: flex;
-    align-items: center;
     width: 100%;
     padding: var(--spacing-x3);
-    background: var(--color-quaternary);
+    background: var(--color-secondary);
     border-radius: var(--border-radius-x2);
-    border: 1px solid var(--color-border-primary);
+    border: 1px solid var(--color-border-tertiary);
+    gap: var(--spacing-x2);
+}
+
+.M_NotificationItem-Content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x2);
+}
+
+.M_NotificationItem-Content-Header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-x2);
+    padding-bottom: var(--spacing-x2);
+    border-bottom: 1px solid var(--color-border-primary);
+}
+
+.M_NotificationItem-Content-Header-Sender{
+    color: var(--color-text-primary);
+}
+
+.M_NotificationItem-Content-Header-UnreadIcon{
+    width: 8px;
+    height: 8px;
+    background: var(--color-notification);
+    border-radius: 50%;
 }
 
 .M_NotificationItem-Text{
