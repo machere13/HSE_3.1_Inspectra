@@ -8,6 +8,7 @@ class PagesController < WebController
   end
 
   def about
+    @current_week = Week.visible_now.order(number: :desc).first
   end
 
   def plug

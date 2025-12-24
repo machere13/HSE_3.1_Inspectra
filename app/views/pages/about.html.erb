@@ -1,4 +1,9 @@
 <div class="PageAbout">
+  <%= render 'shared/wrappers/W_PageHeader', skip_navigation: true do %>
+    <div class="W_PageHeader-Inner">
+      <%= render 'shared/molecules/M_ContentTimer', week: @current_week %>
+    </div>
+  <% end %>
   <section class="PageAbout-Section-Main">
     <div class="PageAbout-Section-Title">
         <%= render 'shared/atoms/A_Logo', name: 'A_Logo', size: 'Large' %>
