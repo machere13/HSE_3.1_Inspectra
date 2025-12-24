@@ -1,4 +1,4 @@
-.PageAdminDashboard, .PageAdminUserShow, .PageAdminUsersIndex, .PageAdminUserShow, .PageAdminWeeksIndex, .PageAdminContentItemsIndex, .PageAdminArticlesIndex, .PageAdminArticlesEdit, .PageAdminContentItemsEdit, .PageAdminContentItemsNew, .PageAdminArticlesNew, .PageAdminWeeksNew{
+.PageAdminDashboard, .PageAdminUserShow, .PageAdminUsersIndex, .PageAdminUserShow, .PageAdminWeeksIndex, .PageAdminContentItemsIndex, .PageAdminArticlesIndex, .PageAdminArticlesEdit, .PageAdminContentItemsEdit, .PageAdminContentItemsNew, .PageAdminArticlesNew, .PageAdminWeeksNew, .PageAdminWeeksEdit{
     display: flex;
     flex-direction: column;
     width: 100%;
