@@ -3,6 +3,7 @@
  *= require ./A_LinkButton
  *= require ./A_Button
  *= require ./A_Input
+ *= require ./A_TextArea
  *= require ./A_InspectraBackground
  *= require ./A_NavigationItem
  *= require ./A_ArrowButton

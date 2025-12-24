@@ -1,0 +1,22 @@
+<%
+  textarea_id = local_assigns[:id] || "textarea_#{name}"
+  style_attr = "max-width: #{max_width};" if local_assigns[:max_width]
+%>
+
+<textarea
+  id="<%= textarea_id %>"
+  class="A_TextArea text-p-3 <%= 'A_TextArea--Error' if local_assigns[:error] %>"
+  name="<%= name %>"
+  placeholder="<%= local_assigns[:placeholder] %>"
+  style="<%= style_attr %>"
+  aria-invalid="<%= local_assigns[:error] ? 'true' : 'false' %>"
+  <%= 'disabled' if local_assigns[:disabled] %>
+  <%= 'required' if local_assigns[:required] %>
+  <%= %(rows="#{rows}") if local_assigns[:rows] %>
+  <%= %(cols="#{cols}") if local_assigns[:cols] %>
+  <%= %(minlength="#{minlength}") if local_assigns[:minlength] %>
+  <%= %(maxlength="#{maxlength}") if local_assigns[:maxlength] %>
+  <%= %(spellcheck="false") if local_assigns[:spellcheck] == false %>
+  <%= %(data-form-type="#{data_form_type}") if local_assigns[:data_form_type] %>
+><%= local_assigns[:value] %></textarea>
+
