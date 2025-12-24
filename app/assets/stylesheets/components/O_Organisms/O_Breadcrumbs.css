@@ -1,13 +1,14 @@
-.M_NavigationTitle {
+.O_Breadcrumbs{
+    display: flex;
     width: 100%;
-    padding: var(--spacing-x2) var(--spacing-x3);
-    background: var(--color-primary);
-    border-radius: var(--border-radius-x3);
+    padding: var(--spacing-x3);
+    border-radius: var(--border-radius-x2);
+    /* TODO: вынести градиент в переменную */
+    background: linear-gradient(30deg, rgb(132 132 132 / 20%) -20%, rgb(0 0 0 / 20%) 30%);
     position: relative;
-    overflow: hidden;
 }
 
-.M_NavigationTitle::before {
+.O_Breadcrumbs::before{
     content: '';
     position: absolute;
     top: 0;
@@ -26,8 +27,4 @@
       linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
-}
-
-.M_NavigationTitle-Text {
-    color: var(--color-text-primary);
 }

@@ -1,4 +1,7 @@
 <div class="PageHome">
+  <%= render 'shared/organisms/O_Breadcrumbs', items: [
+    { text: 'HOME', href: root_path, type: 'home' }
+  ] %>
   <%= render 'shared/wrappers/W_PageHeader' do %>
     <div class="W_PageHeader-Console">
         <div class="W_PageHeader-Console-Line text-p-2">>_ init system - media Inspectra</div>
