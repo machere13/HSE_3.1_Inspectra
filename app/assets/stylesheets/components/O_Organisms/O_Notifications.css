@@ -4,5 +4,6 @@
     width: 100%;
     gap: var(--spacing-x3);
     max-width: 328px;
+    position: relative;
 }
 
