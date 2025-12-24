@@ -4,7 +4,11 @@
       <div class="W_Sidebar-Top-Content">
           <%= render 'shared/atoms/A_Logo', name: 'A_Logo', size: 'Small' %>
           <% unless local_assigns[:skip_navigation] %>
-            <%= render 'shared/organisms/O_Navigation' %>
+            <% if local_assigns[:admin_navigation] %>
+              <%= render 'shared/organisms/O_Navigation', admin_navigation: true %>
+            <% else %>
+              <%= render 'shared/organisms/O_Navigation' %>
+            <% end %>
           <% end %>
           <% is_week_page = request.path.include?('/weeks/') && !request.path.include?('/articles/') %>
           <% if is_week_page %>
@@ -12,7 +16,9 @@
           <% end %>
       </div>
   </div>
-  <div class="W_Sidebar-Preview">
-    <%= render 'weeks/O_ContentPreview' %>
-  </div>
+  <% unless local_assigns[:admin_navigation] %>
+    <div class="W_Sidebar-Preview">
+      <%= render 'weeks/O_ContentPreview' %>
+    </div>
+  <% end %>
 </div>

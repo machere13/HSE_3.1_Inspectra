@@ -1,0 +1,17 @@
+.PageAdminDashboard{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x10);
+    flex: 1 1 auto;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-left: var(--spacing-x4);
+}
+
+.PageAdminDashboard-Tables-Group{
+    display: flex;
+    width: 100%;
+    gap: var(--spacing-x10);
+}

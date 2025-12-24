@@ -1,84 +1,88 @@
-<h1><%= t('admin.dashboard.title') %></h1>
-
-<% users_actions = link_to('#') do
-     render 'shared/quarks/Q_Icon', name: 'Q_ArrowRightIcon', width: 24, height: 24
-   end %>
-<%= render 'shared/organisms/O_ControlPanelTable', 
-    title: t('admin.dashboard.users.title'),
-    actions: users_actions do %>
-  <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
-    t('admin.dashboard.users.statistic'),
-    t('admin.dashboard.users.count')
-  ] %>
-  <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
-    t('admin.dashboard.users.total'),
-    @stats[:users][:total]
-  ] %>
-  <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
-    t('admin.dashboard.users.super_admins'),
-    @stats[:users][:super_admins]
-  ] %>
-  <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
-    t('admin.dashboard.users.admins'),
-    @stats[:users][:admins]
-  ] %>
-  <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
-    t('admin.dashboard.users.moderators'),
-    @stats[:users][:moderators]
-  ] %>
-  <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
-    t('admin.dashboard.users.regular'),
-    @stats[:users][:regular]
-  ] %>
-  <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
-    t('admin.dashboard.users.email_verified'),
-    @stats[:users][:email_verified]
-  ] %>
-  <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
-    t('admin.dashboard.users.email_unverified'),
-    @stats[:users][:email_unverified]
-  ] %>
-<% end %>
-
-<% achievements_actions = link_to('#') do
-     render 'shared/quarks/Q_Icon', name: 'Q_ArrowRightIcon', width: 24, height: 24
-   end %>
-<%= render 'shared/organisms/O_ControlPanelTable', 
-    title: t('admin.dashboard.achievements.title'),
-    actions: achievements_actions do %>
-  <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
-    t('admin.dashboard.achievements.statistic'),
-    t('admin.dashboard.achievements.count')
-  ] %>
-  <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
-    t('admin.dashboard.achievements.total'),
-    @stats[:achievements][:total]
-  ] %>
-<% end %>
-
-<% actions_content = link_to(admin_users_path) do
-     render 'shared/quarks/Q_Icon', name: 'Q_ArrowRightIcon', width: 24, height: 24
-   end %>
-<%= render 'shared/organisms/O_ControlPanelTable', 
-    title: t('admin.dashboard.recent_users.title'),
-    actions: actions_content do %>
-  <% if @stats[:recent_users].any? %>
-    <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
-      'Email',
-      t('admin.dashboard.recent_users.role'),
-      t('admin.dashboard.recent_users.registered'),
-      t('admin.dashboard.recent_users.verified')
-    ] %>
-    <% @stats[:recent_users].each do |user| %>
+<main class="PageAdminDashboard">
+  <h1><%= t('admin.dashboard.title') %></h1>
+  
+  <% users_actions = link_to('#') do
+       render 'shared/quarks/Q_Icon', name: 'Q_ArrowRightIcon', width: 24, height: 24
+     end %>
+  <div class="PageAdminDashboard-Tables-Group">
+    <%= render 'shared/organisms/O_ControlPanelTable',
+        title: t('admin.dashboard.users.title'),
+        actions: users_actions do %>
+      <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
+        t('admin.dashboard.users.statistic'),
+        t('admin.dashboard.users.count')
+      ] %>
       <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
-        link_to(user.email, admin_user_path(user)),
-        t("admin.users.roles.#{user.role}"),
-        l(user.created_at.in_time_zone, format: :short),
-        user.email_verified? ? t('admin.dashboard.recent_users.yes') : t('admin.dashboard.recent_users.no')
+        t('admin.dashboard.users.total'),
+        @stats[:users][:total]
+      ] %>
+      <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+        t('admin.dashboard.users.super_admins'),
+        @stats[:users][:super_admins]
+      ] %>
+      <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+        t('admin.dashboard.users.admins'),
+        @stats[:users][:admins]
+      ] %>
+      <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+        t('admin.dashboard.users.moderators'),
+        @stats[:users][:moderators]
+      ] %>
+      <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+        t('admin.dashboard.users.regular'),
+        @stats[:users][:regular]
+      ] %>
+      <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+        t('admin.dashboard.users.email_verified'),
+        @stats[:users][:email_verified]
+      ] %>
+      <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+        t('admin.dashboard.users.email_unverified'),
+        @stats[:users][:email_unverified]
       ] %>
     <% end %>
-  <% else %>
-    <p><%= t('admin.dashboard.recent_users.none') %></p>
+    
+    <% achievements_actions = link_to('#') do
+         render 'shared/quarks/Q_Icon', name: 'Q_ArrowRightIcon', width: 24, height: 24
+       end %>
+    <%= render 'shared/organisms/O_ControlPanelTable',
+        title: t('admin.dashboard.achievements.title'),
+        actions: achievements_actions do %>
+      <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
+        t('admin.dashboard.achievements.statistic'),
+        t('admin.dashboard.achievements.count')
+      ] %>
+      <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+        t('admin.dashboard.achievements.total'),
+        @stats[:achievements][:total]
+      ] %>
+    <% end %>
+  </div>
+  
+  <% actions_content = link_to(admin_users_path) do
+       render 'shared/quarks/Q_Icon', name: 'Q_ArrowRightIcon', width: 24, height: 24
+     end %>
+  <%= render 'shared/organisms/O_ControlPanelTable',
+      title: t('admin.dashboard.recent_users.title'),
+      actions: actions_content do %>
+    <% if @stats[:recent_users].any? %>
+      <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
+        'Email',
+        t('admin.dashboard.recent_users.role'),
+        t('admin.dashboard.recent_users.registered'),
+        t('admin.dashboard.recent_users.verified')
+      ] %>
+      <% @stats[:recent_users].each do |user| %>
+        <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+          link_to(user.email, admin_user_path(user)),
+          t("admin.users.roles.#{user.role}"),
+          l(user.created_at.in_time_zone, format: :short),
+          user.email_verified? ? t('admin.dashboard.recent_users.yes') : t('admin.dashboard.recent_users.no')
+        ] %>
+      <% end %>
+    <% else %>
+      <p><%= t('admin.dashboard.recent_users.none') %></p>
+    <% end %>
   <% end %>
-<% end %>
-
+  
+</main>

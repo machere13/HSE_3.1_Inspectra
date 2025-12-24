@@ -1,33 +1,46 @@
-<% is_home = request.path == '/' || request.path == '/pages/home' %>
-<% is_week_page = request.path.include?('/weeks/') %>
-<% is_article_page = request.path.include?('/articles/') %>
-<% 
-  article_count = is_week_page && defined?(@week) ? @week.articles.count : 0
-  filter_items = is_week_page && defined?(@content_counts) ? [
-    { label: "Articles (#{article_count})", value: 'article', checked: false },
-    { label: "Image (#{@content_counts['image'] || 0})", value: 'image', checked: false },
-    { label: "GIF (#{@content_counts['gif'] || 0})", value: 'gif', checked: false },
-    { label: "Video (#{@content_counts['video'] || 0})", value: 'video', checked: false },
-    { label: "Audio (#{@content_counts['audio'] || 0})", value: 'audio', checked: false },
-    { label: "Link (#{@content_counts['link'] || 0})", value: 'link', checked: false }
-  ] : []
-  navigation_items = [
-    { text: 'HOME', href: root_path, hotkey: 'H' },
-    { text: 'ABOUT', href: about_path, hotkey: 'A' }
-  ]
-  if defined?(current_user) && current_user&.email_verified?
-    navigation_items << { text: 'PROFILE', href: profile_path, hotkey: 'P' }
-  end
-%>
+<% if local_assigns[:admin_navigation] %>
+  <%
+    admin_navigation_items = [
+      { text: 'Панель управления', href: admin_dashboard_path, hotkey: 'D' },
+      { text: 'Пользователи', href: admin_users_path, hotkey: 'U' },
+      { text: 'Недели', href: admin_weeks_path, hotkey: 'W' }
+    ]
+  %>
+  <div class="W_NavigationContent">
+    <%= render 'shared/wrappers/W_NavigationItems', index: 0, items: admin_navigation_items %>
+  </div>
+<% else %>
+  <% is_home = request.path == '/' || request.path == '/pages/home' %>
+  <% is_week_page = request.path.include?('/weeks/') %>
+  <% is_article_page = request.path.include?('/articles/') %>
+  <% 
+    article_count = is_week_page && defined?(@week) ? @week.articles.count : 0
+    filter_items = is_week_page && defined?(@content_counts) ? [
+      { label: "Articles (#{article_count})", value: 'article', checked: false },
+      { label: "Image (#{@content_counts['image'] || 0})", value: 'image', checked: false },
+      { label: "GIF (#{@content_counts['gif'] || 0})", value: 'gif', checked: false },
+      { label: "Video (#{@content_counts['video'] || 0})", value: 'video', checked: false },
+      { label: "Audio (#{@content_counts['audio'] || 0})", value: 'audio', checked: false },
+      { label: "Link (#{@content_counts['link'] || 0})", value: 'link', checked: false }
+    ] : []
+    navigation_items = [
+      { text: 'HOME', href: root_path, hotkey: 'H' },
+      { text: 'ABOUT', href: about_path, hotkey: 'A' }
+    ]
+    if defined?(current_user) && current_user&.email_verified?
+      navigation_items << { text: 'PROFILE', href: profile_path, hotkey: 'P' }
+    end
+  %>
 
-<div class="W_NavigationContent">
-  <%= render 'shared/wrappers/W_NavigationItems', index: 0, items: navigation_items %>
+  <div class="W_NavigationContent">
+    <%= render 'shared/wrappers/W_NavigationItems', index: 0, items: navigation_items %>
 
-  <% if is_week_page %>
-    <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: filter_items, radio: true %>
-  <% elsif !is_article_page %>
-    <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: [
-      { text: 'BLOCKS', href: '#blocks' }
-    ], style: is_home ? 'visibility: hidden; opacity: 0; height: 0;' : '' %>
-  <% end %>
-</div>
+    <% if is_week_page %>
+      <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: filter_items, radio: true %>
+    <% elsif !is_article_page %>
+      <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: [
+        { text: 'BLOCKS', href: '#blocks' }
+      ], style: is_home ? 'visibility: hidden; opacity: 0; height: 0;' : '' %>
+    <% end %>
+  </div>
+<% end %>
