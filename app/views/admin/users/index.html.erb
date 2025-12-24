@@ -66,6 +66,6 @@
     <% end %>
   <% end %>
 
-  <%= pagy_nav(@pagy) if @pagy.pages > 1 %>
+  <%= raw pagy_nav(@pagy) if @pagy.pages > 1 %>
 </main>
 
