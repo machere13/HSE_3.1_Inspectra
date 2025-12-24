@@ -76,7 +76,7 @@
         <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
           link_to(user.email, admin_user_path(user)),
           t("admin.users.roles.#{user.role}"),
-          l(user.created_at.in_time_zone, format: :short),
+          user.created_at.in_time_zone.strftime('%d.%m.%Y %H:%M'),
           user.email_verified? ? t('admin.dashboard.recent_users.yes') : t('admin.dashboard.recent_users.no')
         ] %>
       <% end %>

@@ -10,7 +10,7 @@
               <%= render 'shared/organisms/O_Navigation' %>
             <% end %>
           <% end %>
-          <% is_week_page = request.path.include?('/weeks/') && !request.path.include?('/articles/') %>
+          <% is_week_page = request.path.include?('/weeks/') && !request.path.include?('/articles/') && !request.path.include?('/admin/') %>
           <% if is_week_page %>
             <%= render 'shared/molecules/M_NavigationSwitcher' %>
           <% end %>

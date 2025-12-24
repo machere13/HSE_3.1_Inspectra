@@ -1,13 +1,24 @@
 <% if local_assigns[:admin_navigation] %>
   <%
+    is_admin_week_page = request.path.match?(%r{^/admin/weeks/}) && !@week.nil?
     admin_navigation_items = [
-      { text: 'Панель управления', href: admin_dashboard_path, hotkey: 'D' },
-      { text: 'Пользователи', href: admin_users_path, hotkey: 'U' },
-      { text: 'Недели', href: admin_weeks_path, hotkey: 'W' }
+      { text: 'DASHBOARD', href: admin_dashboard_path, hotkey: 'D' },
+      { text: 'USERS', href: admin_users_path, hotkey: 'U' },
+      { text: 'WEEKS', href: admin_weeks_path, hotkey: 'W' }
     ]
+    week_navigation_items = nil
+    if is_admin_week_page
+      week_navigation_items = [
+        { text: 'СТАТЬИ', href: admin_week_articles_path(@week), hotkey: 'A' },
+        { text: 'КОНТЕНТ', href: admin_week_content_items_path(@week), hotkey: 'C' }
+      ]
+    end
   %>
   <div class="W_NavigationContent">
     <%= render 'shared/wrappers/W_NavigationItems', index: 0, items: admin_navigation_items %>
+    <% if week_navigation_items %>
+      <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: week_navigation_items %>
+    <% end %>
   </div>
 <% else %>
   <% is_home = request.path == '/' || request.path == '/pages/home' %>
