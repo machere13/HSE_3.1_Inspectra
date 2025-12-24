@@ -21,7 +21,7 @@
           ci.kind,
           link_to(ci.title.presence || '(без названия)', admin_week_content_item_path(@week, ci)),
           content_tag(:span, ci.url, title: ci.url, style: 'max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;'),
-          "#{link_to('Редактировать', edit_admin_week_content_item_path(@week, ci))} | #{button_to('Удалить', admin_week_content_item_path(@week, ci), method: :delete, form: { data: { turbo_confirm: 'Удалить этот контент?' }, style: 'display:inline' })}".html_safe
+          "#{link_to('Редактировать', edit_admin_week_content_item_path(@week, ci))} | #{button_to('Удалить', admin_week_content_item_path(@week, ci), method: :delete, form: { data: { turbo_confirm: 'Удалить этот контент?' }, style: 'display:inline', class: 'button-text-style text-p-2' })}".html_safe
         ] %>
       <% end %>
     <% else %>
