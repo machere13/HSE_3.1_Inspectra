@@ -53,11 +53,12 @@
     justify-content: center;
   }
   
-.PageAbout-Section-FAQ{
+.PageAbout-Section-About{
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: var(--spacing-x8);
+    align-items: center;
+    gap: var(--spacing-x14);
 }
   
 .PageAbout-Section-FAQ-Content{
