@@ -1,4 +1,5 @@
-.A_Button{
+.A_Button,
+a.A_Button{
     width: fit-content;
     height: fit-content;
     display: inline-block;
