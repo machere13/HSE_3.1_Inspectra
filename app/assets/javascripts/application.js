@@ -23,6 +23,7 @@
 //= require ./modules/content/ContentDraggable
 //= require ./modules/content/ContentPreview
 //= require ./modules/content/ContentCardClick
+//= require ./modules/content/MasonryGrid
 
 //= require ./modules/navigation/NavigationSections
 //= require ./modules/navigation/NavigationRoving

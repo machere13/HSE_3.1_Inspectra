@@ -36,13 +36,29 @@
         const itemType = item.getAttribute('data-content-type');
 
         if (activeFilters.length === 0) {
-          item.style.display = 'block';
+          item.style.display = '';
         } else if (activeFilters.includes(itemType)) {
-          item.style.display = 'block';
+          item.style.display = '';
         } else {
           item.style.display = 'none';
         }
       });
+      
+      const listContainer = container.querySelector('.PageWeek-Content-List');
+      if (listContainer && window.MasonryGrid && container.getAttribute('data-view-mode') === 'list' && typeof Masonry !== 'undefined') {
+        setTimeout(function() {
+          if (listContainer.masonry) {
+            listContainer.masonry.layout();
+          } else {
+            window.MasonryGrid.update(listContainer);
+          }
+        }, 100);
+      }
+      
+      if (container.getAttribute('data-view-mode') === 'cobweb') {
+        const event = new CustomEvent('contentFilter:updated');
+        document.dispatchEvent(event);
+      }
     },
 
     initFilters: function() {

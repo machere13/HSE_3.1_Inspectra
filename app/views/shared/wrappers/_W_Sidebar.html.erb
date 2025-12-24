@@ -6,8 +6,11 @@
           <% unless local_assigns[:skip_navigation] %>
             <%= render 'shared/organisms/O_Navigation' %>
           <% end %>
+          <% is_week_page = request.path.include?('/weeks/') && !request.path.include?('/articles/') %>
+          <% if is_week_page %>
+            <%= render 'shared/molecules/M_NavigationSwitcher' %>
+          <% end %>
       </div>
-      <%= render 'shared/molecules/M_NavigationSwitcher' %>
   </div>
   <div class="W_Sidebar-Preview">
     <%= render 'weeks/O_ContentPreview' %>

@@ -15,6 +15,10 @@
     width: 432px;
 }
 
+.PageWeek-Content[data-view-mode="list"] .M_ContentCard {
+    width: 100%;
+}
+
 .M_ContentCard:hover{
     background: var(--color-state-hover);
 }

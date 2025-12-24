@@ -13,12 +13,27 @@
   
 .PageWeek-Content{
     position: fixed;
-    inset: 0;
+    top: var(--spacing-x1);
+    left: var(--spacing-x1);
+    right: var(--spacing-x1);
+    bottom: var(--spacing-x1);
     overflow: hidden;
     margin: 0;
     padding: 0;
     z-index: 0;
     pointer-events: none;
+}
+
+.PageWeek-Content[data-view-mode="list"] {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    overflow: visible;
+    flex: 1;
+    width: 100%;
+    height: auto;
 }
 
 .PageWeek-Content > * {
@@ -56,4 +71,57 @@
 
 .PageWeek-Content-Item {
     position: absolute;
+}
+
+.PageWeek-Content-View--List {
+    display: none;
+}
+
+.PageWeek-Content[data-view-mode="list"] .PageWeek-Content-View--Cobweb {
+    display: none;
+}
+
+.PageWeek-Content[data-view-mode="list"] .PageWeek-Content-View--List {
+    display: block;
+}
+
+.PageWeek-Content-List {
+    padding: 0;
+    width: 100%;
+}
+
+.PageWeek-Content-List::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.PageWeek-Content-List-Group {
+    width: calc(33.333% - var(--spacing-x8));
+    float: left;
+    margin-bottom: var(--spacing-x12);
+    padding-left: var(--spacing-x12);
+    border-left: var(--border-x05) dashed var(--color-border-primary);
+}
+
+.PageWeek-Content-List-Group:nth-child(3n) {
+    margin-right: 0;
+}
+
+@media (max-width: 1400px) {
+    .PageWeek-Content-List-Group {
+        width: calc(50% - var(--spacing-x6));
+    }
+}
+
+@media (max-width: 1024px) {
+    .PageWeek-Content-List-Group {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+.PageWeek-Content-List-Item {
+    width: 100%;
+    margin-bottom: var(--spacing-x4);
 }
