@@ -1,17 +1,21 @@
 <div class="PageHome">
   <%= render 'shared/wrappers/W_PageHeader' do %>
-    <%= render 'shared/organisms/O_Breadcrumbs', items: [
-      { text: 'HOME', href: root_path, type: 'home' }
-    ] %>
-    <%= render 'shared/molecules/M_ContentTimer', week: @current_week %>
+    <div class="W_PageHeader-Inner">
+      <%= render 'shared/organisms/O_Breadcrumbs', items: [
+        { text: 'HOME', href: root_path, type: 'home' }
+      ] %>
+      <%= render 'shared/molecules/M_ContentTimer', week: @current_week %>
+    </div>
   <% end %>
-  <div class="PageHome-Weeks-List">
-    <% if @current_week %>
-      <%= render 'pages/home/W_CardWeekCurrent', week: @current_week %>
-    <% end %>
+  <div class="PageHome-Content">
+    <div class="PageHome-Weeks-List">
+      <% if @current_week %>
+        <%= render 'pages/home/W_CardWeekCurrent', week: @current_week %>
+      <% end %>
     
-    <% if @expired_weeks.any? %>
-      <%= render 'pages/home/W_CardsWeek404', cards: @expired_weeks %>
-    <% end %>
+      <% if @expired_weeks.any? %>
+        <%= render 'pages/home/W_CardsWeek404', cards: @expired_weeks %>
+      <% end %>
+    </div>
   </div>
 </div>

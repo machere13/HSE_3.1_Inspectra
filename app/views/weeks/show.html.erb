@@ -1,10 +1,12 @@
 <div class="PageWeek">
   <%= render 'shared/wrappers/W_PageHeader' do %>
-    <%= render 'shared/organisms/O_Breadcrumbs', items: [
-      { text: 'HOME', href: root_path, type: 'home' },
-      { text: "WEEK #{@week.number}", href: week_path(@week), type: 'week' }
-    ] %>
-    <%= render 'shared/molecules/M_ContentTimer', week: @week %>
+    <div class="W_PageHeader-Inner">
+      <%= render 'shared/organisms/O_Breadcrumbs', items: [
+        { text: 'HOME', href: root_path, type: 'home' },
+        { text: "WEEK #{@week.number}", href: week_path(@week), type: 'week' }
+      ] %>
+      <%= render 'shared/molecules/M_ContentTimer', week: @week %>
+    </div>
   <% end %>
   <% 
     articles_with_positions = @week.articles.map { |article| { item: article, position: rand(0..@content_items.length), type: 'article' } }
