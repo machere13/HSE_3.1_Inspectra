@@ -54,14 +54,6 @@
     t('admin.dashboard.achievements.total'),
     @stats[:achievements][:total]
   ] %>
-  <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
-    t('admin.dashboard.achievements.completed'),
-    @stats[:achievements][:completed]
-  ] %>
-  <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
-    t('admin.dashboard.achievements.in_progress'),
-    @stats[:achievements][:in_progress]
-  ] %>
 <% end %>
 
 <% actions_content = link_to(admin_users_path) do
