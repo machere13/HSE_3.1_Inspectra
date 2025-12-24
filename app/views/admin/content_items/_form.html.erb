@@ -1,40 +1,24 @@
-<%= form_with model: [:admin, @week, @content_item], html: { multipart: true } do |f| %>
-  <div>
-    <%= f.label :position, 'Позиция' %><br/>
-    <%= f.number_field :position, min: 0, step: 1 %>
-  </div>
-  <div>
-    <%= f.label :title, 'Заголовок' %><br/>
-    <%= f.text_field :title %>
-  </div>
-  <div>
-    <%= f.label :url, 'URL' %><br/>
-    <%= f.text_field :url %>
-  </div>
-  <div>
-    <%= f.label :body, 'Текст' %><br/>
-    <%= f.text_area :body, rows: 5 %>
-  </div>
-  <div>
-    <%= f.label :article_id, 'Статья' %><br/>
-    <%= f.collection_select :article_id, @week.articles, :id, :title, include_blank: true %>
-  </div>
-  <div>
-    <%= f.label :metadata, 'Метаданные' %><br/>
-    <%= f.text_area :metadata, rows: 4, value: (@content_item.metadata.present? ? JSON.pretty_generate(@content_item.metadata) : "{}") %>
-  </div>
-  <div>
-    <%= f.label :file, 'Загрузить файл' %><br/>
-    <%= f.file_field :file, accept: 'image/*,video/*,audio/*' %>
-    <% if @content_item&.file&.attached? %>
-      <div>
-        Текущий файл: <%= @content_item.file.filename.to_s %>
-      </div>
-    <% end %>
-  </div>
-  <div>
-    <%= f.submit %>
-  </div>
+<%= form_with class: 'AdminForm', model: [:admin, @week, @content_item], html: { multipart: true } do |f| %>
+  <%= render 'shared/organisms/O_AdminEditBlock' do %>
+    <div class="O_AdminEditBlock-Field">
+      <%= f.label :title, 'Заголовок', class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= render 'shared/atoms/A_Input', name: "#{f.object_name}[title]", value: @content_item.title %>
+    </div>
+    <div class="O_AdminEditBlock-Field">
+      <%= f.label :url, 'URL', class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= render 'shared/atoms/A_Input', name: "#{f.object_name}[url]", value: @content_item.url %>
+    </div>
+    <div class="O_AdminEditBlock-Field">
+      <%= f.label :file, 'Загрузить файл', class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= f.file_field :file, accept: 'image/*,video/*,audio/*', class: 'A_Input text-p-3' %>
+      <% if @content_item&.file&.attached? %>
+        <div>
+          Текущий файл: <%= @content_item.file.filename.to_s %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  <%= render 'shared/atoms/A_Button', type: 'submit', text: @content_item.new_record? ? 'Создать' : 'Сохранить' %>
 <% end %>
 
 
