@@ -5,19 +5,22 @@
     },
 
     onToggle: function(e) {
-      const btn = e.target.closest('.A_ArrowButton');
-      if (!btn) return;
-      const barItem = btn.closest('.W_NotificationsBar-Item');
+      const barItem = e.target.closest('.W_NotificationsBar-Item');
       if (!barItem) return;
+      const btn = barItem.querySelector('.A_ArrowButton');
+      if (!btn) return;
       const idx = barItem.getAttribute('data-index');
       const root = this.findRoot(barItem);
       const content = root.querySelector('.W_NotificationItems');
       if (!content) return;
       
       const allItems = content.querySelectorAll('.W_NotificationItems-Item');
-      const isNowOpen = e.detail && e.detail.opened !== undefined ? e.detail.opened : btn.getAttribute('aria-expanded') === 'true';
+      const isCurrentlyOpen = btn.getAttribute('aria-expanded') === 'true';
+      const willBeOpen = !isCurrentlyOpen;
       
-      if (isNowOpen) {
+      btn.setAttribute('aria-expanded', willBeOpen ? 'true' : 'false');
+      
+      if (willBeOpen) {
         allItems.forEach(function(item) {
           item.classList.add('W_NotificationItems-Item--Hidden');
         });
@@ -99,12 +102,25 @@
 
   window.NotificationsSwitcher = NotificationsSwitcher;
 
+  const handleClick = function(e) {
+    const barItem = e.target.closest('.W_NotificationsBar-Item');
+    if (!barItem) return;
+    const root = NotificationsSwitcher.findRoot(barItem);
+    if (!root.classList.contains('O_Notifications')) return;
+    
+    if (e.target.closest('.A_ArrowButton')) return;
+    
+    NotificationsSwitcher.onToggle(e);
+  };
+
   window.addEventListener('arrowbutton:toggle', function(e) {
     const root = NotificationsSwitcher.findRoot(e.target);
     if (root.classList.contains('O_Notifications')) {
       NotificationsSwitcher.onToggle(e);
     }
   }, true);
+
+  window.addEventListener('click', handleClick, true);
 
   window.DomUtils.ready(function() {
     NotificationsSwitcher.initFromState();

@@ -33,5 +33,6 @@
 
 .W_NotificationsBar-Item{
     width: 100%;
+    cursor: pointer;
 }
 
