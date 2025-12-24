@@ -1,7 +1,12 @@
 <h1><%= t('admin.dashboard.title') %></h1>
 
 <%= render 'shared/organisms/O_ControlPanel' do %>
-  <%= render 'shared/organisms/O_ControlPanelTable', title: t('admin.dashboard.users.title') do %>
+  <% users_actions = link_to('#') do
+       render 'shared/quarks/Q_Icon', name: 'Q_ArrowIcon', width: 24, height: 24
+     end %>
+  <%= render 'shared/organisms/O_ControlPanelTable', 
+      title: t('admin.dashboard.users.title'),
+      actions: users_actions do %>
     <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
       t('admin.dashboard.users.statistic'),
       t('admin.dashboard.users.count')
@@ -38,7 +43,12 @@
 <% end %>
 
 <%= render 'shared/organisms/O_ControlPanel' do %>
-  <%= render 'shared/organisms/O_ControlPanelTable', title: t('admin.dashboard.achievements.title') do %>
+  <% achievements_actions = link_to('#') do
+       render 'shared/quarks/Q_Icon', name: 'Q_ArrowIcon', width: 24, height: 24
+     end %>
+  <%= render 'shared/organisms/O_ControlPanelTable', 
+      title: t('admin.dashboard.achievements.title'),
+      actions: achievements_actions do %>
     <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
       t('admin.dashboard.achievements.statistic'),
       t('admin.dashboard.achievements.count')
