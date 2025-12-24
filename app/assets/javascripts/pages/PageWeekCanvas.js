@@ -5,6 +5,9 @@
     const itemsContainer = document.querySelector('.PageWeek-Content-Canvas-Items');
 
     if (!container || !canvasContainer || !itemsContainer) return;
+    
+    const viewMode = container.getAttribute('data-view-mode') || 'cobweb';
+    if (viewMode !== 'cobweb') return;
 
     const items = Array.from(itemsContainer.querySelectorAll('.PageWeek-Content-Item'));
     if (items.length === 0) return;
@@ -80,5 +83,24 @@
 
   window.DomUtils.ready(initCanvas);
   window.DomUtils.turboLoad(initCanvas);
+
+  const initViewModeSwitcher = function() {
+    const contentContainer = document.querySelector('.PageWeek-Content');
+    if (!contentContainer) return;
+
+    document.addEventListener('navigationSwitcher:change', function(e) {
+      const value = e.detail.value;
+      if (value === 'cobweb' || value === 'list') {
+        contentContainer.setAttribute('data-view-mode', value);
+        
+        if (value === 'cobweb') {
+          setTimeout(initCanvas, 100);
+        }
+      }
+    });
+  };
+
+  window.DomUtils.ready(initViewModeSwitcher);
+  window.DomUtils.turboLoad(initViewModeSwitcher);
 })();
 

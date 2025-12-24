@@ -34,13 +34,21 @@
       const items = container.querySelectorAll('[data-content-type]');
       items.forEach(function(item) {
         const itemType = item.getAttribute('data-content-type');
-
-        if (activeFilters.length === 0) {
-          item.style.display = 'block';
-        } else if (activeFilters.includes(itemType)) {
-          item.style.display = 'block';
+        
+        if (item.classList.contains('PageWeek-Content-List-Group')) {
+          if (activeFilters.length === 0 || activeFilters.includes(itemType)) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
         } else {
-          item.style.display = 'none';
+          if (activeFilters.length === 0) {
+            item.style.display = 'block';
+          } else if (activeFilters.includes(itemType)) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
         }
       });
     },

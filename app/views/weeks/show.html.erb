@@ -10,14 +10,18 @@
       <div class="W_PageHeader-Console-Line text-p-2">[system] content expires in: <span data-countdown data-expires-at="<%= @week&.expires_at&.iso8601 %>" class="timer-value"><%= @week ? @week.time_left : '00:00:00' %></span></div>
     </div>
   <% end %>
-  <%
+  <% 
     articles_with_positions = @week.articles.map { |article| { item: article, position: rand(0..@content_items.length), type: 'article' } }
     content_with_positions = @content_items.map { |item| { item: item, position: (item.position || 0), type: 'content' } }
     all_items = (articles_with_positions + content_with_positions).sort_by { |x| (x[:position] || 0).to_i }
+    
+    items_by_type = all_items.group_by { |item_data| item_data[:type] == 'article' ? 'article' : item_data[:item].kind }
+    type_order = ['article', 'image', 'gif', 'video', 'audio', 'link']
+    sorted_items_by_type = type_order.map { |type| [type, items_by_type[type] || []] }.to_h
   %>
   
-  <div class="PageWeek-Content" data-filter-group="content-filters">
-    <div class="PageWeek-Content-Canvas">
+  <div class="PageWeek-Content" data-filter-group="content-filters" data-view-mode="cobweb">
+    <div class="PageWeek-Content-Canvas PageWeek-Content-View--Cobweb">
       <canvas class="PageWeek-Content-Canvas-Lines"></canvas>
       <div class="PageWeek-Content-Canvas-Items">
         <% all_items.each_with_index do |item_data, index| %>
@@ -35,6 +39,26 @@
           </div>
         <% end %>
       </div>
+    </div>
+    
+    <div class="PageWeek-Content-List PageWeek-Content-View--List">
+      <% sorted_items_by_type.each do |type, items| %>
+        <% next if items.empty? %>
+        <div class="PageWeek-Content-List-Group" data-content-type="<%= type %>">
+          <% items.each do |item_data| %>
+            <div class="PageWeek-Content-List-Item">
+              <%= render 'weeks/M_ContentCard',
+                type: item_data[:type] == 'article' ? 'article' : item_data[:item].kind,
+                label: item_data[:type] == 'article' ? 'ARTICLE' : item_data[:item].kind&.upcase,
+                id: item_data[:type] == 'article' ? "article_card_#{item_data[:item].id}" : "content_card_#{item_data[:item].id}",
+                title: item_data[:item].title,
+                description: item_data[:type] == 'article' ? (item_data[:item].description.presence || truncate(item_data[:item].body, length: 120)) : nil,
+                preview_url: item_data[:item].respond_to?(:url) ? item_data[:item].url : nil,
+                url: item_data[:type] == 'article' ? week_article_path(@week, item_data[:item]) : nil %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

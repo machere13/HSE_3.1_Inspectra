@@ -13,12 +13,27 @@
   
 .PageWeek-Content{
     position: fixed;
-    inset: 0;
+    top: var(--spacing-x1);
+    left: var(--spacing-x1);
+    right: var(--spacing-x1);
+    bottom: var(--spacing-x1);
     overflow: hidden;
     margin: 0;
     padding: 0;
     z-index: 0;
     pointer-events: none;
+}
+
+.PageWeek-Content[data-view-mode="list"] {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    overflow: visible;
+    flex: 1;
+    width: 100%;
+    height: auto;
 }
 
 .PageWeek-Content > * {
@@ -56,4 +71,36 @@
 
 .PageWeek-Content-Item {
     position: absolute;
+}
+
+.PageWeek-Content-View--List {
+    display: none;
+}
+
+.PageWeek-Content[data-view-mode="list"] .PageWeek-Content-View--Cobweb {
+    display: none;
+}
+
+.PageWeek-Content[data-view-mode="list"] .PageWeek-Content-View--List {
+    display: flex;
+}
+
+.PageWeek-Content-List {
+    padding: var(--spacing-x4);
+    width: 100%;
+    gap: var(--spacing-x12);
+}
+
+.PageWeek-Content-List-Group {
+    margin-bottom: var(--spacing-x4);
+    width: 100%;
+    padding-left: var(--spacing-x12);
+    border-left: var(--border-x05) dashed var(--color-border-primary);
+    gap: var(--spacing-x6);
+    display: flex;
+    flex-direction: column;
+}
+
+.PageWeek-Content-List-Item {
+    width: 100%;
 }
