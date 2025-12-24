@@ -9,7 +9,28 @@
       return nodes.filter(this.isNodeVisible.bind(this));
     },
 
+    adjustCornerForBorderRadius: function(corner, node, borderRadius) {
+      const centerX = node.x;
+      const centerY = node.y;
+      
+      const dx = centerX - corner.x;
+      const dy = centerY - corner.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      if (dist === 0) return corner;
+      
+      const dirX = dx / dist;
+      const dirY = dy / dist;
+      
+      return {
+        x: corner.x + dirX * borderRadius,
+        y: corner.y + dirY * borderRadius
+      };
+    },
+
     getNearestCorners: function(node1, node2) {
+      const borderRadius = 8;
+      
       const corners1 = [
         { x: node1.x - node1.width / 2, y: node1.y - node1.height / 2 },
         { x: node1.x + node1.width / 2, y: node1.y - node1.height / 2 },
@@ -42,7 +63,10 @@
         });
       });
 
-      return { from: nearestCorner1, to: nearestCorner2 };
+      const adjustedCorner1 = this.adjustCornerForBorderRadius(nearestCorner1, node1, borderRadius);
+      const adjustedCorner2 = this.adjustCornerForBorderRadius(nearestCorner2, node2, borderRadius);
+
+      return { from: adjustedCorner1, to: adjustedCorner2 };
     },
 
     calculateConnections: function(nodes, canvasWidth, canvasHeight) {
