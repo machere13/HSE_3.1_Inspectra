@@ -85,6 +85,7 @@
     display: flex;
     width: 100%;
     gap: var(--spacing-x4);
+    flex-direction: column;
 }
 
 .PageAbout-Section-Modules-Text{
