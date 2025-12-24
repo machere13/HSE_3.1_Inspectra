@@ -15,40 +15,17 @@
     <%= render 'pages/about/M_AboutTextPlug', texts: ['INSPECTRA — интерактивное медиа, где обучение вебу превращается в расследование.', 'Каждый материал — это миссия. Каждый баг — улика. Каждый пользователь — агент.'], max_width: '692px'%>
     <%= render 'pages/about/M_AboutTextPlug', texts: ['Мы — команда исследователей цифровой среды.', '>>> разработчики, дизайнеры и энтузиасты безопасности', '>>> создаём обучающие миссии, где теория и практика переплетены', '>>> верим, что баг — это не ошибка, а начало расследования'], max_width: '692px'%>
   </section>
-  <section class="PageAbout-Section-Summary">
-    <div class="PageAbout-Section-Summary-Content-Code">
-        <%= render 'pages/about/W_FAQCode', code: '>_ output --result
-[system] compiling session summary...
-        
-Результат:
-Inspectra превращает обучение в цифровое расследование.  
-Ты не просто читаешь — ты анализируешь, взаимодействуешь,  
-понимаешь, как устроен веб и как его исследовать безопасно.
-        
-[complete] user_experience = engaged
-        ' %>
-        <%= render 'pages/about/W_FAQCode', code: '>_ join --community
-[network] establishing secure channel...
-        
-Подключиться:
-- telegram://inspectra  
-        
-- github://inspectra
-        
-[ok] channels active.
-        ' %>
-        <%= render 'pages/about/W_FAQCode', code: '>_ time left
-23:13_till
-        
-[ok]
-        ' %>
+  <section class="PageAbout-Section-Info">
+    <%= render 'pages/about/M_AboutContentPlug', info: 'CONTENT', additional_info: 'INFO' %>
+    <div class="PageAbout-Section-Info-Blocks">
+      <%= render 'pages/about/M_AboutTextPlug', texts: ['Каждая статья связана с интерактивом:', 'читаешь материал >>> запускаешь симуляцию', '>>> проверяешь теорию в действии'] %>
+      <%= render 'pages/about/M_AboutTextPlug', texts: ['STATUS: ACTIVE', '>>> Достижения,титулы и уровни для каждого агента', '>>> Таймеры и интерактивные задачи', '>>> Ошибки приносят опыт, а не штраф', '>>> Игровая динамика без попсы — всё встроено в процесс обучения'] %>
     </div>
-    <div class='PageAbout-Section-Summary-Content-Form'>
+  </section>
+  <div class='PageAbout-Section-Summary-Content-Form'>
       <p class="text-p-1">
         Медиа о&nbsp;цифровых расследованиях и&nbsp;интерактивах. Расследование цифровой среды начинается скоро.
       </p>
       <%= render 'shared/molecules/M_FormPlug' %>
-    </div>
   </div>
-  </section>
 </div>

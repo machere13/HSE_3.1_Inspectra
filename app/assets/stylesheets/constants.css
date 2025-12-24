@@ -135,7 +135,7 @@ h4, .text-h4 {
     font-weight: var(--font-weight-paragraphs);
     line-height: var(--line-height-loose);
     letter-spacing: var(--letter-spacing-normal);
-    text-transform: var(--text-transform-as-typed);
+    text-transform: var(--text-transform-uppercase);
     text-decoration: var(--text-decoration-none);
 }
 
