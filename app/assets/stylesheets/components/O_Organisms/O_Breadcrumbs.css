@@ -6,6 +6,7 @@
     /* TODO: вынести градиент в переменную */
     background: linear-gradient(30deg, rgb(132 132 132 / 20%) -20%, rgb(0 0 0 / 20%) 30%);
     position: relative;
+    z-index: 3;
 }
 
 .O_Breadcrumbs::before{
@@ -27,4 +28,6 @@
       linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
+    pointer-events: none;
+    z-index: 0;
 }
