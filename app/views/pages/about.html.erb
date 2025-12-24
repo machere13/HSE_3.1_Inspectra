@@ -4,7 +4,7 @@
       <%= render 'shared/molecules/M_ContentTimer', week: @current_week %>
     </div>
   <% end %>
-  <section class="PageAbout-Section-Main">
+  <section id="main" class="PageAbout-Section-Main">
     <div class="PageAbout-Section-Title">
         <%= render 'shared/atoms/A_Logo', name: 'A_Logo', size: 'Large' %>
         <h1>ГЕЙМИФИЦИРОВАННОЕ МЕДИА ПРО WEB</h1>
@@ -15,12 +15,12 @@
       <%= render 'shared/atoms/A_Button', text: 'Узнать больше о вебе', href: root_path %>
     </div>
   </section>
-  <section class="PageAbout-Section-About">
+  <section id="about" class="PageAbout-Section-About">
     <%= render 'pages/about/M_AboutContentPlug', info: 'ABOUT', additional_info: 'LOG' %>
     <%= render 'pages/about/M_AboutTextPlug', texts: ['INSPECTRA — интерактивное медиа, где обучение вебу превращается в расследование.', 'Каждый материал — это миссия. Каждый баг — улика. Каждый пользователь — агент.'], max_width: '692px'%>
     <%= render 'pages/about/M_AboutTextPlug', texts: ['Мы — команда исследователей цифровой среды.', '>>> разработчики, дизайнеры и энтузиасты безопасности', '>>> создаём обучающие миссии, где теория и практика переплетены', '>>> верим, что баг — это не ошибка, а начало расследования'], max_width: '692px'%>
   </section>
-  <section class="PageAbout-Section-Modules">
+  <section id="modules" class="PageAbout-Section-Modules">
     <%= render 'pages/about/M_AboutContentPlug', info: 'Наше медиа имеет 5 направлений для погружения в исследования', additional_info: 'MODULES', show_asterisk: true %>
     <div class="PageAbout-Section-Modules-Blocks">
       <%= render 'pages/about/M_AboutTextModule', title: '<dev_dive> погружение в структуру сайтов (DOM, cookies, network)' %>
@@ -33,17 +33,17 @@
       <h2 class="PageAbout-Section-Modules-Text-Title">&lt;THEORY DECODER&gt; упрощаем сложное, объясняем логично</h2>
     </div>
   </section>
-  <section class="PageAbout-Section-Image">
+  <section id="image" class="PageAbout-Section-Image">
     <%= image_tag asset_path('Q_AboutImage.png'), alt: 'About Image', class: 'PageAbout-Section-Image-Image' %>
   </section>
-  <section class="PageAbout-Section-Info">
+  <section id="info" class="PageAbout-Section-Info">
     <%= render 'pages/about/M_AboutContentPlug', info: 'CONTENT', additional_info: 'INFO', show_asterisk: true %>
     <div class="PageAbout-Section-Info-Blocks">
       <%= render 'pages/about/M_AboutTextPlug', texts: ['Каждая статья связана с интерактивом:', 'читаешь материал >>> запускаешь симуляцию', '>>> проверяешь теорию в действии'] %>
       <%= render 'pages/about/M_AboutTextPlug', texts: ['STATUS: ACTIVE', '>>> Достижения,титулы и уровни для каждого агента', '>>> Таймеры и интерактивные задачи', '>>> Ошибки приносят опыт, а не штраф', '>>> Игровая динамика без попсы — всё встроено в процесс обучения'] %>
     </div>
   </section>
-  <div class='PageAbout-Section-Form'>
+  <div id="form" class='PageAbout-Section-Form'>
       <p class="text-p-1">
         Медиа о&nbsp;цифровых расследованиях и&nbsp;интерактивах. Расследование цифровой среды начинается скоро.
       </p>
