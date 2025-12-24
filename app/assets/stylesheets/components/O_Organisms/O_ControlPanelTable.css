@@ -1,0 +1,65 @@
+.O_ControlPanelTable{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x2);
+}
+
+.O_ControlPanelTable-Header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: var(--spacing-x2);
+    border-bottom: 1px dashed var(--color-border-primary);
+}
+
+.O_ControlPanelTable-Header-Title{
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+}
+
+.O_ControlPanelTable-Header-Actions{
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-x2);
+}
+
+.O_ControlPanelTable-Content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.O_ControlPanelTable-Row{
+    display: flex;
+    width: 100%;
+    padding: var(--spacing-x2) 0;
+    border-bottom: 1px dashed var(--color-border-primary);
+}
+
+.O_ControlPanelTable-Row:last-child{
+    border-bottom: none;
+}
+
+.O_ControlPanelTable-HeaderRow{
+    display: flex;
+    width: 100%;
+    padding-bottom: var(--spacing-x2);
+    border-bottom: 1px dashed var(--color-border-primary);
+}
+
+.O_ControlPanelTable-HeaderCell{
+    flex: 1;
+    color: var(--color-text-primary);
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: var(--font-size-labels-2);
+}
+
+.O_ControlPanelTable-Cell{
+    flex: 1;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-p-2);
+}
+

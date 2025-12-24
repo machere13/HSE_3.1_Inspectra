@@ -1,0 +1,18 @@
+<div class="O_ControlPanelTable">
+  <div class="O_ControlPanelTable-Header">
+    <div class="O_ControlPanelTable-Header-Title">
+      <%= local_assigns[:title] %>
+    </div>
+    <% if local_assigns[:actions] %>
+      <div class="O_ControlPanelTable-Header-Actions">
+        <%= local_assigns[:actions] %>
+      </div>
+    <% end %>
+  </div>
+  <div class="O_ControlPanelTable-Content">
+    <% if block_given? %>
+      <%= yield %>
+    <% end %>
+  </div>
+</div>
+

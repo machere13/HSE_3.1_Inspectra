@@ -1,0 +1,25 @@
+.O_ControlPanel{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x8);
+    border-radius: var(--border-radius-x4);
+    background: var(--color-quaternary);
+    padding: var(--spacing-x8) var(--spacing-x4);
+    border: 1px solid var(--color-border-primary);
+}
+
+.O_ControlPanel-Header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--spacing-x1) var(--spacing-x2);
+}
+
+.O_ControlPanel-Body{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x4);
+}

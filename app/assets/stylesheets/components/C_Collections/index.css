@@ -7,4 +7,6 @@
  *= require ./C_RadioButtons
  *= require ./C_BreadcrumbsItems
  *= require ./C_NotificationItems
+ *= require ./C_ControlPanelTableRow
+ *= require ./C_ControlPanelTableHeaderRow
 */
