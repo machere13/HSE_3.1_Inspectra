@@ -1,3 +1,25 @@
-<button class="A_IconButton" disabled="<%= disabled %>">
-    <%= render 'shared/quarks/Q_Icon', name: icon_name %>
+<%
+  position = local_assigns[:position]
+  top = local_assigns[:top]
+  left = local_assigns[:left]
+  bottom = local_assigns[:bottom]
+  right = local_assigns[:right]
+  disabled = local_assigns[:disabled]
+  icon_name = local_assigns[:icon_name]
+  
+  style_attrs = []
+  style_attrs << "position: #{position}" if position
+  style_attrs << "top: #{top}" if top
+  style_attrs << "left: #{left}" if left
+  style_attrs << "bottom: #{bottom}" if bottom
+  style_attrs << "right: #{right}" if right
+  style_attr = style_attrs.any? ? "style=\"#{style_attrs.join('; ')}\"" : ""
+  
+  classes = ['A_IconButton']
+  classes << 'A_IconButton--Absolute' if position == 'absolute'
+  
+  disabled_attr = disabled ? 'disabled="disabled"' : ''
+%>
+<button class="<%= classes.join(' ') %>" <%= style_attr.html_safe %> <%= disabled_attr.html_safe %>>
+    <%= render 'shared/quarks/Q_Icon', name: icon_name if icon_name %>
 </button>

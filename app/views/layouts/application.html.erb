@@ -25,6 +25,7 @@
     <% if request.path == '/about' || request.path == about_path %>
       <%= render 'shared/organisms/O_Footer' %>
     <% end %>
+    <%= render 'shared/atoms/A_IconButton', position: 'absolute', right: 'var(--spacing-x5)', bottom: 'var(--spacing-x5)', icon_name: 'Q_ConsoleIcon' %>
   </div>
 </body>
 </html>
