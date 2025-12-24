@@ -84,6 +84,18 @@
   window.DomUtils.ready(initCanvas);
   window.DomUtils.turboLoad(initCanvas);
 
+  const initMasonry = function() {
+    const listContainer = document.querySelector('.PageWeek-Content-List');
+    if (!listContainer) return;
+    
+    const viewMode = document.querySelector('.PageWeek-Content')?.getAttribute('data-view-mode') || 'cobweb';
+    if (viewMode === 'list' && window.MasonryGrid && typeof Masonry !== 'undefined') {
+      setTimeout(function() {
+        window.MasonryGrid.init(listContainer);
+      }, 300);
+    }
+  };
+
   const initViewModeSwitcher = function() {
     const contentContainer = document.querySelector('.PageWeek-Content');
     if (!contentContainer) return;
@@ -95,10 +107,24 @@
         
         if (value === 'cobweb') {
           setTimeout(initCanvas, 100);
+        } else if (value === 'list') {
+          setTimeout(function() {
+            const listContainer = document.querySelector('.PageWeek-Content-List');
+            if (listContainer && window.MasonryGrid && typeof Masonry !== 'undefined') {
+              if (listContainer.dataset.masonryInstance === 'true') {
+                window.MasonryGrid.update(listContainer);
+              } else {
+                window.MasonryGrid.init(listContainer);
+              }
+            }
+          }, 300);
         }
       }
     });
   };
+
+  window.DomUtils.ready(initMasonry);
+  window.DomUtils.turboLoad(initMasonry);
 
   window.DomUtils.ready(initViewModeSwitcher);
   window.DomUtils.turboLoad(initViewModeSwitcher);

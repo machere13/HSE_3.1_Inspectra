@@ -34,23 +34,26 @@
       const items = container.querySelectorAll('[data-content-type]');
       items.forEach(function(item) {
         const itemType = item.getAttribute('data-content-type');
-        
-        if (item.classList.contains('PageWeek-Content-List-Group')) {
-          if (activeFilters.length === 0 || activeFilters.includes(itemType)) {
-            item.style.display = '';
-          } else {
-            item.style.display = 'none';
-          }
+
+        if (activeFilters.length === 0) {
+          item.style.display = '';
+        } else if (activeFilters.includes(itemType)) {
+          item.style.display = '';
         } else {
-          if (activeFilters.length === 0) {
-            item.style.display = 'block';
-          } else if (activeFilters.includes(itemType)) {
-            item.style.display = 'block';
-          } else {
-            item.style.display = 'none';
-          }
+          item.style.display = 'none';
         }
       });
+      
+      const listContainer = container.querySelector('.PageWeek-Content-List');
+      if (listContainer && window.MasonryGrid && container.getAttribute('data-view-mode') === 'list' && typeof Masonry !== 'undefined') {
+        setTimeout(function() {
+          if (listContainer.masonry) {
+            listContainer.masonry.layout();
+          } else {
+            window.MasonryGrid.update(listContainer);
+          }
+        }, 100);
+      }
     },
 
     initFilters: function() {
