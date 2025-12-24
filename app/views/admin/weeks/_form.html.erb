@@ -1,16 +1,14 @@
 <%= form_with class: 'AdminForm', model: [:admin, @week] do |f| %>
   <%= render 'shared/organisms/O_AdminEditBlock' do %>
-    <div class="O_AdminEditBlock-Field">
-      <%= f.label :number, 'Номер (1..24)', class: 'O_AdminEditBlock-Label text-labels-1' %>
-      <%= render 'shared/atoms/A_Input', name: "#{f.object_name}[number]", value: @week.number, type: 'number' %>
-    </div>
+    <% if @week.persisted? %>
+      <div class="O_AdminEditBlock-Field">
+        <div class="O_AdminEditBlock-Label text-labels-1">Номер:</div>
+        <div><%= @week.number %></div>
+      </div>
+    <% end %>
     <div class="O_AdminEditBlock-Field">
       <%= f.label :title, 'Заголовок', class: 'O_AdminEditBlock-Label text-labels-1' %>
       <%= render 'shared/atoms/A_Input', name: "#{f.object_name}[title]", value: @week.title %>
-    </div>
-    <div class="O_AdminEditBlock-Field">
-      <%= f.label :description, 'Описание', class: 'O_AdminEditBlock-Label text-labels-1' %>
-      <%= render 'shared/atoms/A_TextArea', name: "#{f.object_name}[description]", value: @week.description, rows: 5 %>
     </div>
     <% if @week.persisted? %>
       <div class="O_AdminEditBlock-Field">
