@@ -1,34 +1,32 @@
-<h1>Недели</h1>
+<main class="PageAdminWeeksIndex">
+  <h1>Недели</h1>
 
-<p><%= link_to 'Новая неделя', new_admin_week_path %></p>
+  <p><%= link_to 'Новая неделя', new_admin_week_path %></p>
 
-<% if @pagy.count > 0 %>
-  <p><%= @pagy.from %>-<%= @pagy.to %> из <%= @pagy.count %></p>
-<% end %>
-
-<table>
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Название</th>
-      <th>Публикация</th>
-      <th>Действия</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @weeks.each do |week| %>
-      <tr>
-        <td><%= week.number %></td>
-        <td><%= link_to week.title, admin_week_path(week) %></td>
-        <td><%= l week.published_at.in_time_zone %> — <%= l week.expires_at.in_time_zone %></td>
-        <td>
-          <%= link_to 'Редактировать', edit_admin_week_path(week) %> |
-          <%= link_to 'Удалить', admin_week_path(week), data: { turbo_method: :delete, turbo_confirm: 'Удалить неделю?' } %>
-        </td>
-      </tr>
+  <% pagination_info = @pagy.count > 0 ? "#{@pagy.from}-#{@pagy.to} из #{@pagy.count}" : nil %>
+  <%= render 'shared/organisms/O_ControlPanelTable',
+      title: 'Недели',
+      actions: pagination_info do %>
+    <% if @weeks.any? %>
+      <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
+        '#',
+        'Название',
+        'Публикация',
+        'Действия'
+      ] %>
+      <% @weeks.each do |week| %>
+        <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+          week.number,
+          link_to(week.title, admin_week_path(week)),
+          "#{week.published_at.in_time_zone.strftime('%d.%m.%Y')} — #{week.expires_at.in_time_zone.strftime('%d.%m.%Y')}",
+          "#{link_to('Редактировать', edit_admin_week_path(week))} | #{link_to('Удалить', admin_week_path(week), data: { turbo_method: :delete, turbo_confirm: 'Удалить неделю?' })}".html_safe
+        ] %>
+      <% end %>
+    <% else %>
+      <p>Нет недель</p>
     <% end %>
-  </tbody>
-  </table>
+  <% end %>
 
-<%= pagy_nav(@pagy) if @pagy.pages > 1 %>
+  <%= pagy_nav(@pagy) if @pagy.pages > 1 %>
+</main>
 
