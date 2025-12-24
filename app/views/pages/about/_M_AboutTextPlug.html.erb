@@ -1,0 +1,9 @@
+<div class="M_AboutTextPlug">
+  <% if local_assigns[:texts].is_a?(Array) %>
+    <% local_assigns[:texts].each do |text| %>
+      <p class="M_AboutTextPlug-Label text-labels-1"><%= text %></p>
+    <% end %>
+  <% elsif local_assigns[:text] %>
+    <p class="M_AboutTextPlug-Label text-labels-1"><%= local_assigns[:text] %></p>
+  <% end %>
+</div>
