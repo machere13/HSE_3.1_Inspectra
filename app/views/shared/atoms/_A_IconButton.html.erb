@@ -6,6 +6,7 @@
   right = local_assigns[:right]
   disabled = local_assigns[:disabled]
   icon_name = local_assigns[:icon_name]
+  z_index = local_assigns[:z_index]
   
   style_attrs = []
   style_attrs << "position: #{position}" if position
@@ -13,6 +14,7 @@
   style_attrs << "left: #{left}" if left
   style_attrs << "bottom: #{bottom}" if bottom
   style_attrs << "right: #{right}" if right
+  style_attrs << "z-index: #{z_index}" if z_index
   style_attr = style_attrs.any? ? "style=\"#{style_attrs.join('; ')}\"" : ""
   
   classes = ['A_IconButton']
