@@ -31,7 +31,7 @@
               title: item_data[:item].title,
               description: item_data[:type] == 'article' ? (item_data[:item].description.presence || truncate(item_data[:item].body, length: 120)) : nil,
               preview_url: item_data[:item].respond_to?(:url) ? item_data[:item].url : nil,
-              onclick: item_data[:type] == 'article' ? "window.location.href='#{week_article_path(@week, item_data[:item])}'" : nil %>
+              url: item_data[:type] == 'article' ? week_article_path(@week, item_data[:item]) : nil %>
           </div>
         <% end %>
       </div>
