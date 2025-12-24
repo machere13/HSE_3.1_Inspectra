@@ -1,52 +1,57 @@
-<h1><%= t('admin.users.show.title') %></h1>
-
-<p><%= link_to t('admin.users.show.back_to_list'), admin_users_path %></p>
-
-<h2><%= t('admin.users.show.user_info') %></h2>
-<table>
-  <tr>
-    <th>ID:</th>
-    <td><%= @user.id %></td>
-  </tr>
-  <tr>
-    <th>Email:</th>
-    <td><%= @user.email %></td>
-  </tr>
-  <tr>
-    <th><%= t('admin.users.show.role') %>:</th>
-    <td><%= t("admin.users.roles.#{@user.role}") %></td>
-  </tr>
-  <tr>
-    <th><%= t('admin.users.show.email_verified') %>:</th>
-    <td><%= @user.email_verified? ? t('admin.users.show.yes') : t('admin.users.show.no') %></td>
-  </tr>
-  <tr>
-    <th><%= t('admin.users.show.registered') %>:</th>
-    <td><%= l @user.created_at.in_time_zone %></td>
-  </tr>
-  <tr>
-    <th><%= t('admin.users.show.updated') %>:</th>
-    <td><%= l @user.updated_at.in_time_zone %></td>
-  </tr>
-</table>
-
-<p><%= link_to t('admin.users.show.edit'), edit_admin_user_path(@user) %></p>
-
-<h2><%= t('admin.users.show.achievements') %></h2>
-<% if @user_achievements.any? %>
-  <ul>
-    <% @user_achievements.each do |ua| %>
-      <li>
-        <%= ua.achievement.name %>
-        <% if ua.completed_at %>
-          — <%= t('admin.users.show.completed') %>: <%= l ua.completed_at.in_time_zone %>
-        <% else %>
-          — <%= t('admin.users.show.progress') %>: <%= ua.progress %>%
-        <% end %>
-      </li>
+<main class="PageAdminUserShow">
+  <h1><%= t('admin.users.show.title') %></h1>
+  
+  <p><%= link_to t('admin.users.show.back_to_list'), admin_users_path %></p>
+  
+  <%= render 'shared/organisms/O_ControlPanelTable',
+      title: t('admin.users.show.user_info'),
+      actions: link_to(t('admin.users.show.edit'), edit_admin_user_path(@user)) do %>
+    <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
+      'Field',
+      'Value'
+    ] %>
+    <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+      'ID',
+      @user.id
+    ] %>
+    <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+      'Email',
+      @user.email
+    ] %>
+    <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+      t('admin.users.show.role'),
+      t("admin.users.roles.#{@user.role}")
+    ] %>
+    <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+      t('admin.users.show.email_verified'),
+      @user.email_verified? ? t('admin.users.show.yes') : t('admin.users.show.no')
+    ] %>
+    <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+      t('admin.users.show.registered'),
+      @user.created_at.in_time_zone.strftime('%d.%m.%Y %H:%M')
+    ] %>
+    <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+      t('admin.users.show.updated'),
+      @user.updated_at.in_time_zone.strftime('%d.%m.%Y %H:%M')
+    ] %>
+  <% end %>
+  
+  <%= render 'shared/organisms/O_ControlPanelTable',
+      title: t('admin.users.show.achievements') do %>
+    <% if @user_achievements.any? %>
+      <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
+        'Achievement',
+        'Status'
+      ] %>
+      <% @user_achievements.each do |ua| %>
+        <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+          ua.achievement.name,
+          ua.completed_at ? "#{t('admin.users.show.completed')}: #{ua.completed_at.in_time_zone.strftime('%d.%m.%Y %H:%M')}" : "#{t('admin.users.show.progress')}: #{ua.progress}%"
+        ] %>
+      <% end %>
+    <% else %>
+      <p><%= t('admin.users.show.no_achievements') %></p>
     <% end %>
-  </ul>
-<% else %>
-  <p><%= t('admin.users.show.no_achievements') %></p>
-<% end %>
+  <% end %>
+</main>
 
