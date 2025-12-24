@@ -1,9 +1,5 @@
-<h1><%= @article.title %></h1>
-<div>
+<main class="PageAdminArticlesShow">
+  <h1><%= @article.title %></h1>
   <%= simple_format @article.body %>
-  </div>
-
-<p>
-  <%= link_to 'Редактировать', edit_admin_week_article_path(@week, @article) %> |
-  <%= link_to 'Назад к списку', admin_week_articles_path(@week) %>
-</p>
+  <div class="PageAdminArticlesShow-Links"><%= link_to 'Редактировать', edit_admin_week_article_path(@week, @article) %> | <%= link_to 'Назад к списку', admin_week_articles_path(@week) %></div>
+</main>

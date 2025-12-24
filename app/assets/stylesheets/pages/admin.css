@@ -1,4 +1,4 @@
-.PageAdminDashboard, .PageAdminUserShow, .PageAdminUsersIndex, .PageAdminUserShow, .PageAdminWeeksIndex, .PageAdminWeeksShow, .PageAdminContentItemsIndex, .PageAdminContentItemsShow, .PageAdminArticlesIndex, .PageAdminArticlesEdit, .PageAdminContentItemsEdit, .PageAdminContentItemsNew, .PageAdminArticlesNew, .PageAdminWeeksNew, .PageAdminWeeksEdit, .PageAdminUsersEdit{
+.PageAdminDashboard, .PageAdminUserShow, .PageAdminUsersIndex, .PageAdminUserShow, .PageAdminWeeksIndex, .PageAdminWeeksShow, .PageAdminContentItemsIndex, .PageAdminContentItemsShow, .PageAdminArticlesIndex, .PageAdminArticlesEdit, .PageAdminContentItemsEdit, .PageAdminContentItemsNew, .PageAdminArticlesNew, .PageAdminWeeksNew, .PageAdminWeeksEdit, .PageAdminUsersEdit, .PageAdminArticlesShow{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -43,7 +43,7 @@
     gap: var(--spacing-x2);
 }
 
-.PageAdminUsersEdit-Links{
+.PageAdminUsersEdit-Links, .PageAdminArticlesShow-Links{
     display: flex;
     gap: var(--spacing-x2);
     align-items: center;
