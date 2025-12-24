@@ -7,6 +7,5 @@
  *= require ./O_ContentPreview
  *= require ./O_Breadcrumbs
  *= require ./O_Notifications
- *= require ./O_ControlPanel
  *= require ./O_ControlPanelTable
 */
