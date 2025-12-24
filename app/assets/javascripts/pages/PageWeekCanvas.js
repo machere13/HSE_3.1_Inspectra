@@ -79,6 +79,12 @@
         attributeFilter: ['style']
       });
     });
+    
+    document.addEventListener('contentFilter:updated', function() {
+      setTimeout(function() {
+        updateNodePositions();
+      }, 50);
+    });
   };
 
   window.DomUtils.ready(initCanvas);

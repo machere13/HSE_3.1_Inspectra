@@ -54,6 +54,11 @@
           }
         }, 100);
       }
+      
+      if (container.getAttribute('data-view-mode') === 'cobweb') {
+        const event = new CustomEvent('contentFilter:updated');
+        document.dispatchEvent(event);
+      }
     },
 
     initFilters: function() {

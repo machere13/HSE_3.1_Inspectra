@@ -69,12 +69,21 @@
       return { from: adjustedCorner1, to: adjustedCorner2 };
     },
 
+    areFiltersActive: function(nodes) {
+      const totalNodes = nodes.length;
+      const visibleNodes = this.getVisibleNodes(nodes);
+      return visibleNodes.length < totalNodes && visibleNodes.length > 0;
+    },
+
     calculateConnections: function(nodes, canvasWidth, canvasHeight) {
       const visibleNodes = this.getVisibleNodes(nodes);
       if (visibleNodes.length === 0) return [];
 
       const connections = [];
-      const maxDistance = Math.min(canvasWidth, canvasHeight) * 0.4;
+      
+      const filtersActive = this.areFiltersActive(nodes);
+      const maxDistanceMultiplier = filtersActive ? 2.0 : 0.4;
+      const maxDistance = Math.min(canvasWidth, canvasHeight) * maxDistanceMultiplier;
 
       for (let i = 0; i < visibleNodes.length; i++) {
         for (let j = i + 1; j < visibleNodes.length; j++) {
