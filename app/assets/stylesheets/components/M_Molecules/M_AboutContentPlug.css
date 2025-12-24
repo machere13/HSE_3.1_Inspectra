@@ -1,0 +1,48 @@
+.M_AboutContentPlug{
+    padding: var(--spacing-x3);
+    /* TODO: вынести градиент в переменную */
+    background: linear-gradient(30deg, rgb(132 132 132 / 20%) -20%, rgb(0 0 0 / 20%) 30%);
+    background-position: left bottom;
+    background-size: 200% 200%;
+    width: 100%;
+    border-radius: var(--border-radius-x3);
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-x2)
+}
+
+.M_AboutContentPlug::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    padding: 1px;
+    /* TODO: вынести градиент в переменную */
+    background: linear-gradient(85deg, rgb(58 58 58 / 50%), rgb(255 255 255 / 25%));
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+}
+
+.M_AboutContentPlug-Left{
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-x3);
+}
+
+.M_AboutContentPlug-Label{
+    color: var(--color-text-primary);
+}
+
+.M_AboutContentPlug-AdditionalInfo{
+    color: var(--color-text-primary);
+}
