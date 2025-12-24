@@ -6,8 +6,8 @@
           <% unless local_assigns[:skip_navigation] %>
             <%= render 'shared/organisms/O_Navigation' %>
           <% end %>
+          <%= render 'shared/molecules/M_NavigationSwitcher' %>
       </div>
-      <%= render 'shared/molecules/M_NavigationSwitcher' %>
   </div>
   <div class="W_Sidebar-Preview">
     <%= render 'weeks/O_ContentPreview' %>
