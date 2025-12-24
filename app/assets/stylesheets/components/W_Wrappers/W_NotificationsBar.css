@@ -1,0 +1,11 @@
+.W_NotificationsBar{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x1);
+}
+
+.W_NotificationsBar-Item{
+    width: 100%;
+}
+

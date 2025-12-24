@@ -1,0 +1,16 @@
+.W_NotificationsContent{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+}
+
+.W_NotificationsContent-Item{
+    width: 100%;
+    display: block;
+}
+
+.W_NotificationsContent-Item--Hidden{
+    display: none;
+}
+

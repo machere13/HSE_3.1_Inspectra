@@ -1,0 +1,9 @@
+<div class="W_NotificationsContent">
+  <div class="W_NotificationsContent-Item" data-index="0">
+    <%= yield :unread_mess if block_given? %>
+  </div>
+  <div class="W_NotificationsContent-Item W_NotificationsContent-Item--Hidden" data-index="1">
+    <%= yield :archive if block_given? %>
+  </div>
+</div>
+

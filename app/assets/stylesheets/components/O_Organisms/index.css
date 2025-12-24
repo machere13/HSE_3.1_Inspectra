@@ -6,4 +6,5 @@
  *= require ./O_Header
  *= require ./O_ContentPreview
  *= require ./O_Breadcrumbs
+ *= require ./O_Notifications
 */
