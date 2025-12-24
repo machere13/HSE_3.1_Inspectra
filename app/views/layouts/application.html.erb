@@ -22,7 +22,9 @@
       <%= render 'shared/wrappers/W_Sidebar' %>
       <%= yield %>
     </div>
-    <%= render 'shared/organisms/O_Footer' %>
+    <% if request.path == '/about' || request.path == about_path %>
+      <%= render 'shared/organisms/O_Footer' %>
+    <% end %>
   </div>
 </body>
 </html>

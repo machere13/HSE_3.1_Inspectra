@@ -1,14 +1,6 @@
 <div class="PageWeek">
   <%= render 'shared/wrappers/W_PageHeader' do %>
-    <div class="W_PageHeader-Timer">
-      <h3 data-countdown data-expires-at="<%= @week&.expires_at&.iso8601 %>" class="timer-value"><%= @week ? @week.time_left : '00:00:00' %></h3>
-    </div>
-    <div class="W_PageHeader-Console">
-      <div class="W_PageHeader-Console-Line text-p-2">>_ init system - media Inspectra</div>
-      <div class="W_PageHeader-Console-Line text-p-2">>_ media_web</div>
-      <div class="W_PageHeader-Console-Line text-p-2">>_ global_timer</div>
-      <div class="W_PageHeader-Console-Line text-p-2">[system] content expires in: <span data-countdown data-expires-at="<%= @week&.expires_at&.iso8601 %>" class="timer-value"><%= @week ? @week.time_left : '00:00:00' %></span></div>
-    </div>
+    <%= render 'shared/molecules/M_ContentTimer', week: @week %>
   <% end %>
   <% 
     articles_with_positions = @week.articles.map { |article| { item: article, position: rand(0..@content_items.length), type: 'article' } }
