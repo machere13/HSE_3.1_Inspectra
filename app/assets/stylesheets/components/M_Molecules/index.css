@@ -11,4 +11,7 @@
  *= require ./M_ContentTimer
  *= require ./M_NotificationTitle
  *= require ./M_NotificationItem
+ *= require ./M_AboutContentPlug
+ *= require ./M_AboutTextPlug
+ *= require ./M_AboutTextModule
 */

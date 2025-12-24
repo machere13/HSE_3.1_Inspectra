@@ -2,7 +2,8 @@
     display: flex;
     width: 100%;
     gap: var(--spacing-x3);
-    position: relative;
+    position: sticky;
+    top: var(--spacing-x1);
     z-index: 1;
 }
 

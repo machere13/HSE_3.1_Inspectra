@@ -1,204 +1,52 @@
 <div class="PageAbout">
+  <%= render 'shared/wrappers/W_PageHeader', skip_navigation: true do %>
+    <div class="W_PageHeader-Inner">
+      <%= render 'shared/molecules/M_ContentTimer', week: @current_week %>
+    </div>
+  <% end %>
   <section class="PageAbout-Section-Main">
     <div class="PageAbout-Section-Title">
         <%= render 'shared/atoms/A_Logo', name: 'A_Logo', size: 'Large' %>
         <h1>ГЕЙМИФИЦИРОВАННОЕ МЕДИА ПРО WEB</h1>
-        <h3>Мы&nbsp;превращаем сложные темы по&nbsp;IT в&nbsp;реальные расследования&nbsp;&mdash; миссиями и&nbsp;кодом, который нужно взломать, чтобы понять.</h3>
-    </div>
-    <div class="PageAbout-Section-Main-Content">
-      <%= render 'shared/quarks/Q_Square' %>
-      <div class="PageAbout-Section-Main-Content-Plate">
-        <h3>INSPECTRA создана для тех, кто хочет понимать, как работает цифровой мир&nbsp;&mdash; изнутри.</h3>
-      </div>
-      <div class="PageAbout-Section-Main-Content-Square"><%= render 'shared/quarks/Q_Square' %></div>
+        <h3>Это геймифицированное медиа, где на&nbsp;практике, через интерактивные головоломки, учишься видеть изнутри, как устроен цифровой мир, и&nbsp;находить в&nbsp;нём слабые места</h3>
     </div>
     <div class="PageAbout-Section-Content-Interactions">
       <%= render 'shared/atoms/A_Button', text: 'Погрузиться в веб', href: root_path %>
       <%= render 'shared/atoms/A_Button', text: 'Узнать больше о вебе', href: root_path %>
     </div>
   </section>
-  <section class="PageAbout-Section-FAQ">
-    <%= render 'pages/about/W_FAQConsole', 
-    title: 'about/log', 
-    question: 
-    '>_ init system --media Inspectra
-[system] initializing core...
-[system] loading modules...
-[ok] environment loaded successfully.
-    ', 
-    response: 'INSPECTRA — интерактивное медиа, где обучение вебу превращается в расследование.  
-Каждый материал — это миссия. Каждый баг — улика. Каждый пользователь — агент.
-    ',
-    max_width: '1464px'
-    %>
-    <div class="PageAbout-Section-FAQ-Content">
-        <div class="PageAbout-Section-FAQ-Content-Block">
-            <div class="PageAbout-Section-FAQ-Content-Left">
-                <img src="<%= asset_path('Q_FAQImage_1.png') %>" alt="About 1">
-            </div>
-            <div class="PageAbout-Section-FAQ-Content-Right">
-                <%= render 'pages/about/W_FAQConsole',
-                    title: 'whoami',
-                    question:
-                    '>_ whoami
-[user] querying identity...
-                ',
-                response: 'Мы — команда исследователей цифровой среды.
-→ разработчики, дизайнеры и энтузиасты безопасности
-→ создаём обучающие миссии, где теория и практика переплетены
-→ верим, что баг — это не ошибка, а начало расследования
-                ',
-                max_width: '100%'
-                %>
-                <%= render 'pages/about/W_FAQConsole',
-                    title: 'mission',
-                    question:
-                    '>_ mission --get
-fetching mission data...]
-                ',
-                response: 'Миссия Inspectra:
-. сделать обучение по веб-технологиям практичным и увлекательным
-. обучать через действие, а не сухую теорию
-. вернуть интерес к исследованию, вниманию и цифровому мышлению
-                ',
-                max_width: '100%'
-                %>
-            </div>
-        </div>
-        <div class="PageAbout-Section-FAQ-Content-Block">
-        <%= render 'pages/about/A_FAQTitle', title: 'Наше медиа имеет 5 направлений для погружения в исследования_>' %>
-        <div class="PageAbout-Section-FAQ-Content-Right">
-                <%= render 'pages/about/W_FAQConsole',
-                    title: 'modules',
-                    question:
-                    '>_ modules --list
-[system] listing active modules...
-                ',
-                response: '<dev_dive>         → погружение в структуру сайтов (DOM, cookies, network)
-<legacy_mode>      → изучение устаревших систем и ретро-кода
-<security_lab>     → безопасные симуляции фишинга, XSS и других IT-рисков
-<bughunt>          → поиск и устранение ошибок в интерактивных сценариях
-<theory_decoder>   → упрощаем сложное, объясняем логично
-
-[ok] 5 modules active
-                ',
-                max_width: '100%'
-                %>
-        </div>
-        </div>
-        <div class="PageAbout-Section-FAQ-Content-Vertical-Block">
-            <%= render 'pages/about/W_FAQConsole',
-                    title: 'content_info',
-                    question:
-                    '>_ load content_layer --info
-[system] scanning media database...
-                ',
-                response: '[ok] content channels detected.',
-                max_width: '100%'
-            %>
-            <div class="PageAbout-Section-FAQ-Content-Vertical-Block-Content">
-                <%= render 'pages/about/A_FAQTitle', title: 'Контент Inspectra' %>
-                <p class="text-p-2">Мы не ограничиваемся интерактивами — в системе есть полноценное медиа-пространство</p>
-            </div>
-        </div>
-        <div class="PageAbout-Section-FAQ-Content-Block">
-            <div class="PageAbout-Section-FAQ-Content-Left">
-                <img src="<%= asset_path('Q_FAQImage_2.png') %>" alt="About 2">
-            </div>
-            <div class="PageAbout-Section-FAQ-Content-Right" style="align-items: flex-end;">
-            <%= render 'pages/about/W_FAQConsole',
-                title: 'content_info',
-                question:
-                'content_layer/',
-                response: '  ├── articles/     
-  ├── visuals/      
-  ├── video_logs/   
-  └── micro_posts/
-
-каждая статья связана с интерактивом:
-читаешь материал → запускаешь симуляцию → проверяешь теорию в действии.
-
-[ok] content_layer synchronized with investigation_engine.',
-                max_width: '832px'
-            %>
-            </div>
-        </div>
-        <div class="PageAbout-Section-FAQ-Content-Block" style="align-items: flex-start;">
-        <%= render 'pages/about/A_FAQTitle', title: '>_ run gamification_engine' %>
-        <div class="PageAbout-Section-FAQ-Content-Right">
-                <%= render 'pages/about/W_FAQConsole',
-                    title: 'modules',
-                    question:
-                    '>_ run gamification_engine
-[system] checking gamification_engine...
-                ',
-                response: 'STATUS: ACTIVE
-→ Достижения,титулы и уровни для каждого агента  
-→ Таймеры и интерактивные задачи 
-→ Ошибки приносят опыт, а не штраф  
-→ Игровая динамика без попсы — всё встроено в процесс обучения
-                ',
-                max_width: '100%'
-                %>
-        </div>
-        </div>
-        <div class="PageAbout-Section-FAQ-Content-Block" style="align-items: flex-start;">
-        <%= render 'pages/about/A_FAQTitle', title: '>_ access community_layer' %>
-        <div class="PageAbout-Section-FAQ-Content-Right">
-                <%= render 'pages/about/W_FAQConsole',
-                    title: 'community',
-                    question:
-                    '>_ access community_layer
-[connect] establishing link to agent network...
-                ',
-                response: 'INSPECTRA_NETWORK connected.
-→ обсуждения под миссиями  
-→ советы от опытных агентов  
-→ обсуждение и постинг контента  
-→ рейтинги, лайки и обратная связь
-
-[ok] community online.
-            ',
-            max_width: '100%'
-            %>
-        </div>
-        </div>
+  <section class="PageAbout-Section-About">
+    <%= render 'pages/about/M_AboutContentPlug', info: 'ABOUT', additional_info: 'LOG' %>
+    <%= render 'pages/about/M_AboutTextPlug', texts: ['INSPECTRA — интерактивное медиа, где обучение вебу превращается в расследование.', 'Каждый материал — это миссия. Каждый баг — улика. Каждый пользователь — агент.'], max_width: '692px'%>
+    <%= render 'pages/about/M_AboutTextPlug', texts: ['Мы — команда исследователей цифровой среды.', '>>> разработчики, дизайнеры и энтузиасты безопасности', '>>> создаём обучающие миссии, где теория и практика переплетены', '>>> верим, что баг — это не ошибка, а начало расследования'], max_width: '692px'%>
+  </section>
+  <section class="PageAbout-Section-Modules">
+    <%= render 'pages/about/M_AboutContentPlug', info: 'Наше медиа имеет 5 направлений для погружения в исследования', additional_info: 'MODULES', show_asterisk: true %>
+    <div class="PageAbout-Section-Modules-Blocks">
+      <%= render 'pages/about/M_AboutTextModule', title: '<dev_dive> погружение в структуру сайтов (DOM, cookies, network)' %>
+      <%= render 'pages/about/M_AboutTextModule', title: '<legacy_mode>  изучение устаревших систем и ретро-кода' %>
+      <%= render 'pages/about/M_AboutTextModule', title: '<security_lab>  безопасные симуляции фишинга, XSS и других IT-рисков' %>
+      <%= render 'pages/about/M_AboutTextModule', title: '<bughunt>  поиск и устранение ошибок в интерактивных сценариях' %>
+    </div>
+    <div class="PageAbout-Section-Modules-Text">
+      <%= render 'shared/quarks/Q_Icon', name: 'Q_AsteriskIcon', width: 24, height: 24 %>
+      <h2 class="PageAbout-Section-Modules-Text-Title">&lt;THEORY DECODER&gt; упрощаем сложное, объясняем логично</h2>
     </div>
   </section>
-  <section class="PageAbout-Section-Summary">
-    <div class="PageAbout-Section-Summary-Content-Code">
-        <%= render 'pages/about/W_FAQCode', code: '>_ output --result
-[system] compiling session summary...
-        
-Результат:
-Inspectra превращает обучение в цифровое расследование.  
-Ты не просто читаешь — ты анализируешь, взаимодействуешь,  
-понимаешь, как устроен веб и как его исследовать безопасно.
-        
-[complete] user_experience = engaged
-        ' %>
-        <%= render 'pages/about/W_FAQCode', code: '>_ join --community
-[network] establishing secure channel...
-        
-Подключиться:
-- telegram://inspectra  
-        
-- github://inspectra
-        
-[ok] channels active.
-        ' %>
-        <%= render 'pages/about/W_FAQCode', code: '>_ time left
-23:13_till
-        
-[ok]
-        ' %>
+  <section class="PageAbout-Section-Image">
+    <%= image_tag asset_path('Q_AboutImage.png'), alt: 'About Image', class: 'PageAbout-Section-Image-Image' %>
+  </section>
+  <section class="PageAbout-Section-Info">
+    <%= render 'pages/about/M_AboutContentPlug', info: 'CONTENT', additional_info: 'INFO', show_asterisk: true %>
+    <div class="PageAbout-Section-Info-Blocks">
+      <%= render 'pages/about/M_AboutTextPlug', texts: ['Каждая статья связана с интерактивом:', 'читаешь материал >>> запускаешь симуляцию', '>>> проверяешь теорию в действии'] %>
+      <%= render 'pages/about/M_AboutTextPlug', texts: ['STATUS: ACTIVE', '>>> Достижения,титулы и уровни для каждого агента', '>>> Таймеры и интерактивные задачи', '>>> Ошибки приносят опыт, а не штраф', '>>> Игровая динамика без попсы — всё встроено в процесс обучения'] %>
     </div>
-    <div class='PageAbout-Section-Summary-Content-Form'>
+  </section>
+  <div class='PageAbout-Section-Form'>
       <p class="text-p-1">
         Медиа о&nbsp;цифровых расследованиях и&nbsp;интерактивах. Расследование цифровой среды начинается скоро.
       </p>
       <%= render 'shared/molecules/M_FormPlug' %>
-    </div>
   </div>
-  </section>
 </div>

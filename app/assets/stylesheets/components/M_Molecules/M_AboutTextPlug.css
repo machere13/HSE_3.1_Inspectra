@@ -1,0 +1,15 @@
+.M_AboutTextPlug{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x1);
+    padding: var(--spacing-x5);
+    border-radius: var(--border-radius-x4);
+    background: var(--color-quaternary);
+    border: var(--border-x05) solid var(--color-border-tertiary);
+    backdrop-filter: blur(5px);
+}
+
+.M_AboutTextPlug-Label{
+    color: var(--color-text-primary);
+}
