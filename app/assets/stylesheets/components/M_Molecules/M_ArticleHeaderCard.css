@@ -1,0 +1,22 @@
+.M_ArticleHeaderCard{
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--border-radius-x4);
+    padding: var(--spacing-x3);
+    background: var(--color-quaternary);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    backdrop-filter: blur(5px);
+    gap: var(--spacing-x3);
+    width: fit-content;
+    max-width: 428px;
+}
+
+.M_ArticleHeaderCard-Header{
+    padding: var(--spacing-x01) var(--spacing-x3);
+    border-bottom: var(--border-x025) dashed var(--color-border-secondary);
+}
+
+.M_ArticleHeaderCard-Label, .M_ArticleHeaderCard-Title, .M_ArticleHeaderCard-Description{
+    color: var(--color-text-primary);
+    text-align: left;
+}
