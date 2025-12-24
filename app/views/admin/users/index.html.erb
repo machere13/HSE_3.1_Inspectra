@@ -40,7 +40,7 @@
         <td><%= link_to user.email, admin_user_path(user) %></td>
         <td><%= t("admin.users.roles.#{user.role}") %></td>
         <td><%= user.email_verified? ? t('admin.users.index.yes') : t('admin.users.index.no') %></td>
-        <td><%= l user.created_at.in_time_zone %></td>
+        <td><%= user.created_at.in_time_zone.strftime('%d.%m.%Y %H:%M') %></td>
         <td>
           <%= link_to t('admin.users.index.view'), admin_user_path(user) %> |
           <%= link_to t('admin.users.index.edit'), edit_admin_user_path(user) %>
