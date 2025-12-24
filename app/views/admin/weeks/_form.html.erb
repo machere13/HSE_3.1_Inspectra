@@ -1,26 +1,28 @@
-<%= form_with model: [:admin, @week] do |f| %>
-  <div>
-    <%= f.label :number, 'Номер (1..24)' %><br/>
-    <%= f.number_field :number, in: 1..24, step: 1 %>
-  </div>
-  <div>
-    <%= f.label :title, 'Заголовок' %><br/>
-    <%= f.text_field :title %>
-  </div>
-  <div>
-    <%= f.label :description, 'Описание' %><br/>
-    <%= f.text_area :description %>
-  </div>
-  <% if @week.persisted? %>
-    <div>
-      <strong>Публикуется с:</strong> <%= l @week.published_at %>
+<%= form_with class: 'AdminForm', model: [:admin, @week] do |f| %>
+  <%= render 'shared/organisms/O_AdminEditBlock' do %>
+    <div class="O_AdminEditBlock-Field">
+      <%= f.label :number, 'Номер (1..24)', class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= render 'shared/atoms/A_Input', name: "#{f.object_name}[number]", value: @week.number, type: 'number' %>
     </div>
-    <div>
-      <strong>Скрывается после:</strong> <%= l @week.expires_at %>
+    <div class="O_AdminEditBlock-Field">
+      <%= f.label :title, 'Заголовок', class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= render 'shared/atoms/A_Input', name: "#{f.object_name}[title]", value: @week.title %>
     </div>
+    <div class="O_AdminEditBlock-Field">
+      <%= f.label :description, 'Описание', class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= render 'shared/atoms/A_TextArea', name: "#{f.object_name}[description]", value: @week.description, rows: 5 %>
+    </div>
+    <% if @week.persisted? %>
+      <div class="O_AdminEditBlock-Field">
+        <div class="O_AdminEditBlock-Label text-labels-1">Публикуется с:</div>
+        <div><%= l @week.published_at if @week.published_at %></div>
+      </div>
+      <div class="O_AdminEditBlock-Field">
+        <div class="O_AdminEditBlock-Label text-labels-1">Скрывается после:</div>
+        <div><%= l @week.expires_at if @week.expires_at %></div>
+      </div>
+    <% end %>
   <% end %>
-  <div>
-    <%= f.submit %>
-  </div>
+  <%= render 'shared/atoms/A_Button', type: 'submit', text: (@week.new_record? ? 'Создать' : 'Сохранить') %>
 <% end %>
 

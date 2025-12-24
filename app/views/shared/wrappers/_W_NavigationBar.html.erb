@@ -1,5 +1,5 @@
 <% if local_assigns[:admin_navigation] %>
-  <% is_admin_week_page = request.path.match?(%r{^/admin/weeks/}) && !@week.nil? %>
+  <% is_admin_week_page = request.path.match?(%r{^/admin/weeks/}) && !@week.nil? && @week.persisted? %>
   <div class="W_NavigationBar">
     <div class="W_NavigationBar-Item" data-index="0">
       <%= render 'shared/molecules/M_NavigationBar', icon_name: 'Q_FolderIcon', icon_width: 16, icon_height: 16, text: 'Admin', arrow: { opened: true } %>
