@@ -11,6 +11,7 @@
 
 .W_NavigationBar-Item{
     flex: 1 1 0;
+    cursor: pointer;
 }
 
 .W_NavigationBar-Item:only-child{
