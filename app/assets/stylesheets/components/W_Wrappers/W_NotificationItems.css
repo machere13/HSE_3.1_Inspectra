@@ -3,7 +3,7 @@
     flex-direction: column;
     width: 100%;
     position: absolute;
-    top: calc(100% + var(--spacing-x3));
+    top: calc(100% - var(--spacing-x3) - var(--spacing-x1));
     left: 0;
     right: 0;
     gap: var(--spacing-x2);

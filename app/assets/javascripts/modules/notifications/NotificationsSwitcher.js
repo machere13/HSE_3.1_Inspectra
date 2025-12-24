@@ -5,22 +5,32 @@
     },
 
     onToggle: function(e) {
-      const barItem = e.target.closest('.W_NotificationsBar-Item');
-      if (!barItem) return;
-      const btn = barItem.querySelector('.A_ArrowButton');
-      if (!btn) return;
+      const btn = e.target.closest('.A_ArrowButton');
+      let barItem;
+      let opened;
+      
+      if (btn) {
+        barItem = btn.closest('.W_NotificationsBar-Item');
+        if (!barItem) return;
+        opened = e.detail && e.detail.opened !== undefined ? e.detail.opened : btn.getAttribute('aria-expanded') === 'true';
+      } else {
+        barItem = e.target.closest('.W_NotificationsBar-Item');
+        if (!barItem) return;
+        const barBtn = barItem.querySelector('.A_ArrowButton');
+        if (!barBtn) return;
+        const isCurrentlyOpen = barBtn.getAttribute('aria-expanded') === 'true';
+        opened = !isCurrentlyOpen;
+        barBtn.setAttribute('aria-expanded', opened ? 'true' : 'false');
+      }
+      
       const idx = barItem.getAttribute('data-index');
       const root = this.findRoot(barItem);
       const content = root.querySelector('.W_NotificationItems');
       if (!content) return;
       
       const allItems = content.querySelectorAll('.W_NotificationItems-Item');
-      const isCurrentlyOpen = btn.getAttribute('aria-expanded') === 'true';
-      const willBeOpen = !isCurrentlyOpen;
       
-      btn.setAttribute('aria-expanded', willBeOpen ? 'true' : 'false');
-      
-      if (willBeOpen) {
+      if (opened) {
         allItems.forEach(function(item) {
           item.classList.add('W_NotificationItems-Item--Hidden');
         });

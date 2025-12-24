@@ -1,18 +1,14 @@
 <div class="PageArticle">
   <%= render 'shared/wrappers/W_PageHeader' do %>
-    <%= render 'shared/organisms/O_Breadcrumbs', items: [
-      { text: 'HOME', href: root_path, type: 'home' },
-      { text: "WEEK #{@week.number}", href: week_path(@week), type: 'week' },
-      { text: @article.title, href: week_article_path(@week, @article), type: 'article' }
-    ] %>
-    <div class="W_PageHeader-Console">
-        <div class="W_PageHeader-Console-Line text-p-2">>_ init system - media Inspectra</div>
-        <div class="W_PageHeader-Console-Line text-p-2">>_ media_web</div>
-        <div class="W_PageHeader-Console-Line text-p-2">>_ global_timer</div>
-        <div class="W_PageHeader-Console-Line text-p-2">[system] content expires in: <span data-countdown data-expires-at="<%= @week&.expires_at&.iso8601 %>" class="timer-value"><%= @week ? @week.time_left : '00:00:00' %></span></div>
+    <div class="W_PageHeader-Inner">
+      <%= render 'shared/organisms/O_Breadcrumbs', items: [
+        { text: 'HOME', href: root_path, type: 'home' },
+        { text: "WEEK #{@week.number}", href: week_path(@week), type: 'week' },
+        { text: @article.title, href: week_article_path(@week, @article), type: 'article' }
+      ] %>
+      <h3><%= @article.title %></h3>
+      <h4><%= @article.description %></h4>
     </div>
-    <h3><%= @article.title %></h3>
-    <h4><%= @article.description %></h4>
   <% end %>
     <div class="PageArticle-Content">
         <%= @article.body %>
