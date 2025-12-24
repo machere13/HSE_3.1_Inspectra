@@ -1,0 +1,9 @@
+<div class="C_NotificationItems">
+  <% (local_assigns[:items] || []).each do |item| %>
+    <%= render 'shared/molecules/M_NotificationItem', 
+        title: item[:title], 
+        text: item[:text], 
+        read: item[:read] %>
+  <% end %>
+</div>
+
