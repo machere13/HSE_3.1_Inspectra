@@ -1,37 +1,39 @@
-<h1><%= t('admin.users.edit.title') %></h1>
-
-<p><%= link_to t('admin.users.edit.back_to_user'), admin_user_path(@user) %> | <%= link_to t('admin.users.edit.back_to_list'), admin_users_path %></p>
-
-<%= form_with class: 'AdminForm', model: [:admin, @user], method: :patch do |f| %>
-  <% if @user.errors.any? %>
-    <div>
-      <ul>
-        <% @user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
+<main class="PageAdminUsersEdit">
+  <h1><%= t('admin.users.edit.title') %></h1>
+  
+  <div class="PageAdminUsersEdit-Links"><%= link_to t('admin.users.edit.back_to_user'), admin_user_path(@user) %> | <%= link_to t('admin.users.edit.back_to_list'), admin_users_path %></div>
+  
+  <%= form_with class: 'AdminForm', model: [:admin, @user], method: :patch do |f| %>
+    <% if @user.errors.any? %>
+      <div>
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <%= render 'shared/organisms/O_AdminEditBlock' do %>
+      <div class="O_AdminEditBlock-Field">
+        <%= f.label :email, t('admin.users.edit.email'), class: 'O_AdminEditBlock-Label text-labels-1' %>
+        <%= render 'shared/atoms/A_Input', name: "#{f.object_name}[email]", value: @user.email, type: 'email' %>
+      </div>
+  
+      <div class="O_AdminEditBlock-Field">
+        <%= f.label :role, t('admin.users.edit.role'), class: 'O_AdminEditBlock-Label text-labels-1' %>
+        <%= f.select :role, options_for_select(User.roles.map { |k, v| [t("admin.users.roles.#{k}"), k] }, @user.role), {}, { class: 'A_Input text-p-3' } %>
+      </div>
+  
+      <div class="O_AdminEditBlock-Field">
+        <%= f.label :email_verified, t('admin.users.edit.email_verified'), class: 'O_AdminEditBlock-Label text-labels-1' %>
+        <label for="user_email_verified_<%= @user.id %>" style="display: flex; align-items: center; gap: var(--spacing-x2); cursor: pointer;">
+          <%= f.check_box :email_verified, id: "user_email_verified_#{@user.id}", style: 'display: none;', class: 'admin-checkbox-input' %>
+          <span class="Q_Checkbox <%= 'checked' if @user.email_verified %>"></span>
+        </label>
+      </div>
+    <% end %>
+  
+    <%= render 'shared/atoms/A_Button', type: 'submit', text: t('admin.users.edit.update') %>
   <% end %>
-
-  <%= render 'shared/organisms/O_AdminEditBlock' do %>
-    <div class="O_AdminEditBlock-Field">
-      <%= f.label :email, t('admin.users.edit.email'), class: 'O_AdminEditBlock-Label text-labels-1' %>
-      <%= render 'shared/atoms/A_Input', name: "#{f.object_name}[email]", value: @user.email, type: 'email' %>
-    </div>
-
-    <div class="O_AdminEditBlock-Field">
-      <%= f.label :role, t('admin.users.edit.role'), class: 'O_AdminEditBlock-Label text-labels-1' %>
-      <%= f.select :role, options_for_select(User.roles.map { |k, v| [t("admin.users.roles.#{k}"), k] }, @user.role), {}, { class: 'A_Input text-p-3' } %>
-    </div>
-
-    <div class="O_AdminEditBlock-Field">
-      <%= f.label :email_verified, t('admin.users.edit.email_verified'), class: 'O_AdminEditBlock-Label text-labels-1' %>
-      <label for="user_email_verified_<%= @user.id %>" style="display: flex; align-items: center; gap: var(--spacing-x2); cursor: pointer;">
-        <%= f.check_box :email_verified, id: "user_email_verified_#{@user.id}", style: 'display: none;', class: 'admin-checkbox-input' %>
-        <span class="Q_Checkbox <%= 'checked' if @user.email_verified %>"></span>
-      </label>
-    </div>
-  <% end %>
-
-  <%= render 'shared/atoms/A_Button', type: 'submit', text: t('admin.users.edit.update') %>
-<% end %>
+</main>
