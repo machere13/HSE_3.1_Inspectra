@@ -1,0 +1,22 @@
+.W_NotificationsContent{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: calc(100% + var(--spacing-x3));
+    left: 0;
+    right: 0;
+    gap: var(--spacing-x2);
+}
+
+.W_NotificationsContent-Item{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.W_NotificationsContent-Item--Hidden{
+    display: none;
+}
+

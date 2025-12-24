@@ -13,5 +13,7 @@
  *= require ./W_PageHeader
  *= require ./W_Checkbox
  *= require ./W_ErrorConsole
+ *= require ./W_NotificationsBar
+ *= require ./W_NotificationsContent
 */
 

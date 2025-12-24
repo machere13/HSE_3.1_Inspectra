@@ -3,12 +3,7 @@
     <%= render 'shared/organisms/O_Breadcrumbs', items: [
       { text: 'HOME', href: root_path, type: 'home' }
     ] %>
-    <div class="W_PageHeader-Console">
-        <div class="W_PageHeader-Console-Line text-p-2">>_ init system - media Inspectra</div>
-        <div class="W_PageHeader-Console-Line text-p-2">>_ media_web</div>
-        <div class="W_PageHeader-Console-Line text-p-2">>_ global_timer</div>
-        <div class="W_PageHeader-Console-Line text-p-2">[system] content expires in: <span data-countdown data-expires-at="<%= @current_week&.expires_at&.iso8601 %>"><%= @current_week ? @current_week.time_left : '00:00:00' %></span></div>
-    </div>
+    <%= render 'shared/molecules/M_ContentTimer', week: @current_week %>
   <% end %>
   <div class="PageHome-Weeks-List">
     <% if @current_week %>

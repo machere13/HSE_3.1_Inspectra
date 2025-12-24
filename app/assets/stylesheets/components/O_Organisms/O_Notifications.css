@@ -1,8 +1,9 @@
-.W_PageHeader{
+.O_Notifications{
     display: flex;
     flex-direction: column;
     width: 100%;
     gap: var(--spacing-x3);
+    max-width: 328px;
     position: relative;
-    z-index: 1;
 }
+

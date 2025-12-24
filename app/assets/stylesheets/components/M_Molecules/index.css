@@ -9,4 +9,6 @@
  *= require ./M_ContentCard
  *= require ./M_BreadcrumbsItem
  *= require ./M_ContentTimer
+ *= require ./M_NotificationTitle
+ *= require ./M_NotificationItem
 */
