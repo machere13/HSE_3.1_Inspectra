@@ -9,7 +9,7 @@ Rails.application.config.assets.precompile += %w[
   A_ArrowButtonIcon.svg
   Q_ArrowDividerIcon.svg
   Q_ArrowIcon.svg
-  Q_ArticleIcon.svg
+  Q_ArrowRightIcon.svg
   Q_AudioIcon.svg
   Q_BreadcrumbArticleIcon.svg
   Q_BreadcrumbHomeIcon.svg

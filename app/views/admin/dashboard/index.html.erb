@@ -1,7 +1,7 @@
 <h1><%= t('admin.dashboard.title') %></h1>
 
 <% users_actions = link_to('#') do
-     render 'shared/quarks/Q_Icon', name: 'Q_ArrowIcon', width: 24, height: 24
+     render 'shared/quarks/Q_Icon', name: 'Q_ArrowRightIcon', width: 24, height: 24
    end %>
 <%= render 'shared/organisms/O_ControlPanelTable', 
     title: t('admin.dashboard.users.title'),
@@ -41,7 +41,7 @@
 <% end %>
 
 <% achievements_actions = link_to('#') do
-     render 'shared/quarks/Q_Icon', name: 'Q_ArrowIcon', width: 24, height: 24
+     render 'shared/quarks/Q_Icon', name: 'Q_ArrowRightIcon', width: 24, height: 24
    end %>
 <%= render 'shared/organisms/O_ControlPanelTable', 
     title: t('admin.dashboard.achievements.title'),
@@ -57,7 +57,7 @@
 <% end %>
 
 <% actions_content = link_to(admin_users_path) do
-     render 'shared/quarks/Q_Icon', name: 'Q_ArrowIcon', width: 24, height: 24
+     render 'shared/quarks/Q_Icon', name: 'Q_ArrowRightIcon', width: 24, height: 24
    end %>
 <%= render 'shared/organisms/O_ControlPanelTable', 
     title: t('admin.dashboard.recent_users.title'),
