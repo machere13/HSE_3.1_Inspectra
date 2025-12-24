@@ -11,11 +11,13 @@ class Admin::WeeksController < Admin::BaseController
 
   def new
     @week = Week.new
+    @week.number = next_week_number
     authorize! :create, @week
   end
 
   def create
     @week = Week.new(week_params)
+    @week.number ||= next_week_number
     authorize! :create, @week
     if @week.save
       redirect_to admin_week_path(@week), notice: 'Неделя создана'
@@ -55,7 +57,14 @@ class Admin::WeeksController < Admin::BaseController
   end
 
   def week_params
-    params.require(:week).permit(:number, :title, :description, :published_at, :expires_at)
+    params.require(:week).permit(:title, :published_at, :expires_at)
+  end
+
+  def next_week_number
+    last_week = Week.order(:number).last
+    return 1 if last_week.nil?
+    next_num = last_week.number + 1
+    next_num > 24 ? nil : next_num
   end
 end
 

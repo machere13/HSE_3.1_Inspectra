@@ -1,6 +1,6 @@
 <% if local_assigns[:admin_navigation] %>
   <%
-    is_admin_week_page = request.path.match?(%r{^/admin/weeks/}) && !@week.nil?
+    is_admin_week_page = request.path.match?(%r{^/admin/weeks/}) && !@week.nil? && @week.persisted?
     admin_navigation_items = [
       { text: 'DASHBOARD', href: admin_dashboard_path, hotkey: 'D' },
       { text: 'USERS', href: admin_users_path, hotkey: 'U' },
