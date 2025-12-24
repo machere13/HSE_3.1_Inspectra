@@ -24,15 +24,14 @@
           <div class="PageWeek-Content-Item" 
                data-content-type="<%= item_data[:type] == 'article' ? 'article' : item_data[:item].kind %>"
                data-node-index="<%= index %>">
-            <% if item_data[:type] == 'article' %>
-              <%= render 'weeks/O_ArticleCard', week: @week, article: item_data[:item] %>
-            <% else %>
-              <%= render 'weeks/M_ContentCard',
-                type: item_data[:item].kind,
-                label: item_data[:item].kind&.upcase,
-                id: "content_card_#{item_data[:item].id}",
-                preview_url: item_data[:item].respond_to?(:url) ? item_data[:item].url : nil %>
-            <% end %>
+            <%= render 'weeks/M_ContentCard',
+              type: item_data[:type] == 'article' ? 'article' : item_data[:item].kind,
+              label: item_data[:type] == 'article' ? 'ARTICLE' : item_data[:item].kind&.upcase,
+              id: item_data[:type] == 'article' ? "article_card_#{item_data[:item].id}" : "content_card_#{item_data[:item].id}",
+              title: item_data[:item].title,
+              description: item_data[:type] == 'article' ? (item_data[:item].description.presence || truncate(item_data[:item].body, length: 120)) : nil,
+              preview_url: item_data[:item].respond_to?(:url) ? item_data[:item].url : nil,
+              onclick: item_data[:type] == 'article' ? "window.location.href='#{week_article_path(@week, item_data[:item])}'" : nil %>
           </div>
         <% end %>
       </div>
