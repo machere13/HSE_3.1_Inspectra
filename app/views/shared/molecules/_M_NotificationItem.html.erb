@@ -1,4 +1,13 @@
 <div class="M_NotificationItem">
-  <span class="M_NotificationItem-Text text-p-2"><%= local_assigns[:text] || 'Notification text' %></span>
+  <%= render 'shared/quarks/Q_Icon', name: 'Q_NotificationItemIcon', width: 24, height: 24 %>
+  <div class="M_NotificationItem-Content">
+    <div class="M_NotificationItem-Content-Header">
+      <span class="M_NotificationItem-Content-Header-Sender text-labels-2"><%= local_assigns[:title] || 'Notification title' %></span>
+      <% unless local_assigns[:read] %>
+        <div class="M_NotificationItem-Content-Header-UnreadIcon"></div>
+      <% end %>
+    </div>
+    <span class="M_NotificationItem-Text text-p-2"><%= local_assigns[:text] || 'Notification text' %></span>
+  </div>
 </div>
 
