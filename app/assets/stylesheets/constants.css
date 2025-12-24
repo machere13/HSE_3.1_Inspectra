@@ -129,6 +129,16 @@ h4, .text-h4 {
     text-decoration: var(--text-decoration-none);
 }
 
+.text-p-1-mono {
+    font-size: var(--font-size-p-1);
+    font-family: var(--font-family-geist-mono);
+    font-weight: var(--font-weight-paragraphs);
+    line-height: var(--line-height-loose);
+    letter-spacing: var(--letter-spacing-normal);
+    text-transform: var(--text-transform-as-typed);
+    text-decoration: var(--text-decoration-none);
+}
+
 .text-p-2 {
     font-size: var(--font-size-p-2);
     font-family: var(--font-family-geist);
