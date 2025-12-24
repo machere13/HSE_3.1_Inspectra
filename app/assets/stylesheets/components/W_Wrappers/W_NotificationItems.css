@@ -1,0 +1,26 @@
+.W_NotificationItems{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: calc(100% + var(--spacing-x3));
+    left: 0;
+    right: 0;
+    gap: var(--spacing-x2);
+    padding: var(--spacing-x2) var(--spacing-x3);
+    background: var(--color-primary);
+    border-radius: var(--border-radius-x2);
+    border: 1px solid var(--color-border-tertiary);
+    overflow: hidden;
+}
+
+.W_NotificationItems-Item{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.W_NotificationItems-Item--Hidden{
+    display: none;
+}
+

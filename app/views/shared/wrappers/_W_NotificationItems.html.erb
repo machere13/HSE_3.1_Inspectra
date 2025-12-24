@@ -1,15 +1,14 @@
-<div class="W_NotificationsContent">
-  <div class="W_NotificationsContent-Item" data-index="0">
+<div class="W_NotificationItems">
+  <div class="W_NotificationItems-Item" data-index="0">
     <%= render 'shared/collections/C_NotificationItems', items: [
       { title: 'Sender 1', text: 'Unread message 1', read: false },
       { title: 'Sender 2', text: 'Unread message 2', read: false }
     ] %>
   </div>
-  <div class="W_NotificationsContent-Item W_NotificationsContent-Item--Hidden" data-index="1">
+  <div class="W_NotificationItems-Item W_NotificationItems-Item--Hidden" data-index="1">
     <%= render 'shared/collections/C_NotificationItems', items: [
       { title: 'Sender 3', text: 'Archived message 1', read: true },
       { title: 'Sender 4', text: 'Archived message 2', read: true }
     ] %>
   </div>
 </div>
-
