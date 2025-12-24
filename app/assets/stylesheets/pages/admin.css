@@ -1,4 +1,4 @@
-.PageAdminDashboard, .PageAdminUserShow, .PageAdminUsersIndex, .PageAdminUserShow, .PageAdminWeeksIndex, .PageAdminContentItemsIndex, .PageAdminArticlesIndex{
+.PageAdminDashboard, .PageAdminUserShow, .PageAdminUsersIndex, .PageAdminUserShow, .PageAdminWeeksIndex, .PageAdminContentItemsIndex, .PageAdminArticlesIndex, .PageAdminArticlesEdit{
     display: flex;
     flex-direction: column;
     width: 100%;
