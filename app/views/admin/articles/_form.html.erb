@@ -1,15 +1,15 @@
-<%= form_with model: [:admin, @week, @article] do |f| %>
-  <div>
-    <%= f.label :title, 'Заголовок' %><br/>
-    <%= f.text_field :title %>
-  </div>
-  <div>
-    <%= f.label :body, 'Текст' %><br/>
-    <%= render 'shared/atoms/A_TextArea', name: "#{f.object_name}[body]", value: @article.body, rows: 10 %>
-  </div>
-  <div>
-    <%= f.submit %>
-  </div>
+<%= form_with class: 'AdminForm', model: [:admin, @week, @article] do |f| %>
+  <%= render 'shared/organisms/O_AdminEditBlock' do %>
+    <div class="O_AdminEditBlock-Field">
+      <%= f.label :title, 'Заголовок', class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= render 'shared/atoms/A_Input', name: "#{f.object_name}[title]", value: @article.title %>
+    </div>
+    <div class="O_AdminEditBlock-Field">
+      <%= f.label :body, 'Текст', class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= render 'shared/atoms/A_TextArea', name: "#{f.object_name}[body]", value: @article.body, rows: 10 %>
+    </div>
+  <% end %>
+  <%= render 'shared/atoms/A_Button', type: 'submit', text: @article.new_record? ? 'Создать' : 'Сохранить' %>
 <% end %>
 
 

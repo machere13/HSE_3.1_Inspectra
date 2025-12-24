@@ -1,0 +1,21 @@
+.O_AdminEditBlock{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x8);
+    padding: var(--spacing-x4);
+    border-radius: var(--border-radius-x4);
+    border: var(--border-x025) solid var(--color-border-primary);
+    background: var(--color-quaternary);
+}
+
+.O_AdminEditBlock-Field{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+    width: 100%;
+}
+
+.O_AdminEditBlock-Label{
+    color: var(--color-text-primary);
+}
