@@ -1,0 +1,36 @@
+.O_ControlPanelTable{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x8);
+    border-radius: var(--border-radius-x4);
+    background: var(--color-quaternary);
+    padding: var(--spacing-x4);
+    border: 1px solid var(--color-border-primary);
+}
+
+.O_ControlPanelTable-Header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--spacing-x1) var(--spacing-x2);
+}
+
+.O_ControlPanelTable-Header-Title{
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+}
+
+.O_ControlPanelTable-Header-Actions{
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-x2);
+}
+
+.O_ControlPanelTable-Content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
