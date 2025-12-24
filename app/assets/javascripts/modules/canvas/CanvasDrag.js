@@ -1,7 +1,10 @@
 (function() {
   window.CanvasDrag = {
+    isDragging: false,
+    hasDragged: false,
     init: function(canvasContainer, canvasWidth, canvasHeight, viewportWidth, viewportHeight) {
       let isDragging = false;
+      let hasDragged = false;
       let startX = 0;
       let startY = 0;
       let transformX = -(canvasWidth - viewportWidth) / 2;
@@ -13,6 +16,7 @@
       let lastMoveY = 0;
       let animationFrameId = null;
       const friction = 0.96;
+      const dragThreshold = 5;
       const maxX = canvasWidth - viewportWidth;
       const maxY = canvasHeight - viewportHeight;
 
@@ -53,6 +57,9 @@
           return;
         }
         isDragging = true;
+        hasDragged = false;
+        window.CanvasDrag.isDragging = true;
+        window.CanvasDrag.hasDragged = false;
         startX = e.clientX;
         startY = e.clientY;
         lastMoveX = e.clientX;
@@ -67,6 +74,11 @@
         }
 
         canvasContainer.style.cursor = 'grabbing';
+        
+        const card = e.target.closest('.M_ContentCard');
+        if (card) {
+          card.dataset.dragStarted = 'true';
+        }
       };
 
       const onMouseMove = function(e) {
@@ -75,6 +87,15 @@
         const currentTime = performance.now();
         const dx = e.clientX - lastMoveX;
         const dy = e.clientY - lastMoveY;
+        
+        const totalDx = e.clientX - startX;
+        const totalDy = e.clientY - startY;
+        const totalDistance = Math.sqrt(totalDx * totalDx + totalDy * totalDy);
+        
+        if (totalDistance > dragThreshold) {
+          hasDragged = true;
+          window.CanvasDrag.hasDragged = true;
+        }
 
         transformX += dx;
         transformY += dy;
@@ -91,10 +112,21 @@
         lastTime = currentTime;
       };
 
-      const onMouseUp = function() {
+      const onMouseUp = function(e) {
         if (isDragging) {
           isDragging = false;
           canvasContainer.style.cursor = 'grab';
+          
+          const wasDragging = window.CanvasDrag.hasDragged;
+          window.CanvasDrag.isDragging = false;
+
+          if (hasDragged) {
+            setTimeout(function() {
+              window.CanvasDrag.hasDragged = false;
+            }, 300);
+          } else {
+            window.CanvasDrag.hasDragged = false;
+          }
 
           if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1) {
             lastTime = performance.now();

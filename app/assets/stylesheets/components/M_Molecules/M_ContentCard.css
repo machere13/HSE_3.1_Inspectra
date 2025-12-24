@@ -1,31 +1,46 @@
 .M_ContentCard{
     display: flex;
-    gap: var(--spacing-x1);
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-x2);
-    background: var(--color-primary);
+    gap: var(--spacing-x2);
+    flex-direction: column;
+    padding: var(--spacing-x3) var(--spacing-x4);
+    background: var(--color-quaternary);
     cursor: pointer;
     transition: background .15s ease, border-color .15s ease;
     border: none;
     outline: none;
     box-sizing: border-box;
+    border-radius: var(--border-radius-x4);
+    border: 1px solid var(--color-border-primary);
+    backdrop-filter: blur(5px);
+    width: 432px;
 }
 
 .M_ContentCard:hover{
     background: var(--color-state-hover);
 }
 
+.M_ContentCard-Header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--spacing-x05) var(--spacing-x2);
+}
+
+.M_ContentCard-Body{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+    width: 100%;
+    padding-top: var(--spacing-x2);
+    border-top: var(--border-x05) dashed var(--color-border-secondary);
+}
+
+.M_ContentCard-Title, .M_ContentCard-Description{
+    color: var(--color-text-primary);
+    text-align: left;
+}
+
 .M_ContentCard-Label{
     color: var(--color-text-primary);
-}
-
-.M_ContentCard-Handle{
-    margin-left: var(--spacing-x2);
-    color: var(--color-text-primary);
-    cursor: grab;
-}
-
-.M_ContentCard-Handle:active{
-    cursor: grabbing;
 }
