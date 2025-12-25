@@ -33,6 +33,11 @@
     </div>
     <div class="PageProfile-Section-Content-Right">
       <%= render 'pages/profile/M_ProfileContentPlug', info: "Статистика" %>
+      <div class="PageProfile-Statistic-Rows">
+        <%= render 'pages/profile/M_ProfileStatisticRow', label: "Всего достижений", value: "150" %>
+        <%= render 'pages/profile/M_ProfileStatisticRow', label: "Завершено", value: "100" %>
+        <%= render 'pages/profile/M_ProfileStatisticRow', label: "В процессе", value: "50" %>
+      </div>
     </div>
   </section>
 </div>
