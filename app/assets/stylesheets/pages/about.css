@@ -29,6 +29,10 @@
     background: var(--color-secondary);
     border: var(--border-x05) solid var(--color-border-tertiary);
 }
+
+.PageAbout-Section-Title > h1 {
+    word-break: break-word;
+}
   
 .PageAbout-Section-Main-Content{
     display: flex;
@@ -126,4 +130,10 @@
     border-radius: var(--border-radius-x3);
     border: var(--border-x025) solid var(--color-border-primary);
     max-width: 620px;
+}
+
+@media (max-width: 1280px) {
+    .PageAbout-Section-Info-Blocks{
+        flex-direction: column;
+    }
 }
