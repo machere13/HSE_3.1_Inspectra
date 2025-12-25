@@ -38,6 +38,26 @@
           ToastNotification.hide(toast);
         }, 3000);
       });
+      
+      const interactiveToasts = document.querySelectorAll('.M_ToastInteractive:not([data-toast-initialized])');
+      interactiveToasts.forEach(function(toast) {
+        toast.setAttribute('data-toast-initialized', 'true');
+        setTimeout(function() {
+          ToastNotification.hideInteractive(toast);
+        }, 12000);
+      });
+    },
+    
+    hideInteractive: function(toast) {
+      if (!toast) return;
+      
+      toast.classList.add('M_ToastInteractive--Hiding');
+      
+      setTimeout(function() {
+        if (toast.parentNode) {
+          toast.parentNode.removeChild(toast);
+        }
+      }, 300);
     }
   };
   

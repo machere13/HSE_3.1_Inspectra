@@ -16,4 +16,5 @@
  *= require ./M_AboutTextModule
  *= require ./M_ArticleHeaderCard
  *= require ./M_ToastNotification
+ *= requier ./M_ToastInteractive
 */
