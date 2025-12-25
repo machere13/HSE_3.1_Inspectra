@@ -87,7 +87,6 @@
       
       const type = space.getAttribute('data-interactive-type') || 'blind_in_dom';
       
-      // Привязываем события один раз
       InteractiveToast.bindInteractiveSpaceEvents();
       
       if (type === 'blind_in_dom') {
