@@ -1,0 +1,97 @@
+<%
+  completed = local_assigns[:completed] || 0
+  in_progress = local_assigns[:in_progress] || 0
+  total = completed + in_progress
+  
+  if total == 0
+    completed_percent = 0
+    in_progress_percent = 0
+    not_started_percent = 100
+  else
+    completed_percent = (completed.to_f / total * 100).round(1)
+    in_progress_percent = (in_progress.to_f / total * 100).round(1)
+    not_started_percent = 100 - completed_percent - in_progress_percent
+  end
+  
+  size = 386
+  center = size / 2
+  radius = 150
+  stroke_width = 70
+  inner_radius = radius - stroke_width
+  
+  def angle_to_coords(angle, radius, center)
+    rad = (angle * Math::PI) / 180
+    x = center + radius * Math.cos(rad)
+    y = center + radius * Math.sin(rad)
+    [x, y]
+  end
+  
+  start_angle = -90
+  completed_angle = (completed_percent / 100) * 360
+  in_progress_angle = (in_progress_percent / 100) * 360
+  not_started_angle = (not_started_percent / 100) * 360
+  
+  completed_start = angle_to_coords(start_angle, inner_radius, center)
+  completed_end = angle_to_coords(start_angle + completed_angle, inner_radius, center)
+  
+  in_progress_start_angle = start_angle + completed_angle
+  in_progress_start = angle_to_coords(in_progress_start_angle, inner_radius, center)
+  in_progress_end = angle_to_coords(in_progress_start_angle + in_progress_angle, inner_radius, center)
+  
+  not_started_start_angle = in_progress_start_angle + in_progress_angle
+  not_started_start = angle_to_coords(not_started_start_angle, inner_radius, center)
+  not_started_end = angle_to_coords(not_started_start_angle + not_started_angle, inner_radius, center)
+  
+  large_arc_completed = completed_angle > 180 ? 1 : 0
+  large_arc_in_progress = in_progress_angle > 180 ? 1 : 0
+  large_arc_not_started = not_started_angle > 180 ? 1 : 0
+  
+  completed_start_outer = angle_to_coords(start_angle, radius, center)
+  completed_end_outer = angle_to_coords(start_angle + completed_angle, radius, center)
+  in_progress_start_outer = angle_to_coords(in_progress_start_angle, radius, center)
+  in_progress_end_outer = angle_to_coords(in_progress_start_angle + in_progress_angle, radius, center)
+  not_started_start_outer = angle_to_coords(not_started_start_angle, radius, center)
+  not_started_end_outer = angle_to_coords(not_started_start_angle + not_started_angle, radius, center)
+%>
+
+<div class="M_ProfileDonutChart">
+  <svg width="<%= size %>" height="<%= size %>" viewBox="0 0 <%= size %> <%= size %>" class="M_ProfileDonutChart-SVG">
+    <g>
+      <% if completed_angle > 0 %>
+        <path
+          d="M <%= completed_start_outer[0] %> <%= completed_start_outer[1] %>
+             A <%= radius %> <%= radius %> 0 <%= large_arc_completed %> 1 <%= completed_end_outer[0] %> <%= completed_end_outer[1] %>
+             L <%= completed_end[0] %> <%= completed_end[1] %>
+             A <%= inner_radius %> <%= inner_radius %> 0 <%= large_arc_completed %> 0 <%= completed_start[0] %> <%= completed_start[1] %>
+             Z"
+          fill="var(--color-accent)"
+          class="M_ProfileDonutChart-Segment M_ProfileDonutChart-Segment--Completed"
+        />
+      <% end %>
+      
+      <% if in_progress_angle > 0 %>
+        <path
+          d="M <%= in_progress_start_outer[0] %> <%= in_progress_start_outer[1] %>
+             A <%= radius %> <%= radius %> 0 <%= large_arc_in_progress %> 1 <%= in_progress_end_outer[0] %> <%= in_progress_end_outer[1] %>
+             L <%= in_progress_end[0] %> <%= in_progress_end[1] %>
+             A <%= inner_radius %> <%= inner_radius %> 0 <%= large_arc_in_progress %> 0 <%= in_progress_start[0] %> <%= in_progress_start[1] %>
+             Z"
+          fill="var(--color-notification)"
+          class="M_ProfileDonutChart-Segment M_ProfileDonutChart-Segment--InProgress"
+        />
+      <% end %>
+      
+      <% if not_started_angle > 0 %>
+        <path
+          d="M <%= not_started_start_outer[0] %> <%= not_started_start_outer[1] %>
+             A <%= radius %> <%= radius %> 0 <%= large_arc_not_started %> 1 <%= not_started_end_outer[0] %> <%= not_started_end_outer[1] %>
+             L <%= not_started_end[0] %> <%= not_started_end[1] %>
+             A <%= inner_radius %> <%= inner_radius %> 0 <%= large_arc_not_started %> 0 <%= not_started_start[0] %> <%= not_started_start[1] %>
+             Z"
+          fill="var(--color-state-inactive)"
+          class="M_ProfileDonutChart-Segment M_ProfileDonutChart-Segment--NotStarted"
+        />
+      <% end %>
+    </g>
+  </svg>
+</div>

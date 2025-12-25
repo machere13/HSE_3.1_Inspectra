@@ -20,4 +20,5 @@
  *= require ./M_ProfileInfoPlug
  *= require ./M_ProfileContentPlug
  *= require ./M_ProfileStatisticRow
+ *= require ./M_ProfileDonutChart
 */
