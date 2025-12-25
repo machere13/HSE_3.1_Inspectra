@@ -1,4 +1,5 @@
-<div class="W_PageHeader">
-    <%= yield %>
+<% content = capture { yield } %>
+<div class="W_PageHeader <%= 'W_PageHeader--OnlyNotifications' if content.blank? %>">
+    <%= content.html_safe %>
     <%= render 'shared/organisms/O_Notifications' %>
 </div>

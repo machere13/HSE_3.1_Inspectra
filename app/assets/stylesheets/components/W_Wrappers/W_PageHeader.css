@@ -13,3 +13,8 @@
     width: 100%;
     gap: var(--spacing-x4);
 }
+
+.W_PageHeader--OnlyNotifications{
+    justify-content: flex-end;
+    align-items: flex-end;
+}

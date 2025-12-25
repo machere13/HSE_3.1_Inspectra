@@ -1,0 +1,14 @@
+.M_ProfileDonutChart{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: var(--spacing-x4);
+}
+
+.M_ProfileDonutChart svg{
+    width: 100%;
+    height: auto;
+    max-width: 386px;
+    max-height: 386px;
+}
