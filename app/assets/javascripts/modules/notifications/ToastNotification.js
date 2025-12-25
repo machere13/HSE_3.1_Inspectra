@@ -13,9 +13,10 @@
       
       document.body.appendChild(toast);
       
-      requestAnimationFrame(function() {
+      setTimeout(function() {
         toast.style.opacity = '1';
-      });
+        toast.style.transform = 'translateX(-50%) translateY(0)';
+      }, 10);
       
       setTimeout(function() {
         ToastNotification.hide(toast);

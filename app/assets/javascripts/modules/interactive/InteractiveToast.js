@@ -87,13 +87,15 @@
       
       const type = space.getAttribute('data-interactive-type') || 'blind_in_dom';
       
-      InteractiveToast.bindInteractiveSpaceEvents();
-      
-      if (type === 'blind_in_dom') {
-        InteractiveToast.initBlindInDom();
-      }
-      
       space.style.display = 'flex';
+      
+      setTimeout(function() {
+        InteractiveToast.bindInteractiveSpaceEvents();
+        
+        if (type === 'blind_in_dom') {
+          InteractiveToast.initBlindInDom();
+        }
+      }, 100);
     },
     
     closeInteractiveSpace: function() {
@@ -159,6 +161,7 @@
       if (submitButton) {
         submitButton.addEventListener('click', function(e) {
           e.preventDefault();
+          e.stopPropagation();
           InteractiveToast.checkToken();
         });
       }
@@ -167,6 +170,7 @@
         tokenInput.addEventListener('keypress', function(e) {
           if (e.key === 'Enter') {
             e.preventDefault();
+            e.stopPropagation();
             InteractiveToast.checkToken();
           }
         });
@@ -175,6 +179,7 @@
       if (closeButton) {
         closeButton.addEventListener('click', function(e) {
           e.preventDefault();
+          e.stopPropagation();
           InteractiveToast.closeInteractiveSpace();
         });
       }
@@ -188,19 +193,21 @@
       const correctToken = window.currentInteractiveToken;
       
       if (!correctToken) {
-        if (window.ToastNotification) {
+        if (window.ToastNotification && typeof window.ToastNotification.show === 'function') {
           window.ToastNotification.show('Ошибка: токен не найден', 'error');
         }
         return;
       }
       
       if (enteredToken === correctToken) {
-        if (window.ToastNotification) {
+        if (window.ToastNotification && typeof window.ToastNotification.show === 'function') {
           window.ToastNotification.show('Правильно! Интерактив решен', 'success');
         }
-        InteractiveToast.closeInteractiveSpace();
+        setTimeout(function() {
+          InteractiveToast.closeInteractiveSpace();
+        }, 500);
       } else {
-        if (window.ToastNotification) {
+        if (window.ToastNotification && typeof window.ToastNotification.show === 'function') {
           window.ToastNotification.show('Неправильный токен. Попробуйте еще раз', 'error');
         }
         tokenInput.value = '';
@@ -238,4 +245,3 @@
     InteractiveToast.init();
   });
 })();
-
