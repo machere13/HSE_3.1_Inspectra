@@ -9,11 +9,9 @@
 
 <div class="W_ErrorConsole" style="<%= style_attr %>">
   <div class="W_ErrorConsole-Header">
-    <%= render 'shared/quarks/Q_Icon', name: 'Q_ConsoleIcon' %>
-    <h4 class="text-code"><%= local_assigns[:title] %></h4>
+    <h4 class="text-code"><%= local_assigns[:error] %></h4>
   </div>
   <div class="W_ErrorConsole-Content">
-    <pre class="W_ErrorConsole-Content-Code-Error text-code"><%= local_assigns[:error] %></pre>
     <pre class="W_ErrorConsole-Content-Code-Response text-code"><%= local_assigns[:response] %></pre>
   </div>
 </div>

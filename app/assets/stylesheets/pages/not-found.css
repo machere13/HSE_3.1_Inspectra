@@ -14,10 +14,12 @@
 .PageNotFound-Content{
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: var(--spacing-x4);
 }
   
 .PageNotFound-Title{
     font-size: 8vw;
     color: var(--color-status-error);
+    font-weight: var(--font-weight-paragraphs);
 }
