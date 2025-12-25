@@ -16,7 +16,7 @@
     justify-content: space-between;
     width: 100%;
     gap: var(--spacing-x4);
-    padding: 0 var(--spacing-x4);
+    padding: var(--spacing-x4) var(--spacing-x4) var(--spacing-x16) var(--spacing-x4);
 }
 
 .PagePlug-Title{
@@ -31,9 +31,13 @@
 .PagePlug-Form{
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-x5);
     width: 100%;
-    max-width: 520px;
+    gap: var(--spacing-x5);
+    padding: var(--spacing-x10);
+    background: var(--color-quaternary);
+    border-radius: var(--border-radius-x3);
+    border: var(--border-x025) solid var(--color-border-primary);
+    max-width: 620px;
 }
 
 @media (max-width: 1024px) {
