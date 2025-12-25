@@ -3,10 +3,11 @@
     background: var(--color-quaternary);
     border: var(--border-x025) solid var(--color-border-tertiary);
     border-radius: var(--border-radius-x4);
+    backdrop-filter: blur(5px);
 }
 
 .M_ProfileInfoPlug-Text-Wrapper{
-    padding: var(--spacing-x3) var(--spacing-x2);
+    padding: var(--spacing-x2);
     border-left: var(--border-x025) dashed var(--color-border-secondary);
 }
 

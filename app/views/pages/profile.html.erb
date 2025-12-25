@@ -19,40 +19,18 @@
           <% end %>
         </div>
         <div class="PageProfile-Header-Info">
-          <div class="PageProfile-Name">
-            <h1><%= @user.name.presence || t('pages.profile.no_name') %></h1>
-            <%= form_with url: update_name_path, method: :patch, local: true, class: 'PageProfile-Name-Form' do |f| %>
-              <%= f.text_field :name, value: @user.name, placeholder: t('pages.profile.name_placeholder'), class: 'PageProfile-Name-Input text-p-2', maxlength: 50 %>
-              <%= f.submit t('pages.profile.update_name'), class: 'PageProfile-Name-Submit text-button' %>
+          <div class="PageProfile-Info-Plugs">
+            <%= render 'pages/profile/M_ProfileInfoPlug', text: "#{@user.name.presence || t('pages.profile.no_name')}" %>
+            <%= render 'pages/profile/M_ProfileInfoPlug', text: "Роль: #{@user.role}" %>
+            <% if @user.current_title %>
+              <%= render 'pages/profile/M_ProfileInfoPlug', text: "Титул: #{@user.current_title.name}" %>
             <% end %>
           </div>
-          <p class="text-p-2"><%= @user.email %></p>
-          <% if @user.current_title %>
-            <p class="text-p-2"><%= t('pages.profile.current_title') %>: <strong><%= @user.current_title.name %></strong></p>
-          <% end %>
         </div>
       </div>
     </div>
 
     <div class="PageProfile-Section-Content">
-      <div class="PageProfile-Section-Content-Plate">
-        <h3 class="text-h3"><%= t('pages.profile.password_change.title') %></h3>
-        <% if @show_reset_form %>
-          <p class="text-p-2"><%= t('pages.profile.password_change.reset_description') %></p>
-          <%= form_with url: reset_path, method: :post, local: true, html: { autocomplete: 'off', class: 'PageProfile-Password-Form' } do |f| %>
-            <%= hidden_field_tag :token, @reset_token %>
-            <div class="PageProfile-Password-Fields">
-              <%= render 'shared/wrappers/W_InputPassword', name: 'password', required: true, autocomplete: 'new-password', placeholder: t('pages.profile.password_change.new_password_placeholder') %>
-              <%= render 'shared/wrappers/W_InputPassword', name: 'password_confirmation', required: true, autocomplete: 'new-password', placeholder: t('pages.profile.password_change.password_confirmation_placeholder') %>
-            </div>
-            <%= render 'shared/atoms/A_Button', type: 'submit', label: t('pages.profile.password_change.submit') %>
-          <% end %>
-        <% else %>
-          <p class="text-p-2"><%= t('pages.profile.password_change.description') %></p>
-          <%= button_to t('pages.profile.password_change.send_email'), request_password_change_path, method: :post, class: 'A_Button text-button', form_class: 'PageProfile-Password-Email-Form' %>
-        <% end %>
-      </div>
-
       <div class="PageProfile-Section-Content-Plate">
         <h3 class="text-h3"><%= t('pages.profile.stats.title') %></h3>
         <div class="PageProfile-Stats">
@@ -91,37 +69,6 @@
                 <span class="text-caption"><%= t('pages.profile.achievements.in_progress.progress', progress: user_achievement.progress) %>%</span>
               </div>
             <% end %>
-          </div>
-        </div>
-      <% end %>
-
-      <% if @available_titles.any? %>
-        <div class="PageProfile-Section-Content-Plate">
-          <h3 class="text-h3"><%= t('pages.profile.titles.title') %></h3>
-          <div class="PageProfile-Titles">
-            <% @available_titles.each do |title| %>
-              <div class="PageProfile-Title <%= 'PageProfile-Title--selected' if @user.current_title_id == title.id %>">
-                <span class="text-p-2"><%= title.name %></span>
-                <% if @user.current_title_id == title.id %>
-                  <span class="text-caption"><%= t('pages.profile.titles.selected') %></span>
-                <% else %>
-                  <%= form_with url: select_title_path, method: :patch, local: true do |f| %>
-                    <%= f.hidden_field :title_id, value: title.id %>
-                    <%= f.submit t('pages.profile.titles.select'), class: 'PageProfile-Title-Select' %>
-                  <% end %>
-                <% end %>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      <% elsif @user.current_title %>
-        <div class="PageProfile-Section-Content-Plate">
-          <h3 class="text-h3"><%= t('pages.profile.titles.title') %></h3>
-          <div class="PageProfile-Titles">
-            <div class="PageProfile-Title PageProfile-Title--selected">
-              <span class="text-p-2"><%= @user.current_title.name %></span>
-              <span class="text-caption"><%= t('pages.profile.titles.selected') %></span>
-            </div>
           </div>
         </div>
       <% end %>

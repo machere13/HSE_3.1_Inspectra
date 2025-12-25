@@ -150,33 +150,9 @@
     flex: 1;
 }
 
-.PageProfile-Name{
+.PageProfile-Info-Plugs{
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-x2);
+    gap: var(--spacing-x3);
+    width: 100%;
 }
-
-.PageProfile-Name-Form{
-    display: flex;
-    gap: var(--spacing-x2);
-    align-items: center;
-}
-
-.PageProfile-Name-Input{
-    padding: var(--spacing-x2) var(--spacing-x3);
-    background: var(--color-secondary);
-    border: var(--border-x05) solid var(--color-border-primary);
-    color: var(--color-text-primary);
-    font-family: var(--font-family-geist);
-    max-width: 300px;
-}
-
-.PageProfile-Name-Input:focus{
-    outline: none;
-    border-color: var(--color-state-focus);
-}
-
-.PageProfile-Name-Submit{
-    padding: var(--spacing-x2) var(--spacing-x4);
-}
-
