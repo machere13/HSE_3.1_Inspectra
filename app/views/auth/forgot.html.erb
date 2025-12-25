@@ -1,4 +1,7 @@
 <div class="PageAuth-Form-Wrapper">
+  <% if flash[:alert] %>
+    <%= render 'shared/molecules/M_ToastNotification', text: flash[:alert], type: 'error' %>
+  <% end %>
   <div class="PageAuth-Form-Title">
     <h3><%= t('auth.forgot.title') %></h3>
     <p class="text-p-2"><%= t('auth.forgot.description') %></p>

@@ -1,3 +1,7 @@
+<% if flash.now[:alert] %>
+  <%= render 'shared/molecules/M_ToastNotification', text: flash.now[:alert], type: 'error' %>
+<% end %>
+
 <%= form_with class: 'AdminForm', model: [:admin, @week] do |f| %>
   <%= render 'shared/organisms/O_AdminEditBlock' do %>
     <% if @week.persisted? %>
