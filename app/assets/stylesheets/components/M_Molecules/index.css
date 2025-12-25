@@ -15,6 +15,7 @@
  *= require ./M_AboutTextPlug
  *= require ./M_AboutTextModule
  *= require ./M_ArticleHeaderCard
-*= require ./M_ToastNotification
-*= require ./M_ToastInteractive
+ *= require ./M_ToastNotification
+ *= require ./M_ToastInteractive
+ *= require ./M_ProfileInfoPlug
 */
