@@ -1,33 +1,38 @@
 <div class="PageProfile">
   <%= render 'shared/wrappers/W_PageHeader' %>
   <section class="PageProfile-Section-Main">
-    <div class="PageProfile-Section-Title">
-      <div class="PageProfile-Header">
-        <div class="PageProfile-Avatar-Wrapper">
-          <% if @user.avatar.attached? %>
-            <%= image_tag url_for(@user.avatar), alt: @user.name || @user.email, class: 'PageProfile-Avatar' %>
-          <% elsif @user.avatar.present? %>
-            <img src="<%= @user.avatar %>" alt="<%= @user.name || @user.email %>" class="PageProfile-Avatar" />
-          <% else %>
-            <div class="PageProfile-Avatar PageProfile-Avatar--placeholder"></div>
-          <% end %>
-          <%= form_with url: update_avatar_path, method: :patch, local: true, multipart: true, class: 'PageProfile-Avatar-Form' do |f| %>
-            <%= f.file_field :avatar, accept: 'image/*', class: 'PageProfile-Avatar-Input', id: 'avatar-upload' %>
-            <label for="avatar-upload" class="PageProfile-Avatar-Label">
-              <span class="text-caption"><%= @user.avatar.attached? || @user.avatar.present? ? t('pages.profile.avatar.change') : t('pages.profile.avatar.upload') %></span>
-            </label>
-          <% end %>
-        </div>
-        <div class="PageProfile-Info-Plugs">
-          <%= render 'pages/profile/M_ProfileInfoPlug', text: "#{@user.name.presence || t('pages.profile.no_name')}" %>
-          <%= render 'pages/profile/M_ProfileInfoPlug', text: "Роль: #{@user.role}" %>
-          <% if @user.current_title %>
-            <%= render 'pages/profile/M_ProfileInfoPlug', text: "Титул: #{@user.current_title.name}" %>
-          <% end %>
+    <div class="PageProfile-Section-Content-Left">
+      <div class="PageProfile-Section-Title">
+        <div class="PageProfile-Header">
+          <div class="PageProfile-Avatar-Wrapper">
+            <% if @user.avatar.attached? %>
+              <%= image_tag url_for(@user.avatar), alt: @user.name || @user.email, class: 'PageProfile-Avatar' %>
+            <% elsif @user.avatar.present? %>
+              <img src="<%= @user.avatar %>" alt="<%= @user.name || @user.email %>" class="PageProfile-Avatar" />
+            <% else %>
+              <div class="PageProfile-Avatar PageProfile-Avatar--placeholder"></div>
+            <% end %>
+            <%= form_with url: update_avatar_path, method: :patch, local: true, multipart: true, class: 'PageProfile-Avatar-Form' do |f| %>
+              <%= f.file_field :avatar, accept: 'image/*', class: 'PageProfile-Avatar-Input', id: 'avatar-upload' %>
+              <label for="avatar-upload" class="PageProfile-Avatar-Label">
+                <span class="text-caption"><%= @user.avatar.attached? || @user.avatar.present? ? t('pages.profile.avatar.change') : t('pages.profile.avatar.upload') %></span>
+              </label>
+            <% end %>
+          </div>
+          <div class="PageProfile-Info-Plugs">
+            <%= render 'pages/profile/M_ProfileInfoPlug', text: "#{@user.name.presence || t('pages.profile.no_name')}" %>
+            <%= render 'pages/profile/M_ProfileInfoPlug', text: "Роль: #{@user.role}" %>
+            <% if @user.current_title %>
+              <%= render 'pages/profile/M_ProfileInfoPlug', text: "Титул: #{@user.current_title.name}" %>
+            <% end %>
+          </div>
         </div>
       </div>
+      <%= render 'pages/profile/M_ProfileContentPlug', info: "Достижения" %>
+      <%= render 'shared/atoms/A_Button', label: "Настройки профиля" %>
     </div>
-    <%= render 'pages/profile/M_ProfileContentPlug', info: "Достижения" %>
-    <%= render 'shared/atoms/A_Button', label: "Настройки профиля" %>
+    <div class="PageProfile-Section-Content-Right">
+      <%= render 'pages/profile/M_ProfileContentPlug', info: "Статистика" %>
+    </div>
   </section>
 </div>

@@ -1,0 +1,17 @@
+.M_ProfileStatisticRow{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--spacing-x2) 0;
+    border-bottom: var(--border-x025) dashed var(--color-accent);
+}
+
+.M_ProfileStatisticRow-Label{
+    color: var(--color-text-primary);
+    text-align: left;
+}
+
+.M_ProfileStatisticRow-Value{
+    color: var(--color-text-primary);
+    text-align: right;
+}

@@ -11,9 +11,15 @@
 
 .PageProfile-Section-Main{
     display: flex;
+    width: 100%;
+    gap: var(--spacing-x24);
+}
+
+.PageProfile-Section-Content-Left, .PageProfile-Section-Content-Right{
+    display: flex;
     flex-direction: column;
     width: 100%;
-    gap: var(--spacing-x16);
+    gap: var(--spacing-x8);
 }
 
 .PageProfile-Section-Title{
@@ -37,49 +43,6 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-x6);
-}
-
-.PageProfile-Stats{
-    display: flex;
-    gap: var(--spacing-x8);
-    width: 100%;
-}
-
-.PageProfile-Stat{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-x2);
-}
-
-.PageProfile-Achievements{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-x4);
-}
-
-.PageProfile-Achievement{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-x3);
-    background: var(--color-primary);
-    border: var(--border-x025) solid var(--color-border-secondary);
-}
-
-.PageProfile-Password-Email-Form{
-    display: inline-block;
-}
-
-.PageProfile-Password-Form{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-x6);
-}
-
-.PageProfile-Password-Fields{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-x4);
 }
 
 .PageProfile-Header{
