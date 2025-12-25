@@ -2,6 +2,7 @@
 
 //= require ./utils/math
 //= require ./utils/dom
+//= require ./utils/TokenGenerator
 
 // Components
 //= require ./components/atoms/A_Button

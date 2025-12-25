@@ -110,6 +110,9 @@
     },
     
     generateToken: function() {
+      if (window.TokenGenerator) {
+        return window.TokenGenerator.generate(16);
+      }
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       let token = '';
       for (let i = 0; i < 16; i++) {
@@ -119,13 +122,11 @@
     },
     
     initBlindInDom: function() {
-      // Очищаем предыдущий токен
       const oldTokenElement = document.querySelector('[data-interactive-token]');
       if (oldTokenElement) {
         oldTokenElement.removeAttribute('data-interactive-token');
       }
       
-      // Генерируем новый токен
       const token = InteractiveToast.generateToken();
       window.currentInteractiveToken = token;
       
