@@ -1,5 +1,9 @@
+<%
+  unread_items = local_assigns[:unread_items] || []
+  has_unread = unread_items.any? { |item| !item[:read] }
+%>
 <div class="W_NotificationsBar">
-  <div class="W_NotificationsBar-Item" data-index="0">
+  <div class="W_NotificationsBar-Item <%= 'W_NotificationsBar-Item--HasUnread' if has_unread %>" data-index="0">
     <%= render 'shared/molecules/M_NavigationBar', icon_name: 'Q_UnreadIcon', icon_width: 16, icon_height: 16, text: 'Unread mess', arrow: { opened: false } %>
   </div>
   <div class="W_NotificationsBar-Item" data-index="1">

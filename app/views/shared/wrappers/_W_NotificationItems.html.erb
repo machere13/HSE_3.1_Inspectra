@@ -1,14 +1,12 @@
+<%
+  unread_items = local_assigns[:unread_items] || []
+  archived_items = local_assigns[:archived_items] || []
+%>
 <div class="W_NotificationItems W_NotificationItems--Hidden">
   <div class="W_NotificationItems-Item W_NotificationItems-Item--Hidden" data-index="0">
-    <%= render 'shared/collections/C_NotificationItems', items: [
-      { title: 'Sender 1', text: 'Unread message 1', read: false },
-      { title: 'Sender 2', text: 'Unread message 2', read: false }
-    ] %>
+    <%= render 'shared/collections/C_NotificationItems', items: unread_items %>
   </div>
   <div class="W_NotificationItems-Item W_NotificationItems-Item--Hidden" data-index="1">
-    <%= render 'shared/collections/C_NotificationItems', items: [
-      { title: 'Sender 3', text: 'Archived message 1', read: true },
-      { title: 'Sender 4', text: 'Archived message 2', read: true }
-    ] %>
+    <%= render 'shared/collections/C_NotificationItems', items: archived_items %>
   </div>
 </div>

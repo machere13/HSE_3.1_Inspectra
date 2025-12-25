@@ -1,6 +1,16 @@
+<%
+  unread_items = local_assigns[:unread_items] || [
+    { title: 'Sender 1', text: 'Unread message 1', read: false },
+    { title: 'Sender 2', text: 'Unread message 2', read: false }
+  ]
+  archived_items = local_assigns[:archived_items] || [
+    { title: 'Sender 3', text: 'Archived message 1', read: true },
+    { title: 'Sender 4', text: 'Archived message 2', read: true }
+  ]
+%>
 <div class="O_Notifications">
   <%= render 'shared/molecules/M_NotificationTitle' %>
-  <%= render 'shared/wrappers/W_NotificationsBar' %>
-  <%= render 'shared/wrappers/W_NotificationItems' %>
+  <%= render 'shared/wrappers/W_NotificationsBar', unread_items: unread_items %>
+  <%= render 'shared/wrappers/W_NotificationItems', unread_items: unread_items, archived_items: archived_items %>
 </div>
 

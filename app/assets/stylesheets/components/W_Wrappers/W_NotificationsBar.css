@@ -36,3 +36,29 @@
     cursor: pointer;
 }
 
+.W_NotificationsBar-Item--HasUnread .Q_Icon svg{
+    color: var(--color-notification);
+}
+
+.W_NotificationsBar-Item--HasUnread .Q_Icon svg rect{
+    stroke: var(--color-notification);
+    fill: none;
+}
+
+.W_NotificationsBar-Item--HasUnread .Q_Icon svg path{
+    fill: var(--color-notification);
+}
+
+.W_NotificationsBar-Item:not(.W_NotificationsBar-Item--HasUnread) .Q_Icon svg{
+    color: var(--color-accent);
+}
+
+.W_NotificationsBar-Item:not(.W_NotificationsBar-Item--HasUnread) .Q_Icon svg rect{
+    stroke: var(--color-accent);
+    fill: none;
+}
+
+.W_NotificationsBar-Item:not(.W_NotificationsBar-Item--HasUnread) .Q_Icon svg path{
+    fill: var(--color-accent);
+}
+
