@@ -30,6 +30,19 @@
     border: var(--border-x05) solid var(--color-border-tertiary);
 }
 
+.PageAbout-Section-Title-Logo{
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    justify-content: center;
+}
+
+.PageAbout-Section-Title-Logo img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
 .PageAbout-Section-Title > h1 {
     word-break: break-word;
 }
