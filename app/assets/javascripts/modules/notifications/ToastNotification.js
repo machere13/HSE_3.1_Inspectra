@@ -2,7 +2,13 @@
   const ToastNotification = {
     show: function(text, type) {
       const toast = document.createElement('div');
-      toast.className = 'M_ToastNotification' + (type === 'error' ? ' M_ToastNotification--Error' : '');
+      let className = 'M_ToastNotification';
+      if (type === 'error') {
+        className += ' M_ToastNotification--Error';
+      } else if (type === 'success') {
+        className += ' M_ToastNotification--Success';
+      }
+      toast.className = className;
       toast.innerHTML = '<span class="M_ToastNotification-Text text-p-1-mono">' + text + '</span>';
       
       document.body.appendChild(toast);

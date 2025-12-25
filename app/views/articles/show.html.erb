@@ -11,10 +11,16 @@
   <% end %>
   <main class="PageArticle-Content">
     <%= render 'articles/M_ArticleHeaderCard', article: @article %>
-    <div class="PageArticle-Content-Body">
+    <div class="PageArticle-Content-Body" data-interactive="blind_in_dom" data-interactive-name="Слепой в DOM-лесу">
         <%= @article.body %>
     </div>
   </main>
-  <%= render 'shared/molecules/M_ToastInteractive', name: 'Интерактив' %>
-  <%= render 'shared/organisms/O_ModalInteractive', name: 'Интерактив обнаружен!' %>
+  <%= render 'shared/molecules/M_ToastInteractive', name: 'Слепой в DOM-лесу' %>
+  <%= render 'shared/organisms/O_ModalInteractive', name: 'Слепой в DOM-лесу' %>
+  <%= render 'shared/super_organisms/SO_InteractiveSpace', type: 'blind_in_dom' do %>
+    <div class="SO_InteractiveSpace-Content-BlindInDom">
+      <p class="text-p-1">Like many of his superhuman brethren, these sources say that the young primarch thrived in Cthonia's harsh environment, learning his first lessons in war and killing from Cthonia's tech-barbarian kill-gangs. The world of Cthonia had been settled in the very earliest days of Humanity's exploration of the stars, its rich natural resources ruthlessly exploited until they were all but played out.</p>
+      <p class="text-p-1">Thus, Horus grew to maturity amongst the anarchic gangers that populated the post-industrial nightmare of a world honeycombed with long-extinct mines and dominated by decaying hive cities. Though Horus had not been raised during his formative years on Cthonia -- uncommonly, for a primarch, he had not matured on the cradle-world of his Legion -- he spoke the harsh language known as Cthonic fluently. In fact, he spoke it with the particular hard palatal edge and rough vowels of a Western Hemispheric ganger, the commonest and roughest of Cthonia's feral castes.</p>
+    </div>
+  <% end %>
 </div>

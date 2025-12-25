@@ -1,0 +1,94 @@
+.SO_InteractiveSpace{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    display: none;
+    flex-direction: column;
+    z-index: 2000;
+    border-top: 2px solid var(--color-accent);
+}
+
+.SO_InteractiveSpace-Header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-x4) var(--spacing-x5);
+    background: var(--color-background-overlay);
+    border-bottom: var(--border-x025) solid var(--color-border-primary);
+    gap: var(--spacing-x4);
+}
+
+.SO_InteractiveSpace-Header-Left{
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-x3);
+    flex: 1;
+}
+
+.SO_InteractiveSpace-Header-Text{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x1);
+}
+
+.SO_InteractiveSpace-Header-Title,
+.SO_InteractiveSpace-Header-Subtitle{
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.SO_InteractiveSpace-Header-Right{
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-x3);
+}
+
+.SO_InteractiveSpace-Header-Input{
+    min-width: 200px;
+}
+
+.SO_InteractiveSpace-Close{
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+    font-size: 24px;
+    cursor: pointer;
+    padding: var(--spacing-x2);
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.SO_InteractiveSpace-Close:hover{
+    opacity: 0.7;
+}
+
+.SO_InteractiveSpace-Content{
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-x5);
+    background: var(--color-background);
+}
+
+.SO_InteractiveSpace-Content-Default{
+    color: var(--color-text-primary);
+}
+
+.SO_InteractiveSpace-Content-BlindInDom{
+    color: var(--color-text-primary);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: var(--line-height-loose);
+}
+
+.SO_InteractiveSpace-Content-BlindInDom p{
+    margin-bottom: var(--spacing-x4);
+}
+

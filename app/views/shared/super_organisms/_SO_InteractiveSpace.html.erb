@@ -1,0 +1,28 @@
+<div class="SO_InteractiveSpace" style="display: none;" data-interactive-type="<%= local_assigns[:type] || 'blind_in_dom' %>">
+  <div class="SO_InteractiveSpace-Header">
+    <div class="SO_InteractiveSpace-Header-Left">
+      <%= render 'shared/quarks/Q_Icon', name: 'Q_AsteriskIcon', width: 24, height: 24 %>
+      <div class="SO_InteractiveSpace-Header-Text">
+        <p class="SO_InteractiveSpace-Header-Title text-p-1-mono">ТВОЯ ЗАДАЧА — НАЙТИ В DOM-ДЕРЕВЕ ЭТОЙ СТРАНИЦЫ УНИКАЛЬНЫЙ ТОКЕН</p>
+        <p class="SO_InteractiveSpace-Header-Subtitle text-p-1-mono">НАЙДИ И ИСПОЛЬЗУЙ ЕГО, ИНАЧЕ ОН ИСЧЕЗНЕТ</p>
+      </div>
+    </div>
+    <div class="SO_InteractiveSpace-Header-Right">
+      <div class="SO_InteractiveSpace-Header-Input">
+        <%= render 'shared/atoms/A_Input', name: 'interactive_token', placeholder: 'ВВЕСТИ ТОКЕН', id: 'interactive-token-input' %>
+      </div>
+      <%= render 'shared/atoms/A_Button', text: 'ОТПРАВИТЬ', id: 'interactive-submit-button' %>
+      <button class="SO_InteractiveSpace-Close" id="interactive-space-close">×</button>
+    </div>
+  </div>
+  <div class="SO_InteractiveSpace-Content">
+    <% if block_given? %>
+      <%= yield %>
+    <% else %>
+      <div class="SO_InteractiveSpace-Content-Default">
+        <%= local_assigns[:content] || 'Контент интерактива' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
