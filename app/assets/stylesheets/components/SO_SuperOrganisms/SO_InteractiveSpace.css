@@ -4,51 +4,55 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.9);
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
     display: none;
     flex-direction: column;
-    z-index: 2000;
-    border-top: 2px solid var(--color-accent);
+    z-index: 500;
+    padding: var(--spacing-x1);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.SO_InteractiveSpace-Modal{
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-x5) var(--spacing-x8);
+    background: var(--color-background-overlay);
+    gap: var(--spacing-x4);
+    border-radius: var(--border-radius-x5);
+    border: var(--border-x025) solid var(--color-border-primary);
+    max-width: 50%;
 }
 
 .SO_InteractiveSpace-Header{
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--spacing-x4) var(--spacing-x5);
-    background: var(--color-background-overlay);
-    border-bottom: var(--border-x025) solid var(--color-border-primary);
+    flex-direction: column;
+    width: 100%;
     gap: var(--spacing-x4);
 }
 
-.SO_InteractiveSpace-Header-Left{
+.SO_InteractiveSpace-Header-Icons{
     display: flex;
     align-items: center;
-    gap: var(--spacing-x3);
-    flex: 1;
+    justify-content: space-between;
+    width: 100%;
 }
 
-.SO_InteractiveSpace-Header-Text{
+.SO_InteractiveSpace-Header-Info{
     display: flex;
+    align-items: center;
     flex-direction: column;
-    gap: var(--spacing-x1);
+    gap: var(--spacing-x4);
+    width: 100%;
 }
 
-.SO_InteractiveSpace-Header-Title,
-.SO_InteractiveSpace-Header-Subtitle{
-    color: var(--color-text-primary);
-    margin: 0;
-}
-
-.SO_InteractiveSpace-Header-Right{
+.SO_InteractiveSpace-Header-Actions{
     display: flex;
     align-items: center;
-    gap: var(--spacing-x3);
-}
-
-.SO_InteractiveSpace-Header-Input{
-    min-width: 200px;
+    gap: var(--spacing-x2);
+    width: 100%;
 }
 
 .SO_InteractiveSpace-Close{
@@ -73,8 +77,14 @@
 .SO_InteractiveSpace-Content{
     flex: 1;
     overflow-y: auto;
-    padding: var(--spacing-x5);
+    padding: var(--spacing-x4);
     background: var(--color-background);
+    width: 100%;
+    gap: var(--spacing-x10);
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--border-radius-x5);
+    max-height: 584px;
 }
 
 .SO_InteractiveSpace-Content-Default{
@@ -83,12 +93,4 @@
 
 .SO_InteractiveSpace-Content-BlindInDom{
     color: var(--color-text-primary);
-    max-width: 800px;
-    margin: 0 auto;
-    line-height: var(--line-height-loose);
 }
-
-.SO_InteractiveSpace-Content-BlindInDom p{
-    margin-bottom: var(--spacing-x4);
-}
-
