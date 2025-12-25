@@ -7,7 +7,7 @@
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding-left: var(--spacing-x4);
+    padding-left: var(--spacing-x3);
 }
 
 .PageAdminDashboard-Tables-Group{
