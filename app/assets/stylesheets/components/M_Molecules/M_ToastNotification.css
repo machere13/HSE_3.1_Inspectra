@@ -24,6 +24,10 @@
     border-color: var(--color-status-error);
 }
 
+.M_ToastNotification--Success{
+    border-color: var(--color-notification);
+}
+
 .M_ToastNotification--Hiding{
     animation: toastDisappear 0.3s ease-out forwards;
 }

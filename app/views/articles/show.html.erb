@@ -11,10 +11,19 @@
   <% end %>
   <main class="PageArticle-Content">
     <%= render 'articles/M_ArticleHeaderCard', article: @article %>
-    <div class="PageArticle-Content-Body">
+    <div class="PageArticle-Content-Body" data-interactive="blind_in_dom" data-interactive-name="Слепой в DOM-лесу">
         <%= @article.body %>
     </div>
   </main>
-  <%= render 'shared/molecules/M_ToastInteractive', name: 'Интерактив' %>
-  <%= render 'shared/organisms/O_ModalInteractive', name: 'Интерактив обнаружен!' %>
+  <%= render 'shared/molecules/M_ToastInteractive', name: 'Слепой в DOM-лесу' %>
+  <%= render 'shared/organisms/O_ModalInteractive', name: 'Слепой в DOM-лесу' %>
+  <% interactive_content = generate_interactive_content %>
+  <%= render 'shared/super_organisms/SO_InteractiveSpace', type: 'blind_in_dom' do %>
+    <div class="SO_InteractiveSpace-Content">
+      <%= image_tag interactive_content[:image_url], alt: 'Interactive content image', class: 'SO_InteractiveSpace-Content-Image' %>
+      <% interactive_content[:paragraphs].each do |paragraph| %>
+        <p class="text-p-1"><%= paragraph %></p>
+      <% end %>
+    </div>
+  <% end %>
 </div>
