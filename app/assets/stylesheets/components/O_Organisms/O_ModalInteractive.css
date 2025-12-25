@@ -1,0 +1,38 @@
+.O_ModalInteractive{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.O_ModalInteractive-Modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-x2);
+    background: var(--color-background-overlay);
+    border-radius: var(--border-radius-x5);
+    padding: var(--spacing-x5) var(--spacing-x8);
+    border: var(--border-x025) solid var(--color-border-primary);
+    backdrop-filter: blur(5px);
+    width: fit-content;
+}
+
+.O_ModalInteractive-Modal-Text{
+    color: var(--color-text-primary);
+    text-align: center;
+}
+
+.O_ModalInteractive-Modal-Buttons{
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-x4);
+}
