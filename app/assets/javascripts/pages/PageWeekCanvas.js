@@ -103,14 +103,14 @@
   };
 
   const showLoader = function() {
-    const loader = document.querySelector('.M_Loader');
+    const loader = document.querySelector('.W_Loader');
     if (loader) {
       loader.style.display = 'flex';
     }
   };
 
   const hideLoader = function() {
-    const loader = document.querySelector('.M_Loader');
+    const loader = document.querySelector('.W_Loader');
     if (loader) {
       loader.style.display = 'none';
     }

@@ -15,5 +15,6 @@
  *= require ./W_ErrorConsole
  *= require ./W_NotificationsBar
  *= require ./W_NotificationItems
+ *= require ./W_Loader
 */
 

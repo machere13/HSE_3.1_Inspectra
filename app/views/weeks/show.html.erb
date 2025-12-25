@@ -18,7 +18,7 @@
     sorted_items_by_type = type_order.map { |type| [type, items_by_type[type] || []] }.to_h
   %>
   
-  <%= render 'shared/molecules/M_Loader' %>
+  <%= render 'shared/wrappers/W_Loader' %>
   <div class="PageWeek-Content" data-filter-group="content-filters" data-view-mode="cobweb">
     <div class="PageWeek-Content-Canvas PageWeek-Content-View--Cobweb">
       <canvas class="PageWeek-Content-Canvas-Lines"></canvas>
