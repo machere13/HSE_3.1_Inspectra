@@ -15,6 +15,7 @@
     display: flex;
     align-items: center;
     gap: var(--spacing-x5);
+    cursor: pointer;
 }
 
 .M_ToastInteractive-Text{

@@ -9,4 +9,5 @@
  *= require ./O_Notifications
  *= require ./O_ControlPanelTable
  *= require ./O_AdminEditBlock
+ *= require ./O_ModalInteractive
 */

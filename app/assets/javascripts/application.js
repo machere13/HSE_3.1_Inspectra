@@ -32,6 +32,8 @@
 //= require ./modules/notifications/NotificationsSwitcher
 //= require ./modules/notifications/ToastNotification
 
+//= require ./modules/interactive/InteractiveToast
+
 //= require ./modules/admin/AdminCheckbox
 
 //= require ./modules/code/CodeSymbolGenerator

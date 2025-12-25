@@ -1,0 +1,110 @@
+(function() {
+  const InteractiveToast = {
+    showToast: function(name) {
+      const toast = document.querySelector('.M_ToastInteractive');
+      if (!toast) return;
+      
+      toast.setAttribute('data-interactive-name', name || 'Интерактив');
+      toast.style.display = 'flex';
+      
+      setTimeout(function() {
+        InteractiveToast.hideToast();
+      }, 12000);
+    },
+    
+    hideToast: function() {
+      const toast = document.querySelector('.M_ToastInteractive');
+      if (!toast) return;
+      
+      toast.classList.add('M_ToastInteractive--Hiding');
+      
+      setTimeout(function() {
+        toast.style.display = 'none';
+        toast.classList.remove('M_ToastInteractive--Hiding');
+      }, 300);
+    },
+    
+    openModal: function(name) {
+      const modal = document.querySelector('.O_ModalInteractive');
+      if (!modal) return;
+      
+      const textElement = modal.querySelector('.O_ModalInteractive-Modal-Text');
+      if (textElement) {
+        textElement.textContent = name || modal.getAttribute('data-interactive-name') || 'Интерактив обнаружен!';
+      }
+      
+      modal.style.display = 'flex';
+      InteractiveToast.hideToast();
+    },
+    
+    closeModal: function() {
+      const modal = document.querySelector('.O_ModalInteractive');
+      if (!modal) return;
+      
+      modal.style.display = 'none';
+    },
+    
+    init: function() {
+      const toast = document.querySelector('.M_ToastInteractive');
+      if (toast) {
+        toast.addEventListener('click', function() {
+          const name = toast.getAttribute('data-interactive-name') || 'Интерактив обнаружен!';
+          InteractiveToast.openModal(name);
+        });
+      }
+      
+      const modal = document.querySelector('.O_ModalInteractive');
+      if (modal) {
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            InteractiveToast.closeModal();
+          }
+        });
+      }
+      
+      if (modal) {
+        const buttons = modal.querySelectorAll('.A_Button');
+        buttons.forEach(function(button) {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            InteractiveToast.closeModal();
+          });
+        });
+      }
+      
+      this.checkForInteractive();
+    },
+    
+    checkForInteractive: function() {
+      const interactiveElements = document.querySelectorAll('[data-interactive], .interactive, [data-interactive-name]');
+      
+      if (interactiveElements.length > 0) {
+        const firstInteractive = interactiveElements[0];
+        const name = firstInteractive.getAttribute('data-interactive-name') || 
+                     firstInteractive.getAttribute('data-interactive') || 
+                     'Интерактив';
+        
+        setTimeout(function() {
+          InteractiveToast.showToast(name);
+        }, 1000);
+      }
+    }
+  };
+  
+  window.InteractiveToast = InteractiveToast;
+  window.ModalInteractive = {
+    close: function() {
+      InteractiveToast.closeModal();
+    }
+  };
+  
+  window.DomUtils.ready(function() {
+    InteractiveToast.init();
+  });
+  
+  window.DomUtils.turboLoad(function() {
+    InteractiveToast.init();
+  });
+})();
+
