@@ -3,15 +3,13 @@
   
   <div class="PageAdminUsersEdit-Links"><%= link_to t('admin.users.edit.back_to_user'), admin_user_path(@user) %> | <%= link_to t('admin.users.edit.back_to_list'), admin_users_path %></div>
   
+  <% if flash.now[:alert] %>
+    <%= render 'shared/molecules/M_ToastNotification', text: flash.now[:alert], type: 'error' %>
+  <% end %>
+
   <%= form_with class: 'AdminForm', model: [:admin, @user], method: :patch do |f| %>
     <% if @user.errors.any? %>
-      <div>
-        <ul>
-          <% @user.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
+      <%= render 'shared/molecules/M_ToastNotification', text: @user.errors.full_messages.join(', '), type: 'error' %>
     <% end %>
   
     <%= render 'shared/organisms/O_AdminEditBlock' do %>

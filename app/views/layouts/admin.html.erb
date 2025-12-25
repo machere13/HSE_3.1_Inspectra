@@ -16,6 +16,12 @@
     <div class="PageLayout">
       <%= render 'shared/wrappers/W_Sidebar', admin_navigation: true %>
       <%= yield %>
+      <% if flash[:notice] %>
+        <%= render 'shared/molecules/M_ToastNotification', text: flash[:notice] %>
+      <% end %>
+      <% if flash[:alert] %>
+        <%= render 'shared/molecules/M_ToastNotification', text: flash[:alert], type: 'error' %>
+      <% end %>
     </div>
   </body>
 </html>

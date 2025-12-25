@@ -30,6 +30,7 @@
 //= require ./modules/navigation/NavigationContentKeys
 //= require ./modules/navigation/NavigationSwitcher
 //= require ./modules/notifications/NotificationsSwitcher
+//= require ./modules/notifications/ToastNotification
 
 //= require ./modules/admin/AdminCheckbox
 
