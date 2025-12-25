@@ -126,3 +126,15 @@
     gap: var(--spacing-x3);
     width: 100%;
 }
+
+@media (max-width: 1400px) {
+    .PageProfile-Section-Main{
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 878px) {
+    .PageProfile-Header{
+        flex-direction: column;
+    }
+}
