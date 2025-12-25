@@ -4,6 +4,8 @@
     justify-content: space-between;
     width: 100%;
     max-width: 360px;
+    min-width: 360px;
+    flex-shrink: 0;
     padding: var(--spacing-x2) var(--spacing-x4);
     gap: var(--spacing-x3);
     position: sticky;
