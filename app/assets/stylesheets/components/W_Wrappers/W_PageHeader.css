@@ -18,3 +18,10 @@
     justify-content: flex-end;
     align-items: flex-end;
 }
+
+@media (max-width: 600px) {
+    .W_PageHeader{
+        flex-direction: column;
+        align-items: center;
+    }
+}
