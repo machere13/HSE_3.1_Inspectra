@@ -102,6 +102,20 @@
     }
   };
 
+  const showLoader = function() {
+    const loader = document.querySelector('.M_Loader');
+    if (loader) {
+      loader.style.display = 'flex';
+    }
+  };
+
+  const hideLoader = function() {
+    const loader = document.querySelector('.M_Loader');
+    if (loader) {
+      loader.style.display = 'none';
+    }
+  };
+
   const initViewModeSwitcher = function() {
     const contentContainer = document.querySelector('.PageWeek-Content');
     if (!contentContainer) return;
@@ -109,22 +123,34 @@
     document.addEventListener('navigationSwitcher:change', function(e) {
       const value = e.detail.value;
       if (value === 'cobweb' || value === 'list') {
-        contentContainer.setAttribute('data-view-mode', value);
+        showLoader();
         
-        if (value === 'cobweb') {
-          setTimeout(initCanvas, 100);
-        } else if (value === 'list') {
-          setTimeout(function() {
-            const listContainer = document.querySelector('.PageWeek-Content-List');
-            if (listContainer && window.MasonryGrid && typeof Masonry !== 'undefined') {
-              if (listContainer.dataset.masonryInstance === 'true') {
-                window.MasonryGrid.update(listContainer);
-              } else {
-                window.MasonryGrid.init(listContainer);
+        setTimeout(function() {
+          contentContainer.setAttribute('data-view-mode', value);
+          
+          if (value === 'cobweb') {
+            setTimeout(function() {
+              initCanvas();
+              setTimeout(function() {
+                hideLoader();
+              }, 500);
+            }, 100);
+          } else if (value === 'list') {
+            setTimeout(function() {
+              const listContainer = document.querySelector('.PageWeek-Content-List');
+              if (listContainer && window.MasonryGrid && typeof Masonry !== 'undefined') {
+                if (listContainer.dataset.masonryInstance === 'true') {
+                  window.MasonryGrid.update(listContainer);
+                } else {
+                  window.MasonryGrid.init(listContainer);
+                }
               }
-            }
-          }, 300);
-        }
+              setTimeout(function() {
+                hideLoader();
+              }, 500);
+            }, 100);
+          }
+        }, 50);
       }
     });
   };
