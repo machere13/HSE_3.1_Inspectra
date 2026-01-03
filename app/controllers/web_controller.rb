@@ -24,7 +24,7 @@ class WebController < ActionController::Base
       backtrace: exception.backtrace&.first(10)
     }.to_json)
     
-    render 'errors/internal_server_error', status: :internal_server_error, layout: 'plug'
+    render 'errors/internal_server_error', status: :internal_server_error, layout: 'application'
   rescue ActionView::MissingTemplate
     render plain: 'Внутренняя ошибка сервера', status: :internal_server_error
   end
