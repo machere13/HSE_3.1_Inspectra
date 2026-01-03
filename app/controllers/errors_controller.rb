@@ -1,5 +1,5 @@
 class ErrorsController < WebController
-  layout 'plug'
+  layout 'application'
   def not_found
     respond_to do |format|
       format.html { render 'errors/not_found', status: :not_found }

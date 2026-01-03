@@ -11,9 +11,6 @@ class PagesController < WebController
     @current_week = Week.visible_now.order(number: :desc).first
   end
 
-  def plug
-  end
-
   def profile
     @user = current_user
     @completed_achievements = @user.completed_achievements
@@ -115,11 +112,7 @@ class PagesController < WebController
 private
 
   def determine_layout
-    if action_name == 'plug'
-      'plug'
-    else
-      'application'
-    end
+    'application'
   end
 
   def authenticate_user!

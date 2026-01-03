@@ -81,10 +81,4 @@ RSpec.describe 'Pages', type: :request do
     end
   end
 
-  describe 'GET /plug' do
-    it 'should render plug page' do
-      get plug_path
-      expect(response).to have_http_status(:success)
-    end
-  end
 end

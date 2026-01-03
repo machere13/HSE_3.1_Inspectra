@@ -1,7 +1,0 @@
-.O_HeaderPlug{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: var(--spacing-x4);
-    padding: var(--spacing-x2) var(--spacing-x4) 0 var(--spacing-x4);
-}
