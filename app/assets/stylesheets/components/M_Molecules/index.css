@@ -1,7 +1,6 @@
 /*
  *= require ./M_DayCard
  *= require ./M_FormPlug
- *= require ./M_NavigationTitle
  *= require ./M_NavigationItem
  *= require ./M_NavigationBar
  *= require ./M_NavigationSwitcher
@@ -9,7 +8,6 @@
  *= require ./M_ContentCard
  *= require ./M_BreadcrumbsItem
  *= require ./M_ContentTimer
- *= require ./M_NotificationTitle
  *= require ./M_NotificationItem
  *= require ./M_AboutContentPlug
  *= require ./M_AboutTextPlug
