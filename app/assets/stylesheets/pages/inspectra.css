@@ -1,4 +1,4 @@
-.PageProject{
+.PageInspectra{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -11,7 +11,7 @@
     -ms-overflow-style: none;
 }
   
-.PageProject-Section-Main{
+.PageInspectra-Section-Main{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -19,7 +19,7 @@
     padding-top: var(--spacing-x24);
 }
   
-.PageProject-Section-Title{
+.PageInspectra-Section-Title{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -30,41 +30,41 @@
     border: var(--border-x05) solid var(--color-border-tertiary);
 }
 
-.PageProject-Section-Title-Logo{
+.PageInspectra-Section-Title-Logo{
     width: 100%;
     max-width: 440px;
     display: flex;
     justify-content: center;
 }
 
-.PageProject-Section-Title-Logo img{
+.PageInspectra-Section-Title-Logo img{
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
 
-.PageProject-Section-Title > h1 {
+.PageInspectra-Section-Title > h1 {
     word-break: break-word;
 }
   
-.PageProject-Section-Main-Content{
+.PageInspectra-Section-Main-Content{
     display: flex;
     flex-direction: column;
     width: 100%;
     gap: var(--spacing-x16);
 }
   
-.PageProject-Section-Main-Content-Plate{
+.PageInspectra-Section-Main-Content-Plate{
     padding: var(--spacing-x16) var(--spacing-x8);
     background: var(--color-secondary);
     border: var(--border-x05) solid var(--color-border-primary);
 }
   
-.PageProject-Section-Main-Content-Square{
+.PageInspectra-Section-Main-Content-Square{
     align-self: flex-end;
 }
   
-.PageProject-Section-Content-Interactions{
+.PageInspectra-Section-Content-Interactions{
     display: flex;
     gap: var(--spacing-x3);
     width: 100%;
@@ -72,7 +72,7 @@
     justify-content: center;
   }
   
-.PageProject-Section-Project{
+.PageInspectra-Section-Inspectra{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -80,60 +80,60 @@
     gap: var(--spacing-x14);
 }
   
-.PageProject-Section-Info{
+.PageInspectra-Section-Info{
     display: flex;
     flex-direction: column;
     width: 100%;
     gap: var(--spacing-x14);
 }
 
-.PageProject-Section-Info-Blocks{
+.PageInspectra-Section-Info-Blocks{
     display: flex;
     width: 100%;
     gap: var(--spacing-x14);
 }
 
-.PageProject-Section-Modules{
+.PageInspectra-Section-Modules{
     display: flex;
     flex-direction: column;
     width: 100%;
     gap: var(--spacing-x14);
 }
 
-.PageProject-Section-Modules-Blocks{
+.PageInspectra-Section-Modules-Blocks{
     display: flex;
     width: 100%;
     gap: var(--spacing-x4);
     flex-direction: column;
 }
 
-.PageProject-Section-Modules-Text{
+.PageInspectra-Section-Modules-Text{
     padding-left: var(--spacing-x5);
     display: flex;
     gap: var(--spacing-x3);
     border-left: var(--border-x05) dashed var(--color-accent);
 }
 
-.PageProject-Section-Modules-Text-Title{
+.PageInspectra-Section-Modules-Text-Title{
     color: var(--color-text-primary);
     max-width: 985px;
     text-align: left;
 }
 
-.PageProject-Section-Image{
+.PageInspectra-Section-Image{
     width: 100%;
     max-width: 855px;
     height: 100%;
     object-fit: contain;
 }
 
-.PageProject-Section-Image-Image{
+.PageInspectra-Section-Image-Image{
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
 
-.PageProject-Section-Form{
+.PageInspectra-Section-Form{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -146,7 +146,7 @@
 }
 
 @media (max-width: 1280px) {
-    .PageProject-Section-Info-Blocks{
+    .PageInspectra-Section-Info-Blocks{
         flex-direction: column;
     }
 }

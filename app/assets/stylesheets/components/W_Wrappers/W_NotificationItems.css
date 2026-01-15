@@ -15,7 +15,7 @@
     backdrop-filter: blur(4px);
 }
 
-.PageProject .W_NotificationItems, .PageProfile .W_NotificationItems{
+.PageInspectra .W_NotificationItems, .PageProfile .W_NotificationItems{
     top: calc(100% + var(--spacing-x3));
 }
 

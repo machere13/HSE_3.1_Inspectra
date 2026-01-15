@@ -16,7 +16,7 @@ ru:
   pages:
     home:
       title: 'Главная страница'
-    project:
+    inspectra:
       title: 'О нас'
       back_to_home: 'На главную'
     profile:
@@ -124,7 +124,7 @@ ru:
   shared:
     navigation:
       home: 'Главная'
-      project: 'О нас'
+      inspectra: 'О нас'
     day_card:
       heading: 'День %{number}'
       article_prefix: 'Статья:'
