@@ -1,4 +1,4 @@
-.M_ProjectTextModule{
+.M_InspectraTextModule{
     border-radius: var(--border-radius-x3);
     background: var(--color-tertiary);
     padding: var(--spacing-x3);
@@ -6,6 +6,6 @@
     width: fit-content;
 }
 
-.M_ProjectTextModule-Title{
+.M_InspectraTextModule-Title{
     color: var(--color-text-primary);
 }

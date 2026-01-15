@@ -1,4 +1,4 @@
-.M_ProjectTextPlug{
+.M_InspectraTextPlug{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -10,6 +10,6 @@
     backdrop-filter: blur(5px);
 }
 
-.M_ProjectTextPlug-Label{
+.M_InspectraTextPlug-Label{
     color: var(--color-text-primary);
 }

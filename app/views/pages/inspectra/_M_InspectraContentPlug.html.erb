@@ -1,12 +1,12 @@
-<div class="M_ProjectContentPlug">
-  <div class="M_ProjectContentPlug-Left">
+<div class="M_InspectraContentPlug">
+  <div class="M_InspectraContentPlug-Left">
       <% if local_assigns[:show_asterisk] %>
           <%= render 'shared/quarks/Q_Icon', name: 'Q_AsteriskIcon', width: 24, height: 24 %>
       <% end %>
       <%= render 'shared/quarks/Q_Icon', name: 'Q_ArrowDividerIcon', width: 6, height: 9 %>
-      <span class="M_ProjectContentPlug-Label text-labels-1"><%= local_assigns[:info] %></span>
+      <span class="M_InspectraContentPlug-Label text-labels-1"><%= local_assigns[:info] %></span>
   </div>
   <% if local_assigns[:additional_info] %>
-      <span class="M_ProjectContentPlug-AdditionalInfo text-labels-1"><%= local_assigns[:additional_info] %></span>
+      <span class="M_InspectraContentPlug-AdditionalInfo text-labels-1"><%= local_assigns[:additional_info] %></span>
   <% end %>
 </div>

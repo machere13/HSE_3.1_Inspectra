@@ -1,9 +1,0 @@
-<div class="M_ProjectTextPlug" <%= "style=\"max-width: #{local_assigns[:max_width]};\"".html_safe if local_assigns[:max_width] %>>
-  <% if local_assigns[:texts].is_a?(Array) %>
-    <% local_assigns[:texts].each do |text| %>
-      <p class="M_ProjectTextPlug-Label text-p-1-mono"><%= text %></p>
-    <% end %>
-  <% elsif local_assigns[:text] %>
-    <p class="M_ProjectTextPlug-Label text-p-1-mono"><%= local_assigns[:text] %></p>
-  <% end %>
-</div>
