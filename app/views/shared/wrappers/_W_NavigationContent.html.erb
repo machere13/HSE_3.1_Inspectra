@@ -41,6 +41,8 @@
     ]
     if defined?(current_user) && current_user&.email_verified?
       navigation_items << { text: 'PROFILE', href: profile_path, hotkey: 'P' }
+    else
+      navigation_items << { text: 'AUTH', href: auth_path, hotkey: 'A' }
     end
   %>
 
