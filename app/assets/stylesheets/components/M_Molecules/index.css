@@ -9,9 +9,9 @@
  *= require ./M_BreadcrumbsItem
  *= require ./M_ContentTimer
  *= require ./M_NotificationItem
- *= require ./M_AboutContentPlug
- *= require ./M_AboutTextPlug
- *= require ./M_AboutTextModule
+ *= require ./M_ProjectContentPlug
+ *= require ./M_ProjectTextPlug
+ *= require ./M_ProjectTextModule
  *= require ./M_ArticleHeaderCard
  *= require ./M_ToastNotification
  *= require ./M_ToastInteractive

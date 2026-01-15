@@ -1,4 +1,4 @@
-.M_AboutTextPlug{
+.M_ProjectTextPlug{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -10,6 +10,6 @@
     backdrop-filter: blur(5px);
 }
 
-.M_AboutTextPlug-Label{
+.M_ProjectTextPlug-Label{
     color: var(--color-text-primary);
 }

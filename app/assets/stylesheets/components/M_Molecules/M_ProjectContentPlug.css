@@ -1,4 +1,4 @@
-.M_AboutContentPlug{
+.M_ProjectContentPlug{
     padding: var(--spacing-x3);
     /* TODO: вынести градиент в переменную */
     background: linear-gradient(30deg, rgb(132 132 132 / 20%) -20%, rgb(0 0 0 / 20%) 30%);
@@ -13,7 +13,7 @@
     justify-content: space-between;
 }
 
-.M_AboutContentPlug::before{
+.M_ProjectContentPlug::before{
     content: '';
     position: absolute;
     top: 0;
@@ -34,16 +34,16 @@
     -webkit-mask-composite: xor;
 }
 
-.M_AboutContentPlug-Left{
+.M_ProjectContentPlug-Left{
     display: flex;
     align-items: center;
     gap: var(--spacing-x3);
 }
 
-.M_AboutContentPlug-Label{
+.M_ProjectContentPlug-Label{
     color: var(--color-text-primary);
 }
 
-.M_AboutContentPlug-AdditionalInfo{
+.M_ProjectContentPlug-AdditionalInfo{
     color: var(--color-text-primary);
 }

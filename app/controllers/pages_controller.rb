@@ -7,7 +7,7 @@ class PagesController < WebController
     @expired_weeks = Week.where('expires_at <= ?', Time.current).order(number: :desc)
   end
 
-  def about
+  def project
     @current_week = Week.visible_now.order(number: :desc).first
   end
 

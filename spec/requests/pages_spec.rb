@@ -19,9 +19,9 @@ RSpec.describe 'Pages', type: :request do
     end
   end
 
-  describe 'GET /about' do
-    it 'should get about' do
-      get about_path
+  describe 'GET /project' do
+    it 'should get project' do
+      get project_path
       expect(response).to have_http_status(:success)
     end
   end
