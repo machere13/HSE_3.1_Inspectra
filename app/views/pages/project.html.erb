@@ -1,0 +1,52 @@
+<div class="PageProject">
+  <%= render 'shared/wrappers/W_PageHeader', skip_navigation: true do %>
+    <div class="W_PageHeader-Inner">
+      <%= render 'shared/molecules/M_ContentTimer', week: @current_week %>
+    </div>
+  <% end %>
+  <section id="main" class="PageProject-Section-Main">
+    <div class="PageProject-Section-Title">
+        <div class="PageProject-Section-Title-Logo"><%= render 'shared/atoms/A_Logo', name: 'A_Logo', size: 'Large' %></div>
+        <h1>ГЕЙМИФИЦИРОВАННОЕ МЕДИА ПРО WEB</h1>
+        <h3>Это геймифицированное медиа, где на&nbsp;практике, через интерактивные головоломки, учишься видеть изнутри, как устроен цифровой мир, и&nbsp;находить в&nbsp;нём слабые места</h3>
+    </div>
+    <div class="PageProject-Section-Content-Interactions">
+      <%= render 'shared/atoms/A_Button', text: 'Погрузиться в веб', href: root_path %>
+      <%= render 'shared/atoms/A_Button', text: 'Узнать больше о вебе', href: root_path %>
+    </div>
+  </section>
+  <section id="project" class="PageProject-Section-Project">
+    <%= render 'pages/project/M_ProjectContentPlug', info: 'PROJECT', additional_info: 'LOG' %>
+    <%= render 'pages/project/M_ProjectTextPlug', texts: ['INSPECTRA — интерактивное медиа, где обучение вебу превращается в расследование.', 'Каждый материал — это миссия. Каждый баг — улика. Каждый пользователь — агент.'], max_width: '692px'%>
+    <%= render 'pages/project/M_ProjectTextPlug', texts: ['Мы — команда исследователей цифровой среды.', '>>> разработчики, дизайнеры и энтузиасты безопасности', '>>> создаём обучающие миссии, где теория и практика переплетены', '>>> верим, что баг — это не ошибка, а начало расследования'], max_width: '692px'%>
+  </section>
+  <section id="modules" class="PageProject-Section-Modules">
+    <%= render 'pages/project/M_ProjectContentPlug', info: 'Наше медиа имеет 5 направлений для погружения в исследования', additional_info: 'MODULES', show_asterisk: true %>
+    <div class="PageProject-Section-Modules-Blocks">
+      <%= render 'pages/project/M_ProjectTextModule', title: '<dev_dive> погружение в структуру сайтов (DOM, cookies, network)' %>
+      <%= render 'pages/project/M_ProjectTextModule', title: '<legacy_mode>  изучение устаревших систем и ретро-кода' %>
+      <%= render 'pages/project/M_ProjectTextModule', title: '<security_lab>  безопасные симуляции фишинга, XSS и других IT-рисков' %>
+      <%= render 'pages/project/M_ProjectTextModule', title: '<bughunt>  поиск и устранение ошибок в интерактивных сценариях' %>
+    </div>
+    <div class="PageProject-Section-Modules-Text">
+      <%= render 'shared/quarks/Q_Icon', name: 'Q_AsteriskIcon', width: 24, height: 24 %>
+      <h2 class="PageProject-Section-Modules-Text-Title">&lt;THEORY DECODER&gt; упрощаем сложное, объясняем логично</h2>
+    </div>
+  </section>
+  <section id="image" class="PageProject-Section-Image">
+    <%= image_tag asset_path('Q_ProjectImage.png'), alt: 'Project Image', class: 'PageProject-Section-Image-Image' %>
+  </section>
+  <section id="info" class="PageProject-Section-Info">
+    <%= render 'pages/project/M_ProjectContentPlug', info: 'CONTENT', additional_info: 'INFO', show_asterisk: true %>
+    <div class="PageProject-Section-Info-Blocks">
+      <%= render 'pages/project/M_ProjectTextPlug', texts: ['Каждая статья связана с интерактивом:', 'читаешь материал >>> запускаешь симуляцию', '>>> проверяешь теорию в действии'] %>
+      <%= render 'pages/project/M_ProjectTextPlug', texts: ['STATUS: ACTIVE', '>>> Достижения,титулы и уровни для каждого агента', '>>> Таймеры и интерактивные задачи', '>>> Ошибки приносят опыт, а не штраф', '>>> Игровая динамика без попсы — всё встроено в процесс обучения'] %>
+    </div>
+  </section>
+  <div id="form" class='PageProject-Section-Form'>
+      <p class="text-p-1">
+        Медиа о&nbsp;цифровых расследованиях и&nbsp;интерактивах. Расследование цифровой среды начинается скоро.
+      </p>
+      <%= render 'shared/molecules/M_FormPlug' %>
+  </div>
+</div>

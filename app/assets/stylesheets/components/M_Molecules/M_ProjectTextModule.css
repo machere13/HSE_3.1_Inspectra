@@ -1,4 +1,4 @@
-.M_AboutTextModule{
+.M_ProjectTextModule{
     border-radius: var(--border-radius-x3);
     background: var(--color-tertiary);
     padding: var(--spacing-x3);
@@ -6,6 +6,6 @@
     width: fit-content;
 }
 
-.M_AboutTextModule-Title{
+.M_ProjectTextModule-Title{
     color: var(--color-text-primary);
 }

@@ -16,6 +16,7 @@
 <span class="A_Logo <%= size_class %>" style="<%= style_attr %>">
   <%
     dir = local_assigns[:dir]
+    name = local_assigns[:name]
     logical_name = dir.present? ? "#{dir}/#{name}.svg" : "#{name}.svg"
   %>
   <%= image_tag asset_path(logical_name), alt: name, draggable: false %>

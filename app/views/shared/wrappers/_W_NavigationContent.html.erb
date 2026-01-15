@@ -24,7 +24,7 @@
   <% is_home = request.path == '/' || request.path == '/pages/home' %>
   <% is_week_page = request.path.include?('/weeks/') %>
   <% is_article_page = request.path.include?('/articles/') %>
-  <% is_about_page = request.path == '/about' || request.path == about_path %>
+  <% is_project_page = request.path == '/project' || request.path == project_path %>
   <% 
     article_count = is_week_page && defined?(@week) ? @week.articles.count : 0
     filter_items = is_week_page && defined?(@content_counts) ? [
@@ -37,7 +37,7 @@
     ] : []
     navigation_items = [
       { text: 'HOME', href: root_path, hotkey: 'H' },
-      { text: 'ABOUT', href: about_path, hotkey: 'A' }
+      { text: 'PROJECT', href: project_path, hotkey: 'P' }
     ]
     if defined?(current_user) && current_user&.email_verified?
       navigation_items << { text: 'PROFILE', href: profile_path, hotkey: 'P' }
@@ -49,10 +49,10 @@
 
     <% if is_week_page %>
       <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: filter_items, radio: true %>
-    <% elsif is_about_page %>
+    <% elsif is_project_page %>
       <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: [
         { text: 'MAIN', href: '#main' },
-        { text: 'ABOUT', href: '#about' },
+        { text: 'PROJECT', href: '#project' },
         { text: 'MODULES', href: '#modules' },
         { text: 'INFO', href: '#info' },
       ] %>
