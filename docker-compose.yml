@@ -9,28 +9,12 @@ services:
     environment:
       - RAILS_ENV=production
       - DATABASE_URL=postgresql://project3_1:password@db:5432/project3_1_production
-      - SOLID_QUEUE_IN_PUMA=false
     depends_on:
       - db
     volumes:
       - storage:/rails/storage
     networks:
       - app-network
-
-  worker:
-    build: .
-    command: bin/rails solid_queue:start
-    environment:
-      - RAILS_ENV=production
-      - DATABASE_URL=postgresql://project3_1:password@db:5432/project3_1_production
-      - SOLID_QUEUE_IN_PUMA=false
-    depends_on:
-      - db
-    volumes:
-      - storage:/rails/storage
-    networks:
-      - app-network
-    restart: unless-stopped
 
   db:
     image: postgres:16

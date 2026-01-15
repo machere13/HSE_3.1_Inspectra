@@ -303,49 +303,26 @@ Sentry.set_tags(request_id: request_id)
 
 ## Фоновые задачи
 
-### Solid Queue
+### Active Job (Async Adapter)
 
-Очередь задач на базе PostgreSQL. Гем `solid_queue`.
+Фоновые задачи выполняются через Active Job с использованием `:async` адаптера.
 
 **Как работает:**
 
-- Задачи хранятся в БД (таблица `solid_queue_jobs`)
-- Запускается отдельным процессом
-- Не интегрирован в Puma (из-за совместимости)
+- Задачи выполняются асинхронно в памяти текущего процесса
+- Не требует отдельного процесса или базы данных
+- Подходит для разработки и небольших проектов
 
 **Где используется:**
 
 - `app/jobs/jwt_secret_rotation_job.rb` - ротация JWT секретов
-- Запуск через `bin/rails solid_queue:start`
 
 **Конфигурация:**
 
-- `config/queue.yml` - настройки очереди
-- `config/recurring.yml` - периодические задачи
-- `db/queue_schema.rb` - схема таблиц
+- `config/environments/development.rb` - `config.active_job.queue_adapter = :async`
+- `config/environments/production.rb` - `config.active_job.queue_adapter = :async`
 
-**Запуск:**
-
-```bash
-# В development
-bin/rails solid_queue:start
-
-# В production (через docker-compose)
-docker-compose up worker
-
-# Или через Kamal
-kamal app exec worker "bin/rails solid_queue:start"
-```
-
-**Полезные команды:**
-
-```bash
-# Посмотреть задачи в очереди
-rails runner "puts SolidQueue::Job.count"
-
-# Очистить завершенные задачи
-rails runner "SolidQueue::Job.finished.delete_all"
-```
+**Примечание:** Для production с большим объемом задач рекомендуется использовать более надежный адаптер (например, Sidekiq или Delayed Job).
 
 ---
 
@@ -785,17 +762,10 @@ VerificationMailer.verification_code(user).deliver_later
 
 **Где настроено:**
 
-- `config/recurring.yml` - расписание задач
 - `config/initializers/schedule.rb` - общие настройки
+- Периодические задачи настраиваются через cron или другие планировщики задач
 
 **Примеры расписания:**
-
-```yaml
-production:
-  clear_solid_queue_finished_jobs:
-    command: 'SolidQueue::Job.clear_finished_in_batches(...)'
-    schedule: every hour at minute 12
-```
 
 **Формат расписания:**
 
@@ -804,9 +774,7 @@ production:
 - `every monday at 9am` - каждый понедельник в 9:00
 - `at 5am every day` - каждый день в 5:00
 
-**Текущие задачи:**
-
-- Очистка завершенных задач Solid Queue (каждый час в 12 минут)
+**Примечание:** Периодические задачи настраиваются через cron или другие планировщики задач.
 
 ---
 
@@ -820,13 +788,11 @@ production:
 
 ```
 web: bin/rails server -p $PORT
-worker: bin/rails solid_queue:start
 ```
 
 **Процессы:**
 
 - `web` - веб-сервер (Puma)
-- `worker` - фоновые задачи (Solid Queue)
 
 **Использование:**
 
