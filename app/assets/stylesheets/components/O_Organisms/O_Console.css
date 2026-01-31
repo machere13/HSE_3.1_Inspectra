@@ -113,6 +113,11 @@
 
 .O_Console-LineNum {
   display: block;
+  color: var(--color-text-secondary);
+}
+
+.O_Console-LineNum--error {
+  color: var(--color-status-error);
 }
 
 .O_Console-Content {
@@ -142,6 +147,10 @@
 .O_Console-Line--output {
   min-height: auto;
   background: var(--color-quaternary);
+}
+
+.O_Console-Line--error {
+  color: var(--color-status-error);
 }
 
 .O_Console-InputLine {

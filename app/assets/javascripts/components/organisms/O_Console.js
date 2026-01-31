@@ -63,10 +63,13 @@
     if (!linesEl || !linesContent) return;
     const outputCount = linesContent.children.length;
     const count = outputCount + 1;
-    const html = Array.from({ length: count }, (_, i) =>
-      `<span class="O_Console-LineNum text-code" data-js-console-ln>${pad(i + 1)}</span>`
-    ).join('') || '<span class="O_Console-LineNum text-code" data-js-console-ln>01</span>';
-    linesEl.innerHTML = html;
+    const parts = [];
+    for (let i = 0; i < count; i++) {
+      const isError = i < outputCount && linesContent.children[i].classList.contains('O_Console-Line--error');
+      const cls = isError ? 'O_Console-LineNum text-code O_Console-LineNum--error' : 'O_Console-LineNum text-code';
+      parts.push(`<span class="${cls}" data-js-console-ln>${pad(i + 1)}</span>`);
+    }
+    linesEl.innerHTML = parts.length ? parts.join('') : '<span class="O_Console-LineNum text-code" data-js-console-ln>01</span>';
     requestAnimationFrame(() => syncLineHeights(container));
   };
 
@@ -102,7 +105,9 @@
     const linesEl = container.querySelector('[data-js-console-lines]');
     if (!linesEl) return;
     const div = document.createElement('div');
-    div.className = isOutput ? 'O_Console-Line O_Console-Line--output' : 'O_Console-Line O_Console-Line--input';
+    let className = isOutput ? 'O_Console-Line O_Console-Line--output' : 'O_Console-Line O_Console-Line--input';
+    if (isOutput && text.startsWith('Unknown command:')) className += ' O_Console-Line--error';
+    div.className = className;
     div.textContent = text;
     linesEl.appendChild(div);
     updateLineNumbers(container);
