@@ -1,9 +1,6 @@
 <div class="PageHome">
   <%= render 'shared/wrappers/W_PageHeader' do %>
     <div class="W_PageHeader-Inner">
-      <%= render 'shared/organisms/O_Breadcrumbs', items: [
-        { text: 'HOME', href: root_path, type: 'home' }
-      ] %>
       <%= render 'shared/molecules/M_ContentTimer', week: @current_week %>
     </div>
   <% end %>
