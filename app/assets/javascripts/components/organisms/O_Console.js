@@ -43,6 +43,20 @@
     return `Unknown command: ${escapeHtml(cmd.trim())}. Введите help.`;
   };
 
+  const syncLineHeights = (container) => {
+    const linesEl = container.querySelector('[data-js-console-line-numbers]');
+    const linesContent = container.querySelector('[data-js-console-lines]');
+    if (!linesEl || !linesContent) return;
+    const outputCount = linesContent.children.length;
+    for (let i = 0; i < outputCount; i++) {
+      const lineEl = linesContent.children[i];
+      const numEl = linesEl.children[i];
+      if (lineEl && numEl) numEl.style.minHeight = `${lineEl.offsetHeight}px`;
+    }
+    const lastNum = linesEl.children[outputCount];
+    if (lastNum) lastNum.style.minHeight = '';
+  };
+
   const updateLineNumbers = (container) => {
     const linesEl = container.querySelector('[data-js-console-line-numbers]');
     const linesContent = container.querySelector('[data-js-console-lines]');
@@ -53,6 +67,7 @@
       `<span class="O_Console-LineNum text-code" data-js-console-ln>${pad(i + 1)}</span>`
     ).join('') || '<span class="O_Console-LineNum text-code" data-js-console-ln>01</span>';
     linesEl.innerHTML = html;
+    requestAnimationFrame(() => syncLineHeights(container));
   };
 
   const setCaretToEnd = (el) => {
@@ -136,6 +151,7 @@
         document.removeEventListener('mousemove', onMove);
         document.removeEventListener('mouseup', onUp);
         saveSize(consoleEl);
+        requestAnimationFrame(() => syncLineHeights(consoleEl));
       };
       document.addEventListener('mousemove', onMove);
       document.addEventListener('mouseup', onUp);
