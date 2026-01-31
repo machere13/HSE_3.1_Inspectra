@@ -113,7 +113,7 @@
 
 .O_Console-LineNum {
   display: block;
-  color: var(--color-text-secondary);
+  color: var(--color-text-tertiary);
 }
 
 .O_Console-LineNum--error {
