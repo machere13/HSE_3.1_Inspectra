@@ -42,12 +42,12 @@
 }
 
 .O_Console.is-maximized {
-  bottom: 0;
-  right: 0;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
+  bottom: var(--spacing-x1);
+  right: var(--spacing-x1);
+  left: var(--spacing-x1);
+  top: var(--spacing-x1);
+  width: calc(100% - var(--spacing-x1) * 2);
+  height: calc(100% - var(--spacing-x1) * 2);
   max-width: none;
   max-height: none;
 }

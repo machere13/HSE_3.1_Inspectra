@@ -222,8 +222,23 @@
       consoleEl.classList.remove('is-maximized');
     });
 
-    maxBtn?.addEventListener('click', () => {
-      consoleEl.classList.toggle('is-maximized');
+    maxBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isMax = consoleEl.classList.toggle('is-maximized');
+      if (isMax) {
+        consoleEl.style.left = '';
+        consoleEl.style.top = '';
+        consoleEl.style.right = '';
+        consoleEl.style.bottom = '';
+        consoleEl.style.width = '';
+        consoleEl.style.height = '';
+      } else {
+        const s = getState();
+        if (s?.width && s?.height) {
+          consoleEl.style.width = `${s.width}px`;
+          consoleEl.style.height = `${s.height}px`;
+        }
+      }
     });
 
     input?.addEventListener('keydown', (e) => {
