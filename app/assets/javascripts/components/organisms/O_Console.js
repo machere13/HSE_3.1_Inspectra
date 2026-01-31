@@ -232,7 +232,7 @@
       if (e.key !== 'Enter') return;
       e.preventDefault();
       const cmd = getCommandFromInput(input);
-      addLine(consoleEl, `>_ ${cmd ?? ''}`, false);
+      addLine(consoleEl, `> ${cmd ?? ''}`, false);
       const result = runCommand(cmd);
       if (result === null) {
         clearLines(consoleEl);
