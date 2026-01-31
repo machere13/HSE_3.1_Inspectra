@@ -225,6 +225,7 @@
     maxBtn?.addEventListener('click', (e) => {
       e.preventDefault();
       const isMax = consoleEl.classList.toggle('is-maximized');
+      maxBtn?.setAttribute('aria-label', isMax ? 'Выйти из полноэкранного режима' : 'На весь экран');
       if (isMax) {
         consoleEl.style.left = '';
         consoleEl.style.top = '';

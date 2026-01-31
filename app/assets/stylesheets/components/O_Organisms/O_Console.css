@@ -76,11 +76,16 @@
   cursor: pointer;
 }
 
-.O_Console-Header-Button-Icon--maximize {
+.O_Console-Header-Button-Icon--notfullscreen {
+  display: none;
+}
+
+.O_Console.is-maximized .O_Console-Header-Button-Icon--fullscreen {
+  display: none;
+}
+
+.O_Console.is-maximized .O_Console-Header-Button-Icon--notfullscreen {
   display: block;
-  width: 12px;
-  height: 12px;
-  border: 1px solid currentColor;
 }
 
 .O_Console-Body {
