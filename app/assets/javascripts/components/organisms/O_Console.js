@@ -50,8 +50,8 @@
     if (!linesEl || !linesContent) return;
     const count = linesContent.children.length + (hasInputLine ? 1 : 0);
     const html = Array.from({ length: count }, (_, i) =>
-      `<span class="O_Console-LineNum" data-js-console-ln>${pad(i + 1)}</span>`
-    ).join('') || '<span class="O_Console-LineNum" data-js-console-ln>01</span>';
+      `<span class="O_Console-LineNum text-code" data-js-console-ln>${pad(i + 1)}</span>`
+    ).join('') || '<span class="O_Console-LineNum text-code" data-js-console-ln>01</span>';
     linesEl.innerHTML = html;
   };
 
@@ -85,8 +85,8 @@
     div.className = isOutput ? 'O_Console-Line O_Console-Line--output' : 'O_Console-Line O_Console-Line--input';
     div.textContent = text;
     linesEl.appendChild(div);
-    const content = container.querySelector('.O_Console-Content');
-    if (content) content.scrollTop = content.scrollHeight;
+    const scrollEl = container.querySelector('[data-js-console-scroll]');
+    if (scrollEl) scrollEl.scrollTop = scrollEl.scrollHeight;
     updateLineNumbers(container);
   };
 

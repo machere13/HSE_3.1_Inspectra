@@ -58,7 +58,6 @@
   cursor: move;
   user-select: none;
   background: var(--color-primary);
-  border-radius: calc(var(--border-radius-x3) - 1px) calc(var(--border-radius-x3) - 1px) 0 0;
 }
 
 .O_Console-Header-Controls {
@@ -86,14 +85,13 @@
   min-height: 0;
   display: flex;
   position: relative;
-  border-radius: 0 0 var(--border-radius-x3) var(--border-radius-x3);
-  overflow: hidden;
+  background: var(--color-secondary);
 }
 
 .O_Console-Lines {
   flex-shrink: 0;
   width: 58px;
-  padding: var(--spacing-x3);
+  padding: var(--spacing-x3) var(--spacing-x2);
   text-align: right;
   user-select: none;
   background: var(--color-secondary);
@@ -118,18 +116,17 @@
 }
 
 .O_Console-Line {
-  padding: var(--spacing-x05) 0;
   white-space: pre-wrap;
   word-break: break-all;
 }
 
 .O_Console-Line--output {
-  margin: var(--spacing-x1) 0;
+  min-height: auto;
 }
 
 .O_Console-InputLine {
   flex-shrink: 0;
-  padding: var(--spacing-x05) 0;
+  padding: 0;
   outline: none;
   white-space: pre-wrap;
   word-break: break-all;
@@ -148,7 +145,7 @@
 .O_Console-Resize--right {
   top: 0;
   right: 0;
-  width: 6px;
+  width: 12px;
   height: 100%;
   cursor: ew-resize;
 }
@@ -157,7 +154,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 6px;
+  height: 12px;
   cursor: ns-resize;
 }
 
