@@ -1,0 +1,28 @@
+/* TODO: временное решение, до дизайна */
+
+.Q_Scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-state-inactive) transparent;
+}
+
+.Q_Scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.Q_Scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.Q_Scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-state-inactive);
+  border-radius: 4px;
+}
+
+.Q_Scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-state-text-inactive);
+}
+
+.Q_Scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
+}
