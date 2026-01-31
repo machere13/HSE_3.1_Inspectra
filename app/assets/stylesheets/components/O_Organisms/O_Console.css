@@ -138,10 +138,18 @@
 
 .O_Console-InputRow {
   flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
   padding: var(--spacing-x3);
   padding-left: calc(var(--o-console-lines-width) + var(--spacing-x3));
   background: var(--color-secondary);
   border-top: 1px solid var(--color-border-tertiary);
+}
+
+.O_Console-InputPrompt {
+  flex-shrink: 0;
+  user-select: none;
+  white-space: pre;
 }
 
 .O_Console-Line {

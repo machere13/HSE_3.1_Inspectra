@@ -85,14 +85,12 @@
   };
 
   const getCommandFromInput = (inputEl) => {
-    const text = inputEl?.textContent ?? '';
-    if (text.startsWith(PROMPT)) return text.slice(PROMPT.length).trim();
-    return text.trim();
+    return (inputEl?.textContent ?? '').trim();
   };
 
   const resetInputLine = (inputEl) => {
     if (!inputEl) return;
-    inputEl.textContent = PROMPT;
+    inputEl.textContent = '';
     setCaretToEnd(inputEl);
   };
 
@@ -232,7 +230,7 @@
       if (e.key !== 'Enter') return;
       e.preventDefault();
       const cmd = getCommandFromInput(input);
-      addLine(consoleEl, `> ${cmd ?? ''}`, false);
+      addLine(consoleEl, `${PROMPT}${cmd ?? ''}`, false);
       const result = runCommand(cmd);
       if (result === null) {
         clearLines(consoleEl);
