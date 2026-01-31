@@ -1,4 +1,4 @@
-.M_Console {
+.O_Console {
   position: fixed;
   bottom: var(--spacing-x10);
   right: var(--spacing-x5);
@@ -15,7 +15,7 @@
   border-radius: var(--border-radius-x3);
 }
 
-.M_Console::before {
+.O_Console::before {
   content: '';
   position: absolute;
   top: 0;
@@ -36,11 +36,11 @@
   pointer-events: none;
 }
 
-.M_Console[aria-hidden="true"] {
+.O_Console[aria-hidden="true"] {
   display: none !important;
 }
 
-.M_Console.is-maximized {
+.O_Console.is-maximized {
   bottom: 0;
   right: 0;
   left: 0;
@@ -51,7 +51,7 @@
   max-height: none;
 }
 
-.M_Console-Header {
+.O_Console-Header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -62,34 +62,34 @@
   background: var(--color-primary);
 }
 
-.M_Console-Header-Controls {
+.O_Console-Header-Controls {
   display: flex;
   align-items: center;
   gap: var(--spacing-x1);
 }
 
-.M_Console-Header-Button {
+.O_Console-Header-Button {
   padding: var(--spacing-x1);
   border: none;
   background: transparent;
   cursor: pointer;
 }
 
-.M_Console-Header-Button-Icon--maximize {
+.O_Console-Header-Button-Icon--maximize {
   display: block;
   width: 12px;
   height: 12px;
   border: 1px solid currentColor;
 }
 
-.M_Console-Body {
+.O_Console-Body {
   flex: 1;
   min-height: 0;
   display: flex;
   position: relative;
 }
 
-.M_Console-Lines {
+.O_Console-Lines {
   flex-shrink: 0;
   width: 58px;
   padding: var(--spacing-x3);
@@ -98,11 +98,11 @@
   background: var(--color-secondary);
 }
 
-.M_Console-LineNum {
+.O_Console-LineNum {
   display: block;
 }
 
-.M_Console-Content {
+.O_Console-Content {
   flex: 1;
   min-width: 0;
   display: flex;
@@ -112,22 +112,22 @@
   background: var(--color-background);
 }
 
-.M_Console-Output {
+.O_Console-Output {
   flex: 1;
   min-height: 0;
 }
 
-.M_Console-Line {
+.O_Console-Line {
   padding: var(--spacing-x05) 0;
   white-space: pre-wrap;
   word-break: break-all;
 }
 
-.M_Console-Line--output {
+.O_Console-Line--output {
   margin: var(--spacing-x1) 0;
 }
 
-.M_Console-InputLine {
+.O_Console-InputLine {
   flex-shrink: 0;
   padding: var(--spacing-x05) 0;
   outline: none;
@@ -135,17 +135,17 @@
   word-break: break-all;
 }
 
-.M_Console-InputLine:empty::before,
-.M_Console-InputLine[data-placeholder]:empty::before {
+.O_Console-InputLine:empty::before,
+.O_Console-InputLine[data-placeholder]:empty::before {
   content: attr(data-placeholder);
 }
 
-.M_Console-Resize {
+.O_Console-Resize {
   position: absolute;
   z-index: 2;
 }
 
-.M_Console-Resize--right {
+.O_Console-Resize--right {
   top: 0;
   right: 0;
   width: 6px;
@@ -153,7 +153,7 @@
   cursor: ew-resize;
 }
 
-.M_Console-Resize--bottom {
+.O_Console-Resize--bottom {
   bottom: 0;
   left: 0;
   width: 100%;
@@ -161,7 +161,7 @@
   cursor: ns-resize;
 }
 
-.M_Console-Resize--corner {
+.O_Console-Resize--corner {
   right: 0;
   bottom: 0;
   width: 12px;

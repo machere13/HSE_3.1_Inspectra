@@ -1,7 +1,7 @@
 (function () {
   var CONSOLE_SELECTOR = '[data-js-console]';
   var TOGGLE_SELECTOR = '[data-js-console-toggle]';
-  var STORAGE_KEY = 'm_console_state';
+  var STORAGE_KEY = 'o_console_state';
 
   function getState() {
     try {
@@ -54,9 +54,9 @@
     var count = linesContent.children.length + (hasInputLine ? 1 : 0);
     var html = '';
     for (var i = 1; i <= count; i++) {
-      html += '<span class="M_Console-LineNum" data-js-console-ln">' + pad(i) + '</span>';
+      html += '<span class="O_Console-LineNum" data-js-console-ln">' + pad(i) + '</span>';
     }
-    linesEl.innerHTML = html || '<span class="M_Console-LineNum" data-js-console-ln>01</span>';
+    linesEl.innerHTML = html || '<span class="O_Console-LineNum" data-js-console-ln>01</span>';
   }
 
   function setCaretToEnd(el) {
@@ -86,10 +86,10 @@
     var linesEl = container.querySelector('[data-js-console-lines]');
     if (!linesEl) return;
     var div = document.createElement('div');
-    div.className = isOutput ? 'M_Console-Line M_Console-Line--output' : 'M_Console-Line M_Console-Line--input';
+    div.className = isOutput ? 'O_Console-Line O_Console-Line--output' : 'O_Console-Line O_Console-Line--input';
     div.textContent = text;
     linesEl.appendChild(div);
-    var content = container.querySelector('.M_Console-Content');
+    var content = container.querySelector('.O_Console-Content');
     if (content) content.scrollTop = content.scrollHeight;
     updateLineNumbers(container);
   }
@@ -153,7 +153,7 @@
     if (!header) return;
 
     header.addEventListener('mousedown', function (e) {
-      if (e.target.closest('.M_Console-Header-Button')) return;
+      if (e.target.closest('.O_Console-Header-Button')) return;
       e.preventDefault();
       var rect = consoleEl.getBoundingClientRect();
       var startX = e.clientX - rect.left;
@@ -231,7 +231,7 @@
           }
           resetInputLine(input);
           updateLineNumbers(consoleEl);
-          var content = consoleEl.querySelector('.M_Console-Content');
+          var content = consoleEl.querySelector('.O_Console-Content');
           if (content) content.scrollTop = content.scrollHeight;
         }
       });
