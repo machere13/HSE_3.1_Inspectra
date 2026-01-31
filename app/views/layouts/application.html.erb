@@ -22,7 +22,8 @@
       <%= render 'shared/wrappers/W_Sidebar' %>
       <%= yield %>
     </div>
-    <%= render 'shared/atoms/A_IconButton', position: 'fixed', right: 'var(--spacing-x5)', bottom: 'var(--spacing-x5)', icon_name: 'Q_ConsoleIcon', z_index: 100 %>
+    <%= render 'shared/atoms/A_IconButton', position: 'fixed', right: 'var(--spacing-x5)', bottom: 'var(--spacing-x5)', icon_name: 'Q_ConsoleIcon', z_index: 100, console_toggle: true %>
+    <%= render 'shared/molecules/M_Console' %>
     <% if flash[:notice] %>
       <%= render 'shared/molecules/M_ToastNotification', text: flash[:notice] %>
     <% end %>

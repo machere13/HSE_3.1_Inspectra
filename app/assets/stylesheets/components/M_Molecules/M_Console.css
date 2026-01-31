@@ -1,0 +1,170 @@
+.M_Console {
+  position: fixed;
+  bottom: var(--spacing-x10);
+  right: var(--spacing-x5);
+  width: 420px;
+  min-width: 280px;
+  max-width: 95vw;
+  height: 320px;
+  min-height: 200px;
+  max-height: 85vh;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--border-radius-x3);
+}
+
+.M_Console::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(85deg, rgb(58 58 58 / 50%), rgb(255 255 255 / 25%));
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+.M_Console[aria-hidden="true"] {
+  display: none !important;
+}
+
+.M_Console.is-maximized {
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+}
+
+.M_Console-Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: var(--spacing-x3) var(--spacing-x4);
+  cursor: move;
+  user-select: none;
+  background: var(--color-primary);
+}
+
+.M_Console-Header-Controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-x1);
+}
+
+.M_Console-Header-Button {
+  padding: var(--spacing-x1);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.M_Console-Header-Button-Icon--maximize {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border: 1px solid currentColor;
+}
+
+.M_Console-Body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  position: relative;
+}
+
+.M_Console-Lines {
+  flex-shrink: 0;
+  width: 58px;
+  padding: var(--spacing-x3);
+  text-align: right;
+  user-select: none;
+  background: var(--color-secondary);
+}
+
+.M_Console-LineNum {
+  display: block;
+}
+
+.M_Console-Content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  padding: var(--spacing-x3);
+  background: var(--color-background);
+}
+
+.M_Console-Output {
+  flex: 1;
+  min-height: 0;
+}
+
+.M_Console-Line {
+  padding: var(--spacing-x05) 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.M_Console-Line--output {
+  margin: var(--spacing-x1) 0;
+}
+
+.M_Console-InputLine {
+  flex-shrink: 0;
+  padding: var(--spacing-x05) 0;
+  outline: none;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.M_Console-InputLine:empty::before,
+.M_Console-InputLine[data-placeholder]:empty::before {
+  content: attr(data-placeholder);
+}
+
+.M_Console-Resize {
+  position: absolute;
+  z-index: 2;
+}
+
+.M_Console-Resize--right {
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  cursor: ew-resize;
+}
+
+.M_Console-Resize--bottom {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  cursor: ns-resize;
+}
+
+.M_Console-Resize--corner {
+  right: 0;
+  bottom: 0;
+  width: 12px;
+  height: 12px;
+  cursor: nwse-resize;
+}

@@ -21,7 +21,8 @@
   classes << 'A_IconButton--Absolute' if position == 'absolute'
   
   disabled_attr = disabled ? 'disabled="disabled"' : ''
+  data_console_toggle_attr = local_assigns[:console_toggle] ? ' data-js-console-toggle' : ''
 %>
-<button class="<%= classes.join(' ') %>" <%= style_attr.html_safe %> <%= disabled_attr.html_safe %>>
+<button class="<%= classes.join(' ') %>" <%= style_attr.html_safe %> <%= disabled_attr.html_safe %><%= data_console_toggle_attr %>>
     <%= render 'shared/quarks/Q_Icon', name: icon_name if icon_name %>
 </button>
