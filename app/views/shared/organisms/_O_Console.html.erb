@@ -1,0 +1,29 @@
+<div class="O_Console" id="js-console" data-js-console aria-hidden="true" style="display: none;">
+  <div class="O_Console-Header" data-js-console-drag>
+    <%= render 'shared/quarks/Q_Icon', name: 'Q_ConsoleIcon', width: 18, height: 18 %>
+    <div class="O_Console-Header-Controls">
+      <button type="button" class="O_Console-Header-Button O_Console-Header-Button--maximize" data-js-console-maximize aria-label="На весь экран">
+        <%= render 'shared/quarks/Q_Icon', name: 'Q_FullScreenIcon', width: 12, height: 12 %>
+      </button>
+      <button type="button" class="O_Console-Header-Button O_Console-Header-Button--close" data-js-console-close aria-label="Закрыть">
+        <%= render 'shared/quarks/Q_Icon', name: 'Q_CloseIcon', width: 12, height: 12 %>
+      </button>
+    </div>
+  </div>
+  <div class="O_Console-Body">
+    <div class="O_Console-Scroll Q_Scrollbar" data-js-console-scroll>
+      <div class="O_Console-Lines" data-js-console-line-numbers>
+        <span class="O_Console-LineNum text-code" data-js-console-ln>01</span>
+      </div>
+      <div class="O_Console-Content">
+        <div class="O_Console-Output text-code" data-js-console-lines></div>
+      </div>
+    </div>
+    <div class="O_Console-InputRow">
+      <div class="O_Console-InputLine text-code" contenteditable="true" data-js-console-input spellcheck="false" data-placeholder=" " aria-label="Команда" role="textbox">>_ </div>
+    </div>
+    <div class="O_Console-Resize O_Console-Resize--right" data-js-console-resize-right aria-label="Изменить ширину"></div>
+    <div class="O_Console-Resize O_Console-Resize--bottom" data-js-console-resize-bottom aria-label="Изменить высоту"></div>
+    <div class="O_Console-Resize O_Console-Resize--corner" data-js-console-resize-corner aria-label="Изменить размер"></div>
+  </div>
+</div>
