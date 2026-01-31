@@ -22,4 +22,7 @@ Rails.application.config.assets.precompile += %w[
   Q_LinkIcon.svg
   Q_PasswordNonVisionIcon.svg
   Q_PasswordVisionIcon.svg
+  Q_FullScreenIcon
+  Q_NotFullScreenIcon
+  Q_CloseIcon
 ]

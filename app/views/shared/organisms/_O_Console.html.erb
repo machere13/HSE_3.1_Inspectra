@@ -3,10 +3,10 @@
     <%= render 'shared/quarks/Q_Icon', name: 'Q_ConsoleIcon', width: 18, height: 18 %>
     <div class="O_Console-Header-Controls">
       <button type="button" class="O_Console-Header-Button O_Console-Header-Button--maximize" data-js-console-maximize aria-label="На весь экран">
-        <span class="O_Console-Header-Button-Icon O_Console-Header-Button-Icon--maximize"></span>
+        <%= render 'shared/quarks/Q_Icon', name: 'Q_FullScreenIcon', width: 12, height: 12 %>
       </button>
       <button type="button" class="O_Console-Header-Button O_Console-Header-Button--close" data-js-console-close aria-label="Закрыть">
-        <span class="O_Console-Header-Button-Icon O_Console-Header-Button-Icon--close">×</span>
+        <%= render 'shared/quarks/Q_Icon', name: 'Q_CloseIcon', width: 12, height: 12 %>
       </button>
     </div>
   </div>
