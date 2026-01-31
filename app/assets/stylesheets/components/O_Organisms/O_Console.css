@@ -1,4 +1,5 @@
 .O_Console {
+  --o-console-lines-width: 58px;
   position: fixed;
   bottom: var(--spacing-x10);
   right: var(--spacing-x5);
@@ -84,14 +85,24 @@
   flex: 1;
   min-height: 0;
   display: flex;
+  flex-direction: column;
   position: relative;
   background: var(--color-secondary);
 }
 
+.O_Console-Scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  align-items: flex-start;
+}
+
 .O_Console-Lines {
   flex-shrink: 0;
-  width: 58px;
+  width: var(--o-console-lines-width);
   padding: var(--spacing-x3) var(--spacing-x2);
+  padding-bottom: var(--spacing-x3);
   text-align: right;
   user-select: none;
   background: var(--color-secondary);
@@ -104,15 +115,20 @@
 .O_Console-Content {
   flex: 1;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
   padding: var(--spacing-x3);
+  padding-bottom: var(--spacing-x6);
 }
 
 .O_Console-Output {
-  flex: 1;
   min-height: 0;
+}
+
+.O_Console-InputRow {
+  flex-shrink: 0;
+  padding: var(--spacing-x3);
+  padding-left: calc(var(--o-console-lines-width) + var(--spacing-x3));
+  background: var(--color-secondary);
+  border-top: 1px solid var(--color-border-tertiary);
 }
 
 .O_Console-Line {
@@ -125,7 +141,8 @@
 }
 
 .O_Console-InputLine {
-  flex-shrink: 0;
+  flex: 1;
+  min-width: 0;
   padding: 0;
   outline: none;
   white-space: pre-wrap;

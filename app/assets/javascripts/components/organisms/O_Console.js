@@ -40,15 +40,15 @@
     if (trimmed.startsWith('echo ')) {
       return trimmed.slice(5).trim() || '(пусто)';
     }
-    return `Неизвестная команда: ${escapeHtml(cmd.trim())}. Введите help.`;
+    return `Unknown command: ${escapeHtml(cmd.trim())}. Введите help.`;
   };
 
   const updateLineNumbers = (container) => {
     const linesEl = container.querySelector('[data-js-console-line-numbers]');
     const linesContent = container.querySelector('[data-js-console-lines]');
-    const hasInputLine = !!container.querySelector('[data-js-console-input]');
     if (!linesEl || !linesContent) return;
-    const count = linesContent.children.length + (hasInputLine ? 1 : 0);
+    const outputCount = linesContent.children.length;
+    const count = outputCount + 1;
     const html = Array.from({ length: count }, (_, i) =>
       `<span class="O_Console-LineNum text-code" data-js-console-ln>${pad(i + 1)}</span>`
     ).join('') || '<span class="O_Console-LineNum text-code" data-js-console-ln>01</span>';
@@ -78,6 +78,11 @@
     setCaretToEnd(inputEl);
   };
 
+  const scrollToBottom = (container) => {
+    const scrollEl = container.querySelector('[data-js-console-scroll]');
+    if (scrollEl) scrollEl.scrollTop = scrollEl.scrollHeight;
+  };
+
   const addLine = (container, text, isOutput) => {
     const linesEl = container.querySelector('[data-js-console-lines]');
     if (!linesEl) return;
@@ -85,9 +90,8 @@
     div.className = isOutput ? 'O_Console-Line O_Console-Line--output' : 'O_Console-Line O_Console-Line--input';
     div.textContent = text;
     linesEl.appendChild(div);
-    const scrollEl = container.querySelector('[data-js-console-scroll]');
-    if (scrollEl) scrollEl.scrollTop = scrollEl.scrollHeight;
     updateLineNumbers(container);
+    scrollToBottom(container);
   };
 
   const clearLines = (container) => {
@@ -216,8 +220,7 @@
       }
       resetInputLine(input);
       updateLineNumbers(consoleEl);
-      const content = consoleEl.querySelector('.O_Console-Content');
-      if (content) content.scrollTop = content.scrollHeight;
+      scrollToBottom(consoleEl);
     });
 
     input?.addEventListener('paste', (e) => {
