@@ -18,10 +18,7 @@
 .O_Console::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(85deg, rgb(58 58 58 / 50%), rgb(255 255 255 / 25%));
@@ -34,6 +31,7 @@
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   pointer-events: none;
+  z-index: 1;
 }
 
 .O_Console[aria-hidden="true"] {
@@ -60,6 +58,7 @@
   cursor: move;
   user-select: none;
   background: var(--color-primary);
+  border-radius: calc(var(--border-radius-x3) - 1px) calc(var(--border-radius-x3) - 1px) 0 0;
 }
 
 .O_Console-Header-Controls {
@@ -87,6 +86,8 @@
   min-height: 0;
   display: flex;
   position: relative;
+  border-radius: 0 0 var(--border-radius-x3) var(--border-radius-x3);
+  overflow: hidden;
 }
 
 .O_Console-Lines {
@@ -109,7 +110,6 @@
   flex-direction: column;
   overflow: auto;
   padding: var(--spacing-x3);
-  background: var(--color-background);
 }
 
 .O_Console-Output {
