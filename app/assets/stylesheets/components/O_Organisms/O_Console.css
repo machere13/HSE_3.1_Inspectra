@@ -55,7 +55,7 @@
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  padding: var(--spacing-x3) var(--spacing-x4);
+  padding-left: var(--spacing-x4);
   cursor: move;
   user-select: none;
   background: var(--color-primary);
@@ -64,27 +64,8 @@
 .O_Console-Header-Controls {
   display: flex;
   align-items: center;
-  gap: var(--spacing-x1);
 }
 
-.O_Console-Header-Button {
-  padding: var(--spacing-x1);
-  border: none;
-  background: transparent;
-  cursor: pointer;
-}
-
-.O_Console-Header-Button-Icon--notfullscreen {
-  display: none;
-}
-
-.O_Console.is-maximized .O_Console-Header-Button-Icon--fullscreen {
-  display: none;
-}
-
-.O_Console.is-maximized .O_Console-Header-Button-Icon--notfullscreen {
-  display: block;
-}
 
 .O_Console-Body {
   flex: 1;

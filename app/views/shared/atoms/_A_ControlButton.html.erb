@@ -1,0 +1,14 @@
+<%
+  icon_name = local_assigns[:icon_name]
+  icon_size = local_assigns[:icon_size] || 12
+  aria_label = local_assigns[:aria_label]
+  data_attrs = local_assigns[:data] || {}
+  extra_class = local_assigns[:class]
+  button_classes = ['A_ControlButton']
+  button_classes << extra_class if extra_class.present?
+%>
+<button type="button" class="<%= button_classes.join(' ') %>" aria-label="<%= aria_label %>" <%= tag.attributes(data: data_attrs) %>>
+  <span class="A_ControlButton-Icon">
+    <%= render 'shared/quarks/Q_Icon', name: icon_name, width: icon_size, height: icon_size %>
+  </span>
+</button>

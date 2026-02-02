@@ -348,6 +348,10 @@
           consoleEl.style.height = `${s.height}px`;
         }
       }
+      const img = maxBtn?.querySelector('.A_ControlButton-Icon img, .Q_Icon img');
+      if (img && maxBtn?.dataset?.iconUrl && maxBtn?.dataset?.iconAltUrl) {
+        img.src = isMax ? maxBtn.dataset.iconAltUrl : maxBtn.dataset.iconUrl;
+      }
     });
 
     input?.addEventListener('keydown', (e) => {

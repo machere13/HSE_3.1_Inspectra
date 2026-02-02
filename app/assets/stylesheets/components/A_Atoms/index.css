@@ -12,4 +12,5 @@
  *= require ./A_TextButton
  *= require ./A_IconButton
  *= require ./A_RadioButton
+ *= require ./A_ControlButton
 */
