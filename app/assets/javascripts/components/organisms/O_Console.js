@@ -127,9 +127,22 @@
   };
 
   const RESIZE = {
-    MIN_W: 280,
+    MIN_W: 320,
     MIN_H: 200,
     PAD: 16,
+  };
+
+  const exitMaximized = (consoleEl, rect) => {
+    if (!consoleEl.classList.contains('is-maximized')) return;
+    consoleEl.classList.remove('is-maximized');
+    consoleEl.style.left = `${rect.left}px`;
+    consoleEl.style.top = `${rect.top}px`;
+    consoleEl.style.width = `${rect.width}px`;
+    consoleEl.style.height = `${rect.height}px`;
+    consoleEl.style.right = '';
+    consoleEl.style.bottom = '';
+    const btn = consoleEl.querySelector('[data-js-console-maximize]');
+    if (btn) btn.setAttribute('aria-label', 'На весь экран');
   };
 
   const initResize = (consoleEl) => {
@@ -138,9 +151,12 @@
       if (!el) return;
       el.addEventListener('mousedown', (e) => {
         e.preventDefault();
-        if (consoleEl.classList.contains('is-maximized')) return;
 
         const rect = consoleEl.getBoundingClientRect();
+        if (consoleEl.classList.contains('is-maximized')) {
+          exitMaximized(consoleEl, rect);
+        }
+
         const start = {
           left: rect.left,
           top: rect.top,
