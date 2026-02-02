@@ -1,0 +1,12 @@
+.A_ControlButton {
+    padding: var(--spacing-x4) var(--spacing-x5);
+    background: transparent;
+    transition: all .2s;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.A_ControlButton:hover {
+    background: var(--color-secondary);
+}
