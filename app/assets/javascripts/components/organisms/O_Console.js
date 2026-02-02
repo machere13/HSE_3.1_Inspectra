@@ -27,18 +27,66 @@
     return div.innerHTML;
   };
 
-  const runCommand = (cmd) => {
-    const trimmed = (cmd ?? '').trim().toLowerCase();
-    if (trimmed === '') return '';
-    if (trimmed === 'help') {
-      return 'Доступные команды:\n  help     — список команд\n  clear    — очистить консоль\n  echo ... — повторить текст\n  about    — о проекте';
+  const applyTheme = (name) => {
+    const root = document.documentElement;
+    if (name && name !== 'dark') {
+      root.setAttribute('data-theme', name);
+    } else {
+      root.removeAttribute('data-theme');
     }
-    if (trimmed === 'clear') return null;
-    if (trimmed === 'about') {
+  };
+
+  const THEME_TRANSITION_MS = 550;
+
+  const setTheme = (name) => {
+    const state = getState() ?? {};
+    state.theme = name === 'dark' || !name ? '' : name;
+    setState(state);
+
+    const root = document.documentElement;
+    root.classList.add('theme-transitioning');
+    applyTheme(state.theme);
+    setTimeout(() => root.classList.remove('theme-transitioning'), THEME_TRANSITION_MS);
+  };
+
+  const getThemeName = () => {
+    const state = getState();
+    const theme = state?.theme ?? document.documentElement.getAttribute('data-theme') ?? '';
+    return theme === 'white' ? 'light' : 'dark';
+  };
+
+  const runCommand = (cmd) => {
+    const trimmed = (cmd ?? '').trim();
+    const lower = trimmed.toLowerCase();
+    if (trimmed === '') return '';
+    if (lower === 'help') {
+      return 'Доступные команды:\n  help     — список команд\n  clear    — очистить консоль\n  echo ... — повторить текст\n  theme    — сменить тему (theme white / theme dark)\n  go /path — перейти по пути\n  about    — о проекте';
+    }
+    if (lower === 'clear') return null;
+    if (lower === 'about') {
       return 'INSPECTRA — интерактивное медиа про веб. Консоль для кастомных команд.';
     }
-    if (trimmed.startsWith('echo ')) {
+    if (lower.startsWith('echo ')) {
       return trimmed.slice(5).trim() || '(пусто)';
+    }
+    if (lower === 'theme') {
+      return `${getThemeName()} | theme white | theme dark`;
+    }
+    if (lower === 'theme white') {
+      setTheme('white');
+      return 'Theme set to light';
+    }
+    if (lower === 'theme dark') {
+      setTheme('dark');
+      return 'Theme set to dark';
+    }
+    if (lower.startsWith('go ')) {
+      const path = trimmed.slice(3).trim();
+      if (path.startsWith('/')) {
+        window.location.href = path;
+        return `Переход на ${escapeHtml(path)}`;
+      }
+      return 'Укажите путь с /, например: go /inspectra';
     }
     return `Unknown command: ${escapeHtml(cmd.trim())}. Введите help.`;
   };
@@ -254,6 +302,9 @@
   };
 
   const init = () => {
+    const state = getState();
+    if (state?.theme) applyTheme(state.theme);
+
     const toggle = document.querySelector(TOGGLE_SELECTOR);
     const consoleEl = document.querySelector(CONSOLE_SELECTOR);
     if (!toggle || !consoleEl) return;
@@ -262,7 +313,6 @@
     const closeBtn = consoleEl.querySelector('[data-js-console-close]');
     const maxBtn = consoleEl.querySelector('[data-js-console-maximize]');
 
-    const state = getState();
     if (state?.width && state?.height) {
       consoleEl.style.width = `${state.width}px`;
       consoleEl.style.height = `${state.height}px`;
