@@ -14,6 +14,26 @@
   border-radius: var(--border-radius-x3);
   /* TODO: в константу */
   backdrop-filter: blur(4px);
+  opacity: 0;
+  transform: scale(0.96);
+  transform-origin: bottom right;
+  visibility: hidden;
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease,
+    visibility 0.28s,
+    left 0.25s ease,
+    top 0.25s ease,
+    right 0.25s ease,
+    bottom 0.25s ease,
+    width 0.25s ease,
+    height 0.25s ease;
+}
+
+.O_Console.is-visible {
+  opacity: 1;
+  transform: scale(1);
+  visibility: visible;
 }
 
 .O_Console::before {
@@ -37,6 +57,10 @@
 
 .O_Console[aria-hidden="true"] {
   display: none !important;
+}
+
+.O_Console.is-maximizing {
+  transition: none;
 }
 
 .O_Console.is-maximized {
