@@ -318,39 +318,74 @@
       consoleEl.style.height = `${state.height}px`;
     }
 
+    const CONSOLE_TRANSITION_MS = 280;
+
     toggle.addEventListener('click', () => {
+      consoleEl.style.left = '';
+      consoleEl.style.top = '';
+      consoleEl.style.right = '';
+      consoleEl.style.bottom = '';
       consoleEl.style.display = '';
       consoleEl.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          consoleEl.classList.add('is-visible');
+        });
+      });
       setCaretToEnd(input);
     });
 
     closeBtn?.addEventListener('click', () => {
-      consoleEl.style.display = 'none';
-      consoleEl.setAttribute('aria-hidden', 'true');
+      consoleEl.classList.remove('is-visible');
       consoleEl.classList.remove('is-maximized');
+      setTimeout(() => {
+        consoleEl.style.display = 'none';
+        consoleEl.setAttribute('aria-hidden', 'true');
+      }, CONSOLE_TRANSITION_MS);
     });
 
     maxBtn?.addEventListener('click', (e) => {
       e.preventDefault();
-      const isMax = consoleEl.classList.toggle('is-maximized');
-      maxBtn?.setAttribute('aria-label', isMax ? 'Выйти из полноэкранного режима' : 'На весь экран');
-      if (isMax) {
+      const willBeMax = !consoleEl.classList.contains('is-maximized');
+      if (willBeMax) {
+        const r = consoleEl.getBoundingClientRect();
+        consoleEl.classList.add('is-maximizing');
+        consoleEl.style.left = `${r.left}px`;
+        consoleEl.style.top = `${r.top}px`;
+        consoleEl.style.right = '';
+        consoleEl.style.bottom = '';
+        consoleEl.style.width = `${r.width}px`;
+        consoleEl.style.height = `${r.height}px`;
+        void consoleEl.offsetHeight;
+        consoleEl.classList.remove('is-maximizing');
+        consoleEl.classList.add('is-maximized');
         consoleEl.style.left = '';
         consoleEl.style.top = '';
         consoleEl.style.right = '';
         consoleEl.style.bottom = '';
         consoleEl.style.width = '';
         consoleEl.style.height = '';
+        maxBtn?.setAttribute('aria-label', 'Выйти из полноэкранного режима');
+        const img = maxBtn?.querySelector('.A_ControlButton-Icon img, .Q_Icon img');
+        if (img && maxBtn?.dataset?.iconUrl && maxBtn?.dataset?.iconAltUrl) {
+          img.src = maxBtn.dataset.iconAltUrl;
+        }
       } else {
+        consoleEl.classList.remove('is-maximized');
+        maxBtn?.setAttribute('aria-label', 'На весь экран');
         const s = getState();
         if (s?.width && s?.height) {
           consoleEl.style.width = `${s.width}px`;
           consoleEl.style.height = `${s.height}px`;
         }
-      }
-      const img = maxBtn?.querySelector('.A_ControlButton-Icon img, .Q_Icon img');
-      if (img && maxBtn?.dataset?.iconUrl && maxBtn?.dataset?.iconAltUrl) {
-        img.src = isMax ? maxBtn.dataset.iconAltUrl : maxBtn.dataset.iconUrl;
+        consoleEl.style.left = '';
+        consoleEl.style.top = '';
+        consoleEl.style.right = '';
+        consoleEl.style.bottom = '';
+        const img = maxBtn?.querySelector('.A_ControlButton-Icon img, .Q_Icon img');
+        if (img && maxBtn?.dataset?.iconUrl && maxBtn?.dataset?.iconAltUrl) {
+          img.src = maxBtn.dataset.iconUrl;
+        }
       }
     });
 
