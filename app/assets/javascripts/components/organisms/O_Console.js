@@ -27,18 +27,66 @@
     return div.innerHTML;
   };
 
-  const runCommand = (cmd) => {
-    const trimmed = (cmd ?? '').trim().toLowerCase();
-    if (trimmed === '') return '';
-    if (trimmed === 'help') {
-      return 'Доступные команды:\n  help     — список команд\n  clear    — очистить консоль\n  echo ... — повторить текст\n  about    — о проекте';
+  const applyTheme = (name) => {
+    const root = document.documentElement;
+    if (name && name !== 'dark') {
+      root.setAttribute('data-theme', name);
+    } else {
+      root.removeAttribute('data-theme');
     }
-    if (trimmed === 'clear') return null;
-    if (trimmed === 'about') {
+  };
+
+  const THEME_TRANSITION_MS = 550;
+
+  const setTheme = (name) => {
+    const state = getState() ?? {};
+    state.theme = name === 'dark' || !name ? '' : name;
+    setState(state);
+
+    const root = document.documentElement;
+    root.classList.add('theme-transitioning');
+    applyTheme(state.theme);
+    setTimeout(() => root.classList.remove('theme-transitioning'), THEME_TRANSITION_MS);
+  };
+
+  const getThemeName = () => {
+    const state = getState();
+    const theme = state?.theme ?? document.documentElement.getAttribute('data-theme') ?? '';
+    return theme === 'white' ? 'light' : 'dark';
+  };
+
+  const runCommand = (cmd) => {
+    const trimmed = (cmd ?? '').trim();
+    const lower = trimmed.toLowerCase();
+    if (trimmed === '') return '';
+    if (lower === 'help') {
+      return 'Доступные команды:\n  help     — список команд\n  clear    — очистить консоль\n  echo ... — повторить текст\n  theme    — сменить тему (theme white / theme dark)\n  go /path — перейти по пути\n  about    — о проекте';
+    }
+    if (lower === 'clear') return null;
+    if (lower === 'about') {
       return 'INSPECTRA — интерактивное медиа про веб. Консоль для кастомных команд.';
     }
-    if (trimmed.startsWith('echo ')) {
+    if (lower.startsWith('echo ')) {
       return trimmed.slice(5).trim() || '(пусто)';
+    }
+    if (lower === 'theme') {
+      return `${getThemeName()} | theme white | theme dark`;
+    }
+    if (lower === 'theme white') {
+      setTheme('white');
+      return 'Theme set to light';
+    }
+    if (lower === 'theme dark') {
+      setTheme('dark');
+      return 'Theme set to dark';
+    }
+    if (lower.startsWith('go ')) {
+      const path = trimmed.slice(3).trim();
+      if (path.startsWith('/')) {
+        window.location.href = path;
+        return `Переход на ${escapeHtml(path)}`;
+      }
+      return 'Укажите путь с /, например: go /inspectra';
     }
     return `Unknown command: ${escapeHtml(cmd.trim())}. Введите help.`;
   };
@@ -85,14 +133,12 @@
   };
 
   const getCommandFromInput = (inputEl) => {
-    const text = inputEl?.textContent ?? '';
-    if (text.startsWith(PROMPT)) return text.slice(PROMPT.length).trim();
-    return text.trim();
+    return (inputEl?.textContent ?? '').trim();
   };
 
   const resetInputLine = (inputEl) => {
     if (!inputEl) return;
-    inputEl.textContent = PROMPT;
+    inputEl.textContent = '';
     setCaretToEnd(inputEl);
   };
 
@@ -128,43 +174,101 @@
     setState(state);
   };
 
+  const RESIZE = {
+    MIN_W: 320,
+    MIN_H: 200,
+    PAD: 16,
+  };
+
+  const exitMaximized = (consoleEl, rect) => {
+    if (!consoleEl.classList.contains('is-maximized')) return;
+    consoleEl.classList.remove('is-maximized');
+    consoleEl.style.left = `${rect.left}px`;
+    consoleEl.style.top = `${rect.top}px`;
+    consoleEl.style.width = `${rect.width}px`;
+    consoleEl.style.height = `${rect.height}px`;
+    consoleEl.style.right = '';
+    consoleEl.style.bottom = '';
+    const btn = consoleEl.querySelector('[data-js-console-maximize]');
+    if (btn) btn.setAttribute('aria-label', 'На весь экран');
+  };
+
   const initResize = (consoleEl) => {
-    const right = consoleEl.querySelector('[data-js-console-resize-right]');
-    const bottom = consoleEl.querySelector('[data-js-console-resize-bottom]');
-    const corner = consoleEl.querySelector('[data-js-console-resize-corner]');
+    const bind = (selector, edges) => {
+      const el = consoleEl.querySelector(selector);
+      if (!el) return;
+      el.addEventListener('mousedown', (e) => {
+        e.preventDefault();
 
-    const startResize = (axis, e) => {
-      e.preventDefault();
-      const startX = e.clientX;
-      const startY = e.clientY;
-      const startW = consoleEl.offsetWidth;
-      const startH = consoleEl.offsetHeight;
+        const rect = consoleEl.getBoundingClientRect();
+        if (consoleEl.classList.contains('is-maximized')) {
+          exitMaximized(consoleEl, rect);
+        }
 
-      const onMove = (ev) => {
-        const dx = startX - ev.clientX;
-        const dy = ev.clientY - startY;
-        if (axis === 'w' || axis === 'both') {
-          const newW = Math.max(280, Math.min(window.innerWidth - 20, startW + dx));
-          consoleEl.style.width = `${newW}px`;
-        }
-        if (axis === 'h' || axis === 'both') {
-          const newH = Math.max(200, Math.min(window.innerHeight - 20, startH + dy));
-          consoleEl.style.height = `${newH}px`;
-        }
-      };
-      const onUp = () => {
-        document.removeEventListener('mousemove', onMove);
-        document.removeEventListener('mouseup', onUp);
-        saveSize(consoleEl);
-        requestAnimationFrame(() => syncLineHeights(consoleEl));
-      };
-      document.addEventListener('mousemove', onMove);
-      document.addEventListener('mouseup', onUp);
+        const start = {
+          left: rect.left,
+          top: rect.top,
+          right: rect.left + rect.width,
+          bottom: rect.top + rect.height,
+          x: e.clientX,
+          y: e.clientY,
+        };
+
+        consoleEl.style.right = '';
+        consoleEl.style.bottom = '';
+
+        const onMove = (ev) => {
+          const dx = ev.clientX - start.x;
+          const dy = ev.clientY - start.y;
+
+          let left = edges.w ? start.left + dx : start.left;
+          let right = edges.e ? start.right + dx : start.right;
+          let top = edges.n ? start.top + dy : start.top;
+          let bottom = edges.s ? start.bottom + dy : start.bottom;
+
+          const vw = window.innerWidth - RESIZE.PAD;
+          const vh = window.innerHeight - RESIZE.PAD;
+
+          if (right - left < RESIZE.MIN_W) {
+            if (edges.w) left = right - RESIZE.MIN_W;
+            else right = left + RESIZE.MIN_W;
+          }
+          if (bottom - top < RESIZE.MIN_H) {
+            if (edges.n) top = bottom - RESIZE.MIN_H;
+            else bottom = top + RESIZE.MIN_H;
+          }
+
+          left = Math.max(0, Math.min(left, vw - RESIZE.MIN_W));
+          right = Math.max(left + RESIZE.MIN_W, Math.min(right, vw));
+          top = Math.max(0, Math.min(top, vh - RESIZE.MIN_H));
+          bottom = Math.max(top + RESIZE.MIN_H, Math.min(bottom, vh));
+
+          consoleEl.style.left = `${left}px`;
+          consoleEl.style.top = `${top}px`;
+          consoleEl.style.width = `${right - left}px`;
+          consoleEl.style.height = `${bottom - top}px`;
+        };
+
+        const onUp = () => {
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onUp);
+          saveSize(consoleEl);
+          requestAnimationFrame(() => syncLineHeights(consoleEl));
+        };
+
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      });
     };
 
-    right?.addEventListener('mousedown', (e) => startResize('w', e));
-    bottom?.addEventListener('mousedown', (e) => startResize('h', e));
-    corner?.addEventListener('mousedown', (e) => startResize('both', e));
+    bind('[data-js-console-resize-left]', { w: true });
+    bind('[data-js-console-resize-right]', { e: true });
+    bind('[data-js-console-resize-top]', { n: true });
+    bind('[data-js-console-resize-bottom]', { s: true });
+    bind('[data-js-console-resize-nw]', { n: true, w: true });
+    bind('[data-js-console-resize-ne]', { n: true, e: true });
+    bind('[data-js-console-resize-sw]', { s: true, w: true });
+    bind('[data-js-console-resize-se]', { s: true, e: true });
   };
 
   const initDrag = (consoleEl) => {
@@ -198,6 +302,9 @@
   };
 
   const init = () => {
+    const state = getState();
+    if (state?.theme) applyTheme(state.theme);
+
     const toggle = document.querySelector(TOGGLE_SELECTOR);
     const consoleEl = document.querySelector(CONSOLE_SELECTOR);
     if (!toggle || !consoleEl) return;
@@ -206,7 +313,6 @@
     const closeBtn = consoleEl.querySelector('[data-js-console-close]');
     const maxBtn = consoleEl.querySelector('[data-js-console-maximize]');
 
-    const state = getState();
     if (state?.width && state?.height) {
       consoleEl.style.width = `${state.width}px`;
       consoleEl.style.height = `${state.height}px`;
@@ -224,15 +330,31 @@
       consoleEl.classList.remove('is-maximized');
     });
 
-    maxBtn?.addEventListener('click', () => {
-      consoleEl.classList.toggle('is-maximized');
+    maxBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isMax = consoleEl.classList.toggle('is-maximized');
+      maxBtn?.setAttribute('aria-label', isMax ? 'Выйти из полноэкранного режима' : 'На весь экран');
+      if (isMax) {
+        consoleEl.style.left = '';
+        consoleEl.style.top = '';
+        consoleEl.style.right = '';
+        consoleEl.style.bottom = '';
+        consoleEl.style.width = '';
+        consoleEl.style.height = '';
+      } else {
+        const s = getState();
+        if (s?.width && s?.height) {
+          consoleEl.style.width = `${s.width}px`;
+          consoleEl.style.height = `${s.height}px`;
+        }
+      }
     });
 
     input?.addEventListener('keydown', (e) => {
       if (e.key !== 'Enter') return;
       e.preventDefault();
       const cmd = getCommandFromInput(input);
-      addLine(consoleEl, `> ${cmd ?? ''}`, false);
+      addLine(consoleEl, `${PROMPT}${cmd ?? ''}`, false);
       const result = runCommand(cmd);
       if (result === null) {
         clearLines(consoleEl);
