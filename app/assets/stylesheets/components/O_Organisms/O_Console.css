@@ -59,7 +59,8 @@
   display: none !important;
 }
 
-.O_Console.is-maximizing {
+.O_Console.is-maximizing,
+.O_Console.is-dragging {
   transition: none;
 }
 
