@@ -199,6 +199,7 @@
       if (!el) return;
       el.addEventListener('mousedown', (e) => {
         e.preventDefault();
+        consoleEl.classList.add('is-dragging');
 
         const rect = consoleEl.getBoundingClientRect();
         if (consoleEl.classList.contains('is-maximized')) {
@@ -250,6 +251,7 @@
         };
 
         const onUp = () => {
+          consoleEl.classList.remove('is-dragging');
           document.removeEventListener('mousemove', onMove);
           document.removeEventListener('mouseup', onUp);
           saveSize(consoleEl);
@@ -278,6 +280,7 @@
     header.addEventListener('mousedown', (e) => {
       if (e.target.closest('.O_Console-Header-Button')) return;
       e.preventDefault();
+      consoleEl.classList.add('is-dragging');
       const rect = consoleEl.getBoundingClientRect();
       const startX = e.clientX - rect.left;
       const startY = e.clientY - rect.top;
@@ -293,6 +296,7 @@
         consoleEl.style.bottom = 'auto';
       };
       const onUp = () => {
+        consoleEl.classList.remove('is-dragging');
         document.removeEventListener('mousemove', onMove);
         document.removeEventListener('mouseup', onUp);
       };
