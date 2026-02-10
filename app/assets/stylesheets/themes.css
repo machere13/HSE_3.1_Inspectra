@@ -14,6 +14,7 @@
     --color-secondary: rgb(19 19 19 / 80%);
     --color-tertiary: rgb(0 0 0 / 100%);
     --color-quaternary: rgb(31 31 31 / 20%);
+    --color-quinary: rgb(0 0 0 / 20%);
     --color-background: rgb(7 7 7 / 100%);
     --color-background-overlay: rgb(23 23 23 / 90%);
     --color-status-error: rgb(177 0 0 / 100%);
@@ -43,6 +44,7 @@
     --color-secondary: rgb(250 250 250 / 95%);
     --color-tertiary: rgb(255 255 255 / 100%);
     --color-quaternary: rgb(240 240 240 / 60%);
+    --color-quinary: rgb(255 255 255 / 20%);
     --color-background: rgb(255 255 255 / 100%);
     --color-background-overlay: rgb(255 255 255 / 95%);
     --color-status-error: rgb(180 0 0 / 100%);

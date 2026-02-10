@@ -105,6 +105,7 @@
     const audio = root.querySelector('[data-js-audio-player-src]');
     const playBtn = root.querySelector('[data-js-audio-player-play]');
     const timeEl = root.querySelector('[data-js-audio-player-time]');
+    const durationEl = root.querySelector('[data-js-audio-player-duration]');
     const progressFill = root.querySelector('[data-js-audio-player-progress-fill]');
     const seekInput = root.querySelector('[data-js-audio-player-seek]');
     const volumeInput = root.querySelector('[data-js-volume-input]');
@@ -112,6 +113,7 @@
     if (!audio) return;
 
     const updateTime = () => { if (timeEl) timeEl.textContent = formatTime(audio.currentTime); };
+    const updateDuration = () => { if (durationEl) durationEl.textContent = formatTime(audio.duration); };
     const updateProgress = () => {
       const p = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
       if (progressFill) progressFill.style.width = `${p}%`;
@@ -122,17 +124,36 @@
     };
 
     audio.addEventListener('timeupdate', () => { updateTime(); updateProgress(); });
-    audio.addEventListener('durationchange', updateProgress);
-    audio.addEventListener('loadedmetadata', updateProgress);
+    audio.addEventListener('durationchange', () => { updateProgress(); updateDuration(); });
+    audio.addEventListener('loadedmetadata', () => { updateProgress(); updateDuration(); });
     playBtn?.addEventListener('click', () => { if (audio.paused) audio.play().catch(() => {}); else audio.pause(); });
     seekInput?.addEventListener('input', () => {
       const p = Number(seekInput.value) || 0;
       if (audio.duration) audio.currentTime = (p / 100) * audio.duration;
       updateProgress();
     });
+    const volumeWrap = root.querySelector('[data-js-audio-player-volume]');
+    const volumeToggle = root.querySelector('[data-js-audio-player-volume-toggle]');
+    if (volumeToggle && volumeWrap) {
+      volumeToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = volumeWrap.classList.toggle('is-open');
+        volumeToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+      document.addEventListener('click', (e) => {
+        if (!volumeWrap.contains(e.target)) {
+          volumeWrap.classList.remove('is-open');
+          volumeToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
     if (volumeInput) {
       audio.volume = 1;
-      volumeInput.addEventListener('input', () => { audio.volume = (Number(volumeInput.value) || 10) / 10; updateVolumeFill(); });
+      volumeInput.addEventListener('input', () => {
+        audio.volume = (Number(volumeInput.value) || 10) / 10;
+        updateVolumeFill();
+      });
+      volumeInput.addEventListener('change', updateVolumeFill);
       updateVolumeFill();
     }
 

@@ -9,19 +9,27 @@
   <div class="O_AudioPlayer" data-js-audio-player-body>
     <audio data-js-audio-player-src preload="metadata" style="display: none;"></audio>
     <div class="O_AudioPlayer-Main">
-      <button type="button" class="O_AudioPlayer-Play" data-js-audio-player-play aria-label="Воспроизвести / пауза">
-        <%= render 'shared/quarks/Q_Icon', name: 'Q_AudioIcon', width: 27, height: 27 %>
-      </button>
+      <div class="O_AudioPlayer-PlayWrapper">
+        <button type="button" class="O_AudioPlayer-Play" data-js-audio-player-play aria-label="Воспроизвести / пауза">
+          <%= render 'shared/quarks/Q_Icon', name: 'Q_AudioIcon', width: 27, height: 27 %>
+        </button>
+      </div>
       <div class="O_AudioPlayer-ProgressRow">
         <span class="O_AudioPlayer-Time text-code" data-js-audio-player-time>00:00</span>
         <div class="O_AudioPlayer-ProgressTrack" data-js-audio-player-progress-track>
           <div class="O_AudioPlayer-ProgressFill" data-js-audio-player-progress-fill></div>
           <input type="range" class="O_AudioPlayer-ProgressInput" min="0" max="100" value="0" data-js-audio-player-seek aria-label="Позиция" />
         </div>
+        <span class="O_AudioPlayer-Time text-code" data-js-audio-player-duration>00:00</span>
       </div>
     </div>
-    <div class="O_AudioPlayer-Volume" data-js-audio-player-volume>
-      <%= render 'shared/molecules/M_VolumeSlider' %>
+    <div class="O_AudioPlayer-Volume" data-js-audio-player-volume aria-label="Громкость">
+      <button type="button" class="O_AudioPlayer-VolumeIcon" data-js-audio-player-volume-toggle aria-label="Громкость" aria-expanded="false">
+        <%= render 'shared/quarks/Q_Icon', name: 'Q_AudioIcon', width: 18, height: 18 %>
+      </button>
+      <div class="O_AudioPlayer-VolumeSliderWrap">
+        <%= render 'shared/molecules/M_VolumeSlider' %>
+      </div>
     </div>
   </div>
 <% end %>
