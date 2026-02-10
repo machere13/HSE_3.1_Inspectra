@@ -1,0 +1,175 @@
+.W_ControlPanel {
+  position: fixed;
+  bottom: var(--spacing-x10);
+  right: var(--spacing-x5);
+  width: 420px;
+  min-width: 280px;
+  height: 320px;
+  min-height: 200px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--border-radius-x3);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transform: scale(0.96);
+  transform-origin: bottom right;
+  visibility: hidden;
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease,
+    visibility 0.28s,
+    left 0.25s ease,
+    top 0.25s ease,
+    right 0.25s ease,
+    bottom 0.25s ease,
+    width 0.25s ease,
+    height 0.25s ease;
+}
+
+.W_ControlPanel.is-visible {
+  opacity: 1;
+  transform: scale(1);
+  visibility: visible;
+}
+
+.W_ControlPanel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(85deg, rgb(58 58 58 / 50%), rgb(255 255 255 / 25%));
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.W_ControlPanel[aria-hidden="true"] {
+  display: none !important;
+}
+
+.W_ControlPanel.is-maximizing,
+.W_ControlPanel.is-dragging {
+  transition: none;
+}
+
+.W_ControlPanel.is-maximized {
+  bottom: var(--spacing-x1);
+  right: var(--spacing-x1);
+  left: var(--spacing-x1);
+  top: var(--spacing-x1);
+  width: calc(100% - var(--spacing-x1) * 2);
+  height: calc(100% - var(--spacing-x1) * 2);
+  max-width: none;
+  max-height: none;
+}
+
+.W_ControlPanel-Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: var(--spacing-x3) var(--spacing-x4);
+  cursor: move;
+  user-select: none;
+  background: var(--color-primary);
+}
+
+.W_ControlPanel-Header-Controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-x1);
+}
+
+.W_ControlPanel-Header-Button {
+  padding: var(--spacing-x1);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.W_ControlPanel-Body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.W_ControlPanel-Resize {
+  position: absolute;
+  z-index: 2;
+}
+
+.W_ControlPanel-Resize--left {
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  cursor: ew-resize;
+}
+
+.W_ControlPanel-Resize--right {
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 100%;
+  cursor: ew-resize;
+}
+
+.W_ControlPanel-Resize--top {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  cursor: ns-resize;
+}
+
+.W_ControlPanel-Resize--bottom {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  cursor: ns-resize;
+}
+
+.W_ControlPanel-Resize--corner-nw {
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  cursor: nwse-resize;
+}
+
+.W_ControlPanel-Resize--corner-ne {
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  cursor: nesw-resize;
+}
+
+.W_ControlPanel-Resize--corner-sw {
+  bottom: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  cursor: nesw-resize;
+}
+
+.W_ControlPanel-Resize--corner-se {
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  height: 8px;
+  cursor: nwse-resize;
+}

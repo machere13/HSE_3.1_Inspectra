@@ -16,5 +16,6 @@
  *= require ./W_NotificationsBar
  *= require ./W_NotificationItems
  *= require ./W_Loader
+ *= require ./W_ControlPanel
 */
 

@@ -1,24 +1,11 @@
-<div class="O_Console" id="js-console" data-js-console aria-hidden="true" style="display: none;">
-  <div class="O_Console-Header" data-js-console-drag>
-    <%= render 'shared/quarks/Q_Icon', name: 'Q_ConsoleIcon', width: 18, height: 18 %>
-    <div class="O_Console-Header-Controls">
-      <%= render 'shared/atoms/A_ControlButton',
-        icon_name: 'Q_FullScreenIcon',
-        aria_label: 'На весь экран',
-        class: 'O_Console-Header-Button--maximize',
-        data: {
-          js_console_maximize: '',
-          icon_url: asset_path('Q_FullScreenIcon.svg'),
-          icon_alt_url: asset_path('Q_NotFullScreenIcon.svg')
-        } %>
-      <%= render 'shared/atoms/A_ControlButton',
-        icon_name: 'Q_CloseIcon',
-        aria_label: 'Закрыть',
-        class: 'O_Console-Header-Button--close',
-        data: { js_console_close: '' } %>
-    </div>
-  </div>
-  <div class="O_Console-Body">
+<%= render layout: 'shared/wrappers/W_ControlPanel',
+    locals: {
+      state_key: 'o_console_state',
+      id: 'js-console',
+      icon_name: 'Q_ConsoleIcon',
+      data: { js_console: '' }
+    } do %>
+  <div class="O_Console" data-js-console>
     <div class="O_Console-Scroll Q_Scrollbar" data-js-console-scroll>
       <div class="O_Console-Lines" data-js-console-line-numbers>
         <span class="O_Console-LineNum text-code" data-js-console-ln>01</span>
@@ -32,12 +19,4 @@
       <div class="O_Console-InputLine text-code" contenteditable="true" data-js-console-input spellcheck="false" data-placeholder=" " aria-label="Команда" role="textbox"></div>
     </div>
   </div>
-  <div class="O_Console-Resize O_Console-Resize--left" data-js-console-resize-left aria-label="Изменить ширину"></div>
-  <div class="O_Console-Resize O_Console-Resize--right" data-js-console-resize-right aria-label="Изменить ширину"></div>
-  <div class="O_Console-Resize O_Console-Resize--top" data-js-console-resize-top aria-label="Изменить высоту"></div>
-  <div class="O_Console-Resize O_Console-Resize--bottom" data-js-console-resize-bottom aria-label="Изменить высоту"></div>
-  <div class="O_Console-Resize O_Console-Resize--corner-nw" data-js-console-resize-nw aria-label="Изменить размер"></div>
-  <div class="O_Console-Resize O_Console-Resize--corner-ne" data-js-console-resize-ne aria-label="Изменить размер"></div>
-  <div class="O_Console-Resize O_Console-Resize--corner-sw" data-js-console-resize-sw aria-label="Изменить размер"></div>
-  <div class="O_Console-Resize O_Console-Resize--corner-se" data-js-console-resize-se aria-label="Изменить размер"></div>
-</div>
+<% end %>
