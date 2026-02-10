@@ -16,9 +16,8 @@
       </div>
       <div class="O_AudioPlayer-ProgressRow">
         <span class="O_AudioPlayer-Time text-code" data-js-audio-player-time>00:00</span>
-        <div class="O_AudioPlayer-ProgressTrack" data-js-audio-player-progress-track>
-          <div class="O_AudioPlayer-ProgressFill" data-js-audio-player-progress-fill></div>
-          <input type="range" class="O_AudioPlayer-ProgressInput" min="0" max="100" value="0" data-js-audio-player-seek aria-label="Позиция" />
+        <div class="O_AudioPlayer-ProgressRow-Timeline">
+          <%= render 'shared/quarks/Q_TimeLine' %>
         </div>
         <span class="O_AudioPlayer-Time text-code" data-js-audio-player-duration>00:00</span>
       </div>

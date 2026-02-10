@@ -106,8 +106,8 @@
     const playBtn = root.querySelector('[data-js-audio-player-play]');
     const timeEl = root.querySelector('[data-js-audio-player-time]');
     const durationEl = root.querySelector('[data-js-audio-player-duration]');
-    const progressFill = root.querySelector('[data-js-audio-player-progress-fill]');
-    const seekInput = root.querySelector('[data-js-audio-player-seek]');
+    const progressFill = root.querySelector('[data-js-timeline-fill]');
+    const seekInput = root.querySelector('[data-js-timeline-seek]');
     const volumeInput = root.querySelector('[data-js-volume-input]');
     const volumeFill = root.querySelector('[data-js-volume-fill]');
     if (!audio) return;
