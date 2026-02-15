@@ -12,6 +12,7 @@
 //= require ./components/atoms/A_PasswordToggle
 //= require ./components/molecules/M_FormPlug
 //= require ./components/organisms/O_Console
+//= require ./components/organisms/O_AudioPlayer
 //= require ./components/quarks/Q_InspectraBackground
 
 //= require ./modules/canvas/CanvasSetup

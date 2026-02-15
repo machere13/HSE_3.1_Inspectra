@@ -7,6 +7,19 @@
       if (!body) return;
 
       body.innerHTML = '';
+      if (type === 'audio') {
+        if (window.O_AudioPlayer && window.O_AudioPlayer.openInPreview && window.O_AudioPlayer.attach) {
+          const panel = window.O_AudioPlayer.openInPreview(url || '');
+          if (panel) {
+            body.appendChild(panel);
+            window.O_AudioPlayer.attach(body);
+            preview.classList.add('is-audio');
+          }
+        }
+        preview.style.display = 'block';
+        return;
+      }
+
       let node;
       switch (type) {
         case 'image':
@@ -16,11 +29,6 @@
           break;
         case 'video':
           node = document.createElement('video');
-          node.src = url || '';
-          node.controls = true;
-          break;
-        case 'audio':
-          node = document.createElement('audio');
           node.src = url || '';
           node.controls = true;
           break;
@@ -42,6 +50,7 @@
     closePreview: function() {
       const preview = document.querySelector('.O_ContentPreview');
       if (!preview) return;
+      preview.classList.remove('is-audio');
       const body = preview.querySelector('.O_ContentPreview-Body');
       if (body) body.innerHTML = '';
       preview.style.display = 'none';

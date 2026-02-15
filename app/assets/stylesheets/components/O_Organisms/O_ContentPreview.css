@@ -2,6 +2,10 @@
     display: none;
 }
 
+.O_ContentPreview.is-audio .O_ContentPreview-Header {
+  display: none;
+}
+
 .O_ContentPreview-Header{
     display: flex;
     align-items: center;
@@ -11,10 +15,10 @@
 }
 
 .O_ContentPreview-Body{
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-x2);
     width: 100%;
 }
 

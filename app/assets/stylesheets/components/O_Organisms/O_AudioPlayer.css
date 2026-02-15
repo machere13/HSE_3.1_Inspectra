@@ -1,0 +1,102 @@
+.O_AudioPlayer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: var(--color-secondary);
+  background-image:
+    radial-gradient(circle at 0 0, rgb(76 76 76) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 0 36px, rgb(40 40 40) 1.5px, transparent 1.5px);
+  background-size: 36px 72px;
+  align-items: flex-end;
+  width: 100%;
+  padding: var(--spacing-x4) var(--spacing-x2) var(--spacing-x2) var(--spacing-x2);
+  gap: var(--spacing-x2);
+}
+
+.O_AudioPlayer-Main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--spacing-x4);
+  width: 100%;
+}
+
+.O_AudioPlayer-PlayWrapper{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.O_AudioPlayer-Play {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  height: 48px;
+  width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.O_AudioPlayer-Play:hover {
+  opacity: 0.85;
+}
+
+.O_AudioPlayer-ProgressRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-x3);
+}
+
+.O_AudioPlayer-Time {
+  flex-shrink: 0;
+  color: var(--color-text-primary);
+}
+
+.O_AudioPlayer-ProgressRow-Timeline {
+  flex: 1;
+  min-width: 0;
+}
+
+.O_AudioPlayer-Volume {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.O_AudioPlayer-VolumeIcon {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.O_AudioPlayer-VolumeSliderWrap {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: var(--spacing-x1);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: 10;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.O_AudioPlayer-Volume.is-open .O_AudioPlayer-VolumeSliderWrap {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}

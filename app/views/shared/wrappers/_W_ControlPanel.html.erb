@@ -3,11 +3,14 @@
   panel_id = local_assigns[:id]
   icon_name = local_assigns[:icon_name]
   body_partial = local_assigns[:body_partial]
+  body_fill = local_assigns[:body_fill]
   data_attrs = (local_assigns[:data] || {}).merge(js_control_panel: '', js_control_panel_state_key: state_key)
   has_block = block_given?
   extra_class = local_assigns[:class]
   classes = ['W_ControlPanel']
   classes << extra_class if extra_class.present?
+  body_classes = ['W_ControlPanel-Body']
+  body_classes << 'W_ControlPanel-Body--fill' if body_fill
 %>
 <div class="<%= classes.join(' ') %>" <%= "id=\"#{panel_id}\"".html_safe if panel_id.present? %> aria-hidden="true" style="display: none;" <%= tag.attributes(data: data_attrs) %>>
   <div class="W_ControlPanel-Header" data-js-control-panel-drag>
@@ -27,11 +30,10 @@
       <%= render 'shared/atoms/A_ControlButton',
         icon_name: 'Q_CloseIcon',
         aria_label: 'Закрыть',
-        class: 'W_ControlPanel-Header-Button W_ControlPanel-Header-Button--close',
         data: { js_console_close: '' } %>
     </div>
   </div>
-  <div class="W_ControlPanel-Body">
+  <div class="<%= body_classes.join(' ') %>">
     <% if has_block %>
       <%= yield %>
     <% elsif body_partial.present? %>
