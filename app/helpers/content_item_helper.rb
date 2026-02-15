@@ -1,4 +1,9 @@
 module ContentItemHelper
+  def content_item_preview_url(item)
+    return nil unless item.is_a?(ContentItem)
+    item.url.presence || (item.file.attached? ? url_for(item.file) : nil)
+  end
+
   def render_content_item(item)
     case item.kind
     when 'image', 'gif'
