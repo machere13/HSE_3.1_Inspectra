@@ -16,9 +16,6 @@
 </head>
 
 <body>
-  <div id="js-global-audio-player-container" class="GlobalAudioPlayer" aria-hidden="true" style="display: none;" data-turbo-permanent>
-    <%= render 'shared/organisms/O_GlobalAudioPlayer' %>
-  </div>
   <div class="PageWrapper">
     <%= render 'shared/quarks/Q_InspectraBackground' %>
     <div class="PageLayout">
@@ -33,6 +30,9 @@
     <% if flash[:alert] %>
       <%= render 'shared/molecules/M_ToastNotification', text: flash[:alert], type: 'error' %>
     <% end %>
+  </div>
+  <div id="js-global-audio-player-container" class="GlobalAudioPlayer" aria-hidden="true" style="display: none;" data-turbo-permanent>
+    <%= render 'shared/organisms/O_GlobalAudioPlayer' %>
   </div>
 </body>
 </html>

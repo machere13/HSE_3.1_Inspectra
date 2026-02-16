@@ -10,9 +10,22 @@
       if (type === 'audio') {
         if (window.O_AudioPlayer && window.O_AudioPlayer.openInPreview && window.O_AudioPlayer.attach && window.O_AudioPlayer.setPlaylist) {
           const audioCards = document.querySelectorAll('.M_ContentCard[data-type="audio"]');
-          const urls = Array.from(audioCards).map(function(c) { return c.getAttribute('data-preview-url') || ''; }).filter(Boolean);
-          const currentIndex = (card && audioCards.length) ? Array.from(audioCards).indexOf(card) : 0;
-          window.O_AudioPlayer.setPlaylist(urls, currentIndex >= 0 ? currentIndex : 0);
+          const seen = new Set();
+          const urls = [];
+          for (let i = 0; i < audioCards.length; i++) {
+            const u = (audioCards[i].getAttribute('data-preview-url') || '').trim();
+            if (u && !seen.has(u)) {
+              seen.add(u);
+              urls.push(u);
+            }
+          }
+          const currentUrl = (card && card.getAttribute('data-preview-url')) ? card.getAttribute('data-preview-url').trim() : (url || '').trim();
+          let currentIndex = urls.length && currentUrl ? urls.indexOf(currentUrl) : 0;
+          if (currentIndex < 0) currentIndex = 0;
+          if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.search.includes('debug=1'))) {
+            console.log('[ContentPreview] audio open', { audioCardsCount: audioCards.length, urlsCount: urls.length, currentUrl: currentUrl ? currentUrl.slice(-40) : '', currentIndex });
+          }
+          window.O_AudioPlayer.setPlaylist(urls, currentIndex);
           const panel = window.O_AudioPlayer.openInPreview(url || '');
           if (panel) {
             body.appendChild(panel);

@@ -12,9 +12,12 @@
   let currentIndex = 0;
   let loopOne = false;
 
+  const DEBUG = typeof window !== 'undefined' && window.location && (window.location.hostname === 'localhost' || window.location.search.includes('debug=1'));
+
   function setPlaylist(urls, index) {
     playlist = Array.isArray(urls) ? urls.filter(Boolean) : [];
     currentIndex = Math.max(0, Math.min(index | 0, Math.max(0, playlist.length - 1)));
+    if (DEBUG) console.log('[O_AudioPlayer] setPlaylist', { urls: playlist.length, currentIndex, playlist: playlist.map(u => u.slice(-30)) });
   }
 
   function openInPreview(url) {
@@ -135,7 +138,24 @@
 
   const GLOBAL_CONTAINER_ID = 'js-global-audio-player-container';
   const GLOBAL_PANEL_ID = 'js-global-audio-player';
+  const STORAGE_KEY_VISIBLE = 'globalAudioPlayerVisible';
+  const STORAGE_KEY_SRC = 'globalAudioPlayerSrc';
+  const STORAGE_KEY_TIME = 'globalAudioPlayerTime';
+  const STORAGE_KEY_PAUSED = 'globalAudioPlayerPaused';
   let globalInited = false;
+
+  function saveGlobalAudioState() {
+    const container = document.getElementById(GLOBAL_CONTAINER_ID);
+    if (!container || container.style.display === 'none' || container.getAttribute('aria-hidden') === 'true') return;
+    const root = container.querySelector('[data-js-audio-player-body], .O_GlobalAudioPlayer');
+    const audio = root?.querySelector('[data-js-audio-player-src]');
+    if (!audio || !audio.src) return;
+    try {
+      sessionStorage.setItem(STORAGE_KEY_SRC, audio.src);
+      sessionStorage.setItem(STORAGE_KEY_TIME, String(audio.currentTime));
+      sessionStorage.setItem(STORAGE_KEY_PAUSED, audio.paused ? '1' : '0');
+    } catch (e) {}
+  }
 
   function transferInPreviewToGlobal(panelEl, onClose) {
     const root = panelEl.querySelector('[data-js-audio-player-body], .O_AudioPlayer, .O_GlobalAudioPlayer');
@@ -154,6 +174,7 @@
     if (isHidden) {
       container.style.display = '';
       container.setAttribute('aria-hidden', 'false');
+      try { sessionStorage.setItem(STORAGE_KEY_VISIBLE, '1'); } catch (e) {}
       initGlobal();
     }
 
@@ -179,7 +200,9 @@
   function initGlobal() {
     const container = document.getElementById(GLOBAL_CONTAINER_ID);
     const bar = document.getElementById(GLOBAL_PANEL_ID);
-    if (!container || !bar || globalInited) return;
+    if (!container || !bar) return;
+    if (container.getAttribute('data-audio-inited') === 'true') return;
+    container.setAttribute('data-audio-inited', 'true');
     globalInited = true;
     attach(container);
   }
@@ -192,10 +215,12 @@
     if (isHidden) {
       container.style.display = '';
       container.setAttribute('aria-hidden', 'false');
+      try { sessionStorage.setItem(STORAGE_KEY_VISIBLE, '1'); } catch (e) {}
       initGlobal();
     } else {
       container.style.display = 'none';
       container.setAttribute('aria-hidden', 'true');
+      try { sessionStorage.removeItem(STORAGE_KEY_VISIBLE); } catch (e) {}
     }
   }
 
@@ -265,26 +290,35 @@
     const prevBtn = root.querySelector('[data-js-audio-prev]');
     const nextBtn = root.querySelector('[data-js-audio-next]');
     const loopBtn = root.querySelector('[data-js-audio-loop]');
+    function loadTrack(index) {
+      const src = playlist[index];
+      if (src == null || src === '') return;
+      audio.src = src;
+      audio.load();
+      const playAfterLoad = () => {
+        audio.play().catch(() => {});
+      };
+      audio.addEventListener('loadeddata', playAfterLoad, { once: true });
+      audio.addEventListener('error', () => {}, { once: true });
+    }
     if (prevBtn) {
       prevBtn.addEventListener('click', () => {
+        if (DEBUG) console.log('[O_AudioPlayer] prev click', { currentIndex, playlistLength: playlist.length, currentTime: audio.currentTime });
         if (audio.currentTime > 3) {
           audio.currentTime = 0;
           updateProgress();
         } else if (currentIndex > 0) {
           currentIndex--;
-          audio.src = playlist[currentIndex] || '';
-          audio.load();
-          audio.play().catch(() => {});
+          loadTrack(currentIndex);
         }
       });
     }
     if (nextBtn) {
       nextBtn.addEventListener('click', () => {
+        if (DEBUG) console.log('[O_AudioPlayer] next click', { currentIndex, playlistLength: playlist.length });
         if (currentIndex < playlist.length - 1) {
           currentIndex++;
-          audio.src = playlist[currentIndex] || '';
-          audio.load();
-          audio.play().catch(() => {});
+          loadTrack(currentIndex);
         }
       });
     }
@@ -348,10 +382,65 @@
     bindGlobalToggle
   };
 
+  function restoreGlobalPlayerAfterNavigate() {
+    let stored = '';
+    try { stored = sessionStorage.getItem(STORAGE_KEY_VISIBLE) || ''; } catch (e) {}
+    const container = document.getElementById(GLOBAL_CONTAINER_ID);
+    const hidden = container ? (container.style.display === 'none' || container.getAttribute('aria-hidden') === 'true') : null;
+    console.log('[O_AudioPlayer] turbo:load restore', {
+      stored,
+      hasContainer: !!container,
+      hidden,
+      inited: container ? container.getAttribute('data-audio-inited') : null
+    });
+    if (stored !== '1') return;
+    if (!container) return;
+    if (container.style.display === 'none' || container.getAttribute('aria-hidden') === 'true') {
+      container.style.display = '';
+      container.setAttribute('aria-hidden', 'false');
+      if (container.getAttribute('data-audio-inited') !== 'true') {
+        globalInited = false;
+      }
+      initGlobal();
+      let savedSrc = '';
+      let savedTime = '0';
+      let savedPaused = '1';
+      try {
+        savedSrc = sessionStorage.getItem(STORAGE_KEY_SRC) || '';
+        savedTime = sessionStorage.getItem(STORAGE_KEY_TIME) || '0';
+        savedPaused = sessionStorage.getItem(STORAGE_KEY_PAUSED) || '1';
+      } catch (e) {}
+      if (savedSrc) {
+        playlist = [savedSrc];
+        currentIndex = 0;
+        const root = container.querySelector('[data-js-audio-player-body], .O_GlobalAudioPlayer');
+        const audio = root?.querySelector('[data-js-audio-player-src]');
+        if (audio) {
+          audio.src = savedSrc;
+          audio.load();
+          const time = parseFloat(savedTime);
+          const shouldPlay = savedPaused !== '1';
+          audio.addEventListener('loadedmetadata', () => {
+            if (Number.isFinite(time) && time > 0) audio.currentTime = time;
+            if (shouldPlay) audio.play().catch(() => {});
+          }, { once: true });
+        }
+      }
+    }
+  }
+
   if (window.DomUtils) {
     window.DomUtils.ready(bindGlobalToggle);
-    if (window.DomUtils.turboLoad) window.DomUtils.turboLoad(bindGlobalToggle);
+    window.DomUtils.ready(restoreGlobalPlayerAfterNavigate);
+    if (window.DomUtils.turboLoad) {
+      window.DomUtils.turboLoad(bindGlobalToggle);
+      window.DomUtils.turboLoad(restoreGlobalPlayerAfterNavigate);
+    }
   } else {
     document.addEventListener('DOMContentLoaded', bindGlobalToggle);
+    document.addEventListener('DOMContentLoaded', restoreGlobalPlayerAfterNavigate);
   }
+  document.addEventListener('turbo:load', restoreGlobalPlayerAfterNavigate);
+  document.addEventListener('turbo:before-visit', saveGlobalAudioState);
+  document.addEventListener('turbo:before-cache', saveGlobalAudioState);
 })();
