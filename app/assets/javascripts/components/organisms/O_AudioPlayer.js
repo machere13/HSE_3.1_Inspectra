@@ -140,9 +140,53 @@
   const GLOBAL_PANEL_ID = 'js-global-audio-player';
   const STORAGE_KEY_VISIBLE = 'globalAudioPlayerVisible';
   const STORAGE_KEY_SRC = 'globalAudioPlayerSrc';
+  const STORAGE_KEY_PLAYLIST = 'globalAudioPlayerPlaylist';
+  const STORAGE_KEY_INDEX = 'globalAudioPlayerIndex';
   const STORAGE_KEY_TIME = 'globalAudioPlayerTime';
   const STORAGE_KEY_PAUSED = 'globalAudioPlayerPaused';
+  const STORAGE_KEY_POSITION = 'globalAudioPlayerPosition';
   let globalInited = false;
+
+  function applyGlobalPosition(container, position) {
+    if (!container) return;
+    const bar = container.querySelector('.O_GlobalAudioPlayer');
+    const isTop = position === 'top';
+    container.classList.toggle('is-at-top', isTop);
+    container.setAttribute('data-global-player-position', position || 'bottom');
+    if (bar) bar.classList.toggle('is-at-top', isTop);
+    try { sessionStorage.setItem(STORAGE_KEY_POSITION, isTop ? 'top' : 'bottom'); } catch (e) {}
+  }
+
+  function bindGlobalDrag(container) {
+    const bar = document.getElementById(GLOBAL_PANEL_ID);
+    const handle = container?.querySelector('[data-js-global-audio-drag-handle]');
+    if (!handle || !bar) return;
+    let startY = 0;
+    let startTransform = 0;
+    let currentTransform = 0;
+    handle.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      startY = e.clientY;
+      startTransform = currentTransform;
+      const onMove = (ev) => {
+        currentTransform = startTransform + (ev.clientY - startY);
+        container.style.transform = `translateY(${currentTransform}px)`;
+      };
+      const onUp = () => {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+        container.style.transform = '';
+        currentTransform = 0;
+        const rect = bar.getBoundingClientRect();
+        const centerY = rect.top + rect.height / 2;
+        const position = centerY < window.innerHeight / 2 ? 'top' : 'bottom';
+        applyGlobalPosition(container, position);
+      };
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    });
+  }
 
   function saveGlobalAudioState() {
     const container = document.getElementById(GLOBAL_CONTAINER_ID);
@@ -154,6 +198,10 @@
       sessionStorage.setItem(STORAGE_KEY_SRC, audio.src);
       sessionStorage.setItem(STORAGE_KEY_TIME, String(audio.currentTime));
       sessionStorage.setItem(STORAGE_KEY_PAUSED, audio.paused ? '1' : '0');
+      if (playlist.length > 0) {
+        sessionStorage.setItem(STORAGE_KEY_PLAYLIST, JSON.stringify(playlist));
+        sessionStorage.setItem(STORAGE_KEY_INDEX, String(currentIndex));
+      }
     } catch (e) {}
   }
 
@@ -216,6 +264,9 @@
       container.style.display = '';
       container.setAttribute('aria-hidden', 'false');
       try { sessionStorage.setItem(STORAGE_KEY_VISIBLE, '1'); } catch (e) {}
+      let pos = '';
+      try { pos = sessionStorage.getItem(STORAGE_KEY_POSITION) || 'bottom'; } catch (e) {}
+      applyGlobalPosition(container, pos === 'top' ? 'top' : 'bottom');
       initGlobal();
     } else {
       container.style.display = 'none';
@@ -353,6 +404,13 @@
       volumeInput.addEventListener('change', updateVolumeFill);
       updateVolumeFill();
     }
+    const closeGlobalBtn = root.querySelector('[data-js-audio-player-close-global]');
+    if (closeGlobalBtn && container.id === GLOBAL_CONTAINER_ID) {
+      closeGlobalBtn.addEventListener('click', () => { toggleGlobal(); });
+    }
+    if (container.id === GLOBAL_CONTAINER_ID) {
+      bindGlobalDrag(container);
+    }
 
     if (container.id === GLOBAL_CONTAINER_ID && root.querySelector('[data-js-audio-player-body]')) {
       if (playlist.length === 0 && audio.src) {
@@ -398,34 +456,57 @@
     if (container.style.display === 'none' || container.getAttribute('aria-hidden') === 'true') {
       container.style.display = '';
       container.setAttribute('aria-hidden', 'false');
+      let pos = 'bottom';
+      try { pos = sessionStorage.getItem(STORAGE_KEY_POSITION) || 'bottom'; } catch (e) {}
+      applyGlobalPosition(container, pos === 'top' ? 'top' : 'bottom');
       if (container.getAttribute('data-audio-inited') !== 'true') {
         globalInited = false;
       }
-      initGlobal();
       let savedSrc = '';
+      let savedPlaylistJson = '';
+      let savedIndex = '0';
       let savedTime = '0';
       let savedPaused = '1';
       try {
         savedSrc = sessionStorage.getItem(STORAGE_KEY_SRC) || '';
+        savedPlaylistJson = sessionStorage.getItem(STORAGE_KEY_PLAYLIST) || '';
+        savedIndex = sessionStorage.getItem(STORAGE_KEY_INDEX) || '0';
         savedTime = sessionStorage.getItem(STORAGE_KEY_TIME) || '0';
         savedPaused = sessionStorage.getItem(STORAGE_KEY_PAUSED) || '1';
       } catch (e) {}
-      if (savedSrc) {
-        playlist = [savedSrc];
-        currentIndex = 0;
+      let list = [];
+      if (savedPlaylistJson) {
+        try {
+          list = JSON.parse(savedPlaylistJson);
+          if (!Array.isArray(list)) list = [];
+        } catch (e) {}
+      }
+      if (list.length === 0 && savedSrc) list = [savedSrc];
+      const idx = Math.max(0, Math.min(parseInt(savedIndex, 10) || 0, Math.max(0, list.length - 1)));
+      if (list.length > 0) {
+        playlist = list;
+        currentIndex = idx;
         const root = container.querySelector('[data-js-audio-player-body], .O_GlobalAudioPlayer');
         const audio = root?.querySelector('[data-js-audio-player-src]');
-        if (audio) {
-          audio.src = savedSrc;
-          audio.load();
+        const trackSrc = (playlist[currentIndex] || list[0] || '').trim();
+        if (audio && trackSrc) {
           const time = parseFloat(savedTime);
           const shouldPlay = savedPaused !== '1';
-          audio.addEventListener('loadedmetadata', () => {
+          let restored = false;
+          const applyRestore = () => {
+            if (restored) return;
+            restored = true;
             if (Number.isFinite(time) && time > 0) audio.currentTime = time;
             if (shouldPlay) audio.play().catch(() => {});
-          }, { once: true });
+          };
+          audio.addEventListener('loadedmetadata', applyRestore, { once: true });
+          audio.addEventListener('loadeddata', applyRestore, { once: true });
+          audio.src = trackSrc;
+          audio.load();
+          if (audio.readyState >= 2) applyRestore();
         }
       }
+      initGlobal();
     }
   }
 
