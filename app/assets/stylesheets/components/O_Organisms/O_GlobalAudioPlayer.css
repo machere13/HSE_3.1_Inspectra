@@ -44,6 +44,11 @@
     radial-gradient(circle at 0 0, rgb(76 76 76) 1.5px, transparent 1.5px),
     radial-gradient(circle at 0 36px, rgb(40 40 40) 1.5px, transparent 1.5px);
   background-size: 36px 72px;
+  transition: transform .3s;
+}
+
+.O_GlobalAudioPlayer:active{
+  transform: scale(0.95);
 }
 
 .O_GlobalAudioPlayer.is-at-top {
