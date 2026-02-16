@@ -145,6 +145,7 @@
 
   const GLOBAL_CONTAINER_ID = 'js-global-audio-player-container';
   const GLOBAL_PANEL_ID = 'js-global-audio-player';
+  const GLOBAL_TRANSITION_MS = 280;
   const STORAGE_KEY_VISIBLE = 'globalAudioPlayerVisible';
   const STORAGE_KEY_SRC = 'globalAudioPlayerSrc';
   const STORAGE_KEY_PLAYLIST = 'globalAudioPlayerPlaylist';
@@ -213,6 +214,7 @@
       if (e.target.closest(GLOBAL_DRAG_IGNORE)) return;
       e.preventDefault();
       bar.classList.add('is-dragging');
+      container.classList.add('is-dragging');
       startY = e.clientY;
       startTransform = currentTransform;
       const onMove = (ev) => {
@@ -221,6 +223,7 @@
       };
       const onUp = () => {
         bar.classList.remove('is-dragging');
+        container.classList.remove('is-dragging');
         document.removeEventListener('mousemove', onMove);
         document.removeEventListener('mouseup', onUp);
         container.style.transform = '';
@@ -262,6 +265,11 @@
       container.style.display = '';
       container.setAttribute('aria-hidden', 'false');
       try { sessionStorage.setItem(STORAGE_KEY_VISIBLE, '1'); } catch (e) {}
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          container.classList.add('is-visible');
+        });
+      });
       initGlobal();
     }
 
@@ -307,11 +315,19 @@
       let pos = '';
       try { pos = sessionStorage.getItem(STORAGE_KEY_POSITION) || 'bottom'; } catch (e) {}
       applyGlobalPosition(container, pos === 'top' ? 'top' : 'bottom');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          container.classList.add('is-visible');
+        });
+      });
       initGlobal();
     } else {
-      container.style.display = 'none';
-      container.setAttribute('aria-hidden', 'true');
-      try { sessionStorage.removeItem(STORAGE_KEY_VISIBLE); } catch (e) {}
+      container.classList.remove('is-visible');
+      setTimeout(() => {
+        container.style.display = 'none';
+        container.setAttribute('aria-hidden', 'true');
+        try { sessionStorage.removeItem(STORAGE_KEY_VISIBLE); } catch (e) {}
+      }, GLOBAL_TRANSITION_MS);
     }
   }
 
@@ -520,6 +536,11 @@
       let pos = 'bottom';
       try { pos = sessionStorage.getItem(STORAGE_KEY_POSITION) || 'bottom'; } catch (e) {}
       applyGlobalPosition(container, pos === 'top' ? 'top' : 'bottom');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          container.classList.add('is-visible');
+        });
+      });
       if (container.getAttribute('data-audio-inited') !== 'true') {
         globalInited = false;
       }

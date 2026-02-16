@@ -35,6 +35,11 @@
           }
         }
         preview.style.display = 'block';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            preview.classList.add('is-visible');
+          });
+        });
         return;
       }
 
@@ -63,15 +68,24 @@
       }
       body.appendChild(node);
       preview.style.display = 'block';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          preview.classList.add('is-visible');
+        });
+      });
     },
 
     closePreview: function() {
       const preview = document.querySelector('.O_ContentPreview');
       if (!preview) return;
       preview.classList.remove('is-audio');
+      preview.classList.remove('is-visible');
       const body = preview.querySelector('.O_ContentPreview-Body');
-      if (body) body.innerHTML = '';
-      preview.style.display = 'none';
+      const transitionMs = 280;
+      setTimeout(() => {
+        if (body) body.innerHTML = '';
+        preview.style.display = 'none';
+      }, transitionMs);
     },
 
     onCardClick: function(e) {
