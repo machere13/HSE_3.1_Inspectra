@@ -1,6 +1,6 @@
 (function() {
   const ContentPreview = {
-    openPreview: function(type, url) {
+    openPreview: function(type, url, card) {
       const preview = document.querySelector('.O_ContentPreview');
       if (!preview) return;
       const body = preview.querySelector('.O_ContentPreview-Body');
@@ -8,7 +8,11 @@
 
       body.innerHTML = '';
       if (type === 'audio') {
-        if (window.O_AudioPlayer && window.O_AudioPlayer.openInPreview && window.O_AudioPlayer.attach) {
+        if (window.O_AudioPlayer && window.O_AudioPlayer.openInPreview && window.O_AudioPlayer.attach && window.O_AudioPlayer.setPlaylist) {
+          const audioCards = document.querySelectorAll('.M_ContentCard[data-type="audio"]');
+          const urls = Array.from(audioCards).map(function(c) { return c.getAttribute('data-preview-url') || ''; }).filter(Boolean);
+          const currentIndex = (card && audioCards.length) ? Array.from(audioCards).indexOf(card) : 0;
+          window.O_AudioPlayer.setPlaylist(urls, currentIndex >= 0 ? currentIndex : 0);
           const panel = window.O_AudioPlayer.openInPreview(url || '');
           if (panel) {
             body.appendChild(panel);
@@ -61,7 +65,7 @@
       const type = (card.getAttribute('data-type') || 'content').toLowerCase();
       const url = card.getAttribute('data-preview-url') || '';
       if (type === 'article') return;
-      this.openPreview(type, url);
+      this.openPreview(type, url, card);
     },
 
     bind: function() {

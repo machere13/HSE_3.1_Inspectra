@@ -13,20 +13,56 @@
   gap: var(--spacing-x2);
 }
 
-.O_AudioPlayer-Main {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  gap: var(--spacing-x4);
-  width: 100%;
-}
-
-.O_AudioPlayer-PlayWrapper{
+.O_AudioPlayer-PlayWrapper {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.O_AudioPlayer-BottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: var(--spacing-x2);
+}
+
+.O_AudioPlayer-Controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-x2);
+}
+
+.O_AudioPlayer-Ctrl {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.O_AudioPlayer-Ctrl:hover {
+  opacity: 0.85;
+}
+
+.O_AudioPlayer-Ctrl[data-js-audio-prev] .Q_Icon {
+  transform: scaleX(-1);
+}
+
+.O_AudioPlayer-Ctrl--loop .O_AudioPlayer-LoopOne {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.O_AudioPlayer-Ctrl--loop.is-active .O_AudioPlayer-LoopOne {
+  color: var(--color-accent, #6cf);
 }
 
 .O_AudioPlayer-Play {
@@ -39,6 +75,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
 }
 
 .O_AudioPlayer-Play:hover {

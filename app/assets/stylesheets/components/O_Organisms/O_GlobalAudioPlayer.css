@@ -1,0 +1,157 @@
+.GlobalAudioPlayer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.GlobalAudioPlayer .O_GlobalAudioPlayer {
+  pointer-events: auto;
+}
+
+.O_GlobalAudioPlayer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-x2);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--spacing-x3) var(--spacing-x4);
+  border-radius: var(--border-radius-x3) var(--border-radius-x3) 0 0;
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--color-border-tertiary);
+  background-color: var(--color-secondary);
+  background-image:
+    radial-gradient(circle at 0 0, rgb(76 76 76) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 0 36px, rgb(40 40 40) 1.5px, transparent 1.5px);
+  background-size: 36px 72px;
+}
+
+.O_GlobalAudioPlayer-BottomRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-x2);
+  padding-top: var(--spacing-x2);
+  border-top: 1px solid rgb(255 255 255 / 0.06);
+}
+
+.O_GlobalAudioPlayer-Controls {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-x1);
+}
+
+.O_GlobalAudioPlayer-Ctrl {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.O_GlobalAudioPlayer-Ctrl:hover {
+  opacity: 0.85;
+}
+
+.O_GlobalAudioPlayer-Ctrl[data-js-audio-prev] .Q_Icon {
+  transform: scaleX(-1);
+}
+
+.O_GlobalAudioPlayer-Ctrl--loop .O_GlobalAudioPlayer-LoopOne {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.O_GlobalAudioPlayer-Ctrl--loop.is-active .O_GlobalAudioPlayer-LoopOne {
+  color: var(--color-accent, #6cf);
+}
+
+.O_GlobalAudioPlayer-PlayBtn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.O_GlobalAudioPlayer-PlayBtn:hover {
+  opacity: 0.85;
+}
+
+.O_GlobalAudioPlayer-Progress {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-x3);
+}
+
+.O_GlobalAudioPlayer-Time {
+  flex-shrink: 0;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.O_GlobalAudioPlayer-Timeline {
+  flex: 1;
+  min-width: 0;
+}
+
+.O_GlobalAudioPlayer-Volume {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.O_GlobalAudioPlayer-VolumeBtn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+
+.O_GlobalAudioPlayer-VolumeBtn:hover {
+  opacity: 0.85;
+}
+
+/* Слайдер громкости открывается вверх от иконки (иконка под баром) */
+.O_GlobalAudioPlayer-VolumeSliderWrap {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: var(--spacing-x1);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: 10;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.O_GlobalAudioPlayer-Volume.is-open .O_GlobalAudioPlayer-VolumeSliderWrap {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}

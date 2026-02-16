@@ -22,7 +22,8 @@
   
   disabled_attr = disabled ? 'disabled="disabled"' : ''
   data_console_toggle_attr = local_assigns[:console_toggle] ? ' data-js-console-toggle' : ''
+  data_audio_toggle_attr = local_assigns[:audio_toggle] ? ' data-js-audio-player-toggle' : ''
 %>
-<button class="<%= classes.join(' ') %>" <%= style_attr.html_safe %> <%= disabled_attr.html_safe %><%= data_console_toggle_attr %>>
+<button class="<%= classes.join(' ') %>" <%= style_attr.html_safe %> <%= disabled_attr.html_safe %><%= data_console_toggle_attr %><%= data_audio_toggle_attr %>>
     <%= render 'shared/quarks/Q_Icon', name: icon_name if icon_name %>
 </button>
