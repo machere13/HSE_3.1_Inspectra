@@ -10,4 +10,5 @@
  *= require ./O_ModalInteractive
  *= require ./O_Console
  *= require ./O_AudioPlayer
+ *= require ./O_GlobalAudioPlayer
 */

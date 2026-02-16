@@ -1,0 +1,32 @@
+<div class="O_GlobalAudioPlayer" id="js-global-audio-player" data-js-audio-player-body>
+  <audio data-js-audio-player-src preload="metadata" style="display: none;"></audio>
+  <div class="O_GlobalAudioPlayer-Progress">
+    <span class="O_GlobalAudioPlayer-Time text-code" data-js-audio-player-time>00:00</span>
+    <div class="O_GlobalAudioPlayer-Timeline">
+      <%= render 'shared/quarks/Q_TimeLine' %>
+    </div>
+    <span class="O_GlobalAudioPlayer-Time text-code" data-js-audio-player-duration>00:00</span>
+  </div>
+  <div class="O_GlobalAudioPlayer-BottomRow">
+    <div class="O_GlobalAudioPlayer-Controls">
+      <button type="button" class="O_GlobalAudioPlayer-Ctrl" data-js-audio-prev aria-label="Предыдущий трек"><%= render 'shared/quarks/Q_Icon', name: 'Q_ArrowRightIcon', width: 18, height: 18 %></button>
+      <button type="button" class="O_GlobalAudioPlayer-PlayBtn" data-js-audio-player-play aria-label="Воспроизвести / пауза"><%= render 'shared/quarks/Q_Icon', name: 'Q_AudioIcon', width: 24, height: 24 %></button>
+      <button type="button" class="O_GlobalAudioPlayer-Ctrl" data-js-audio-next aria-label="Следующий трек"><%= render 'shared/quarks/Q_Icon', name: 'Q_ArrowRightIcon', width: 18, height: 18 %></button>
+      <button type="button" class="O_GlobalAudioPlayer-Ctrl O_GlobalAudioPlayer-Ctrl--loop" data-js-audio-loop aria-label="Повтор трека" title="Повтор одного"><span class="O_GlobalAudioPlayer-LoopOne">1</span></button>
+      <span class="O_GlobalAudioPlayer-Title text-labels-2" data-js-audio-player-title aria-live="polite"></span>
+    </div>
+    <div class="O_GlobalAudioPlayer-RightGroup">
+      <div class="O_GlobalAudioPlayer-Volume" data-js-audio-player-volume aria-label="Громкость">
+        <button type="button" class="O_GlobalAudioPlayer-VolumeBtn" data-js-audio-player-volume-toggle aria-label="Громкость" aria-expanded="false">
+          <%= render 'shared/quarks/Q_Icon', name: 'Q_AudioIcon', width: 18, height: 18 %>
+        </button>
+        <div class="O_GlobalAudioPlayer-VolumeSliderWrap">
+          <%= render 'shared/molecules/M_VolumeSlider' %>
+        </div>
+      </div>
+      <button type="button" class="O_GlobalAudioPlayer-Close" data-js-audio-player-close-global aria-label="Закрыть плеер">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div>
