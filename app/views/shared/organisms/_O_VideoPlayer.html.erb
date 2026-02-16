@@ -9,11 +9,7 @@
   <div class="O_VideoPlayer" data-js-video-player-body>
     <video class="O_VideoPlayer-Video" data-js-video-player-src preload="metadata" playsinline></video>
     <div class="O_VideoPlayer-Controls">
-      <div class="O_VideoPlayer-Progress">
-        <span class="O_VideoPlayer-Time text-p-3" data-js-video-player-time>00:00</span>
-        <%= render 'shared/quarks/Q_TimeLine' %>
-        <span class="O_VideoPlayer-Time text-p-3" data-js-video-player-duration>00:00</span>
-      </div>
+      <%= render 'shared/molecules/M_ProgressRow', time_data_attr: 'js-video-player' %>
       <div class="O_VideoPlayer-BottomRow">
         <button type="button" class="O_VideoPlayer-PlayBtn" data-js-video-player-play aria-label="Воспроизвести / пауза">
           <%= render 'shared/quarks/Q_Icon', name: 'Q_AudioIcon', width: 18, height: 18 %>

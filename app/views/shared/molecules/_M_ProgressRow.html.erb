@@ -1,0 +1,10 @@
+<%
+  time_data_attr = local_assigns[:time_data_attr]
+%>
+<div class="M_ProgressRow">
+  <span class="M_ProgressRow-Time" data-<%= time_data_attr %>-time>00:00</span>
+  <div class="M_ProgressRow-Timeline">
+    <%= render 'shared/quarks/Q_TimeLine' %>
+  </div>
+  <span class="M_ProgressRow-Time" data-<%= time_data_attr %>-duration>00:00</span>
+</div>

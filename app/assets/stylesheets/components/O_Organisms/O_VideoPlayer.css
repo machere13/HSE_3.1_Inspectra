@@ -22,22 +22,9 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-x1);
+  gap: var(--spacing-x2);
   padding: 0 var(--spacing-x2) var(--spacing-x2) var(--spacing-x2);
   background: linear-gradient(to top, rgb(0 0 0 / .8), rgb(0 0 0 / 0) 50%, transparent);
-}
-
-.O_VideoPlayer-Progress {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-x2);
-  width: 100%;
-}
-
-.O_VideoPlayer-Time {
-  flex-shrink: 0;
-  color: #fff;
-  font-variant-numeric: tabular-nums;
 }
 
 .O_VideoPlayer-BottomRow {
@@ -50,7 +37,7 @@
 .O_VideoPlayer-Right {
   display: flex;
   align-items: center;
-  gap: var(--spacing-x4);
+  gap: var(--spacing-x2);
 }
 
 .O_VideoPlayer-PlayBtn {
@@ -129,6 +116,6 @@
 }
 
 .O_VideoPlayer-Fullscreen:hover {
-  opacity: 0.9;
+  opacity: 0.85;
 }
 

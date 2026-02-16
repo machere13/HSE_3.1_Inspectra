@@ -62,7 +62,7 @@
 }
 
 .O_AudioPlayer-Ctrl--loop.is-active .O_AudioPlayer-LoopOne {
-  color: var(--color-accent, #6cf);
+  color: var(--color-accent);
 }
 
 .O_AudioPlayer-Play {
@@ -80,23 +80,6 @@
 
 .O_AudioPlayer-Play:hover {
   opacity: 0.85;
-}
-
-.O_AudioPlayer-ProgressRow {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-x3);
-}
-
-.O_AudioPlayer-Time {
-  flex-shrink: 0;
-  color: var(--color-text-primary);
-}
-
-.O_AudioPlayer-ProgressRow-Timeline {
-  flex: 1;
-  min-width: 0;
 }
 
 .O_AudioPlayer-Volume {
