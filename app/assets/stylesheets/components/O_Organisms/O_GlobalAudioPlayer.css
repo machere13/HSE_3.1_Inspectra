@@ -47,8 +47,19 @@
   transition: transform .3s;
 }
 
-.O_GlobalAudioPlayer:active{
+.O_GlobalAudioPlayer.is-dragging {
   transform: scale(0.95);
+}
+
+.O_GlobalAudioPlayer-Title {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.25;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-self: center;
 }
 
 .O_GlobalAudioPlayer.is-at-top {

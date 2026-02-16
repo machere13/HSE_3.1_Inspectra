@@ -12,20 +12,21 @@
           const audioCards = document.querySelectorAll('.M_ContentCard[data-type="audio"]');
           const seen = new Set();
           const urls = [];
+          const titles = [];
           for (let i = 0; i < audioCards.length; i++) {
-            const u = (audioCards[i].getAttribute('data-preview-url') || '').trim();
+            const c = audioCards[i];
+            const u = (c.getAttribute('data-preview-url') || '').trim();
             if (u && !seen.has(u)) {
               seen.add(u);
               urls.push(u);
+              const titleEl = c.querySelector('.M_ContentCard-Title');
+              titles.push(titleEl ? titleEl.textContent.trim() : '');
             }
           }
           const currentUrl = (card && card.getAttribute('data-preview-url')) ? card.getAttribute('data-preview-url').trim() : (url || '').trim();
           let currentIndex = urls.length && currentUrl ? urls.indexOf(currentUrl) : 0;
           if (currentIndex < 0) currentIndex = 0;
-          if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.search.includes('debug=1'))) {
-            console.log('[ContentPreview] audio open', { audioCardsCount: audioCards.length, urlsCount: urls.length, currentUrl: currentUrl ? currentUrl.slice(-40) : '', currentIndex });
-          }
-          window.O_AudioPlayer.setPlaylist(urls, currentIndex);
+          window.O_AudioPlayer.setPlaylist(urls, currentIndex, titles);
           const panel = window.O_AudioPlayer.openInPreview(url || '');
           if (panel) {
             body.appendChild(panel);
