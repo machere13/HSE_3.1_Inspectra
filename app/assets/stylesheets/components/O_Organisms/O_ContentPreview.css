@@ -1,5 +1,16 @@
-.O_ContentPreview{
-    display: none;
+.O_ContentPreview {
+  display: none;
+  opacity: 0;
+  transform: scale(0.96);
+  transform-origin: bottom center;
+  transition: opacity 0.28s ease, transform 0.28s ease, visibility 0.28s;
+  visibility: hidden;
+}
+
+.O_ContentPreview.is-visible {
+  opacity: 1;
+  transform: scale(1);
+  visibility: visible;
 }
 
 .O_ContentPreview.is-audio .O_ContentPreview-Header {

@@ -6,13 +6,31 @@
   width: 100%;
   pointer-events: none;
   z-index: 999;
-  transition: transform 0.05s ease-out;
+  opacity: 0;
+  transform: translateY(100%);
+  visibility: hidden;
+  transition: opacity 0.28s ease, transform 0.28s ease, visibility 0.28s;
+}
+
+.GlobalAudioPlayer.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
 }
 
 .GlobalAudioPlayer.is-at-top {
   top: 0;
   bottom: auto;
+  transform: translateY(-100%);
   border-radius: 0 0 var(--border-radius-x3) var(--border-radius-x3);
+}
+
+.GlobalAudioPlayer.is-at-top.is-visible {
+  transform: translateY(0);
+}
+
+.GlobalAudioPlayer.is-dragging {
+  transition-duration: 0.05s;
 }
 
 .GlobalAudioPlayer .O_GlobalAudioPlayer {
