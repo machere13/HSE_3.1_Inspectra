@@ -1,0 +1,18 @@
+.M_ProgressRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-x2);
+  width: 100%;
+  user-select: none;
+}
+
+.M_ProgressRow-Time {
+  flex-shrink: 0;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.M_ProgressRow-Timeline {
+  flex: 1;
+  min-width: 0;
+}

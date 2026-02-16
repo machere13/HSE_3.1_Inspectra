@@ -13,6 +13,7 @@
 //= require ./components/molecules/M_FormPlug
 //= require ./components/organisms/O_Console
 //= require ./components/organisms/O_AudioPlayer
+//= require ./components/organisms/O_VideoPlayer
 //= require ./components/quarks/Q_InspectraBackground
 
 //= require ./modules/canvas/CanvasSetup

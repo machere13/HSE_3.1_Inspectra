@@ -13,7 +13,8 @@
   visibility: visible;
 }
 
-.O_ContentPreview.is-audio .O_ContentPreview-Header {
+.O_ContentPreview.is-audio .O_ContentPreview-Header,
+.O_ContentPreview.is-video .O_ContentPreview-Header {
   display: none;
 }
 

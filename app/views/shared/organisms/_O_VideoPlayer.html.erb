@@ -1,0 +1,33 @@
+<%= render layout: 'shared/wrappers/W_ControlPanel',
+    locals: {
+      state_key: 'o_video_player_state',
+      id: 'js-video-player',
+      icon_name: 'Q_EyeIcon',
+      data: { js_video_player: '' },
+      body_fill: true
+    } do %>
+  <div class="O_VideoPlayer" data-js-video-player-body>
+    <video class="O_VideoPlayer-Video" data-js-video-player-src preload="metadata" playsinline></video>
+    <div class="O_VideoPlayer-Controls">
+      <%= render 'shared/molecules/M_ProgressRow', time_data_attr: 'js-video-player' %>
+      <div class="O_VideoPlayer-BottomRow">
+        <button type="button" class="O_VideoPlayer-PlayBtn" data-js-video-player-play aria-label="Воспроизвести / пауза">
+          <%= render 'shared/quarks/Q_Icon', name: 'Q_AudioIcon', width: 18, height: 18 %>
+        </button>
+        <div class="O_VideoPlayer-Right">
+          <div class="O_VideoPlayer-Volume" data-js-video-player-volume aria-label="Громкость">
+          <button type="button" class="O_VideoPlayer-VolumeBtn" data-js-video-player-volume-toggle aria-label="Громкость" aria-expanded="false">
+            <%= render 'shared/quarks/Q_Icon', name: 'Q_AudioIcon', width: 18, height: 18 %>
+          </button>
+          <div class="O_VideoPlayer-VolumeSliderWrap">
+            <%= render 'shared/molecules/M_VolumeSlider' %>
+          </div>
+        </div>
+          <button type="button" class="O_VideoPlayer-Fullscreen" data-js-video-player-fullscreen aria-label="Полный экран">
+            <%= render 'shared/quarks/Q_Icon', name: 'Q_FullScreenIcon', width: 18, height: 18 %>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
