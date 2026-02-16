@@ -17,6 +17,16 @@
 
 .GlobalAudioPlayer .O_GlobalAudioPlayer {
   pointer-events: auto;
+  cursor: ns-resize;
+}
+
+.GlobalAudioPlayer .O_GlobalAudioPlayer button,
+.GlobalAudioPlayer .O_GlobalAudioPlayer input {
+  cursor: pointer;
+}
+
+.GlobalAudioPlayer .O_GlobalAudioPlayer [data-js-timeline] {
+  cursor: pointer;
 }
 
 .O_GlobalAudioPlayer {
@@ -121,7 +131,6 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-x3);
-  cursor: ns-resize;
   user-select: none;
 }
 

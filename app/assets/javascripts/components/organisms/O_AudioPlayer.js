@@ -12,12 +12,9 @@
   let currentIndex = 0;
   let loopOne = false;
 
-  const DEBUG = typeof window !== 'undefined' && window.location && (window.location.hostname === 'localhost' || window.location.search.includes('debug=1'));
-
   function setPlaylist(urls, index) {
     playlist = Array.isArray(urls) ? urls.filter(Boolean) : [];
     currentIndex = Math.max(0, Math.min(index | 0, Math.max(0, playlist.length - 1)));
-    if (DEBUG) console.log('[O_AudioPlayer] setPlaylist', { urls: playlist.length, currentIndex, playlist: playlist.map(u => u.slice(-30)) });
     if (playlist.length > 0) persistGlobalState();
   }
 
@@ -187,15 +184,17 @@
     try { sessionStorage.setItem(STORAGE_KEY_POSITION, isTop ? 'top' : 'bottom'); } catch (e) {}
   }
 
+  const GLOBAL_DRAG_IGNORE = 'button, input, [type="range"], a, [role="button"], [data-js-audio-player-volume], [data-js-audio-player-close-global]';
+
   function bindGlobalDrag(container) {
     const bar = document.getElementById(GLOBAL_PANEL_ID);
-    const handle = container?.querySelector('[data-js-global-audio-drag-handle]');
-    if (!handle || !bar) return;
+    if (!container || !bar) return;
     let startY = 0;
     let startTransform = 0;
     let currentTransform = 0;
-    handle.addEventListener('mousedown', (e) => {
+    bar.addEventListener('mousedown', (e) => {
       if (e.button !== 0) return;
+      if (e.target.closest(GLOBAL_DRAG_IGNORE)) return;
       e.preventDefault();
       startY = e.clientY;
       startTransform = currentTransform;
@@ -351,6 +350,16 @@
     audio.addEventListener('timeupdate', () => { updateTime(); updateProgress(); });
     audio.addEventListener('durationchange', () => { updateProgress(); updateDuration(); });
     audio.addEventListener('loadedmetadata', () => { updateProgress(); updateDuration(); });
+    let lastPersistTime = 0;
+    if (container.id === GLOBAL_CONTAINER_ID) {
+      audio.addEventListener('timeupdate', () => {
+        const now = Date.now();
+        if (now - lastPersistTime >= 1000) {
+          lastPersistTime = now;
+          persistGlobalState();
+        }
+      });
+    }
     audio.addEventListener('ended', () => {
       if (loopOne) {
         audio.currentTime = 0;
@@ -360,6 +369,17 @@
     playBtn?.addEventListener('click', () => { if (audio.paused) audio.play().catch(() => {}); else audio.pause(); });
     seekInput?.addEventListener('input', applySeek);
     seekInput?.addEventListener('change', applySeek);
+    const timelineEl = root.querySelector('[data-js-timeline]');
+    if (timelineEl && seekInput) {
+      timelineEl.addEventListener('click', (e) => {
+        if (e.target === seekInput || seekInput.contains(e.target)) return;
+        const rect = timelineEl.getBoundingClientRect();
+        if (rect.width <= 0) return;
+        const p = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+        seekInput.value = p;
+        applySeek();
+      });
+    }
 
     const prevBtn = root.querySelector('[data-js-audio-prev]');
     const nextBtn = root.querySelector('[data-js-audio-next]');
@@ -377,7 +397,6 @@
     }
     if (prevBtn) {
       prevBtn.addEventListener('click', () => {
-        if (DEBUG) console.log('[O_AudioPlayer] prev click', { currentIndex, playlistLength: playlist.length, currentTime: audio.currentTime });
         if (audio.currentTime > 3) {
           audio.currentTime = 0;
           updateProgress();
@@ -390,7 +409,6 @@
     }
     if (nextBtn) {
       nextBtn.addEventListener('click', () => {
-        if (DEBUG) console.log('[O_AudioPlayer] next click', { currentIndex, playlistLength: playlist.length });
         if (currentIndex < playlist.length - 1) {
           currentIndex++;
           loadTrack(currentIndex);
@@ -469,13 +487,6 @@
     let stored = '';
     try { stored = sessionStorage.getItem(STORAGE_KEY_VISIBLE) || ''; } catch (e) {}
     const container = document.getElementById(GLOBAL_CONTAINER_ID);
-    const hidden = container ? (container.style.display === 'none' || container.getAttribute('aria-hidden') === 'true') : null;
-    console.log('[O_AudioPlayer] turbo:load restore', {
-      stored,
-      hasContainer: !!container,
-      hidden,
-      inited: container ? container.getAttribute('data-audio-inited') : null
-    });
     if (stored !== '1') return;
     if (!container) return;
     if (container.style.display === 'none' || container.getAttribute('aria-hidden') === 'true') {
@@ -525,17 +536,18 @@
         const audio = root?.querySelector('[data-js-audio-player-src]');
         const trackSrc = (playlist[currentIndex] || list[0] || '').trim();
         if (audio && trackSrc) {
-          const time = parseFloat(savedTime);
+          const time = Math.max(0, parseFloat(savedTime));
           const shouldPlay = savedPaused !== '1';
           let restored = false;
           const applyRestore = () => {
             if (restored) return;
             restored = true;
-            if (Number.isFinite(time) && time > 0) audio.currentTime = time;
+            if (Number.isFinite(time)) audio.currentTime = time;
             if (shouldPlay) audio.play().catch(() => {});
           };
           audio.addEventListener('loadedmetadata', applyRestore, { once: true });
           audio.addEventListener('loadeddata', applyRestore, { once: true });
+          audio.addEventListener('canplay', applyRestore, { once: true });
           audio.src = trackSrc;
           audio.load();
           if (audio.readyState >= 2) applyRestore();
