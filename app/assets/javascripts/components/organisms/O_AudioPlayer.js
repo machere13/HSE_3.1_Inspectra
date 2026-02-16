@@ -119,8 +119,16 @@
       if (progressFill) progressFill.style.width = `${p}%`;
       if (seekInput) seekInput.value = p;
     };
+    const volumeFromInput = () => {
+      const raw = Number(volumeInput?.value);
+      if (Number.isNaN(raw)) return 1;
+      return (10 - raw) / 10;
+    };
     const updateVolumeFill = () => {
-      if (volumeFill && volumeInput) volumeFill.style.height = `${(Number(volumeInput.value) || 0) / 10 * 100}%`;
+      if (volumeFill && volumeInput) {
+        const vol = volumeFromInput();
+        volumeFill.style.height = `${vol * 100}%`;
+      }
     };
 
     audio.addEventListener('timeupdate', () => { updateTime(); updateProgress(); });
@@ -150,7 +158,9 @@
     if (volumeInput) {
       audio.volume = 1;
       volumeInput.addEventListener('input', () => {
-        audio.volume = (Number(volumeInput.value) || 10) / 10;
+        const raw = Number(volumeInput.value);
+        const value = Number.isNaN(raw) ? 10 : raw;
+        audio.volume = value / 10;
         updateVolumeFill();
       });
       volumeInput.addEventListener('change', updateVolumeFill);

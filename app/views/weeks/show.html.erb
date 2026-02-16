@@ -29,7 +29,7 @@
               id: item_data[:type] == 'article' ? "article_card_#{item_data[:item].id}" : "content_card_#{item_data[:item].id}",
               title: item_data[:item].title,
               description: item_data[:type] == 'article' ? (item_data[:item].description.presence || truncate(item_data[:item].body, length: 120)) : nil,
-              preview_url: item_data[:item].respond_to?(:url) ? item_data[:item].url : nil,
+              preview_url: item_data[:type] == 'article' ? nil : content_item_preview_url(item_data[:item]),
               url: item_data[:type] == 'article' ? week_article_path(@week, item_data[:item]) : nil %>
           </div>
         <% end %>
@@ -48,7 +48,7 @@
                 id: item_data[:type] == 'article' ? "article_card_#{item_data[:item].id}" : "content_card_#{item_data[:item].id}",
                 title: item_data[:item].title,
                 description: item_data[:type] == 'article' ? (item_data[:item].description.presence || truncate(item_data[:item].body, length: 120)) : nil,
-                preview_url: item_data[:item].respond_to?(:url) ? item_data[:item].url : nil,
+                preview_url: item_data[:type] == 'article' ? nil : content_item_preview_url(item_data[:item]),
                 url: item_data[:type] == 'article' ? week_article_path(@week, item_data[:item]) : nil %>
             </div>
           <% end %>

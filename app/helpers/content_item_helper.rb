@@ -1,4 +1,13 @@
 module ContentItemHelper
+  def content_item_preview_url(item)
+    return nil unless item
+    if item.respond_to?(:file) && item.file.attached?
+      return url_for(item.file)
+    end
+    raw = item.respond_to?(:url) ? item.url : nil
+    raw.present? ? url_with_scheme(raw) : nil
+  end
+
   def render_content_item(item)
     case item.kind
     when 'image', 'gif'
@@ -15,6 +24,11 @@ module ContentItemHelper
   end
 
   private
+
+  def url_with_scheme(url)
+    return url if url.to_s.match?(%r{\A[a-z][a-z0-9+.-]*://}i)
+    "https://#{url.to_s.sub(/\A\/+/, '')}"
+  end
 
   def render_image_content(item)
     if item.file.attached?
