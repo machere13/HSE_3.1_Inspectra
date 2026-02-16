@@ -500,44 +500,65 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
 
-  /api/v1/days:
+  /api/v1/weeks:
     get:
       tags:
-        - Days
-      summary: Получить все дни
-      description: Возвращает список всех дней с контентом
+        - Weeks
+      summary: Получить все недели
+      description: Возвращает список доступных недель с статьями и контентом (с пагинацией)
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+          description: Номер страницы
+        - name: items
+          in: query
+          schema:
+            type: integer
+          description: Количество на странице
       responses:
         '200':
-          description: Список дней
+          description: Список недель
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Day'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Week'
+                  pagy:
+                    type: object
+                    description: Метаданные пагинации
 
-  /api/v1/days/{id}:
+  /api/v1/weeks/{id}:
     get:
       tags:
-        - Days
-      summary: Получить день по ID
-      description: Возвращает информацию о конкретном дне с его контентом
+        - Weeks
+      summary: Получить неделю по ID или номеру
+      description: Возвращает неделю с статьями и контентом. В path можно передать id или number недели.
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: integer
-          description: ID дня
+          description: ID недели или номер недели (1-24)
       responses:
         '200':
-          description: Информация о дне
+          description: Информация о неделе
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Day'
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Week'
         '404':
-          description: День не найден
+          description: Неделя не найдена
           content:
             application/json:
               schema:
@@ -545,7 +566,7 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: День не найден
+                    example: Неделя не найдена
 
   /api/v1/auth/password/forgot:
     post:
@@ -677,44 +698,54 @@ paths:
                     items:
                       type: string
 
-  /api/v1/days/{day_id}/articles:
+  /api/v1/weeks/{week_id}/articles:
     get:
       tags:
         - Articles
-      summary: Получить статьи дня
-      description: Возвращает все статьи конкретного дня
+      summary: Получить статьи недели
+      description: Возвращает все статьи конкретной недели (с пагинацией)
       parameters:
-        - name: day_id
+        - name: week_id
           in: path
           required: true
           schema:
             type: integer
-          description: ID дня
+          description: ID или номер недели
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: Номер страницы
       responses:
         '200':
-          description: Список статей дня
+          description: Список статей недели
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Article'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Article'
+                  pagy:
+                    type: object
         '404':
-          description: День не найден
+          description: Неделя не найдена
 
-  /api/v1/days/{day_id}/articles/{id}:
+  /api/v1/weeks/{week_id}/articles/{id}:
     get:
       tags:
         - Articles
       summary: Получить статью по ID
-      description: Возвращает конкретную статью
+      description: Возвращает конкретную статью недели
       parameters:
-        - name: day_id
+        - name: week_id
           in: path
           required: true
           schema:
             type: integer
-          description: ID дня
+          description: ID или номер недели
         - name: id
           in: path
           required: true
@@ -727,34 +758,47 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Article'
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Article'
         '404':
           description: Статья не найдена
 
-  /api/v1/days/{day_id}/content_items:
+  /api/v1/weeks/{week_id}/content_items:
     get:
       tags:
         - Content Items
-      summary: Получить контент дня
-      description: Возвращает все элементы контента конкретного дня
+      summary: Получить контент недели
+      description: Возвращает все элементы контента конкретной недели (с пагинацией)
       parameters:
-        - name: day_id
+        - name: week_id
           in: path
           required: true
           schema:
             type: integer
-          description: ID дня
+          description: ID или номер недели
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: Номер страницы
       responses:
         '200':
           description: Список элементов контента
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ContentItem'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentItem'
+                  pagy:
+                    type: object
         '404':
-          description: День не найден
+          description: Неделя не найдена
 
 components:
   schemas:
@@ -830,31 +874,40 @@ components:
           type: boolean
           description: Завершено ли достижение
 
-    Day:
+    Week:
       type: object
       properties:
         id:
           type: integer
-          description: Уникальный идентификатор дня
+          description: Уникальный идентификатор недели
         number:
           type: integer
-          description: Номер дня (1-15)
+          description: Номер недели (1-24)
         title:
           type: string
-          description: Название дня
+          description: Название недели
         description:
           type: string
-          description: Описание дня
+          nullable: true
+          description: Описание недели
+        published_at:
+          type: string
+          format: date-time
+          description: Дата начала показа
+        expires_at:
+          type: string
+          format: date-time
+          description: Дата окончания показа
         articles:
           type: array
           items:
             $ref: '#/components/schemas/Article'
-          description: Статьи дня
+          description: Статьи недели
         content_items:
           type: array
           items:
             $ref: '#/components/schemas/ContentItem'
-          description: Элементы контента дня
+          description: Элементы контента недели
         created_at:
           type: string
           format: date-time
@@ -868,12 +921,16 @@ components:
         id:
           type: integer
           description: Уникальный идентификатор статьи
-        day_id:
+        week_id:
           type: integer
-          description: ID дня, к которому принадлежит статья
+          description: ID недели, к которой принадлежит статья
         title:
           type: string
           description: Заголовок статьи
+        description:
+          type: string
+          nullable: true
+          description: Краткое описание
         body:
           type: string
           description: Содержимое статьи
@@ -890,9 +947,9 @@ components:
         id:
           type: integer
           description: Уникальный идентификатор элемента контента
-        day_id:
+        week_id:
           type: integer
-          description: ID дня, к которому принадлежит элемент
+          description: ID недели, к которой принадлежит элемент
         article_id:
           type: integer
           nullable: true
@@ -915,7 +972,7 @@ components:
           description: URL для медиа-контента и ссылок
         position:
           type: integer
-          description: Позиция элемента в списке контента дня
+          description: Позиция элемента в списке контента недели
         metadata:
           type: object
           description: Дополнительные метаданные
