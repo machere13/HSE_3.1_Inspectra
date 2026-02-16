@@ -18,6 +18,7 @@
     playlist = Array.isArray(urls) ? urls.filter(Boolean) : [];
     currentIndex = Math.max(0, Math.min(index | 0, Math.max(0, playlist.length - 1)));
     if (DEBUG) console.log('[O_AudioPlayer] setPlaylist', { urls: playlist.length, currentIndex, playlist: playlist.map(u => u.slice(-30)) });
+    if (playlist.length > 0) persistGlobalState();
   }
 
   function openInPreview(url) {
@@ -145,7 +146,36 @@
   const STORAGE_KEY_TIME = 'globalAudioPlayerTime';
   const STORAGE_KEY_PAUSED = 'globalAudioPlayerPaused';
   const STORAGE_KEY_POSITION = 'globalAudioPlayerPosition';
+  const DATA_ATTR_PLAYLIST = 'data-global-playlist';
+  const DATA_ATTR_INDEX = 'data-global-index';
+  const DATA_ATTR_SRC = 'data-global-src';
+  const DATA_ATTR_TIME = 'data-global-time';
+  const DATA_ATTR_PAUSED = 'data-global-paused';
   let globalInited = false;
+
+  function persistGlobalState() {
+    const container = document.getElementById(GLOBAL_CONTAINER_ID);
+    if (!container) return;
+    const root = container.querySelector('[data-js-audio-player-body], .O_GlobalAudioPlayer');
+    const audio = root?.querySelector('[data-js-audio-player-src]');
+    try {
+      if (playlist.length > 0) {
+        const json = JSON.stringify(playlist);
+        container.setAttribute(DATA_ATTR_PLAYLIST, json);
+        container.setAttribute(DATA_ATTR_INDEX, String(currentIndex));
+        sessionStorage.setItem(STORAGE_KEY_PLAYLIST, json);
+        sessionStorage.setItem(STORAGE_KEY_INDEX, String(currentIndex));
+      }
+      if (audio && audio.src) {
+        container.setAttribute(DATA_ATTR_SRC, audio.src);
+        container.setAttribute(DATA_ATTR_TIME, String(audio.currentTime));
+        container.setAttribute(DATA_ATTR_PAUSED, audio.paused ? '1' : '0');
+        sessionStorage.setItem(STORAGE_KEY_SRC, audio.src);
+        sessionStorage.setItem(STORAGE_KEY_TIME, String(audio.currentTime));
+        sessionStorage.setItem(STORAGE_KEY_PAUSED, audio.paused ? '1' : '0');
+      }
+    } catch (e) {}
+  }
 
   function applyGlobalPosition(container, position) {
     if (!container) return;
@@ -194,15 +224,7 @@
     const root = container.querySelector('[data-js-audio-player-body], .O_GlobalAudioPlayer');
     const audio = root?.querySelector('[data-js-audio-player-src]');
     if (!audio || !audio.src) return;
-    try {
-      sessionStorage.setItem(STORAGE_KEY_SRC, audio.src);
-      sessionStorage.setItem(STORAGE_KEY_TIME, String(audio.currentTime));
-      sessionStorage.setItem(STORAGE_KEY_PAUSED, audio.paused ? '1' : '0');
-      if (playlist.length > 0) {
-        sessionStorage.setItem(STORAGE_KEY_PLAYLIST, JSON.stringify(playlist));
-        sessionStorage.setItem(STORAGE_KEY_INDEX, String(currentIndex));
-      }
-    } catch (e) {}
+    persistGlobalState();
   }
 
   function transferInPreviewToGlobal(panelEl, onClose) {
@@ -242,6 +264,7 @@
     if (globalVolumeFill) globalVolumeFill.style.height = `${vol * 100}%`;
     if (!paused && src) globalAudio.play().catch(() => {});
 
+    persistGlobalState();
     if (onClose) onClose();
   }
 
@@ -361,6 +384,7 @@
         } else if (currentIndex > 0) {
           currentIndex--;
           loadTrack(currentIndex);
+          if (container.id === GLOBAL_CONTAINER_ID) persistGlobalState();
         }
       });
     }
@@ -370,6 +394,7 @@
         if (currentIndex < playlist.length - 1) {
           currentIndex++;
           loadTrack(currentIndex);
+          if (container.id === GLOBAL_CONTAINER_ID) persistGlobalState();
         }
       });
     }
@@ -467,13 +492,23 @@
       let savedIndex = '0';
       let savedTime = '0';
       let savedPaused = '1';
-      try {
-        savedSrc = sessionStorage.getItem(STORAGE_KEY_SRC) || '';
-        savedPlaylistJson = sessionStorage.getItem(STORAGE_KEY_PLAYLIST) || '';
-        savedIndex = sessionStorage.getItem(STORAGE_KEY_INDEX) || '0';
-        savedTime = sessionStorage.getItem(STORAGE_KEY_TIME) || '0';
-        savedPaused = sessionStorage.getItem(STORAGE_KEY_PAUSED) || '1';
-      } catch (e) {}
+      savedPlaylistJson = container.getAttribute(DATA_ATTR_PLAYLIST) || '';
+      savedIndex = container.getAttribute(DATA_ATTR_INDEX) || '';
+      savedSrc = container.getAttribute(DATA_ATTR_SRC) || '';
+      savedTime = container.getAttribute(DATA_ATTR_TIME) || '';
+      savedPaused = container.getAttribute(DATA_ATTR_PAUSED) || '';
+      if (!savedPlaylistJson || !savedSrc) {
+        try {
+          if (!savedPlaylistJson) savedPlaylistJson = sessionStorage.getItem(STORAGE_KEY_PLAYLIST) || '';
+          if (!savedIndex) savedIndex = sessionStorage.getItem(STORAGE_KEY_INDEX) || '0';
+          if (!savedSrc) savedSrc = sessionStorage.getItem(STORAGE_KEY_SRC) || '';
+          if (!savedTime) savedTime = sessionStorage.getItem(STORAGE_KEY_TIME) || '0';
+          if (!savedPaused) savedPaused = sessionStorage.getItem(STORAGE_KEY_PAUSED) || '1';
+        } catch (e) {}
+      }
+      if (!savedIndex) savedIndex = '0';
+      if (!savedTime) savedTime = '0';
+      if (!savedPaused) savedPaused = '1';
       let list = [];
       if (savedPlaylistJson) {
         try {
