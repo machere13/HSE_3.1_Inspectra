@@ -10,7 +10,6 @@
     const root = container.querySelector('[data-js-video-player-body]');
     if (!root) return;
     const video = root.querySelector('[data-js-video-player-src]');
-    const playCenter = root.querySelector('.O_VideoPlayer-PlayCenter');
     const timeEl = root.querySelector('[data-js-video-player-time]');
     const durationEl = root.querySelector('[data-js-video-player-duration]');
     const progressFill = root.querySelector('[data-js-timeline-fill]');
@@ -53,9 +52,6 @@
     video.addEventListener('timeupdate', () => { updateTime(); updateProgress(); });
     video.addEventListener('durationchange', () => { updateProgress(); updateDuration(); });
     video.addEventListener('loadedmetadata', () => { updateProgress(); updateDuration(); });
-    video.addEventListener('play', () => { if (playCenter) playCenter.classList.add('is-hidden'); });
-    video.addEventListener('pause', () => { if (playCenter) playCenter.classList.remove('is-hidden'); });
-
     root.querySelectorAll('[data-js-video-player-play]').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();

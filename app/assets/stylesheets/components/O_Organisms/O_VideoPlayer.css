@@ -34,16 +34,6 @@
   width: 100%;
 }
 
-.O_VideoPlayer-Progress .Q_TimeLine {
-  flex: 1;
-  min-width: 0;
-  background: rgb(255 255 255 / 0.3);
-}
-
-.O_VideoPlayer-Progress .Q_TimeLine-Fill {
-  background: #fff;
-}
-
 .O_VideoPlayer-Time {
   flex-shrink: 0;
   color: #fff;
@@ -60,7 +50,7 @@
 .O_VideoPlayer-Right {
   display: flex;
   align-items: center;
-  gap: var(--spacing-x2);
+  gap: var(--spacing-x4);
 }
 
 .O_VideoPlayer-PlayBtn {
@@ -142,36 +132,3 @@
   opacity: 0.9;
 }
 
-.O_VideoPlayer-PlayCenter {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  width: 48px;
-  height: 48px;
-  border: none;
-  border-radius: 50%;
-  background: rgb(0 0 0 / 0.5);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 0;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.O_VideoPlayer:hover .O_VideoPlayer-PlayCenter {
-  opacity: 1;
-}
-
-.O_VideoPlayer-PlayCenter:hover {
-  background: rgb(0 0 0 / 0.7);
-}
-
-.O_VideoPlayer-PlayCenter.is-hidden {
-  opacity: 0;
-  pointer-events: none;
-}
