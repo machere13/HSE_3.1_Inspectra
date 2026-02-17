@@ -52,6 +52,22 @@
   z-index: 1;
 }
 
+.W_ControlPanel:fullscreen,
+.W_ControlPanel:-webkit-full-screen {
+  border-radius: 0;
+  border: 0;
+}
+
+.W_ControlPanel:fullscreen::before,
+.W_ControlPanel:-webkit-full-screen::before {
+  content: none;
+}
+
+.W_ControlPanel:fullscreen .W_ControlPanel-Header,
+.W_ControlPanel:-webkit-full-screen .W_ControlPanel-Header {
+  display: none;
+}
+
 .W_ControlPanel[aria-hidden="true"] {
   display: none !important;
 }
@@ -187,4 +203,15 @@
   width: 8px;
   height: 8px;
   cursor: nwse-resize;
+}
+
+.GlobalVideoPlayer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.GlobalVideoPlayer.is-visible .W_ControlPanel--global {
+  pointer-events: auto;
 }

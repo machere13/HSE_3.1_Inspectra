@@ -1,19 +1,27 @@
 <%= render layout: 'shared/wrappers/W_ControlPanel',
     locals: {
-      state_key: 'o_video_player_state',
-      id: 'js-video-player',
+      state_key: local_assigns[:state_key] || 'o_video_player_state',
+      id: local_assigns[:id] || 'js-video-player',
       icon_name: 'Q_EyeIcon',
       data: { js_video_player: '' },
-      body_fill: true
+      body_fill: true,
+      class: local_assigns[:panel_class]
     } do %>
   <div class="O_VideoPlayer" data-js-video-player-body>
+    <div class="O_VideoPlayer-TopBar" data-js-video-player-topbar>
+      <span class="O_VideoPlayer-Title text-labels-2" data-js-video-player-title aria-live="polite"></span>
+    </div>
     <video class="O_VideoPlayer-Video" data-js-video-player-src preload="metadata" playsinline></video>
     <div class="O_VideoPlayer-Controls">
       <%= render 'shared/molecules/M_ProgressRow', time_data_attr: 'js-video-player' %>
       <div class="O_VideoPlayer-BottomRow">
-        <button type="button" class="O_VideoPlayer-PlayBtn" data-js-video-player-play aria-label="Воспроизвести / пауза">
-          <%= render 'shared/quarks/Q_Icon', name: 'Q_AudioIcon', width: 18, height: 18 %>
-        </button>
+        <div class="O_VideoPlayer-ControlsRow">
+          <button type="button" class="O_VideoPlayer-Ctrl" data-js-video-player-prev aria-label="Предыдущее видео"><%= render 'shared/quarks/Q_Icon', name: 'Q_ArrowRightIcon', width: 18, height: 18 %></button>
+          <button type="button" class="O_VideoPlayer-PlayBtn" data-js-video-player-play aria-label="Воспроизвести / пауза">
+            <%= render 'shared/quarks/Q_Icon', name: 'Q_AudioIcon', width: 18, height: 18 %>
+          </button>
+          <button type="button" class="O_VideoPlayer-Ctrl" data-js-video-player-next aria-label="Следующее видео"><%= render 'shared/quarks/Q_Icon', name: 'Q_ArrowRightIcon', width: 18, height: 18 %></button>
+        </div>
         <div class="O_VideoPlayer-Right">
           <div class="O_VideoPlayer-Volume" data-js-video-player-volume aria-label="Громкость">
           <button type="button" class="O_VideoPlayer-VolumeBtn" data-js-video-player-volume-toggle aria-label="Громкость" aria-expanded="false">

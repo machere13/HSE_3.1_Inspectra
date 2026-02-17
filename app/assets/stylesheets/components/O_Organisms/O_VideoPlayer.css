@@ -8,6 +8,29 @@
   background: transparent;
 }
 
+.O_VideoPlayer-TopBar {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  align-items: center;
+  padding: var(--spacing-x4);
+  background: linear-gradient(to bottom, rgb(0 0 0 / .8), rgb(0 0 0 / 0) 50%, transparent);
+}
+
+.W_ControlPanel.is-fullscreen .O_VideoPlayer-TopBar {
+  display: flex;
+}
+
+.O_VideoPlayer-Title {
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .O_VideoPlayer-Video {
   position: absolute;
   inset: 0;
@@ -27,11 +50,42 @@
   background: linear-gradient(to top, rgb(0 0 0 / .8), rgb(0 0 0 / 0) 50%, transparent);
 }
 
+.W_ControlPanel.is-fullscreen .O_VideoPlayer-Controls {
+  padding: 0 var(--spacing-x4) var(--spacing-x4) var(--spacing-x4);
+}
+
 .O_VideoPlayer-BottomRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing-x2);
+}
+
+.O_VideoPlayer-ControlsRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-x2);
+}
+
+.O_VideoPlayer-Ctrl {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+}
+
+.O_VideoPlayer-Ctrl:hover {
+  opacity: 0.9;
+}
+
+.O_VideoPlayer-Ctrl[data-js-video-player-prev] .Q_Icon {
+  transform: scaleX(-1);
 }
 
 .O_VideoPlayer-Right {
