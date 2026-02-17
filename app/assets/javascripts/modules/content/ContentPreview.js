@@ -45,15 +45,35 @@
 
       if (type === 'video') {
         const template = document.getElementById('js-video-player-template');
-        if (template && template.firstElementChild && window.O_VideoPlayer && window.O_VideoPlayer.attach) {
+        if (template && template.firstElementChild && window.O_VideoPlayer && window.O_VideoPlayer.attach && window.O_VideoPlayer.setPlaylist) {
+          const videoCards = document.querySelectorAll('.M_ContentCard[data-type="video"]');
+          const seen = new Set();
+          const urls = [];
+          const titles = [];
+          for (let i = 0; i < videoCards.length; i++) {
+            const c = videoCards[i];
+            const u = (c.getAttribute('data-preview-url') || '').trim();
+            if (u && !seen.has(u)) {
+              seen.add(u);
+              urls.push(u);
+              const t = c.querySelector('.M_ContentCard-Title');
+              titles.push(t ? t.textContent.trim() : '');
+            }
+          }
+          const currentUrl = (card && card.getAttribute('data-preview-url')) ? card.getAttribute('data-preview-url').trim() : (url || '').trim();
+          let currentIndex = urls.length && currentUrl ? urls.indexOf(currentUrl) : 0;
+          if (currentIndex < 0) currentIndex = 0;
+          window.O_VideoPlayer.setPlaylist(urls, currentIndex, titles);
           const panel = template.firstElementChild.cloneNode(true);
           panel.removeAttribute('id');
           panel.style.display = '';
           panel.removeAttribute('aria-hidden');
           panel.classList.add('W_ControlPanel--in-preview');
+          const title = titles[currentIndex] || (card ? (card.querySelector('.M_ContentCard-Title') || {}).textContent || '' : '') || '';
+          if (title) panel.setAttribute('data-video-title', title);
           const video = panel.querySelector('[data-js-video-player-src]');
           if (video) {
-            video.src = url || '';
+            video.src = urls[currentIndex] || url || '';
             video.load();
           }
           body.appendChild(panel);
@@ -91,6 +111,48 @@
       preview.style.display = 'block';
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
+          preview.classList.add('is-visible');
+        });
+      });
+    },
+
+    openVideoPreview: function(url, options) {
+      options = options || {};
+      const preview = document.querySelector('.O_ContentPreview');
+      if (!preview) return;
+      const body = preview.querySelector('.O_ContentPreview-Body');
+      if (!body) return;
+      const template = document.getElementById('js-video-player-template');
+      if (!template || !template.firstElementChild || !window.O_VideoPlayer || !window.O_VideoPlayer.attach) return;
+
+      body.innerHTML = '';
+      const panel = template.firstElementChild.cloneNode(true);
+      panel.removeAttribute('id');
+      panel.style.display = '';
+      panel.removeAttribute('aria-hidden');
+      panel.classList.add('W_ControlPanel--in-preview');
+      const title = (options.title != null && options.title !== '') ? String(options.title) : '';
+      if (title) panel.setAttribute('data-video-title', title);
+      const video = panel.querySelector('[data-js-video-player-src]');
+      if (video) {
+        video.src = url || '';
+        video.load();
+        const currentTime = options.currentTime;
+        const paused = options.paused !== false;
+        if (currentTime != null && currentTime > 0) {
+          video.addEventListener('loadedmetadata', function onMeta() {
+            video.removeEventListener('loadedmetadata', onMeta);
+            video.currentTime = currentTime;
+            if (!paused) video.play().catch(function() {});
+          }, { once: true });
+        }
+      }
+      body.appendChild(panel);
+      window.O_VideoPlayer.attach(body);
+      preview.classList.add('is-video');
+      preview.style.display = 'block';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
           preview.classList.add('is-visible');
         });
       });
