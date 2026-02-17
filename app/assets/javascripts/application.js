@@ -3,8 +3,10 @@
 //= require ./utils/math
 //= require ./utils/dom
 //= require ./utils/TokenGenerator
+//= require ./utils/time
 
 // Components
+//= require ./components/wrappers/W_ControlPanel
 //= require ./components/atoms/A_Button
 //= require ./components/atoms/A_ArrowButton
 //= require ./components/atoms/A_InspectraBackground
