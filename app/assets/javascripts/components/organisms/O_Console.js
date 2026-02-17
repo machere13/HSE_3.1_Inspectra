@@ -274,7 +274,7 @@
   };
 
   const initDrag = (consoleEl) => {
-    const header = consoleEl.querySelector('[data-js-console-drag]');
+    const header = consoleEl.querySelector('[data-js-control-panel-drag]');
     if (!header) return;
 
     header.addEventListener('mousedown', (e) => {
