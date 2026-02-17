@@ -1,21 +1,16 @@
 (() => {
-  const GLOBAL_CONTAINER_ID = 'js-global-video-player-container';
-  const GLOBAL_PANEL_ID = 'js-global-video-player';
-  const GLOBAL_VIDEO_TRANSITION_MS = 280;
-  const STORAGE_KEY_VISIBLE = 'globalVideoPlayerVisible';
-  const STORAGE_KEY_RECT = 'globalVideoPlayerRect';
-  const STORAGE_KEY_VIDEO_STATE = 'globalVideoPlayerState';
+  const C = (window.GlobalMediaConstants && window.GlobalMediaConstants.video) || {};
+  const state = { playlist: [], playlistTitles: [], currentIndex: 0 };
   let globalVideoInited = false;
-  let playlist = [];
-  let playlistTitles = [];
-  let currentIndex = 0;
 
-  function setPlaylist(urls, index, titles) {
-    playlist = Array.isArray(urls) ? urls.filter(Boolean) : [];
-    currentIndex = Math.max(0, Math.min(index | 0, Math.max(0, playlist.length - 1)));
-    playlistTitles = Array.isArray(titles) ? titles.slice(0, playlist.length) : [];
-    while (playlistTitles.length < playlist.length) playlistTitles.push('');
-  }
+  const setPlaylist = window.createSetPlaylist
+    ? window.createSetPlaylist(state)
+    : (urls, index, titles) => {
+        state.playlist = Array.isArray(urls) ? urls.filter(Boolean) : [];
+        state.currentIndex = Math.max(0, Math.min(index | 0, Math.max(0, state.playlist.length - 1)));
+        state.playlistTitles = Array.isArray(titles) ? titles.slice(0, state.playlist.length) : [];
+        while (state.playlistTitles.length < state.playlist.length) state.playlistTitles.push('');
+      };
 
   function getDefaultRect() {
     return {
@@ -27,7 +22,7 @@
 
   function loadSavedRect() {
     try {
-      const raw = sessionStorage.getItem(STORAGE_KEY_RECT);
+      const raw = sessionStorage.getItem(C.STORAGE_KEY_RECT);
       if (!raw) return null;
       return JSON.parse(raw);
     } catch (e) {
@@ -39,7 +34,7 @@
     if (!panelEl || panelEl.classList.contains('is-maximized')) return;
     try {
       const rect = panelEl.getBoundingClientRect();
-      sessionStorage.setItem(STORAGE_KEY_RECT, JSON.stringify({
+      sessionStorage.setItem(C.STORAGE_KEY_RECT, JSON.stringify({
         left: rect.left,
         top: rect.top,
         width: rect.width,
@@ -59,29 +54,29 @@
   }
 
   function persistVideoState() {
-    const container = document.getElementById(GLOBAL_CONTAINER_ID);
-    const panel = document.getElementById(GLOBAL_PANEL_ID);
+    const container = document.getElementById(C.GLOBAL_CONTAINER_ID);
+    const panel = document.getElementById(C.GLOBAL_PANEL_ID);
     if (!container || !panel || container.getAttribute('aria-hidden') === 'true') return;
     const root = panel.querySelector('[data-js-video-player-body]');
     const video = root?.querySelector('[data-js-video-player-src]');
     if (!video || !video.src) return;
     try {
-      sessionStorage.setItem(STORAGE_KEY_VIDEO_STATE, JSON.stringify({
+      sessionStorage.setItem(C.STORAGE_KEY_VIDEO_STATE, JSON.stringify({
         src: video.src,
         currentTime: video.currentTime,
         paused: video.paused,
         volume: video.volume,
         title: panel.getAttribute('data-video-title') || '',
-        playlist: playlist,
-        playlistTitles: playlistTitles,
-        currentIndex: currentIndex
+        playlist: state.playlist,
+        playlistTitles: state.playlistTitles,
+        currentIndex: state.currentIndex
       }));
     } catch (e) {}
   }
 
   function loadSavedVideoState() {
     try {
-      const raw = sessionStorage.getItem(STORAGE_KEY_VIDEO_STATE);
+      const raw = sessionStorage.getItem(C.STORAGE_KEY_VIDEO_STATE);
       return raw ? JSON.parse(raw) : null;
     } catch (e) {
       return null;
@@ -89,12 +84,12 @@
   }
 
   function applySavedVideoState(panel) {
-    const state = loadSavedVideoState();
-    if (!state || !state.src || !panel) return false;
-    if (state.playlist && state.playlist.length) {
-      playlist = state.playlist;
-      playlistTitles = state.playlistTitles && state.playlistTitles.length ? state.playlistTitles : playlist.map(() => '');
-      currentIndex = Math.max(0, Math.min(state.currentIndex | 0, playlist.length - 1));
+    const loaded = loadSavedVideoState();
+    if (!loaded || !loaded.src || !panel) return false;
+    if (loaded.playlist && loaded.playlist.length) {
+      state.playlist = loaded.playlist;
+      state.playlistTitles = loaded.playlistTitles && loaded.playlistTitles.length ? loaded.playlistTitles : state.playlist.map(() => '');
+      state.currentIndex = Math.max(0, Math.min(loaded.currentIndex | 0, state.playlist.length - 1));
     }
     const root = panel.querySelector('[data-js-video-player-body]');
     const video = root?.querySelector('[data-js-video-player-src]');
@@ -102,17 +97,17 @@
     const volumeFill = root?.querySelector('[data-js-volume-fill]');
     const titleEl = root?.querySelector('[data-js-video-player-title]');
     if (!video) return false;
-    video.src = state.src;
-    video.currentTime = state.currentTime != null ? state.currentTime : 0;
-    video.volume = state.volume != null ? state.volume : 1;
-    if (state.title) panel.setAttribute('data-video-title', state.title);
-    if (titleEl && state.title) titleEl.textContent = state.title;
+    video.src = loaded.src;
+    video.currentTime = loaded.currentTime != null ? loaded.currentTime : 0;
+    video.volume = loaded.volume != null ? loaded.volume : 1;
+    if (loaded.title) panel.setAttribute('data-video-title', loaded.title);
+    if (titleEl && loaded.title) titleEl.textContent = loaded.title;
     if (volumeInput) {
-      volumeInput.value = String(Math.round((state.volume != null ? state.volume : 1) * 10));
+      volumeInput.value = String(Math.round((loaded.volume != null ? loaded.volume : 1) * 10));
       volumeInput.dispatchEvent(new Event('input'));
     }
-    if (volumeFill) volumeFill.style.height = `${(state.volume != null ? state.volume : 1) * 100}%`;
-    if (!state.paused) video.play().catch(() => {});
+    if (volumeFill) volumeFill.style.height = `${(loaded.volume != null ? loaded.volume : 1) * 100}%`;
+    if (!loaded.paused) video.play().catch(() => {});
     return true;
   }
 
@@ -130,16 +125,21 @@
     const currentTime = video.currentTime;
     const paused = video.paused;
     persistVideoState();
-    const container = document.getElementById(GLOBAL_CONTAINER_ID);
+    const container = document.getElementById(C.GLOBAL_CONTAINER_ID);
     if (container) {
-      container.classList.remove('is-visible');
-      setTimeout(() => {
-        container.style.display = 'none';
-        container.setAttribute('aria-hidden', 'true');
-        panelEl.setAttribute('aria-hidden', 'true');
-        panelEl.style.display = 'none';
-        try { sessionStorage.removeItem(STORAGE_KEY_VISIBLE); } catch (err) {}
-      }, GLOBAL_VIDEO_TRANSITION_MS);
+      if (window.GlobalMediaPanel) {
+        window.GlobalMediaPanel.hideGlobalContainer(container, { visibleKey: C.STORAGE_KEY_VISIBLE, transitionMs: C.GLOBAL_TRANSITION_MS });
+        setTimeout(() => { panelEl.setAttribute('aria-hidden', 'true'); panelEl.style.display = 'none'; }, C.GLOBAL_TRANSITION_MS);
+      } else {
+        container.classList.remove('is-visible');
+        setTimeout(() => {
+          container.style.display = 'none';
+          container.setAttribute('aria-hidden', 'true');
+          panelEl.setAttribute('aria-hidden', 'true');
+          panelEl.style.display = 'none';
+          try { sessionStorage.removeItem(C.STORAGE_KEY_VISIBLE); } catch (err) {}
+        }, C.GLOBAL_TRANSITION_MS);
+      }
     }
     if (window.ContentPreview && typeof window.ContentPreview.openVideoPreview === 'function') {
       window.ContentPreview.openVideoPreview(url, { title, currentTime, paused });
@@ -158,16 +158,21 @@
     const closeBtn = panelEl.querySelector('[data-js-console-close]');
     closeBtn?.addEventListener('click', () => {
       persistVideoState();
-      const container = document.getElementById(GLOBAL_CONTAINER_ID);
+      const container = document.getElementById(C.GLOBAL_CONTAINER_ID);
       if (!container) return;
-      container.classList.remove('is-visible');
-      setTimeout(() => {
-        container.style.display = 'none';
-        container.setAttribute('aria-hidden', 'true');
-        panelEl.setAttribute('aria-hidden', 'true');
-        panelEl.style.display = 'none';
-        try { sessionStorage.removeItem(STORAGE_KEY_VISIBLE); } catch (e) {}
-      }, GLOBAL_VIDEO_TRANSITION_MS);
+      if (window.GlobalMediaPanel) {
+        window.GlobalMediaPanel.hideGlobalContainer(container, { visibleKey: C.STORAGE_KEY_VISIBLE, transitionMs: C.GLOBAL_TRANSITION_MS });
+        setTimeout(() => { panelEl.setAttribute('aria-hidden', 'true'); panelEl.style.display = 'none'; }, C.GLOBAL_TRANSITION_MS);
+      } else {
+        container.classList.remove('is-visible');
+        setTimeout(() => {
+          container.style.display = 'none';
+          container.setAttribute('aria-hidden', 'true');
+          panelEl.setAttribute('aria-hidden', 'true');
+          panelEl.style.display = 'none';
+          try { sessionStorage.removeItem(C.STORAGE_KEY_VISIBLE); } catch (e) {}
+        }, C.GLOBAL_TRANSITION_MS);
+      }
     });
 
     const maxBtn = panelEl.querySelector('[data-js-control-panel-mode]');
@@ -196,8 +201,8 @@
     const vol = video.volume;
     const title = previewPanelEl.getAttribute('data-video-title') || '';
 
-    const container = document.getElementById(GLOBAL_CONTAINER_ID);
-    const globalPanel = document.getElementById(GLOBAL_PANEL_ID);
+    const container = document.getElementById(C.GLOBAL_CONTAINER_ID);
+    const globalPanel = document.getElementById(C.GLOBAL_PANEL_ID);
     if (!container || !globalPanel) return;
 
     const globalRoot = globalPanel.querySelector('[data-js-video-player-body]');
@@ -224,14 +229,15 @@
     globalPanel.removeAttribute('aria-hidden');
     globalPanel.style.display = 'flex';
     globalPanel.classList.add('is-visible');
-    container.style.display = 'block';
-    container.setAttribute('aria-hidden', 'false');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        container.classList.add('is-visible');
-      });
-    });
-    try { sessionStorage.setItem(STORAGE_KEY_VISIBLE, '1'); } catch (e) {}
+    if (window.GlobalMediaPanel) {
+      window.GlobalMediaPanel.showGlobalContainer(container, { visibleKey: C.STORAGE_KEY_VISIBLE });
+      container.style.display = 'block';
+    } else {
+      container.style.display = 'block';
+      container.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => requestAnimationFrame(() => container.classList.add('is-visible')));
+      try { sessionStorage.setItem(C.STORAGE_KEY_VISIBLE, '1'); } catch (e) {}
+    }
     persistVideoState();
 
     initGlobalPanel(globalPanel);
@@ -294,7 +300,7 @@
     video.addEventListener('timeupdate', () => { updateTime(); updateProgress(); });
     video.addEventListener('durationchange', () => { updateProgress(); updateDuration(); });
     video.addEventListener('loadedmetadata', () => { updateProgress(); updateDuration(); });
-    if (container.id === GLOBAL_CONTAINER_ID) {
+    if (container.id === C.GLOBAL_CONTAINER_ID) {
       let lastPersist = 0;
       video.addEventListener('timeupdate', () => {
         const now = Date.now();
@@ -305,16 +311,16 @@
       });
     }
     function loadVideoTrack(index) {
-      if (!playlist.length || index < 0 || index >= playlist.length) return;
-      currentIndex = index;
-      const url = playlist[index];
-      const title = playlistTitles[index] || '';
+      if (!state.playlist.length || index < 0 || index >= state.playlist.length) return;
+      state.currentIndex = index;
+      const url = state.playlist[index];
+      const title = state.playlistTitles[index] || '';
       if (panel) panel.setAttribute('data-video-title', title);
       if (titleEl) titleEl.textContent = title;
       video.src = url;
       video.load();
       video.addEventListener('loadeddata', () => { video.play().catch(() => {}); }, { once: true });
-      if (container.id === GLOBAL_CONTAINER_ID) persistVideoState();
+      if (container.id === C.GLOBAL_CONTAINER_ID) persistVideoState();
     }
 
     const prevBtn = root.querySelector('[data-js-video-player-prev]');
@@ -322,7 +328,7 @@
     if (prevBtn) {
       prevBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (currentIndex > 0) loadVideoTrack(currentIndex - 1);
+        if (state.currentIndex > 0) loadVideoTrack(state.currentIndex - 1);
         else if (video.currentTime > 3) {
           video.currentTime = 0;
           updateProgress();
@@ -332,7 +338,7 @@
     if (nextBtn) {
       nextBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (currentIndex < playlist.length - 1) loadVideoTrack(currentIndex + 1);
+        if (state.currentIndex < state.playlist.length - 1) loadVideoTrack(state.currentIndex + 1);
       });
     }
 
@@ -404,7 +410,7 @@
     }
 
     const panelEl = container.querySelector('.W_ControlPanel');
-    const isGlobalContainer = container.id === GLOBAL_CONTAINER_ID;
+    const isGlobalContainer = container.id === C.GLOBAL_CONTAINER_ID;
     if (panelEl && !isGlobalContainer) {
       const closeBtn = panelEl.querySelector('[data-js-console-close]');
       const maxBtn = panelEl.querySelector('[data-js-control-panel-mode]');
@@ -431,15 +437,14 @@
 
   function restoreGlobalVideo() {
     try {
-      if (sessionStorage.getItem(STORAGE_KEY_VISIBLE) !== '1') return;
-      const container = document.getElementById(GLOBAL_CONTAINER_ID);
-      const panel = document.getElementById(GLOBAL_PANEL_ID);
-      if (!container || !panel) return;
+      const visible = window.GlobalMediaPanel ? window.GlobalMediaPanel.isGlobalVisible(C.STORAGE_KEY_VISIBLE) : (sessionStorage.getItem(C.STORAGE_KEY_VISIBLE) === '1');
+      const container = document.getElementById(C.GLOBAL_CONTAINER_ID);
+      const panel = document.getElementById(C.GLOBAL_PANEL_ID);
+      if (!visible || !container || !panel) return;
       container.style.display = 'block';
       container.setAttribute('aria-hidden', 'false');
       panel.removeAttribute('aria-hidden');
       panel.style.display = 'flex';
-      panel.classList.add('is-visible');
       const saved = loadSavedRect();
       applyRect(panel, saved || getDefaultRect());
       const stateApplied = applySavedVideoState(panel);
@@ -451,11 +456,10 @@
       initGlobalPanel(panel);
       globalVideoInited = true;
       attach(container);
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          container.classList.add('is-visible');
-        });
-      });
+      if (window.GlobalMediaPanel) {
+        window.GlobalMediaPanel.showGlobalContainer(container, { visibleKey: C.STORAGE_KEY_VISIBLE });
+        container.style.display = 'block';
+      } else requestAnimationFrame(() => requestAnimationFrame(() => container.classList.add('is-visible')));
     } catch (e) {}
   }
 
