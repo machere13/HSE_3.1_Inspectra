@@ -11,15 +11,19 @@
   style_attr << "width: #{w}px" if w
   style_attr << "height: #{h}px" if h
   style_attr = style_attr.join('; ')
-%>
 
-<span class="A_Logo <%= size_class %>" style="<%= style_attr %>">
-  <%
-    dir = local_assigns[:dir]
-    name = local_assigns[:name]
-    logical_name = dir.present? ? "#{dir}/#{name}.svg" : "#{name}.svg"
-  %>
-  <%= image_tag asset_path(logical_name), alt: name, draggable: false %>
+  name = local_assigns[:name]
+  dir = local_assigns[:dir]
+  logical_name = dir.present? ? "#{dir}/#{name}.svg" : "#{name}.svg"
+  svg_path = Rails.root.join('app', 'assets', 'icons', "#{name}.svg")
+  use_inline = File.exist?(svg_path)
+%>
+<span class="A_Logo <%= size_class %>" style="<%= style_attr %>" role="img" aria-label="<%= name %>">
+  <% if use_inline %>
+    <%= File.read(svg_path).html_safe %>
+  <% else %>
+    <%= image_tag asset_path(logical_name), alt: name, draggable: false %>
+  <% end %>
 </span>
 
 

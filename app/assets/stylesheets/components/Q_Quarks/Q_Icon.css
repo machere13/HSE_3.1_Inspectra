@@ -1,14 +1,25 @@
-.Q_Icon{
-    display: inline-block;
-    line-height: 0;
-    vertical-align: middle;
-    width: 18px;
-    height: 18px;
+.Q_Icon {
+  display: inline-block;
+  line-height: 0;
+  vertical-align: middle;
+  width: 18px;
+  height: 18px;
+  color: var(--color-accent);
 }
 
 .Q_Icon img,
-.Q_Icon svg{
-    display: block;
-    width: 100%;
-    height: 100%;
+.Q_Icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.Q_Icon svg path[stroke],
+.Q_Icon svg rect[stroke] {
+  stroke: currentColor;
+}
+
+.Q_Icon svg path:not([fill="none"]),
+.Q_Icon svg rect:not([fill="none"]) {
+  fill: currentColor;
 }

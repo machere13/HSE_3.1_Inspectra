@@ -8,22 +8,15 @@
    style_attr << "height: #{h}px" if h
    style_attr = style_attr.join('; ')
    logical_name = dir.present? ? "#{dir}/#{name}.svg" : "#{name}.svg"
-   
-   inline_svg_icons = ['Q_UnreadIcon']
-   use_inline = inline_svg_icons.include?(name)
+   svg_path = Rails.root.join('app', 'assets', 'icons', "#{name}.svg")
+   use_inline = File.exist?(svg_path)
  %>
- 
- <span class="Q_Icon" style="<%= style_attr %>">
-   <% if use_inline %>
-     <% svg_path = Rails.root.join('app', 'assets', 'icons', "#{name}.svg") %>
-     <% if File.exist?(svg_path) %>
-       <%= File.read(svg_path).html_safe %>
-     <% else %>
-       <%= image_tag asset_path(logical_name), alt: (local_assigns[:alt] || name), draggable: false %>
-     <% end %>
-   <% else %>
-     <%= image_tag asset_path(logical_name), alt: (local_assigns[:alt] || name), draggable: false %>
-   <% end %>
- </span>
+<span class="Q_Icon" style="<%= style_attr %>" role="img" aria-hidden="true">
+  <% if use_inline %>
+    <%= File.read(svg_path).html_safe %>
+  <% else %>
+    <%= image_tag asset_path(logical_name), alt: (local_assigns[:alt] || name), draggable: false %>
+  <% end %>
+</span>
 
 
