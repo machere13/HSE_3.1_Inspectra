@@ -1,5 +1,4 @@
 (() => {
-  const RESIZE = { MIN_W: 280, MIN_H: 320 };
   const GLOBAL_CONTAINER_ID = 'js-global-video-player-container';
   const GLOBAL_PANEL_ID = 'js-global-video-player';
   const GLOBAL_VIDEO_TRANSITION_MS = 280;
@@ -17,13 +16,6 @@
     playlistTitles = Array.isArray(titles) ? titles.slice(0, playlist.length) : [];
     while (playlistTitles.length < playlist.length) playlistTitles.push('');
   }
-
-  const formatTime = (s) => {
-    if (!Number.isFinite(s) || s < 0) return '00:00';
-    const m = Math.floor(s / 60);
-    const sec = Math.floor(s % 60);
-    return `${(m < 10 ? '0' : '') + m}:${(sec < 10 ? '0' : '') + sec}`;
-  };
 
   function getDefaultRect() {
     return {
@@ -158,70 +150,10 @@
     if (!panelEl || panelEl.getAttribute('data-video-global-inited') === 'true') return;
     panelEl.setAttribute('data-video-global-inited', 'true');
 
-    const header = panelEl.querySelector('[data-js-control-panel-drag]');
-    header?.addEventListener('mousedown', (e) => {
-      if (e.target.closest('.W_ControlPanel-Header-Button')) return;
-      e.preventDefault();
-      panelEl.classList.add('is-dragging');
-      const rect = panelEl.getBoundingClientRect();
-      const startX = e.clientX - rect.left;
-      const startY = e.clientY - rect.top;
-      panelEl.style.right = '';
-      panelEl.style.bottom = '';
-      const onMove = (ev) => {
-        const x = Math.max(0, Math.min(ev.clientX - startX, window.innerWidth - 50));
-        const y = Math.max(0, Math.min(ev.clientY - startY, window.innerHeight - 50));
-        panelEl.style.left = `${x}px`;
-        panelEl.style.top = `${y}px`;
-      };
-      const onUp = () => {
-        panelEl.classList.remove('is-dragging');
-        document.removeEventListener('mousemove', onMove);
-        document.removeEventListener('mouseup', onUp);
-        saveRect(panelEl);
-      };
-      document.addEventListener('mousemove', onMove);
-      document.addEventListener('mouseup', onUp);
-    });
-
-    const bindResize = (selector, edges) => {
-      const el = panelEl.querySelector(selector);
-      if (!el) return;
-      el.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        panelEl.classList.add('is-dragging');
-        const rect = panelEl.getBoundingClientRect();
-        const start = { left: rect.left, top: rect.top, right: rect.left + rect.width, bottom: rect.top + rect.height, x: e.clientX, y: e.clientY };
-        const onMove = (ev) => {
-          let left = edges.w ? start.left + (ev.clientX - start.x) : start.left;
-          let right = edges.e ? start.right + (ev.clientX - start.x) : start.right;
-          let top = edges.n ? start.top + (ev.clientY - start.y) : start.top;
-          let bottom = edges.s ? start.bottom + (ev.clientY - start.y) : start.bottom;
-          if (right - left < RESIZE.MIN_W) { if (edges.w) left = right - RESIZE.MIN_W; else right = left + RESIZE.MIN_W; }
-          if (bottom - top < RESIZE.MIN_H) { if (edges.n) top = bottom - RESIZE.MIN_H; else bottom = top + RESIZE.MIN_H; }
-          panelEl.style.left = `${left}px`;
-          panelEl.style.top = `${top}px`;
-          panelEl.style.width = `${right - left}px`;
-          panelEl.style.height = `${bottom - top}px`;
-        };
-        const onUp = () => {
-          panelEl.classList.remove('is-dragging');
-          document.removeEventListener('mousemove', onMove);
-          document.removeEventListener('mouseup', onUp);
-          saveRect(panelEl);
-        };
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
-      });
-    };
-    bindResize('[data-js-console-resize-left]', { w: true });
-    bindResize('[data-js-console-resize-right]', { e: true });
-    bindResize('[data-js-console-resize-top]', { n: true });
-    bindResize('[data-js-console-resize-bottom]', { s: true });
-    bindResize('[data-js-console-resize-nw]', { n: true, w: true });
-    bindResize('[data-js-console-resize-ne]', { n: true, e: true });
-    bindResize('[data-js-console-resize-sw]', { s: true, w: true });
-    bindResize('[data-js-console-resize-se]', { s: true, e: true });
+    if (window.W_ControlPanel) {
+      window.W_ControlPanel.initPanelDrag(panelEl, { onDragEnd: () => saveRect(panelEl) });
+      window.W_ControlPanel.initPanelResize(panelEl, { minW: 280, minH: 320, onResizeEnd: () => saveRect(panelEl) });
+    }
 
     const closeBtn = panelEl.querySelector('[data-js-console-close]');
     closeBtn?.addEventListener('click', () => {
@@ -332,8 +264,8 @@
       titleEl.textContent = panel.getAttribute('data-video-title');
     }
 
-    const updateTime = () => { if (timeEl) timeEl.textContent = formatTime(video.currentTime); };
-    const updateDuration = () => { if (durationEl) durationEl.textContent = formatTime(video.duration); };
+    const updateTime = () => { if (timeEl) timeEl.textContent = window.FormatTime(video.currentTime); };
+    const updateDuration = () => { if (durationEl) durationEl.textContent = window.FormatTime(video.duration); };
     const updateProgress = () => {
       const p = video.duration ? (video.currentTime / video.duration) * 100 : 0;
       if (progressFill) progressFill.style.width = `${p}%`;

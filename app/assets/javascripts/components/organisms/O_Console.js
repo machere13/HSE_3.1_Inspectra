@@ -174,12 +174,6 @@
     setState(state);
   };
 
-  const RESIZE = {
-    MIN_W: 320,
-    MIN_H: 200,
-    PAD: 16,
-  };
-
   const exitMaximized = (consoleEl, rect) => {
     if (!consoleEl.classList.contains('is-maximized')) return;
     consoleEl.classList.remove('is-maximized');
@@ -191,118 +185,6 @@
     consoleEl.style.bottom = '';
     const btn = consoleEl.querySelector('[data-js-console-maximize]');
     if (btn) btn.setAttribute('aria-label', 'На весь экран');
-  };
-
-  const initResize = (consoleEl) => {
-    const bind = (selector, edges) => {
-      const el = consoleEl.querySelector(selector);
-      if (!el) return;
-      el.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        consoleEl.classList.add('is-dragging');
-
-        const rect = consoleEl.getBoundingClientRect();
-        if (consoleEl.classList.contains('is-maximized')) {
-          exitMaximized(consoleEl, rect);
-        }
-
-        const start = {
-          left: rect.left,
-          top: rect.top,
-          right: rect.left + rect.width,
-          bottom: rect.top + rect.height,
-          x: e.clientX,
-          y: e.clientY,
-        };
-
-        consoleEl.style.right = '';
-        consoleEl.style.bottom = '';
-
-        const onMove = (ev) => {
-          const dx = ev.clientX - start.x;
-          const dy = ev.clientY - start.y;
-
-          let left = edges.w ? start.left + dx : start.left;
-          let right = edges.e ? start.right + dx : start.right;
-          let top = edges.n ? start.top + dy : start.top;
-          let bottom = edges.s ? start.bottom + dy : start.bottom;
-
-          const vw = window.innerWidth - RESIZE.PAD;
-          const vh = window.innerHeight - RESIZE.PAD;
-
-          if (right - left < RESIZE.MIN_W) {
-            if (edges.w) left = right - RESIZE.MIN_W;
-            else right = left + RESIZE.MIN_W;
-          }
-          if (bottom - top < RESIZE.MIN_H) {
-            if (edges.n) top = bottom - RESIZE.MIN_H;
-            else bottom = top + RESIZE.MIN_H;
-          }
-
-          left = Math.max(0, Math.min(left, vw - RESIZE.MIN_W));
-          right = Math.max(left + RESIZE.MIN_W, Math.min(right, vw));
-          top = Math.max(0, Math.min(top, vh - RESIZE.MIN_H));
-          bottom = Math.max(top + RESIZE.MIN_H, Math.min(bottom, vh));
-
-          consoleEl.style.left = `${left}px`;
-          consoleEl.style.top = `${top}px`;
-          consoleEl.style.width = `${right - left}px`;
-          consoleEl.style.height = `${bottom - top}px`;
-        };
-
-        const onUp = () => {
-          consoleEl.classList.remove('is-dragging');
-          document.removeEventListener('mousemove', onMove);
-          document.removeEventListener('mouseup', onUp);
-          saveSize(consoleEl);
-          requestAnimationFrame(() => syncLineHeights(consoleEl));
-        };
-
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
-      });
-    };
-
-    bind('[data-js-console-resize-left]', { w: true });
-    bind('[data-js-console-resize-right]', { e: true });
-    bind('[data-js-console-resize-top]', { n: true });
-    bind('[data-js-console-resize-bottom]', { s: true });
-    bind('[data-js-console-resize-nw]', { n: true, w: true });
-    bind('[data-js-console-resize-ne]', { n: true, e: true });
-    bind('[data-js-console-resize-sw]', { s: true, w: true });
-    bind('[data-js-console-resize-se]', { s: true, e: true });
-  };
-
-  const initDrag = (consoleEl) => {
-    const header = consoleEl.querySelector('[data-js-control-panel-drag]');
-    if (!header) return;
-
-    header.addEventListener('mousedown', (e) => {
-      if (e.target.closest('.O_Console-Header-Button')) return;
-      e.preventDefault();
-      consoleEl.classList.add('is-dragging');
-      const rect = consoleEl.getBoundingClientRect();
-      const startX = e.clientX - rect.left;
-      const startY = e.clientY - rect.top;
-      consoleEl.style.right = '';
-      consoleEl.style.bottom = '';
-
-      const onMove = (ev) => {
-        const x = Math.max(0, Math.min(ev.clientX - startX, window.innerWidth - 50));
-        const y = Math.max(0, Math.min(ev.clientY - startY, window.innerHeight - 50));
-        consoleEl.style.left = `${x}px`;
-        consoleEl.style.top = `${y}px`;
-        consoleEl.style.right = 'auto';
-        consoleEl.style.bottom = 'auto';
-      };
-      const onUp = () => {
-        consoleEl.classList.remove('is-dragging');
-        document.removeEventListener('mousemove', onMove);
-        document.removeEventListener('mouseup', onUp);
-      };
-      document.addEventListener('mousemove', onMove);
-      document.addEventListener('mouseup', onUp);
-    });
   };
 
   const init = () => {
@@ -415,8 +297,21 @@
       if (text) document.execCommand('insertText', false, text.replace(/\r?\n/g, ' '));
     });
 
-    initResize(consoleEl);
-    initDrag(consoleEl);
+    if (window.W_ControlPanel) {
+      window.W_ControlPanel.initPanelResize(consoleEl, {
+        minW: 320,
+        minH: 200,
+        pad: 16,
+        onResizeStart: (el, rect) => {
+          if (el.classList.contains('is-maximized')) exitMaximized(el, rect);
+        },
+        onResizeEnd: (el) => {
+          saveSize(el);
+          requestAnimationFrame(() => syncLineHeights(el));
+        }
+      });
+      window.W_ControlPanel.initPanelDrag(consoleEl, { ignoreSelector: '.O_Console-Header-Button' });
+    }
   };
 
   if (document.readyState === 'loading') {
