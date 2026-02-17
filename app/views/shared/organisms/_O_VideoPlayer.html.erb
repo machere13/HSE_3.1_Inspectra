@@ -1,3 +1,7 @@
+<% header_controls = capture do %>
+  <%= render 'shared/atoms/A_ControlButton', icon_name: 'Q_FullScreenIcon', aria_label: 'Сменить режим', class: 'W_ControlPanel-Header-Button W_ControlPanel-Header-Button--mode', data: { js_control_panel_mode: '', icon_url: asset_path('Q_FullScreenIcon.svg'), icon_alt_url: asset_path('Q_NotFullScreenIcon.svg') } %>
+  <%= render 'shared/atoms/A_ControlButton', icon_name: 'Q_CloseIcon', aria_label: 'Закрыть', data: { js_console_close: '' } %>
+<% end %>
 <%= render layout: 'shared/wrappers/W_ControlPanel',
     locals: {
       state_key: local_assigns[:state_key] || 'o_video_player_state',
@@ -5,7 +9,8 @@
       icon_name: 'Q_EyeIcon',
       data: { js_video_player: '' },
       body_fill: true,
-      class: local_assigns[:panel_class]
+      class: local_assigns[:panel_class],
+      header_controls: header_controls
     } do %>
   <div class="O_VideoPlayer" data-js-video-player-body>
     <div class="O_VideoPlayer-TopBar" data-js-video-player-topbar>
