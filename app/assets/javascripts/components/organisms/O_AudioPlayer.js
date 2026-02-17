@@ -157,6 +157,7 @@
     const audio = root?.querySelector('[data-js-audio-player-src]');
     const volumeInput = root?.querySelector('[data-js-volume-input]');
     if (!audio) return;
+    audio.pause();
     const src = audio.src || audio.currentSrc || '';
     const currentTime = audio.currentTime;
     const paused = audio.paused;
@@ -215,6 +216,9 @@
       else { container.style.display = ''; container.setAttribute('aria-hidden', 'false'); try { sessionStorage.setItem(C.STORAGE_KEY_VISIBLE, '1'); } catch (e) {} requestAnimationFrame(() => requestAnimationFrame(() => container.classList.add('is-visible'))); }
       initGlobal();
     } else {
+      const root = container.querySelector('[data-js-audio-player-body], .O_GlobalAudioPlayer');
+      const audio = root?.querySelector('[data-js-audio-player-src]');
+      if (audio) audio.pause();
       if (window.GlobalMediaPanel) window.GlobalMediaPanel.hideGlobalContainer(container, { visibleKey: C.STORAGE_KEY_VISIBLE, transitionMs: C.GLOBAL_TRANSITION_MS });
       else { container.classList.remove('is-visible'); setTimeout(() => { container.style.display = 'none'; container.setAttribute('aria-hidden', 'true'); try { sessionStorage.removeItem(C.STORAGE_KEY_VISIBLE); } catch (e) {} }, C.GLOBAL_TRANSITION_MS); }
     }

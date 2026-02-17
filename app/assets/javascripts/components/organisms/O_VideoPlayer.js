@@ -124,6 +124,7 @@
     const title = panelEl.getAttribute('data-video-title') || '';
     const currentTime = video.currentTime;
     const paused = video.paused;
+    video.pause();
     persistVideoState();
     const container = document.getElementById(C.GLOBAL_CONTAINER_ID);
     if (container) {
@@ -158,6 +159,9 @@
     const closeBtn = panelEl.querySelector('[data-js-console-close]');
     closeBtn?.addEventListener('click', () => {
       persistVideoState();
+      const root = panelEl.querySelector('[data-js-video-player-body]');
+      const video = root?.querySelector('[data-js-video-player-src]');
+      if (video) video.pause();
       const container = document.getElementById(C.GLOBAL_CONTAINER_ID);
       if (!container) return;
       if (window.GlobalMediaPanel) {
@@ -195,6 +199,7 @@
     const video = root?.querySelector('[data-js-video-player-src]');
     const volumeInput = root?.querySelector('[data-js-volume-input]');
     if (!video) return;
+    video.pause();
     const src = video.src || video.currentSrc || '';
     const currentTime = video.currentTime;
     const paused = video.paused;
