@@ -4,8 +4,10 @@
 //= require ./utils/dom
 //= require ./utils/TokenGenerator
 //= require ./utils/time
+//= require ./utils/globalMediaConstants
+//= require ./utils/playlist
+//= require ./utils/globalMediaPanel
 
-// Components
 //= require ./components/wrappers/W_ControlPanel
 //= require ./components/atoms/A_Button
 //= require ./components/atoms/A_ArrowButton
