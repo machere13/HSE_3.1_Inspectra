@@ -4,11 +4,15 @@
   icon_name = local_assigns[:icon_name]
   body_partial = local_assigns[:body_partial]
   body_fill = local_assigns[:body_fill]
+  header_controls = local_assigns[:header_controls]
+  resizable = local_assigns.fetch(:resizable, true)
+  draggable = local_assigns.fetch(:draggable, true)
   data_attrs = (local_assigns[:data] || {}).merge(js_control_panel: '', js_control_panel_state_key: state_key)
   has_block = block_given?
   extra_class = local_assigns[:class]
   classes = ['W_ControlPanel']
   classes << extra_class if extra_class.present?
+  classes << 'W_ControlPanel--no-drag' unless draggable
   body_classes = ['W_ControlPanel-Body']
   body_classes << 'W_ControlPanel-Body--fill' if body_fill
 %>
@@ -18,19 +22,7 @@
       <%= render 'shared/quarks/Q_Icon', name: icon_name, width: 18, height: 18 %>
     <% end %>
     <div class="W_ControlPanel-Header-Controls">
-      <%= render 'shared/atoms/A_ControlButton',
-        icon_name: 'Q_FullScreenIcon',
-        aria_label: 'На весь экран',
-        class: 'W_ControlPanel-Header-Button W_ControlPanel-Header-Button--maximize',
-        data: {
-          js_console_maximize: '',
-          icon_url: asset_path('Q_FullScreenIcon.svg'),
-          icon_alt_url: asset_path('Q_NotFullScreenIcon.svg')
-        } %>
-      <%= render 'shared/atoms/A_ControlButton',
-        icon_name: 'Q_CloseIcon',
-        aria_label: 'Закрыть',
-        data: { js_console_close: '' } %>
+      <%= header_controls %>
     </div>
   </div>
   <div class="<%= body_classes.join(' ') %>">
@@ -40,12 +32,14 @@
       <%= render body_partial %>
     <% end %>
   </div>
-  <div class="W_ControlPanel-Resize W_ControlPanel-Resize--left" data-js-console-resize-left aria-label="Изменить ширину"></div>
-  <div class="W_ControlPanel-Resize W_ControlPanel-Resize--right" data-js-console-resize-right aria-label="Изменить ширину"></div>
-  <div class="W_ControlPanel-Resize W_ControlPanel-Resize--top" data-js-console-resize-top aria-label="Изменить высоту"></div>
-  <div class="W_ControlPanel-Resize W_ControlPanel-Resize--bottom" data-js-console-resize-bottom aria-label="Изменить высоту"></div>
-  <div class="W_ControlPanel-Resize W_ControlPanel-Resize--corner-nw" data-js-console-resize-nw aria-label="Изменить размер"></div>
-  <div class="W_ControlPanel-Resize W_ControlPanel-Resize--corner-ne" data-js-console-resize-ne aria-label="Изменить размер"></div>
-  <div class="W_ControlPanel-Resize W_ControlPanel-Resize--corner-sw" data-js-console-resize-sw aria-label="Изменить размер"></div>
-  <div class="W_ControlPanel-Resize W_ControlPanel-Resize--corner-se" data-js-console-resize-se aria-label="Изменить размер"></div>
+  <% if resizable %>
+    <div class="W_ControlPanel-Resize W_ControlPanel-Resize--left" data-js-console-resize-left aria-label="Изменить ширину"></div>
+    <div class="W_ControlPanel-Resize W_ControlPanel-Resize--right" data-js-console-resize-right aria-label="Изменить ширину"></div>
+    <div class="W_ControlPanel-Resize W_ControlPanel-Resize--top" data-js-console-resize-top aria-label="Изменить высоту"></div>
+    <div class="W_ControlPanel-Resize W_ControlPanel-Resize--bottom" data-js-console-resize-bottom aria-label="Изменить высоту"></div>
+    <div class="W_ControlPanel-Resize W_ControlPanel-Resize--corner-nw" data-js-console-resize-nw aria-label="Изменить размер"></div>
+    <div class="W_ControlPanel-Resize W_ControlPanel-Resize--corner-ne" data-js-console-resize-ne aria-label="Изменить размер"></div>
+    <div class="W_ControlPanel-Resize W_ControlPanel-Resize--corner-sw" data-js-console-resize-sw aria-label="Изменить размер"></div>
+    <div class="W_ControlPanel-Resize W_ControlPanel-Resize--corner-se" data-js-console-resize-se aria-label="Изменить размер"></div>
+  <% end %>
 </div>

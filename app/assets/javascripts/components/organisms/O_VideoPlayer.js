@@ -1,5 +1,5 @@
 (() => {
-  const RESIZE = { MIN_W: 280, MIN_H: 200 };
+  const RESIZE = { MIN_W: 280, MIN_H: 320 };
   const GLOBAL_CONTAINER_ID = 'js-global-video-player-container';
   const GLOBAL_PANEL_ID = 'js-global-video-player';
   const GLOBAL_VIDEO_TRANSITION_MS = 280;
@@ -238,7 +238,7 @@
       }, GLOBAL_VIDEO_TRANSITION_MS);
     });
 
-    const maxBtn = panelEl.querySelector('[data-js-console-maximize]');
+    const maxBtn = panelEl.querySelector('[data-js-control-panel-mode]');
     maxBtn?.addEventListener('click', (e) => {
       e.preventDefault();
       if (isWeekPage()) {
@@ -475,7 +475,7 @@
     const isGlobalContainer = container.id === GLOBAL_CONTAINER_ID;
     if (panelEl && !isGlobalContainer) {
       const closeBtn = panelEl.querySelector('[data-js-console-close]');
-      const maxBtn = panelEl.querySelector('[data-js-console-maximize]');
+      const maxBtn = panelEl.querySelector('[data-js-control-panel-mode]');
       const isInPreview = panelEl.classList.contains('W_ControlPanel--in-preview');
       const onClosePreview = () => {
         if (window.ContentPreview && typeof window.ContentPreview.closePreview === 'function') {

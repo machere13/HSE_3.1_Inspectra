@@ -1,10 +1,15 @@
+<% header_controls = capture do %>
+  <%= render 'shared/atoms/A_ControlButton', icon_name: 'Q_FullScreenIcon', aria_label: 'Сменить режим', class: 'W_ControlPanel-Header-Button W_ControlPanel-Header-Button--mode', data: { js_control_panel_mode: '', icon_url: asset_path('Q_FullScreenIcon.svg'), icon_alt_url: asset_path('Q_NotFullScreenIcon.svg') } %>
+  <%= render 'shared/atoms/A_ControlButton', icon_name: 'Q_CloseIcon', aria_label: 'Закрыть', data: { js_console_close: '' } %>
+<% end %>
 <%= render layout: 'shared/wrappers/W_ControlPanel',
     locals: {
       state_key: 'o_audio_player_state',
       id: 'js-audio-player',
       icon_name: 'Q_AudioIcon',
       data: { js_audio_player: '' },
-      body_fill: false
+      body_fill: false,
+      header_controls: header_controls
     } do %>
   <div class="O_AudioPlayer" data-js-audio-player-body>
     <audio data-js-audio-player-src preload="metadata" style="display: none;"></audio>

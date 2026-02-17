@@ -53,7 +53,7 @@
     const verticalOnly = opts.verticalOnly === true;
 
     const closeBtn = panelEl.querySelector('[data-js-console-close]');
-    const maxBtn = panelEl.querySelector('[data-js-console-maximize]');
+    const maxBtn = panelEl.querySelector('[data-js-control-panel-mode]');
     closeBtn?.addEventListener('click', () => { if (onClose) onClose(); });
 
     maxBtn?.addEventListener('click', (e) => {

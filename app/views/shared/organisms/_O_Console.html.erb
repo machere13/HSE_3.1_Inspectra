@@ -1,10 +1,15 @@
+<% header_controls = capture do %>
+  <%= render 'shared/atoms/A_ControlButton', icon_name: 'Q_FullScreenIcon', aria_label: 'На весь экран', class: 'W_ControlPanel-Header-Button W_ControlPanel-Header-Button--maximize', data: { js_console_maximize: '', icon_url: asset_path('Q_FullScreenIcon.svg'), icon_alt_url: asset_path('Q_NotFullScreenIcon.svg') } %>
+  <%= render 'shared/atoms/A_ControlButton', icon_name: 'Q_CloseIcon', aria_label: 'Закрыть', data: { js_console_close: '' } %>
+<% end %>
 <%= render layout: 'shared/wrappers/W_ControlPanel',
     locals: {
       state_key: 'o_console_state',
       id: 'js-console',
       icon_name: 'Q_ConsoleIcon',
       data: { js_console: '' },
-      body_fill: true
+      body_fill: true,
+      header_controls: header_controls
     } do %>
   <div class="O_Console" data-js-console>
     <div class="O_Console-Scroll Q_Scrollbar" data-js-console-scroll>
