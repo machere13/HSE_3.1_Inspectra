@@ -388,12 +388,22 @@
       });
     }
     if (volumeInput) {
-      video.volume = 1;
+      let vol = 1;
+      if (container.id === C.GLOBAL_CONTAINER_ID) {
+        const saved = loadSavedVideoState();
+        if (saved && saved.volume != null) vol = Math.max(0, Math.min(1, saved.volume));
+      }
+      video.volume = vol;
+      volumeInput.value = String(Math.round(vol * 10));
       volumeInput.addEventListener('input', () => {
         video.volume = volumeFromInput();
         updateVolumeFill();
+        if (container.id === C.GLOBAL_CONTAINER_ID) persistVideoState();
       });
-      volumeInput.addEventListener('change', updateVolumeFill);
+      volumeInput.addEventListener('change', () => {
+        updateVolumeFill();
+        if (container.id === C.GLOBAL_CONTAINER_ID) persistVideoState();
+      });
       updateVolumeFill();
     }
 

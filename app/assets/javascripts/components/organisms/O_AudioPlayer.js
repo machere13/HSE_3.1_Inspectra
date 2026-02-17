@@ -89,9 +89,11 @@
         container.setAttribute(C.DATA_ATTR_SRC, audio.src);
         container.setAttribute(C.DATA_ATTR_TIME, String(audio.currentTime));
         container.setAttribute(C.DATA_ATTR_PAUSED, audio.paused ? '1' : '0');
+        container.setAttribute(C.DATA_ATTR_VOLUME, String(audio.volume));
         sessionStorage.setItem(C.STORAGE_KEY_SRC, audio.src);
         sessionStorage.setItem(C.STORAGE_KEY_TIME, String(audio.currentTime));
         sessionStorage.setItem(C.STORAGE_KEY_PAUSED, audio.paused ? '1' : '0');
+        sessionStorage.setItem(C.STORAGE_KEY_VOLUME, String(audio.volume));
       }
     } catch (e) {}
   }
@@ -372,12 +374,20 @@
       });
     }
     if (volumeInput) {
-      audio.volume = 1;
+      const savedVol = (container.id === C.GLOBAL_CONTAINER_ID)
+        ? (parseFloat(sessionStorage.getItem(C.STORAGE_KEY_VOLUME)) || parseFloat(container.getAttribute(C.DATA_ATTR_VOLUME)) || 1)
+        : 1;
+      audio.volume = Math.max(0, Math.min(1, savedVol));
+      volumeInput.value = String(Math.round(audio.volume * 10));
       volumeInput.addEventListener('input', () => {
         audio.volume = volumeFromInput();
         updateVolumeFill();
+        if (container.id === C.GLOBAL_CONTAINER_ID) persistGlobalState();
       });
-      volumeInput.addEventListener('change', updateVolumeFill);
+      volumeInput.addEventListener('change', () => {
+        updateVolumeFill();
+        if (container.id === C.GLOBAL_CONTAINER_ID) persistGlobalState();
+      });
       updateVolumeFill();
     }
     const closeGlobalBtn = root.querySelector('[data-js-audio-player-close-global]');
@@ -436,12 +446,14 @@
       let savedIndex = '0';
       let savedTime = '0';
       let savedPaused = '1';
+      let savedVolume = '1';
       savedPlaylistJson = container.getAttribute(C.DATA_ATTR_PLAYLIST) || '';
       savedIndex = container.getAttribute(C.DATA_ATTR_INDEX) || '';
       savedTitlesJson = container.getAttribute(C.DATA_ATTR_TITLES) || '';
       savedSrc = container.getAttribute(C.DATA_ATTR_SRC) || '';
       savedTime = container.getAttribute(C.DATA_ATTR_TIME) || '';
-      savedPaused = container.getAttribute(C.DATA_ATTR_PAUSED) || '';
+      savedPaused = container.getAttribute(C.DATA_ATTR_PAUSED) || '1';
+      savedVolume = container.getAttribute(C.DATA_ATTR_VOLUME) || '';
       if (!savedPlaylistJson || !savedSrc) {
         try {
           if (!savedPlaylistJson) savedPlaylistJson = sessionStorage.getItem(C.STORAGE_KEY_PLAYLIST) || '';
@@ -450,11 +462,13 @@
           if (!savedSrc) savedSrc = sessionStorage.getItem(C.STORAGE_KEY_SRC) || '';
           if (!savedTime) savedTime = sessionStorage.getItem(C.STORAGE_KEY_TIME) || '0';
           if (!savedPaused) savedPaused = sessionStorage.getItem(C.STORAGE_KEY_PAUSED) || '1';
+          if (!savedVolume) savedVolume = sessionStorage.getItem(C.STORAGE_KEY_VOLUME) || '1';
         } catch (e) {}
       }
       if (!savedIndex) savedIndex = '0';
       if (!savedTime) savedTime = '0';
       if (!savedPaused) savedPaused = '1';
+      if (!savedVolume) savedVolume = '1';
       let list = [];
       let titlesList = [];
       if (savedPlaylistJson) {
@@ -482,11 +496,17 @@
         if (audio && trackSrc) {
           const time = Math.max(0, parseFloat(savedTime));
           const shouldPlay = savedPaused !== '1';
+          const vol = Math.max(0, Math.min(1, parseFloat(savedVolume) || 1));
           let restored = false;
           const applyRestore = () => {
             if (restored) return;
             restored = true;
             if (Number.isFinite(time)) audio.currentTime = time;
+            audio.volume = vol;
+            const volInput = root?.querySelector('[data-js-volume-input]');
+            const volFill = root?.querySelector('[data-js-volume-fill]');
+            if (volInput) { volInput.value = String(Math.round(vol * 10)); volInput.dispatchEvent(new Event('input')); }
+            if (volFill) volFill.style.height = `${vol * 100}%`;
             if (shouldPlay) audio.play().catch(() => {});
           };
           audio.addEventListener('loadedmetadata', applyRestore, { once: true });

@@ -12,12 +12,14 @@
     STORAGE_KEY_PAUSED: 'globalAudioPlayerPaused',
     STORAGE_KEY_POSITION: 'globalAudioPlayerPosition',
     STORAGE_KEY_TITLES: 'globalAudioPlayerTitles',
+    STORAGE_KEY_VOLUME: 'globalAudioPlayerVolume',
     DATA_ATTR_PLAYLIST: 'data-global-playlist',
     DATA_ATTR_INDEX: 'data-global-index',
     DATA_ATTR_TITLES: 'data-global-titles',
     DATA_ATTR_SRC: 'data-global-src',
     DATA_ATTR_TIME: 'data-global-time',
-    DATA_ATTR_PAUSED: 'data-global-paused'
+    DATA_ATTR_PAUSED: 'data-global-paused',
+    DATA_ATTR_VOLUME: 'data-global-volume'
   };
   const video = {
     GLOBAL_CONTAINER_ID: 'js-global-video-player-container',
