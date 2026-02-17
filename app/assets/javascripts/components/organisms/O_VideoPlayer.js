@@ -2,6 +2,7 @@
   const RESIZE = { MIN_W: 280, MIN_H: 200 };
   const GLOBAL_CONTAINER_ID = 'js-global-video-player-container';
   const GLOBAL_PANEL_ID = 'js-global-video-player';
+  const GLOBAL_VIDEO_TRANSITION_MS = 280;
   const STORAGE_KEY_VISIBLE = 'globalVideoPlayerVisible';
   const STORAGE_KEY_RECT = 'globalVideoPlayerRect';
   const STORAGE_KEY_VIDEO_STATE = 'globalVideoPlayerState';
@@ -140,11 +141,13 @@
     const container = document.getElementById(GLOBAL_CONTAINER_ID);
     if (container) {
       container.classList.remove('is-visible');
-      container.style.display = 'none';
-      container.setAttribute('aria-hidden', 'true');
-      panelEl.setAttribute('aria-hidden', 'true');
-      panelEl.style.display = 'none';
-      try { sessionStorage.removeItem(STORAGE_KEY_VISIBLE); } catch (err) {}
+      setTimeout(() => {
+        container.style.display = 'none';
+        container.setAttribute('aria-hidden', 'true');
+        panelEl.setAttribute('aria-hidden', 'true');
+        panelEl.style.display = 'none';
+        try { sessionStorage.removeItem(STORAGE_KEY_VISIBLE); } catch (err) {}
+      }, GLOBAL_VIDEO_TRANSITION_MS);
     }
     if (window.ContentPreview && typeof window.ContentPreview.openVideoPreview === 'function') {
       window.ContentPreview.openVideoPreview(url, { title, currentTime, paused });
@@ -226,11 +229,13 @@
       const container = document.getElementById(GLOBAL_CONTAINER_ID);
       if (!container) return;
       container.classList.remove('is-visible');
-      container.style.display = 'none';
-      container.setAttribute('aria-hidden', 'true');
-      panelEl.setAttribute('aria-hidden', 'true');
-      panelEl.style.display = 'none';
-      try { sessionStorage.removeItem(STORAGE_KEY_VISIBLE); } catch (e) {}
+      setTimeout(() => {
+        container.style.display = 'none';
+        container.setAttribute('aria-hidden', 'true');
+        panelEl.setAttribute('aria-hidden', 'true');
+        panelEl.style.display = 'none';
+        try { sessionStorage.removeItem(STORAGE_KEY_VISIBLE); } catch (e) {}
+      }, GLOBAL_VIDEO_TRANSITION_MS);
     });
 
     const maxBtn = panelEl.querySelector('[data-js-console-maximize]');
@@ -289,7 +294,11 @@
     globalPanel.classList.add('is-visible');
     container.style.display = 'block';
     container.setAttribute('aria-hidden', 'false');
-    container.classList.add('is-visible');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        container.classList.add('is-visible');
+      });
+    });
     try { sessionStorage.setItem(STORAGE_KEY_VISIBLE, '1'); } catch (e) {}
     persistVideoState();
 
@@ -496,7 +505,6 @@
       if (!container || !panel) return;
       container.style.display = 'block';
       container.setAttribute('aria-hidden', 'false');
-      container.classList.add('is-visible');
       panel.removeAttribute('aria-hidden');
       panel.style.display = 'flex';
       panel.classList.add('is-visible');
@@ -511,6 +519,11 @@
       initGlobalPanel(panel);
       globalVideoInited = true;
       attach(container);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          container.classList.add('is-visible');
+        });
+      });
     } catch (e) {}
   }
 
