@@ -1,12 +1,18 @@
 .A_Logo {
   display: inline-block;
   line-height: 0;
+  color: var(--color-accent);
 }
 
-.A_Logo img {
+.A_Logo img,
+.A_Logo svg {
   width: 100%;
   height: auto;
   display: block;
+}
+
+.A_Logo svg path:not([fill="none"]) {
+  fill: currentColor;
 }
 
 .A_Logo--Small { width: 101px; height: 28px; }
