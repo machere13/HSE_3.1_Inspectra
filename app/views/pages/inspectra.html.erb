@@ -23,9 +23,34 @@
         <%= render 'pages/inspectra/M_InspectraTextPlug', order: '//04', text: 'НАХОДИТЬ УЯЗВИМОСТИ И ЛОГИЧЕСКИЕ ОШИБКИ' %>
       </div>
     </section>
-    <section id="modules" class="PageInspectra-Section-Modules">
-      <%= render 'pages/inspectra/M_InspectraContentPlug', info: 'Роли пользователя' %>
+    <section id="role" class="PageInspectra-Section-Role">
+      <%= render 'pages/inspectra/M_InspectraContentPlug', info: 'Роль пользователя' %>
       <h4>В Inspectra ты — агент.<br>Агент — это не профессия, а роль: человек, который исследует, сомневается и докапывается до сути.</h4>
+      <div class="PageInspectra-Section-Role-ImageBlock">
+        <div class="PageInspectra-Section-Role-ImageBlock-ImageWrapper effect-blur">
+          <%= image_tag 'Q_PriestIcon.png', alt: 'Роль пользователя', class: 'PageInspectra-Section-Role-ImageBlock-Image-Image' %>
+        </div>
+        <div class="PageInspectra-Section-Role-Texts">
+          <div class='PageInspectra-AdditionalText'>
+            <span class="PageInspectra-AdditionalText-Icon">
+              <%= render 'shared/quarks/Q_Icon', name: 'Q_AsteriskIcon' %>
+            </span>
+            <span class="text-p-1-mono">Не боится ошибок</span>
+          </div>
+          <div class='PageInspectra-AdditionalText'>
+            <span class="PageInspectra-AdditionalText-Icon">
+              <%= render 'shared/quarks/Q_Icon', name: 'Q_AsteriskIcon' %>
+            </span>
+            <span class="text-p-1-mono">Хочет понимать, а не заучивать</span>
+          </div>
+          <div class='PageInspectra-AdditionalText'>
+            <span class="PageInspectra-AdditionalText-Icon">
+              <%= render 'shared/quarks/Q_Icon', name: 'Q_AsteriskIcon' %>
+            </span>
+            <span class="text-p-1-mono">Не обязан быть программистом</span>
+          </div>
+        </div>
+      </div>
     </section>
     <section id="info" class="PageInspectra-Section-Info">
       <%= render 'pages/inspectra/M_InspectraContentPlug', info: 'Как именно происходит обучение' %>
@@ -37,12 +62,15 @@
       </div>
       <h4>Inspectra — для тех, кто хочет понимать, как устроен цифровой мир, а не учить теорию, и любит разбирать все через квесты и расследования.</h4>
     </section>
+    <%= render 'pages/inspectra/O_InspectraTopics' %>
     <div class="PageInspectra-Section-CTA">
       <h4>Готов начать обучение?</h4>
       <%= render 'shared/atoms/A_Button', text: 'Начать первое расследование', href: root_path %>
       <%= render 'shared/atoms/A_Button', text: 'Узнать, как работает Inspectra', href: root_path %>
       <div class='PageInspectra-AdditionalText'>
-        <%= render 'shared/quarks/Q_Icon', name: 'Q_AsteriskIcon' color: 'var(--color-accent)' %>
+        <span class="PageInspectra-AdditionalText-Icon">
+          <%= render 'shared/quarks/Q_Icon', name: 'Q_AsteriskIcon' %>
+        </span>
         <span class="text-p-1-mono">займет 10-15 мин > можно без опыта </span>
       </div>
     </div>

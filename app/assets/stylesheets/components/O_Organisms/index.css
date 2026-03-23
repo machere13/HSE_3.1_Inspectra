@@ -12,4 +12,5 @@
  *= require ./O_AudioPlayer
  *= require ./O_GlobalAudioPlayer
  *= require ./O_VideoPlayer
+ *= require ./O_InspectraTopics
 */
