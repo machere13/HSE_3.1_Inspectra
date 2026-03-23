@@ -6,47 +6,32 @@
     flex: 1 1 auto;
     height: 100%;
     padding-left: var(--spacing-x3);
-    gap: var(--spacing-x24);
     scrollbar-width: none;
     -ms-overflow-style: none;
+}
+
+.PageInspectra-Content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-x16);
 }
   
 .PageInspectra-Section-Main{
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: var(--spacing-x24);
-    padding-top: var(--spacing-x24);
 }
   
 .PageInspectra-Section-Title{
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: var(--spacing-x10);
-    padding: var(--spacing-x2) var(--spacing-x5);
-    border-radius: var(--border-radius-x5);
-    background: var(--color-secondary);
-    border: var(--border-x05) solid var(--color-border-tertiary);
+    gap: var(--spacing-x6);
+    padding: var(--spacing-x16) var(--spacing-x8);
+    align-items: flex-start;
 }
 
-.PageInspectra-Section-Title-Logo{
-    width: 100%;
-    max-width: 440px;
-    display: flex;
-    justify-content: center;
-}
-
-.PageInspectra-Section-Title-Logo img{
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.PageInspectra-Section-Title > h1 {
-    word-break: break-word;
-}
-  
 .PageInspectra-Section-Main-Content{
     display: flex;
     flex-direction: column;
@@ -67,8 +52,7 @@
 .PageInspectra-Section-Content-Interactions{
     display: flex;
     gap: var(--spacing-x3);
-    width: 100%;
-    align-items: center;
+    width: fit-content;
     justify-content: center;
   }
   
@@ -79,6 +63,13 @@
     align-items: center;
     gap: var(--spacing-x14);
 }
+
+.PageInspectra-Section-Inspectra-Cards{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--spacing-x3);
+    width: 100%;
+}
   
 .PageInspectra-Section-Info{
     display: flex;
@@ -88,9 +79,10 @@
 }
 
 .PageInspectra-Section-Info-Blocks{
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     width: 100%;
-    gap: var(--spacing-x14);
+    gap: var(--spacing-x4);
 }
 
 .PageInspectra-Section-Modules{
@@ -120,17 +112,10 @@
     text-align: left;
 }
 
-.PageInspectra-Section-Image{
-    width: 100%;
-    max-width: 855px;
-    height: 100%;
-    object-fit: contain;
-}
-
-.PageInspectra-Section-Image-Image{
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+.PageInspectra-AdditionalText {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-x2);
 }
 
 .PageInspectra-Section-Form{
@@ -148,5 +133,15 @@
 @media (max-width: 1280px) {
     .PageInspectra-Section-Info-Blocks{
         flex-direction: column;
+    }
+
+    .PageInspectra-Section-Inspectra-Cards{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .PageInspectra-Section-Inspectra-Cards{
+        grid-template-columns: 1fr;
     }
 }

@@ -11,6 +11,7 @@
  *= require ./M_InspectraContentPlug
  *= require ./M_InspectraTextPlug
  *= require ./M_InspectraTextModule
+ *= require ./M_InspectraNumberedPlug
  *= require ./M_ArticleHeaderCard
  *= require ./M_ToastNotification
  *= require ./M_ToastInteractive

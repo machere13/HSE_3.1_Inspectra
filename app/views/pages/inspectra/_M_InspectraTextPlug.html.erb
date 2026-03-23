@@ -1,9 +1,6 @@
 <div class="M_InspectraTextPlug" <%= "style=\"max-width: #{local_assigns[:max_width]};\"".html_safe if local_assigns[:max_width] %>>
-  <% if local_assigns[:texts].is_a?(Array) %>
-    <% local_assigns[:texts].each do |text| %>
-      <p class="M_InspectraTextPlug-Label text-p-1-mono"><%= text %></p>
-    <% end %>
-  <% elsif local_assigns[:text] %>
+  <span class="M_InspectraTextPlug-Order text-h3"><%= local_assigns[:order] %></ы>
+  <div class="M_InspectraTextPlug-TextWrap">
     <p class="M_InspectraTextPlug-Label text-p-1-mono"><%= local_assigns[:text] %></p>
-  <% end %>
+  </div>
 </div>
