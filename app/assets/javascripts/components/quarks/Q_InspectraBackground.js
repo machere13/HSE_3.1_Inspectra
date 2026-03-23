@@ -2,8 +2,8 @@
   const DOT_SIZE = 3;
   const DOT_SPACING = 40;
   const DOT_STEP = DOT_SIZE + DOT_SPACING;
-  const COLOR_ROW_1 = '#4c4c4c';
-  const COLOR_ROW_2 = '#282828';
+  let COLOR_ROW_1 = '#4c4c4c';
+  let COLOR_ROW_2 = '#282828';
 
   const isTouchDevice = () => {
     return ("ontouchstart" in window) || (navigator.maxTouchPoints || 0) > 0 || (navigator.msMaxTouchPoints || 0) > 0;
@@ -131,6 +131,17 @@
     let running = true;
     let mouseX = undefined;
     let mouseY = undefined;
+
+    let lastTheme = null;
+    const resolveColorsFromTheme = () => {
+      try {
+        const cs = window.getComputedStyle(document.documentElement);
+        const row1 = cs.getPropertyValue('--color-border-secondary').trim();
+        const row2 = cs.getPropertyValue('--color-border-tertiary').trim();
+        if (row1) COLOR_ROW_1 = row1;
+        if (row2) COLOR_ROW_2 = row2;
+      } catch (_) {}
+    };
     
     const state = {
       currCenterX: 0,
@@ -170,6 +181,12 @@
         lastHeight = height;
       }
       
+      const themeNow = document.documentElement.getAttribute('data-theme') || '';
+      if (themeNow !== lastTheme) {
+        lastTheme = themeNow;
+        resolveColorsFromTheme();
+      }
+
       const time = timestamp * 0.001;
       render(ctx, width, height, time, mouseX, mouseY, cachedSpacing, state);
       animationFrame = requestAnimationFrame(loop);
@@ -212,6 +229,7 @@
     };
 
     handleResize();
+    resolveColorsFromTheme();
     animationFrame = requestAnimationFrame(loop);
     
     window.addEventListener('resize', handleResize);

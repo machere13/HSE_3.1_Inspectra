@@ -37,6 +37,14 @@
   };
 
   const THEME_TRANSITION_MS = 550;
+  const THEME_ALIASES = {
+    dark: 'dark',
+    white: 'white',
+    'acid-green': 'acid-green',
+    neon: 'neon',
+    pink: 'pink',
+  };
+  const THEME_HINT = 'theme dark | theme white | theme acid-green | theme neon | theme pink';
 
   const setTheme = (name) => {
     const state = getState() ?? {};
@@ -52,7 +60,9 @@
   const getThemeName = () => {
     const state = getState();
     const theme = state?.theme ?? document.documentElement.getAttribute('data-theme') ?? '';
-    return theme === 'white' ? 'light' : 'dark';
+    if (!theme) return 'dark';
+    if (theme === 'white') return 'light';
+    return theme;
   };
 
   const runCommand = (cmd) => {
@@ -60,7 +70,7 @@
     const lower = trimmed.toLowerCase();
     if (trimmed === '') return '';
     if (lower === 'help') {
-      return 'Доступные команды:\n  help     — список команд\n  clear    — очистить консоль\n  echo ... — повторить текст\n  theme    — сменить тему (theme white / theme dark)\n  go /path — перейти по пути\n  about    — о проекте';
+      return `Доступные команды:\n  help     — список команд\n  clear    — очистить консоль\n  echo ... — повторить текст\n  theme    — сменить тему (${THEME_HINT})\n  go /path — перейти по пути\n  about    — о проекте`;
     }
     if (lower === 'clear') return null;
     if (lower === 'about') {
@@ -70,15 +80,17 @@
       return trimmed.slice(5).trim() || '(пусто)';
     }
     if (lower === 'theme') {
-      return `${getThemeName()} | theme white | theme dark`;
+      return `${getThemeName()} | ${THEME_HINT}`;
     }
-    if (lower === 'theme white') {
-      setTheme('white');
-      return 'Theme set to light';
-    }
-    if (lower === 'theme dark') {
-      setTheme('dark');
-      return 'Theme set to dark';
+    if (lower.startsWith('theme ')) {
+      const requested = lower.slice(6).trim();
+      const resolved = THEME_ALIASES[requested];
+      if (!resolved) {
+        return `Неизвестная тема: ${escapeHtml(requested)}. ${THEME_HINT}`;
+      }
+      setTheme(resolved);
+      const pretty = resolved === 'dark' ? 'dark' : (resolved === 'white' ? 'light' : resolved);
+      return `Theme set to ${pretty}`;
     }
     if (lower.startsWith('go ')) {
       const path = trimmed.slice(3).trim();
