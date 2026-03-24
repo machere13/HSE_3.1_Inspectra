@@ -75,6 +75,48 @@
       return visibleNodes.length < totalNodes && visibleNodes.length > 0;
     },
 
+    hasConnectionBetween: function(connections, n1, n2) {
+      for (let i = 0; i < connections.length; i++) {
+        const c = connections[i];
+        if ((c.from === n1 && c.to === n2) || (c.from === n2 && c.to === n1)) return true;
+      }
+      return false;
+    },
+
+    ensureEachNodeHasConnection: function(visibleNodes, connections) {
+      if (visibleNodes.length < 2) return;
+
+      const degree = function(node) {
+        let d = 0;
+        for (let i = 0; i < connections.length; i++) {
+          const c = connections[i];
+          if (c.from === node) d++;
+          if (c.to === node) d++;
+        }
+        return d;
+      };
+
+      visibleNodes.forEach((node) => {
+        if (degree(node) > 0) return;
+        let best = null;
+        let bestD = Infinity;
+        for (let i = 0; i < visibleNodes.length; i++) {
+          const other = visibleNodes[i];
+          if (other === node) continue;
+          const dx = other.x - node.x;
+          const dy = other.y - node.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < bestD) {
+            bestD = dist;
+            best = other;
+          }
+        }
+        if (best && !this.hasConnectionBetween(connections, node, best)) {
+          connections.push({ from: node, to: best });
+        }
+      });
+    },
+
     calculateConnections: function(nodes, canvasWidth, canvasHeight) {
       const visibleNodes = this.getVisibleNodes(nodes);
       if (visibleNodes.length === 0) return [];
@@ -100,6 +142,7 @@
         }
       }
 
+      this.ensureEachNodeHasConnection(visibleNodes, connections);
       return connections;
     }
   };
