@@ -3,7 +3,7 @@
  *= require ./inspectra
  *= require ./article
  *= require ./week
- *= require ./not-found
+ *= require ./error
  *= require ./auth
  *= require ./profile
  *= require ./admin

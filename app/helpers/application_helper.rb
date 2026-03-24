@@ -1,6 +1,21 @@
 module ApplicationHelper
   include Pagy::Frontend
-  
+
+  def error_report_mailto_url(status_code)
+    email = ENV['ERROR_REPORT_EMAIL'].presence ||
+      Rails.application.credentials.dig(:errors, :report_email)
+    base = email.present? ? "mailto:#{email}" : 'mailto:'
+    body = +<<~TXT.strip
+      URL: #{request.original_url}
+      Time: #{Time.current.iso8601}
+      HTTP status: #{status_code}
+
+      Describe what you were doing:
+    TXT
+    qs = { subject: "[Inspectra] Error #{status_code}", body: body }
+    "#{base}?#{qs.to_query}"
+  end
+
   def generate_interactive_content
     paragraphs = []
     

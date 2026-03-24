@@ -18,10 +18,12 @@
     <div class="W_NavigationBar-Item" data-index="0">
       <%= render 'shared/molecules/M_NavigationBar', icon_name: 'Q_FolderIcon', icon_width: 16, icon_height: 16, text: 'Pages', arrow: { opened: true } %>
     </div>
-    <div class="W_NavigationBar-Item" data-index="1">
-      <% unless is_article_page %>
+    <% if !is_article_page && !@error_page %>
+      <div class="W_NavigationBar-Item" data-index="1">
         <%= render 'shared/molecules/M_NavigationBar', icon_name: is_week_page ? 'Q_FilterIcon' : nil, icon_width: 16, icon_height: 16, text: is_week_page ? 'Filter' : 'Blocks', arrow: { opened: true } %>
-      <% end %>
-    </div>
+      </div>
+    <% elsif is_article_page || @error_page %>
+      <div class="W_NavigationBar-Item" data-index="1"<%= ' aria-hidden="true"'.html_safe if @error_page %>></div>
+    <% end %>
   </div>
 <% end %>

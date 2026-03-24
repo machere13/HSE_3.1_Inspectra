@@ -27,6 +27,8 @@ module Project31
 
     config.api_only = false
 
+    config.exceptions_app = routes
+
     config.i18n.available_locales = [:ru]
     config.i18n.default_locale = :ru
 

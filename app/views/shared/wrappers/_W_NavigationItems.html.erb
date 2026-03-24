@@ -1,4 +1,4 @@
-<div class="W_NavigationItems" data-index="<%= local_assigns[:index] %>" style="<%= local_assigns[:style] %>">
+<div class="W_NavigationItems" data-index="<%= local_assigns[:index] %>" style="<%= local_assigns[:style] %>"<%= ' aria-hidden="true"'.html_safe if local_assigns[:aria_hidden] %>>
   <%= render 'shared/wrappers/W_NavigationLine' %>
   <% if local_assigns[:radio] %>
     <%= render 'shared/collections/C_RadioButtons', items: (local_assigns[:items] || []) %>
