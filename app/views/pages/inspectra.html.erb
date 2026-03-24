@@ -19,8 +19,8 @@
       <div class="PageInspectra-Section-Inspectra-Cards">
         <%= render 'pages/inspectra/M_InspectraTextPlug', order: '//01', text: 'РАЗБИРАТЬ САЙТЫ ИЗНУТРИ (DOM, COOKIES, NETWORK)' %>
         <%= render 'pages/inspectra/M_InspectraTextPlug', order: '//02', text: 'НАХОДИТЬ УЯЗВИМОСТИ И ЛОГИЧЕСКИЕ ОШИБКИ' %>
-        <%= render 'pages/inspectra/M_InspectraTextPlug', order: '//03', text: 'НАХОДИТЬ УЯЗВИМОСТИ И ЛОГИЧЕСКИЕ ОШИБКИ' %>
-        <%= render 'pages/inspectra/M_InspectraTextPlug', order: '//04', text: 'НАХОДИТЬ УЯЗВИМОСТИ И ЛОГИЧЕСКИЕ ОШИБКИ' %>
+        <%= render 'pages/inspectra/M_InspectraTextPlug', order: '//03', text: 'РАЗБИРАТЬСЯ В УСТАРЕВШИХ СИСТЕМАХ' %>
+        <%= render 'pages/inspectra/M_InspectraTextPlug', order: '//04', text: 'ПРОВЕРЯТЬ СИСТЕМУ НА ПРОЧНОСТЬ' %>
       </div>
     </section>
     <section id="role" class="PageInspectra-Section-Role">
@@ -28,7 +28,7 @@
       <h4>В Inspectra ты — агент.<br>Агент — это не профессия, а роль: человек, который исследует, сомневается и докапывается до сути.</h4>
       <div class="PageInspectra-Section-Role-ImageBlock">
         <div class="PageInspectra-Section-Role-ImageBlock-ImageWrapper effect-blur">
-          <%= image_tag 'Q_PriestIcon.png', alt: 'Роль пользователя', class: 'PageInspectra-Section-Role-ImageBlock-Image-Image' %>
+          <%= render 'shared/quarks/Q_Icon', name: 'A_PriestIcon', width: 192, height: 193 %>
         </div>
         <div class="PageInspectra-Section-Role-Texts">
           <div class='PageInspectra-AdditionalText'>
