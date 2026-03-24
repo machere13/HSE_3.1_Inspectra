@@ -43,8 +43,14 @@
     'acid-green': 'acid-green',
     neon: 'neon',
     pink: 'pink',
+    void: 'void',
+    purple: 'purple',
+    chrome: 'chrome',
+    'ocean-blue': 'ocean-blue',
+    vampire: 'vampire',
   };
-  const THEME_HINT = 'theme dark | theme white | theme acid-green | theme neon | theme pink';
+  const THEME_HINT =
+    'theme dark | theme white | theme void | theme purple | theme chrome | theme ocean-blue | theme vampire | theme acid-green | theme neon | theme pink';
 
   const setTheme = (name) => {
     const state = getState() ?? {};
@@ -89,7 +95,7 @@
         return `Неизвестная тема: ${escapeHtml(requested)}. ${THEME_HINT}`;
       }
       setTheme(resolved);
-      const pretty = resolved === 'dark' ? 'dark' : (resolved === 'white' ? 'light' : resolved);
+      const pretty = resolved === 'dark' ? 'dark' : resolved === 'white' ? 'light' : resolved;
       return `Theme set to ${pretty}`;
     }
     if (lower.startsWith('go ')) {

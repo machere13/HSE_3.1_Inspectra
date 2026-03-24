@@ -427,11 +427,26 @@
     bindGlobalToggle
   };
 
+  function resumeGlobalAudioAfterNavigation(container) {
+    const root = container?.querySelector('[data-js-audio-player-body], .O_GlobalAudioPlayer');
+    const audio = root?.querySelector('[data-js-audio-player-src]');
+    if (!audio?.src) return;
+    let pausedFlag = '1';
+    try {
+      pausedFlag = sessionStorage.getItem(C.STORAGE_KEY_PAUSED) || '1';
+    } catch (e) {}
+    if (pausedFlag === '1') {
+      pausedFlag = container.getAttribute(C.DATA_ATTR_PAUSED) || '1';
+    }
+    if (pausedFlag !== '1') audio.play().catch(() => {});
+  }
+
   function restoreGlobalPlayerAfterNavigate() {
     const visible = window.GlobalMediaPanel?.isGlobalVisible(C.STORAGE_KEY_VISIBLE);
     const container = document.getElementById(C.GLOBAL_CONTAINER_ID);
     if (!visible || !container) return;
-    if (container.style.display === 'none' || container.getAttribute('aria-hidden') === 'true') {
+    const isHidden = container.style.display === 'none' || container.getAttribute('aria-hidden') === 'true';
+    if (isHidden) {
       let pos = 'bottom';
       try { pos = sessionStorage.getItem(C.STORAGE_KEY_POSITION) || 'bottom'; } catch (e) {}
       applyGlobalPosition(container, pos === 'top' ? 'top' : 'bottom');
@@ -519,7 +534,11 @@
       }
       initGlobal();
       updateGlobalTitle();
+    } else {
+      initGlobal();
+      updateGlobalTitle();
     }
+    resumeGlobalAudioAfterNavigation(container);
   }
 
   if (window.DomUtils) {
