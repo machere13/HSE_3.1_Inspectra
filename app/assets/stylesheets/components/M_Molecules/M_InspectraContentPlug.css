@@ -39,6 +39,7 @@
 
 .M_InspectraContentPlug-Label{
     color: var(--color-text-primary);
+    text-transform: var(--text-transform-uppercase);
 }
 
 .M_InspectraContentPlug-AdditionalInfo{
