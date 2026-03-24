@@ -1,0 +1,25 @@
+.O_InspectraTopics{
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--border-radius-x2);
+    border: var(--border-x025) solid var(--color-border-secondary);
+    padding: var(--spacing-x8);
+    gap: var(--spacing-x3);
+    width: 100%;
+}
+
+.O_InspectraTopics-Content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.O_InspectraTopics-Content-Item{
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-x2);
+}
+
+.O_InspectraTopics-Content-Item-Order{
+    color: var(--color-text-tertiary);
+}

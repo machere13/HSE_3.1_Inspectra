@@ -83,6 +83,17 @@
     }
   }
 
+  function sameVideoUrl(a, b) {
+    const s1 = (a || '').trim();
+    const s2 = (b || '').trim();
+    if (!s1 || !s2) return false;
+    try {
+      return new URL(s1, document.baseURI).href === new URL(s2, document.baseURI).href;
+    } catch (e) {
+      return s1 === s2;
+    }
+  }
+
   function applySavedVideoState(panel) {
     const loaded = loadSavedVideoState();
     if (!loaded || !loaded.src || !panel) return false;
@@ -97,16 +108,28 @@
     const volumeFill = root?.querySelector('[data-js-volume-fill]');
     const titleEl = root?.querySelector('[data-js-video-player-title]');
     if (!video) return false;
-    video.src = loaded.src;
-    video.currentTime = loaded.currentTime != null ? loaded.currentTime : 0;
-    video.volume = loaded.volume != null ? loaded.volume : 1;
+    const currentHref = (video.currentSrc || video.src || '').trim();
+    const same = sameVideoUrl(currentHref, loaded.src);
+    if (!same) {
+      video.src = loaded.src;
+    }
+    const vol = loaded.volume != null ? loaded.volume : 1;
+    video.volume = vol;
+    const t = loaded.currentTime != null ? loaded.currentTime : 0;
+    if (Number.isFinite(t)) {
+      if (!same || Math.abs(video.currentTime - t) > 0.25) {
+        try {
+          video.currentTime = t;
+        } catch (err) {}
+      }
+    }
     if (loaded.title) panel.setAttribute('data-video-title', loaded.title);
     if (titleEl && loaded.title) titleEl.textContent = loaded.title;
     if (volumeInput) {
-      volumeInput.value = String(Math.round((loaded.volume != null ? loaded.volume : 1) * 10));
+      volumeInput.value = String(Math.round(vol * 10));
       volumeInput.dispatchEvent(new Event('input'));
     }
-    if (volumeFill) volumeFill.style.height = `${(loaded.volume != null ? loaded.volume : 1) * 100}%`;
+    if (volumeFill) volumeFill.style.height = `${vol * 100}%`;
     if (!loaded.paused) video.play().catch(() => {});
     return true;
   }
@@ -466,7 +489,7 @@
       if (!stateApplied) {
         const root = panel.querySelector('[data-js-video-player-body]');
         const video = root?.querySelector('[data-js-video-player-src]');
-        if (video && video.src) video.load();
+        if (video?.src) video.load();
       }
       initGlobalPanel(panel);
       globalVideoInited = true;
@@ -487,5 +510,10 @@
   if (window.DomUtils) {
     window.DomUtils.ready(restoreGlobalVideo);
     window.DomUtils.turboLoad(restoreGlobalVideo);
+  } else {
+    document.addEventListener('DOMContentLoaded', restoreGlobalVideo);
+    document.addEventListener('turbo:load', restoreGlobalVideo);
   }
+  document.addEventListener('turbo:before-visit', persistVideoState);
+  document.addEventListener('turbo:before-cache', persistVideoState);
 })();

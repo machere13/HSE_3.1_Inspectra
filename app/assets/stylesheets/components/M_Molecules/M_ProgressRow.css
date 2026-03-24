@@ -8,7 +8,7 @@
 
 .M_ProgressRow-Time {
   flex-shrink: 0;
-  color: var(--color-text-primary);
+  color: var(--color-accent);
   font-variant-numeric: tabular-nums;
 }
 

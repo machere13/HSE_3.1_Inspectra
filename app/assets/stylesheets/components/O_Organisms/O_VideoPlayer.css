@@ -17,7 +17,7 @@
   z-index: 2;
   align-items: center;
   padding: var(--spacing-x4);
-  background: linear-gradient(to bottom, rgb(0 0 0 / .8), rgb(0 0 0 / 0) 50%, transparent);
+  background: var(--gradient-video-top);
 }
 
 .W_ControlPanel.is-fullscreen .O_VideoPlayer-TopBar {
@@ -25,7 +25,7 @@
 }
 
 .O_VideoPlayer-Title {
-  color: #fff;
+  color: var(--color-accent);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -47,7 +47,7 @@
   flex-direction: column;
   gap: var(--spacing-x2);
   padding: 0 var(--spacing-x2) var(--spacing-x2) var(--spacing-x2);
-  background: linear-gradient(to top, rgb(0 0 0 / .8), rgb(0 0 0 / 0) 50%, transparent);
+  background: var(--gradient-video-bottom);
 }
 
 .W_ControlPanel.is-fullscreen .O_VideoPlayer-Controls {
@@ -77,7 +77,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #fff;
+  color: var(--color-accent);
 }
 
 .O_VideoPlayer-Ctrl:hover {
@@ -104,7 +104,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #fff;
+  color: var(--color-accent);
 }
 
 .O_VideoPlayer-PlayBtn:hover {
@@ -125,7 +125,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #fff;
+  color: var(--color-accent);
 }
 
 .O_VideoPlayer-VolumeBtn:hover {
@@ -166,7 +166,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #fff;
+  color: var(--color-accent);
 }
 
 .O_VideoPlayer-Fullscreen:hover {
