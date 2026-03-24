@@ -25,6 +25,18 @@ body {
   height: 100%;
 }
 
+::-moz-selection {
+  background-color: var(--color-state-focus);
+  color: var(--color-background);
+  text-shadow: none;
+}
+
+::selection {
+  background-color: var(--color-state-focus);
+  color: var(--color-background);
+  text-shadow: none;
+}
+
 a{
   color: var(--color-text-primary);
   text-decoration: none;
