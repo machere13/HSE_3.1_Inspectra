@@ -228,6 +228,12 @@ ru:
     heading: 'ERROR %{code}'
     back_home: 'На главную'
     report_button: 'Сообщить об ошибке'
+    report_modal_title: 'Что-то пошло не так? Расскажите нам'
+    report_close: 'Закрыть'
+    report_submit: 'Отправить'
+    report_placeholder: 'Опишите, что произошло'
+    report_thanks: 'Спасибо, сообщение отправлено'
+    report_invalid_message: 'Введите текст сообщения (не длиннее 20 000 символов)'
     console_codes:
       403: '403_forbidden'
       404: '404_not_found'

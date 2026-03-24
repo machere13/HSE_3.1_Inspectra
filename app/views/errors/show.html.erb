@@ -5,7 +5,10 @@
     <div class="PageError-Actions">
       <%= render 'shared/atoms/A_Button', text: t('errors.back_home'), href: root_path %>
       <% if [500, 502, 503].include?(@status_code) %>
-        <%= render 'shared/atoms/A_Button', text: t('errors.report_button'), href: error_report_mailto_url(@status_code) %>
+        <button type="button" class="A_Button" data-js-error-report-open data-error-status="<%= @status_code %>">
+          <span class="A_Button-Content text-button"><%= t('errors.report_button') %></span>
+          <span class="A_Button-Spinner" aria-hidden="true"></span>
+        </button>
       <% end %>
     </div>
   </div>
