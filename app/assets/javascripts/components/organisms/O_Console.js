@@ -3,6 +3,7 @@
   const TOGGLE_SELECTOR = '[data-js-console-toggle]';
   const STORAGE_KEY = 'o_console_state';
   const PROMPT = '>_ ';
+  const HISTORY_CAP = 200;
 
   const getState = () => {
     try {
@@ -76,7 +77,7 @@
     const lower = trimmed.toLowerCase();
     if (trimmed === '') return '';
     if (lower === 'help') {
-      return `Доступные команды:\n  help     — список команд\n  clear    — очистить консоль\n  echo ... — повторить текст\n  theme    — сменить тему (${THEME_HINT})\n  go /path — перейти по пути\n  about    — о проекте`;
+      return `Доступные команды:\n  help     — список команд\n  clear    — очистить консоль и историю\n  echo ... — повторить текст\n  theme    — сменить тему (${THEME_HINT})\n  go /path — перейти по пути\n  about    — о проекте\n  ↑ / ↓    — история введённых команд`;
     }
     if (lower === 'clear') return null;
     if (lower === 'about') {
@@ -113,14 +114,17 @@
     const linesEl = container.querySelector('[data-js-console-line-numbers]');
     const linesContent = container.querySelector('[data-js-console-lines]');
     if (!linesEl || !linesContent) return;
-    const outputCount = linesContent.children.length;
-    for (let i = 0; i < outputCount; i++) {
-      const lineEl = linesContent.children[i];
-      const numEl = linesEl.children[i];
-      if (lineEl && numEl) numEl.style.minHeight = `${lineEl.offsetHeight}px`;
-    }
-    const lastNum = linesEl.children[outputCount];
-    if (lastNum) lastNum.style.minHeight = '';
+    const lineEls = linesContent.children;
+    const numEls = linesEl.querySelectorAll('[data-js-console-ln]');
+    const outputCount = lineEls.length;
+    numEls.forEach((numEl) => {
+      numEl.style.minHeight = '';
+    });
+    numEls.forEach((numEl, i) => {
+      if (i < outputCount && lineEls[i]) {
+        numEl.style.minHeight = `${lineEls[i].offsetHeight}px`;
+      }
+    });
   };
 
   const updateLineNumbers = (container) => {
@@ -136,7 +140,9 @@
       parts.push(`<span class="${cls}" data-js-console-ln>${pad(i + 1)}</span>`);
     }
     linesEl.innerHTML = parts.length ? parts.join('') : '<span class="O_Console-LineNum text-code" data-js-console-ln>01</span>';
-    requestAnimationFrame(() => syncLineHeights(container));
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => syncLineHeights(container));
+    });
   };
 
   const setCaretToEnd = (el) => {
@@ -184,24 +190,24 @@
     updateLineNumbers(container);
   };
 
-  const saveSize = (consoleEl) => {
-    if (consoleEl.classList.contains('is-maximized')) return;
+  const saveSize = (panelRoot) => {
+    if (panelRoot.classList.contains('is-maximized')) return;
     const state = getState() ?? {};
-    state.width = consoleEl.offsetWidth;
-    state.height = consoleEl.offsetHeight;
+    state.width = panelRoot.offsetWidth;
+    state.height = panelRoot.offsetHeight;
     setState(state);
   };
 
-  const exitMaximized = (consoleEl, rect) => {
-    if (!consoleEl.classList.contains('is-maximized')) return;
-    consoleEl.classList.remove('is-maximized');
-    consoleEl.style.left = `${rect.left}px`;
-    consoleEl.style.top = `${rect.top}px`;
-    consoleEl.style.width = `${rect.width}px`;
-    consoleEl.style.height = `${rect.height}px`;
-    consoleEl.style.right = '';
-    consoleEl.style.bottom = '';
-    const btn = consoleEl.querySelector('[data-js-console-maximize]');
+  const exitMaximized = (panelRoot, rect) => {
+    if (!panelRoot.classList.contains('is-maximized')) return;
+    panelRoot.classList.remove('is-maximized');
+    panelRoot.style.left = `${rect.left}px`;
+    panelRoot.style.top = `${rect.top}px`;
+    panelRoot.style.width = `${rect.width}px`;
+    panelRoot.style.height = `${rect.height}px`;
+    panelRoot.style.right = '';
+    panelRoot.style.bottom = '';
+    const btn = panelRoot.querySelector('[data-js-console-maximize]');
     if (btn) btn.setAttribute('aria-label', 'На весь экран');
   };
 
@@ -210,103 +216,175 @@
     if (state?.theme) applyTheme(state.theme);
 
     const toggle = document.querySelector(TOGGLE_SELECTOR);
-    const consoleEl = document.querySelector(CONSOLE_SELECTOR);
-    if (!toggle || !consoleEl) return;
+    const innerConsole = document.querySelector(CONSOLE_SELECTOR);
+    if (!toggle || !innerConsole) return;
 
-    const input = consoleEl.querySelector('[data-js-console-input]');
-    const closeBtn = consoleEl.querySelector('[data-js-console-close]');
-    const maxBtn = consoleEl.querySelector('[data-js-console-maximize]');
+    const panelRoot = innerConsole.closest('.W_ControlPanel') || innerConsole;
+    const input = innerConsole.querySelector('[data-js-console-input]');
+    const closeBtn = panelRoot.querySelector('[data-js-console-close]');
+    const maxBtn = panelRoot.querySelector('[data-js-console-maximize]');
+
+    let commandHistory = [];
+    let historyIndex = -1;
+    let historyDraft = '';
+    let fillingFromHistory = false;
+
+    const pushHistory = (cmd) => {
+      const t = (cmd ?? '').trim();
+      if (!t) return;
+      commandHistory.push(t);
+      if (commandHistory.length > HISTORY_CAP) commandHistory.shift();
+    };
+
+    let syncLineHeightsRaf = null;
+    const scheduleSyncLineHeights = () => {
+      if (syncLineHeightsRaf != null) return;
+      syncLineHeightsRaf = requestAnimationFrame(() => {
+        syncLineHeightsRaf = null;
+        syncLineHeights(innerConsole);
+      });
+    };
+
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(() => scheduleSyncLineHeights());
+      ro.observe(innerConsole);
+      const linesOut = innerConsole.querySelector('[data-js-console-lines]');
+      if (linesOut) ro.observe(linesOut);
+    }
 
     if (state?.width && state?.height) {
-      consoleEl.style.width = `${state.width}px`;
-      consoleEl.style.height = `${state.height}px`;
+      panelRoot.style.width = `${state.width}px`;
+      panelRoot.style.height = `${state.height}px`;
     }
 
     const CONSOLE_TRANSITION_MS = 280;
 
     toggle.addEventListener('click', () => {
-      consoleEl.style.left = '';
-      consoleEl.style.top = '';
-      consoleEl.style.right = '';
-      consoleEl.style.bottom = '';
-      consoleEl.style.display = '';
-      consoleEl.setAttribute('aria-hidden', 'false');
+      panelRoot.style.left = '';
+      panelRoot.style.top = '';
+      panelRoot.style.right = '';
+      panelRoot.style.bottom = '';
+      panelRoot.style.display = '';
+      panelRoot.setAttribute('aria-hidden', 'false');
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          consoleEl.classList.add('is-visible');
+          panelRoot.classList.add('is-visible');
+          scheduleSyncLineHeights();
         });
       });
       setCaretToEnd(input);
     });
 
     closeBtn?.addEventListener('click', () => {
-      consoleEl.classList.remove('is-visible');
-      consoleEl.classList.remove('is-maximized');
+      panelRoot.classList.remove('is-visible');
+      panelRoot.classList.remove('is-maximized');
       setTimeout(() => {
-        consoleEl.style.display = 'none';
-        consoleEl.setAttribute('aria-hidden', 'true');
+        panelRoot.style.display = 'none';
+        panelRoot.setAttribute('aria-hidden', 'true');
       }, CONSOLE_TRANSITION_MS);
     });
 
     maxBtn?.addEventListener('click', (e) => {
       e.preventDefault();
-      const willBeMax = !consoleEl.classList.contains('is-maximized');
+      const willBeMax = !panelRoot.classList.contains('is-maximized');
       if (willBeMax) {
-        const r = consoleEl.getBoundingClientRect();
-        consoleEl.classList.add('is-maximizing');
-        consoleEl.style.left = `${r.left}px`;
-        consoleEl.style.top = `${r.top}px`;
-        consoleEl.style.right = '';
-        consoleEl.style.bottom = '';
-        consoleEl.style.width = `${r.width}px`;
-        consoleEl.style.height = `${r.height}px`;
-        void consoleEl.offsetHeight;
-        consoleEl.classList.remove('is-maximizing');
-        consoleEl.classList.add('is-maximized');
-        consoleEl.style.left = '';
-        consoleEl.style.top = '';
-        consoleEl.style.right = '';
-        consoleEl.style.bottom = '';
-        consoleEl.style.width = '';
-        consoleEl.style.height = '';
+        const r = panelRoot.getBoundingClientRect();
+        panelRoot.classList.add('is-maximizing');
+        panelRoot.style.left = `${r.left}px`;
+        panelRoot.style.top = `${r.top}px`;
+        panelRoot.style.right = '';
+        panelRoot.style.bottom = '';
+        panelRoot.style.width = `${r.width}px`;
+        panelRoot.style.height = `${r.height}px`;
+        void panelRoot.offsetHeight;
+        panelRoot.classList.remove('is-maximizing');
+        panelRoot.classList.add('is-maximized');
+        panelRoot.style.left = '';
+        panelRoot.style.top = '';
+        panelRoot.style.right = '';
+        panelRoot.style.bottom = '';
+        panelRoot.style.width = '';
+        panelRoot.style.height = '';
         maxBtn?.setAttribute('aria-label', 'Выйти из полноэкранного режима');
         const img = maxBtn?.querySelector('.A_ControlButton-Icon img, .Q_Icon img');
         if (img && maxBtn?.dataset?.iconUrl && maxBtn?.dataset?.iconAltUrl) {
           img.src = maxBtn.dataset.iconAltUrl;
         }
       } else {
-        consoleEl.classList.remove('is-maximized');
+        panelRoot.classList.remove('is-maximized');
         maxBtn?.setAttribute('aria-label', 'На весь экран');
         const s = getState();
         if (s?.width && s?.height) {
-          consoleEl.style.width = `${s.width}px`;
-          consoleEl.style.height = `${s.height}px`;
+          panelRoot.style.width = `${s.width}px`;
+          panelRoot.style.height = `${s.height}px`;
         }
-        consoleEl.style.left = '';
-        consoleEl.style.top = '';
-        consoleEl.style.right = '';
-        consoleEl.style.bottom = '';
+        panelRoot.style.left = '';
+        panelRoot.style.top = '';
+        panelRoot.style.right = '';
+        panelRoot.style.bottom = '';
         const img = maxBtn?.querySelector('.A_ControlButton-Icon img, .Q_Icon img');
         if (img && maxBtn?.dataset?.iconUrl && maxBtn?.dataset?.iconAltUrl) {
           img.src = maxBtn.dataset.iconUrl;
         }
       }
+      scheduleSyncLineHeights();
+    });
+
+    input?.addEventListener('input', () => {
+      if (fillingFromHistory) return;
+      historyIndex = -1;
     });
 
     input?.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowUp' && commandHistory.length) {
+        e.preventDefault();
+        if (historyIndex === -1) {
+          historyDraft = input.textContent ?? '';
+          historyIndex = commandHistory.length - 1;
+        } else if (historyIndex > 0) {
+          historyIndex -= 1;
+        }
+        fillingFromHistory = true;
+        input.textContent = commandHistory[historyIndex];
+        setCaretToEnd(input);
+        queueMicrotask(() => {
+          fillingFromHistory = false;
+        });
+        return;
+      }
+      if (e.key === 'ArrowDown' && historyIndex !== -1) {
+        e.preventDefault();
+        if (historyIndex < commandHistory.length - 1) {
+          historyIndex += 1;
+          fillingFromHistory = true;
+          input.textContent = commandHistory[historyIndex];
+        } else {
+          historyIndex = -1;
+          fillingFromHistory = true;
+          input.textContent = historyDraft;
+        }
+        setCaretToEnd(input);
+        queueMicrotask(() => {
+          fillingFromHistory = false;
+        });
+        return;
+      }
       if (e.key !== 'Enter') return;
       e.preventDefault();
       const cmd = getCommandFromInput(input);
-      addLine(consoleEl, `${PROMPT}${cmd ?? ''}`, false);
+      historyIndex = -1;
+      historyDraft = '';
+      addLine(innerConsole, `${PROMPT}${cmd ?? ''}`, false);
       const result = runCommand(cmd);
       if (result === null) {
-        clearLines(consoleEl);
+        clearLines(innerConsole);
+        commandHistory = [];
+        scrollToBottom(innerConsole);
       } else if (result !== '') {
-        addLine(consoleEl, result, true);
+        addLine(innerConsole, result, true);
       }
+      if ((cmd ?? '').trim() !== '') pushHistory(cmd);
       resetInputLine(input);
-      updateLineNumbers(consoleEl);
-      scrollToBottom(consoleEl);
     });
 
     input?.addEventListener('paste', (e) => {
@@ -316,7 +394,7 @@
     });
 
     if (window.W_ControlPanel) {
-      window.W_ControlPanel.initPanelResize(consoleEl, {
+      window.W_ControlPanel.initPanelResize(panelRoot, {
         minW: 320,
         minH: 200,
         pad: 16,
@@ -325,11 +403,13 @@
         },
         onResizeEnd: (el) => {
           saveSize(el);
-          requestAnimationFrame(() => syncLineHeights(el));
-        }
+          scheduleSyncLineHeights();
+        },
       });
-      window.W_ControlPanel.initPanelDrag(consoleEl, { ignoreSelector: '.O_Console-Header-Button' });
+      window.W_ControlPanel.initPanelDrag(panelRoot, { ignoreSelector: '.W_ControlPanel-Header-Button' });
     }
+
+    window.addEventListener('resize', scheduleSyncLineHeights);
   };
 
   if (document.readyState === 'loading') {
