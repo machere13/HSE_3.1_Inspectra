@@ -3,6 +3,18 @@ class ErrorsController < WebController
 
   layout 'application'
 
+  def report_problem
+    message = params[:message].to_s.strip
+    if message.blank? || message.length > 20_000
+      redirect_back fallback_location: root_path, alert: t('errors.report_invalid_message')
+      return
+    end
+    url = params[:page_url].to_s.truncate(2_048)
+    code = params[:status_code].to_s.truncate(16)
+    Rails.logger.info({ event: 'problem_report', url: url, status_code: code, message: message.truncate(2_000) }.to_json)
+    redirect_back fallback_location: root_path, notice: t('errors.report_thanks')
+  end
+
   def show
     assign_error_page!(params[:status_code])
     respond_to do |format|

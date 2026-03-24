@@ -1,0 +1,75 @@
+/* Двойной класс: специфичность выше, чем у .W_ControlPanel (подключается позже в index.css). */
+.W_ControlPanel.W_ControlPanel--error-report {
+  z-index: 1001;
+  left: 50%;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  width: calc(100vw - var(--spacing-x5) * 2);
+  max-width: 640px;
+  height: auto;
+  min-height: 0;
+  max-height: min(90vh, calc(100vh - var(--spacing-x5) * 2));
+  transform: translate(-50%, -50%) scale(0.96);
+  transform-origin: center center;
+}
+
+.W_ControlPanel.W_ControlPanel--error-report.is-visible {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.W_ControlPanel--error-report .W_ControlPanel-Header {
+  justify-content: flex-end;
+}
+
+.W_ControlPanel--error-report .W_ControlPanel-Body {
+  overflow: visible;
+  flex: 0 0 auto;
+}
+
+.O_ErrorReportModal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-x3);
+  padding: var(--spacing-x2);
+}
+
+.O_ErrorReportModal-Form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-x3);
+}
+
+.O_ErrorReportModal-Title {
+  margin: 0;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  line-height: 1.35;
+  font-weight: var(--font-weight-paragraphs);
+}
+
+.O_ErrorReportModal-Field {
+  width: 100%;
+}
+
+.O_ErrorReportModal-Field .A_TextArea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 6rem;
+  max-height: none;
+  field-sizing: content;
+  resize: none;
+}
+
+@supports not (field-sizing: content) {
+  .O_ErrorReportModal-Field .A_TextArea {
+    overflow-y: hidden;
+  }
+}
+
+.O_ErrorReportModal-Submit {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-x1);
+}

@@ -1,0 +1,39 @@
+<% 
+  header_controls = capture do %>
+  <%= render 'shared/atoms/A_ControlButton',
+      icon_name: 'Q_CloseIcon',
+      aria_label: t('errors.report_close'),
+      class: 'W_ControlPanel-Header-Button',
+      data: { js_error_report_close: '' } %>
+<% end %>
+<%= render layout: 'shared/wrappers/W_ControlPanel',
+    locals: {
+      id: 'js-error-report-modal',
+      icon_name: nil,
+      data: { js_error_report_modal: '' },
+      body_fill: false,
+      header_controls: header_controls,
+      resizable: false,
+      draggable: false,
+      class: 'W_ControlPanel--error-report'
+    } do %>
+  <div class="O_ErrorReportModal" data-js-error-report-body>
+    <%= form_with url: report_problem_path, method: :post, local: true, data: { turbo: false }, class: 'O_ErrorReportModal-Form' do %>
+      <%= hidden_field_tag :page_url, '', id: 'js-error-report-page-url' %>
+      <%= hidden_field_tag :status_code, '', id: 'js-error-report-status-code' %>
+      <h2 class="O_ErrorReportModal-Title text-p-1-mono"><%= t('errors.report_modal_title') %></h2>
+      <div class="O_ErrorReportModal-Field">
+        <%= render 'shared/atoms/A_TextArea',
+          name: 'message',
+          id: 'js-error-report-message',
+          value: '',
+          placeholder: t('errors.report_placeholder'),
+          required: true,
+          maxlength: 20_000 %>
+      </div>
+      <div class="O_ErrorReportModal-Submit">
+        <%= render 'shared/atoms/A_Button', type: 'submit', text: t('errors.report_submit') %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

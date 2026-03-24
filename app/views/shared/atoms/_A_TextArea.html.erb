@@ -1,6 +1,6 @@
 <%
   textarea_id = local_assigns[:id] || "textarea_#{name}"
-  style_attr = "max-width: #{max_width};" if local_assigns[:max_width]
+  style_attr = "max-width: #{local_assigns[:max_width]};" if local_assigns[:max_width]
 %>
 
 <textarea
