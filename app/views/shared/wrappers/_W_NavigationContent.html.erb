@@ -58,10 +58,12 @@
         { text: 'MODULES', href: '#modules' },
         { text: 'INFO', href: '#info' },
       ] %>
-    <% elsif !is_article_page %>
+    <% elsif !is_article_page && !@error_page %>
       <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: [
         { text: 'BLOCKS', href: '#blocks' }
       ], style: is_home ? 'visibility: hidden; opacity: 0; height: 0;' : '' %>
+    <% elsif @error_page %>
+      <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: [], style: 'visibility: hidden; pointer-events: none; overflow: hidden;', aria_hidden: true %>
     <% end %>
   </div>
 <% end %>

@@ -33,7 +33,9 @@ class Admin::BaseController < WebController
 
   def authorize_admin_panel
     authorize! :read, :admin_panel
-  rescue CanCan::AccessDenied
+  end
+
+  rescue_from CanCan::AccessDenied do
     redirect_to auth_path, alert: t('auth.flashes.login_required', default: 'Требуется вход в систему')
   end
 end

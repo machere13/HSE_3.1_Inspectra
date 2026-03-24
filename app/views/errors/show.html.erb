@@ -1,0 +1,12 @@
+<div class="PageError">
+  <div class="PageError-Content">
+    <h1 class="PageError-Title"><%= t('errors.heading', code: @status_code) %></h1>
+    <%= render 'errors/W_ErrorConsole', error: @error_console_key, response: @error_lines %>
+    <div class="PageError-Actions">
+      <%= render 'shared/atoms/A_Button', text: t('errors.back_home'), href: root_path %>
+      <% if [500, 502, 503].include?(@status_code) %>
+        <%= render 'shared/atoms/A_Button', text: t('errors.report_button'), href: error_report_mailto_url(@status_code) %>
+      <% end %>
+    </div>
+  </div>
+</div>

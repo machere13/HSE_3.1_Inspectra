@@ -1,30 +1,37 @@
 class WebController < ActionController::Base
   include Pagy::Backend
   include JwtHelper
-  
+  include ErrorsPageRendering
+
   layout "application"
-  
+
   helper ContentItemHelper
   helper_method :current_user
-  
+
+  rescue_from CanCan::AccessDenied do
+    assign_error_page!(403)
+    render 'errors/show', status: :forbidden, layout: 'application'
+  end
+
   rescue_from Pagy::OverflowError do |exception|
     redirect_to request.path, alert: "Страница #{params[:page]} не существует"
   end
 
   rescue_from StandardError, with: :handle_internal_error
-  
+
   private
 
   def handle_internal_error(exception)
     Sentry.capture_exception(exception) if defined?(Sentry)
-    
+
     Rails.logger.error({
       exception: exception.class.name,
       message: exception.message,
       backtrace: exception.backtrace&.first(10)
     }.to_json)
-    
-    render 'errors/internal_server_error', status: :internal_server_error, layout: 'application'
+
+    assign_error_page!(500)
+    render 'errors/show', status: :internal_server_error, layout: 'application'
   rescue ActionView::MissingTemplate
     render plain: 'Внутренняя ошибка сервера', status: :internal_server_error
   end

@@ -223,3 +223,46 @@ ru:
         update: 'Обновить'
       update:
         success: 'Пользователь обновлён'
+
+  errors:
+    heading: 'ERROR %{code}'
+    back_home: 'На главную'
+    report_button: 'Сообщить об ошибке'
+    console_codes:
+      403: '403_forbidden'
+      404: '404_not_found'
+      418: '418_im_a_teapot'
+      500: '500_internal_server_error'
+      502: '502_bad_gateway'
+      503: '503_service_unavailable'
+    console_lines:
+      403: |
+        >_ Action not allowed
+        >_ Path: %{path}
+        >_ Status: 403 Forbidden
+        >_ Solution: Go back or check permissions
+      404: |
+        >_ The requested resource was not found
+        >_ Path: %{path}
+        >_ Status: 404 Not Found
+        >_ Solution: Check URL or return to homepage
+      418: |
+        >_ I'm a teapot (RFC 2324)
+        >_ Path: %{path}
+        >_ Status: 418 I'm a teapot
+        >_ Solution: Brew tea or return to homepage
+      500: |
+        >_ Something went wrong
+        >_ Path: %{path}
+        >_ Status: 500 Internal Server Error
+        >_ Solution: Try again later or report the error
+      502: |
+        >_ Bad gateway
+        >_ Path: %{path}
+        >_ Status: 502 Bad Gateway
+        >_ Solution: Upstream server is unavailable — try again in a minute
+      503: |
+        >_ Service unavailable
+        >_ Path: %{path}
+        >_ Status: 503 Service Unavailable
+        >_ Solution: Maintenance or overload — try again later
