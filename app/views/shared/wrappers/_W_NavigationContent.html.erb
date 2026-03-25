@@ -54,9 +54,10 @@
     <% elsif is_inspectra_page %>
       <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: [
         { text: 'MAIN', href: '#main' },
-        { text: 'INSPECTRA', href: '#inspectra' },
-        { text: 'MODULES', href: '#modules' },
-        { text: 'INFO', href: '#info' },
+        { text: 'ABOUT', href: '#about' },
+        { text: 'YOUR ROLE', href: '#your_role' },
+        { text: 'HOW', href: '#how' },
+        { text: 'READY', href: '#ready' },
       ] %>
     <% elsif !is_article_page && !@error_page %>
       <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: [
