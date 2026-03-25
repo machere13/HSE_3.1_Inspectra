@@ -7,3 +7,8 @@
     position: relative;
 }
 
+@media (max-width: 1024px) {
+    .O_Notifications{
+        max-width: 100%;
+    }
+}

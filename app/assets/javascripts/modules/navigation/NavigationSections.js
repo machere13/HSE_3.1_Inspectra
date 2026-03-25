@@ -1,5 +1,18 @@
 (function() {
   const NavigationSections = {
+    updateContentVisibility: function(root) {
+      if (!root || !root.classList || !root.classList.contains('O_Navigation')) return;
+      const content = root.querySelector('.W_NavigationContent');
+      if (!content) return;
+
+      const groups = content.querySelectorAll('.W_NavigationItems');
+      const hasOpenItems = Array.from(groups).some(function(g) {
+        return !g.classList.contains('W_NavigationItems--Hidden');
+      });
+
+      content.classList.toggle('W_NavigationContent--HiddenAll', !hasOpenItems);
+    },
+
     findRoot: function(el) {
       return el.closest('.O_Navigation') || document;
     },
@@ -30,20 +43,36 @@
       const group = content.querySelector('.W_NavigationItems[data-index="' + idx + '"]');
       if (!group) return;
       group.classList.toggle('W_NavigationItems--Hidden', !opened);
+
+      this.updateContentVisibility(root);
     },
 
     initFromState: function() {
       document.querySelectorAll('.W_NavigationBar-Item').forEach(function(barItem) {
         const btn = barItem.querySelector('.A_ArrowButton');
-        if (!btn) return;
         const idx = barItem.getAttribute('data-index');
         const root = NavigationSections.findRoot(barItem);
         const content = root.querySelector('.W_NavigationContent');
         if (!content) return;
         const group = content.querySelector('.W_NavigationItems[data-index="' + idx + '"]');
         if (!group) return;
-        const opened = btn.getAttribute('aria-expanded') === 'true';
+
+        const opened = btn ? btn.getAttribute('aria-expanded') === 'true' : false;
         group.classList.toggle('W_NavigationItems--Hidden', !opened);
+      });
+
+      document.querySelectorAll('.O_Navigation').forEach(function(root) {
+        if (root.closest('.O_SidebarTablet')) {
+          root.querySelectorAll('.W_NavigationBar-Item .A_ArrowButton').forEach(function(btn) {
+            btn.setAttribute('aria-expanded', 'false');
+          });
+
+          root.querySelectorAll('.W_NavigationItems').forEach(function(group) {
+            group.classList.add('W_NavigationItems--Hidden');
+          });
+        }
+
+        NavigationSections.updateContentVisibility(root);
       });
     }
   };
