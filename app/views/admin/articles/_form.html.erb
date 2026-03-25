@@ -9,8 +9,32 @@
       <%= render 'shared/atoms/A_Input', name: "#{f.object_name}[title]", value: @article.title %>
     </div>
     <div class="O_AdminEditBlock-Field">
+      <%= f.label :description, 'Описание', class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= render 'shared/atoms/A_TextArea', name: "#{f.object_name}[description]", value: @article.description, rows: 4 %>
+    </div>
+
+    <div class="O_AdminEditBlock-Field">
+      <%= f.label :tag_list, 'Теги (через запятую)', class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= render 'shared/atoms/A_Input', name: "#{f.object_name}[tag_list]", value: @article.tag_list, placeholder: 'web, dom, security' %>
+    </div>
+
+    <div class="O_AdminEditBlock-Field">
+      <%= f.label :cover_image, 'Обложка', class: 'O_AdminEditBlock-Label text-labels-1' %>
+      <%= f.file_field :cover_image, accept: 'image/*' %>
+      <% if @article.cover_image.attached? %>
+        <div style="margin-top: 8px;">
+          <%= image_tag @article.cover_image, alt: @article.title, style: 'max-width: 240px; border-radius: 8px;' %>
+        </div>
+        <label style="display:block; margin-top: 8px;">
+          <%= check_box_tag "#{f.object_name}[remove_cover_image]", '1', false %>
+          Удалить текущую обложку
+        </label>
+      <% end %>
+    </div>
+
+    <div class="O_AdminEditBlock-Field">
       <%= f.label :body, 'Текст', class: 'O_AdminEditBlock-Label text-labels-1' %>
-      <%= render 'shared/atoms/A_TextArea', name: "#{f.object_name}[body]", value: @article.body, rows: 10 %>
+      <%= render 'shared/atoms/A_TextArea', name: "#{f.object_name}[body]", value: @article.body, rows: 14, placeholder: '# Markdown заголовок\n\nТекст **жирным** и список:\n- пункт 1\n- пункт 2' %>
     </div>
   <% end %>
   <%= render 'shared/atoms/A_Button', type: 'submit', text: @article.new_record? ? 'Создать' : 'Сохранить' %>
