@@ -1,5 +1,13 @@
 <main class="PageAdminArticlesShow">
   <h1><%= @article.title %></h1>
-  <%= simple_format @article.body %>
+  <% if @article.cover_image.attached? %>
+    <div style="margin: 12px 0;">
+      <%= image_tag @article.cover_image, alt: @article.title, style: 'max-width: 420px; border-radius: 10px;' %>
+    </div>
+  <% end %>
+  <% if Array(@article.tags).any? %>
+    <p><strong>Теги:</strong> <%= Array(@article.tags).join(', ') %></p>
+  <% end %>
+  <%= render_markdown(@article.body) %>
   <div class="PageAdminArticlesShow-Links"><%= link_to 'Редактировать', edit_admin_week_article_path(@week, @article) %> | <%= link_to 'Назад к списку', admin_week_articles_path(@week) %></div>
 </main>

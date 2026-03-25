@@ -11,12 +11,14 @@
       <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
         '#',
         'Название',
+        'Теги',
         'Действия'
       ] %>
       <% @articles.each do |article| %>
         <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
           article.id,
           link_to(article.title, admin_week_article_path(@week, article)),
+          Array(article.tags).join(', '),
           "#{link_to('Редактировать', edit_admin_week_article_path(@week, article))} | #{button_to('Удалить', admin_week_article_path(@week, article), method: :delete, form: { data: { turbo_confirm: 'Удалить эту статью?' }, style: 'display:inline', class: 'button-text-style text-p-2' })}".html_safe
         ] %>
       <% end %>

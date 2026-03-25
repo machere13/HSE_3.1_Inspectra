@@ -1,6 +1,24 @@
 module ApplicationHelper
   include Pagy::Frontend
 
+  def render_markdown(text)
+    source = text.to_s
+    return '' if source.blank?
+
+    html =
+      if defined?(Commonmarker)
+        Commonmarker.to_html(source, options: { extension: { table: true, strikethrough: true, autolink: true } })
+      else
+        simple_format(ERB::Util.html_escape(source))
+      end
+
+    sanitize(
+      html,
+      tags: %w[p br h1 h2 h3 h4 h5 h6 ul ol li blockquote pre code hr a strong em del table thead tbody tr th td img],
+      attributes: %w[href src alt title target rel]
+    )
+  end
+
   def generate_interactive_content
     paragraphs = []
     

@@ -7,7 +7,9 @@
   <main class="PageArticle-Content">
     <%= render 'articles/M_ArticleHeaderCard', article: @article %>
     <div class="PageArticle-Content-Body" data-interactive="blind_in_dom" data-interactive-name="Слепой в DOM-лесу">
-        <%= @article.body %>
+        <div class="PageArticle-Markdown">
+          <%= render_markdown(@article.body) %>
+        </div>
     </div>
   </main>
   <%= render 'shared/molecules/M_ToastInteractive', name: 'Слепой в DOM-лесу' %>

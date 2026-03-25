@@ -19,6 +19,7 @@ class Admin::ArticlesController < Admin::BaseController
   def create
     @article = @week.articles.new(article_params)
     authorize! :create, @article
+    @article.cover_image.purge if params.dig(:article, :remove_cover_image) == '1'
     if @article.save
       redirect_to admin_week_article_path(@week, @article), notice: 'Статья создана'
     else
@@ -33,6 +34,7 @@ class Admin::ArticlesController < Admin::BaseController
 
   def update
     authorize! :update, @article
+    @article.cover_image.purge if params.dig(:article, :remove_cover_image) == '1'
     if @article.update(article_params)
       redirect_to admin_week_article_path(@week, @article), notice: 'Статья обновлена'
     else
@@ -58,7 +60,9 @@ class Admin::ArticlesController < Admin::BaseController
   end
 
   def article_params
-    params.require(:article).permit(:title, :body)
+    permitted = params.require(:article).permit(:title, :description, :body, :cover_image, :tag_list)
+    permitted[:tags] = Article.parse_tags(permitted.delete(:tag_list)) if permitted.key?(:tag_list)
+    permitted
   end
 end
 

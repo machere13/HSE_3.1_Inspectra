@@ -36,6 +36,7 @@ gem "rack-cors"
 
 # Rate limiting with rack-attack
 gem "rack-attack"
+gem "commonmarker"
 
 # Authorization
 gem "cancancan"

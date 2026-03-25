@@ -15,17 +15,66 @@
     gap: var(--spacing-x8);
     width: 100%;
     flex-direction: column;
+    align-items: center;
 }
   
 .PageArticle-Content-Body{
     width: 100%;
-    padding: var(--spacing-x3);
-    border-radius: var(--border-radius-x4);
+    max-width: 720px;
+    padding: var(--spacing-x8);
+    border-radius: var(--border-radius-x2);
     background: var(--color-quaternary);
-    border: var(--border-x025) solid var(--color-border-tertiary);
+    border: var(--border-x025) solid var(--color-border-secondary);
     backdrop-filter: blur(5px);
     gap: var(--spacing-x3);
     display: flex;
     flex-direction: column;
-    width: 100%;
+}
+
+.PageArticle-Markdown h1,
+.PageArticle-Markdown h2,
+.PageArticle-Markdown h3{
+    margin-bottom: var(--spacing-x5);
+}
+
+.PageArticle-Markdown p,
+.PageArticle-Markdown ul,
+.PageArticle-Markdown ol,
+.PageArticle-Markdown pre,
+.PageArticle-Markdown blockquote{
+    margin-bottom: var(--spacing-x5);
+}
+
+.PageArticle-Markdown ul,
+.PageArticle-Markdown ol{
+    display: block;
+    list-style-position: outside;
+    padding-left: var(--spacing-x4);
+}
+
+.PageArticle-Markdown ul{
+    list-style-type: disc;
+}
+
+.PageArticle-Markdown ol{
+    list-style-type: decimal;
+}
+
+.PageArticle-Markdown li{
+    display: list-item;
+    margin-bottom: var(--spacing-x2);
+}
+
+.PageArticle-Markdown h1,
+.PageArticle-Markdown h2,
+.PageArticle-Markdown h3,
+.PageArticle-Markdown p,
+.PageArticle-Markdown li{
+    overflow-wrap: anywhere;
+}
+
+.PageArticle-Markdown code{
+    background: var(--color-primary);
+    padding: 2px 6px;
+    border-radius: var(--border-radius-x1);
 }
