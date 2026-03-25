@@ -20,6 +20,8 @@
     <%= render 'shared/quarks/Q_InspectraBackground' %>
     <div class="PageLayout">
       <%= render 'shared/wrappers/W_Sidebar' %>
+      <%= render 'shared/organisms/O_SidebarTablet' %>
+      <%= render 'shared/organisms/O_SidebarMobile' %>
       <%= yield %>
     </div>
     <%= render 'shared/atoms/A_IconButton', position: 'fixed', right: 'var(--spacing-x5)', bottom: 'var(--spacing-x5)', icon_name: 'Q_ConsoleIcon', z_index: 100, console_toggle: true %>

@@ -1,6 +1,5 @@
 .C_RadioButtons{
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-x1);
     width: 100%;
 }

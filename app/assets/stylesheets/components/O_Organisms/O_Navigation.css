@@ -4,3 +4,9 @@
     width: 100%;
     gap: var(--spacing-x3);
 }
+
+@media (max-width: 768px) {
+    .O_Navigation {
+        gap: var(--spacing-x5);
+    }
+}

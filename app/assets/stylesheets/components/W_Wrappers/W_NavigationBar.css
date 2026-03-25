@@ -21,3 +21,9 @@
 .W_NavigationBar-Item--Hidden{
     display: none;
 }
+
+@media (max-width: 1024px) {
+    .W_NavigationBar{
+        border: 1px solid var(--color-border-secondary);
+    }
+}

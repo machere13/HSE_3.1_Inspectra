@@ -7,3 +7,14 @@
     position: relative;
 }
 
+@media (max-width: 1024px) {
+    .O_Notifications{
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .O_Notifications{
+        gap: var(--spacing-x5);
+    }
+}

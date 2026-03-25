@@ -4,9 +4,13 @@
   left = local_assigns[:left]
   bottom = local_assigns[:bottom]
   right = local_assigns[:right]
+  type = local_assigns.fetch(:type, 'button')
   disabled = local_assigns[:disabled]
   icon_name = local_assigns[:icon_name]
   z_index = local_assigns[:z_index]
+  aria_expanded = local_assigns[:aria_expanded]
+  extra_class = local_assigns[:class]
+  data_hash = local_assigns[:data] || {}
   
   style_attrs = []
   style_attrs << "position: #{position}" if position
@@ -19,11 +23,14 @@
   
   classes = ['A_IconButton']
   classes << 'A_IconButton--Absolute' if position == 'absolute'
+  classes << extra_class if extra_class.present?
   
   disabled_attr = disabled ? 'disabled="disabled"' : ''
   data_console_toggle_attr = local_assigns[:console_toggle] ? ' data-js-console-toggle' : ''
   data_audio_toggle_attr = local_assigns[:audio_toggle] ? ' data-js-audio-player-toggle' : ''
+  aria_expanded_attr = aria_expanded.nil? ? '' : %( aria-expanded="#{aria_expanded}")
+  data_attrs = data_hash.any? ? tag.attributes(data: data_hash) : ''
 %>
-<button class="<%= classes.join(' ') %>" <%= style_attr.html_safe %> <%= disabled_attr.html_safe %><%= data_console_toggle_attr %><%= data_audio_toggle_attr %>>
+<button type="<%= type %>" class="<%= classes.join(' ') %>" <%= style_attr.html_safe %> <%= disabled_attr.html_safe %><%= data_console_toggle_attr %><%= data_audio_toggle_attr %><%= aria_expanded_attr.html_safe %> <%= data_attrs %>>
     <%= render 'shared/quarks/Q_Icon', name: icon_name if icon_name %>
 </button>

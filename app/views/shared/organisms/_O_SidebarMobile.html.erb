@@ -1,0 +1,36 @@
+<div class="O_SidebarMobile" data-js-sidebar-mobile>
+  <div class="O_SidebarMobile-Top">
+    <%= render 'shared/atoms/A_IconButton',
+      icon_name: 'Q_NotificationIcon',
+      aria_label: 'Уведомления',
+      class: 'O_SidebarMobile-IconButton',
+      aria_expanded: false,
+      data: { js_sidebar_mobile_notifications: '' } %>
+
+    <%= render 'shared/atoms/A_IconButton',
+      icon_name: 'Q_BurgerIcon',
+      aria_label: 'Меню',
+      class: 'O_SidebarMobile-IconButton',
+      aria_expanded: false,
+      data: { js_sidebar_mobile_burger: '' } %>
+  </div>
+
+  <div class="O_SidebarMobile-Overlay" data-js-sidebar-mobile-overlay aria-hidden="true"></div>
+
+  <div class="O_SidebarMobile-Sheet O_SidebarMobile-Sheet--nav" data-js-sidebar-mobile-nav-panel>
+    <div class="O_SidebarMobile-Sheet-Inner">
+      <div class="O_SidebarMobile-Logo">
+        <%= render 'shared/atoms/A_Logo', name: 'A_Logo', size: 'Small' %>
+      </div>
+      <%= render 'shared/organisms/O_Navigation' %>
+    </div>
+  </div>
+
+  <div class="O_SidebarMobile-Sheet O_SidebarMobile-Sheet--notifications" data-js-sidebar-mobile-notifications-panel>
+
+    <div class="O_SidebarMobile-Sheet-Inner">
+      <%= render 'shared/organisms/O_Notifications' %>
+    </div>
+  </div>
+</div>
+

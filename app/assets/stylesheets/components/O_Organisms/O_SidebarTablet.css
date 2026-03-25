@@ -1,0 +1,35 @@
+.O_SidebarTablet {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .O_SidebarTablet {
+    display: flex;
+    width: 100%;
+    gap: var(--spacing-x4);
+    align-items: flex-start;
+    padding: var(--spacing-x1);
+    position: sticky;
+    top: var(--spacing-x1);
+    z-index: 2;
+  }
+
+  .O_SidebarTablet-Left {
+    width: 100%;
+  }
+
+  .O_SidebarTablet-Right {
+    width: 100%;
+  }
+
+  .W_PageHeader .O_Notifications {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .O_SidebarTablet {
+    display: none;
+  }
+}
+

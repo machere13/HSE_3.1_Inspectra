@@ -19,6 +19,7 @@
 //= require ./components/organisms/O_ErrorReportModal
 //= require ./components/organisms/O_AudioPlayer
 //= require ./components/organisms/O_VideoPlayer
+//= require ./components/organisms/O_SidebarMobile
 //= require ./components/quarks/Q_InspectraBackground
 
 //= require ./modules/canvas/CanvasSetup

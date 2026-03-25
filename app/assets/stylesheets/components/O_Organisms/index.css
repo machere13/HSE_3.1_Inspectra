@@ -14,4 +14,6 @@
  *= require ./O_GlobalAudioPlayer
  *= require ./O_VideoPlayer
  *= require ./O_InspectraTopics
+ *= require ./O_SidebarTablet
+ *= require ./O_SidebarMobile
 */
