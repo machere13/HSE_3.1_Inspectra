@@ -14,7 +14,7 @@
     height: calc(100vh - 2 * var(--spacing-x1));
     z-index: 1;
     border-radius: var(--spacing-x3);
-    background: radial-gradient(circle at center, rgb(0 0 0 / 10%),rgb(255 255 255 / 5%));
+    background: var(--gradient-sidebar);
     background-size: 200% 200%;
     background-position: center center;
     backdrop-filter: blur(6px);

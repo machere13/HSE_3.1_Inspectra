@@ -1,0 +1,124 @@
+.O_SidebarMobile{
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .O_SidebarMobile{
+    display: block;
+    width: 100%;
+    position: sticky;
+    top: var(--spacing-x1);
+    z-index: 200;
+  }
+
+  .O_SidebarMobile-Top{
+    display: flex;
+    gap: var(--spacing-x3);
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .O_SidebarMobile-Overlay{
+    position: fixed;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+    z-index: 18;
+  }
+
+  .O_SidebarMobile-Sheet{
+    position: fixed;
+    width: 100%;
+    right: 0;
+    bottom: 0;
+    padding: var(--spacing-x2) var(--spacing-x3);
+    z-index: 200;
+    max-height: 74vh;
+    overflow: auto;
+    border-radius: var(--border-radius-x3);
+    background: var(--color-secondary);
+    backdrop-filter: blur(8px);
+    transform: translateY(110%);
+    opacity: 0;
+    pointer-events: none;
+    border: 1px solid var(--color-border-secondary);
+    transition: transform .25s ease, opacity .25s ease;
+    height: 400px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .O_SidebarMobile.is-open-nav .O_SidebarMobile-Sheet--nav,
+  .O_SidebarMobile.is-open-notifications .O_SidebarMobile-Sheet--notifications{
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .O_SidebarMobile.is-open-nav .O_SidebarMobile-Overlay,
+  .O_SidebarMobile.is-open-notifications .O_SidebarMobile-Overlay{
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .O_SidebarMobile-Sheet-Inner{
+    padding: var(--spacing-x3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x5);
+  }
+
+  .O_SidebarMobile-Logo{
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Мобильный “чистый” вид: убираем горячие клавиши, линии, иконки при клике */
+  .O_SidebarMobile .A_NavigationItem-Hotkey{
+    display: none !important;
+  }
+
+  .O_SidebarMobile .W_NavigationLine{
+    display: none !important;
+  }
+
+  .O_SidebarMobile .W_Icon{
+    opacity: 0 !important;
+  }
+
+  .O_SidebarMobile .A_ArrowButton{
+    display: none !important;
+  }
+
+  .O_SidebarMobile .W_NavigationContent::before{
+    display: none;
+  }
+
+  .O_SidebarMobile .W_NotificationsBar::before{
+    display: none;
+  }
+
+  .O_SidebarMobile .O_Notifications{
+    max-width: none;
+    position: relative;
+  }
+
+  /* На мобилке делаем список уведомлений не абсолютным выпадающим блоком */
+  .O_SidebarMobile .W_NotificationItems{
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    backdrop-filter: none !important;
+    margin-top: var(--spacing-x2);
+  }
+}
+

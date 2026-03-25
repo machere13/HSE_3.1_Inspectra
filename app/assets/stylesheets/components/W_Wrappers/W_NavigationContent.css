@@ -34,3 +34,14 @@
   padding: 0;
   overflow: hidden;
 }
+
+@media (max-width: 768px) {
+    .W_NavigationContent {
+        background: var(--gradient-sidebar);
+        border: 1px solid var(--color-border-secondary);
+    }
+
+    .W_NavigationContent::before{
+        display: none;
+    }
+}

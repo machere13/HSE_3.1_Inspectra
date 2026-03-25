@@ -11,6 +11,17 @@
       });
 
       content.classList.toggle('W_NavigationContent--HiddenAll', !hasOpenItems);
+
+      const isMobile = !!root.closest('.O_SidebarMobile');
+      if (isMobile) {
+        const barItems = root.querySelectorAll('.W_NavigationBar-Item[data-index]');
+        barItems.forEach(function(barItem) {
+          const idx = barItem.getAttribute('data-index');
+          const group = content.querySelector('.W_NavigationItems[data-index="' + idx + '"]');
+          const shouldHide = !group || group.classList.contains('W_NavigationItems--Hidden');
+          barItem.classList.toggle('W_NavigationBar-Item--Hidden', shouldHide);
+        });
+      }
     },
 
     findRoot: function(el) {
@@ -83,7 +94,7 @@
     const barItem = e.target.closest('.W_NavigationBar-Item');
     if (!barItem) return;
     const root = NavigationSections.findRoot(barItem);
-    if (!root.classList.contains('O_Navigation')) return;
+    if (!root || !root.classList || !root.classList.contains('O_Navigation')) return;
     
     if (e.target.closest('.A_ArrowButton')) return;
     

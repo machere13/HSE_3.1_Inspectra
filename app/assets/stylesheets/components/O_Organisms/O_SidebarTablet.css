@@ -27,3 +27,9 @@
   }
 }
 
+@media (max-width: 768px) {
+  .O_SidebarTablet {
+    display: none;
+  }
+}
+
