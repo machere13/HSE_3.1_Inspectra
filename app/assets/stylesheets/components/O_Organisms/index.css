@@ -2,7 +2,6 @@
  *= require ./O_Footer
  *= require ./O_Navigation
  *= require ./O_CardWeekCurrent
- *= require ./O_Header
  *= require ./O_ContentPreview
  *= require ./O_Notifications
  *= require ./O_ControlPanelTable
