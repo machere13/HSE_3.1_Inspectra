@@ -19,15 +19,6 @@
     animation: W_Loader-Animation-Pulse 1.2s ease infinite;
 }
 
-.W_Loader-Animation-Item{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-x2);
-    max-width: 328px;
-    width: 100%;
-}
-
 @keyframes W_Loader-Animation-Pulse {
     0% {
         transform: scale(1);
