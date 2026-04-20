@@ -1,3 +1,12 @@
+<% content_for :head do %>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Week <%= @week.number %>">
+  <meta property="og:description" content="<%= @week.title %>">
+  <meta property="og:image" content="<%= og_week_url(@week, format: :png) %>">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="<%= og_week_url(@week, format: :png) %>">
+<% end %>
+
 <div class="PageWeek">
   <%= render 'shared/wrappers/W_PageHeader' do %>
     <div class="W_PageHeader-Inner">

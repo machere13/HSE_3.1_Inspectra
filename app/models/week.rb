@@ -1,6 +1,7 @@
 class Week < ApplicationRecord
   has_many :articles, dependent: :destroy
   has_many :content_items, dependent: :destroy
+  has_one_attached :og_image
 
   validates :number, presence: true, uniqueness: true, inclusion: { in: 1..24 }
   validates :title, presence: true
