@@ -3,8 +3,13 @@
 <head>
   <title><%= t('layouts.application.title') %></title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <% og_image = content_for?(:og_image) ? yield(:og_image).strip : image_url('opengraphs/og_default.png') %>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="<%= og_image %>">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="<%= og_image %>">
   <%= yield :head %>
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" defer></script>
