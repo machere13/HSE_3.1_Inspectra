@@ -15,12 +15,12 @@ ru:
       long: '%d %B %Y, %H:%M'
   pages:
     home:
-      title: 'Главная страница'
+      title: 'Главная / Inspectra'
     inspectra:
-      title: 'О нас'
+      title: 'О нас / Inspectra'
       back_to_home: 'На главную'
     profile:
-      title: 'Профиль'
+      title: 'Профиль / Inspectra'
       current_title: 'Текущий титул'
       title_selected: 'Титул "%{title}" выбран'
       no_name: 'Без имени'
@@ -69,6 +69,7 @@ ru:
   layouts:
     application:
       title: 'Inspectra'
+      description: 'Inspectra — интерактивная платформа с неделями, статьями и мультимедийным контентом'
   auth:
     shared:
       email: 'Email'
@@ -137,9 +138,9 @@ ru:
       content: 'Контент'
       to_site: 'На сайт'
     dashboard:
-      title: 'Панель управления'
+      title: 'Панель управления / Inspectra'
       users:
-        title: 'Пользователи'
+        title: 'Пользователи / Inspectra'
         statistic: 'Статистика'
         count: 'Количество'
         total: 'Всего пользователей'
@@ -150,7 +151,7 @@ ru:
         email_verified: 'Подтверждено email'
         email_unverified: 'Не подтверждено email'
       content:
-        title: 'Контент'
+        title: 'Контент / Inspectra'
         statistic: 'Статистика'
         count: 'Количество'
         weeks_total: 'Всего недель'

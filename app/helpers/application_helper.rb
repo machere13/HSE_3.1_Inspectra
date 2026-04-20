@@ -1,6 +1,28 @@
 module ApplicationHelper
   include Pagy::Frontend
 
+  def page_meta_scope
+    "#{controller_path.tr('/', '.')}.#{action_name}"
+  end
+
+  def page_meta_title
+    return content_for(:meta_title).strip if content_for?(:meta_title)
+
+    t("#{page_meta_scope}.title", default: t('layouts.application.title'))
+  end
+
+  def page_meta_description
+    return content_for(:meta_description).strip if content_for?(:meta_description)
+
+    t("#{page_meta_scope}.description", default: t('layouts.application.description', default: page_meta_title))
+  end
+
+  def page_og_image
+    return content_for(:og_image).strip if content_for?(:og_image)
+
+    image_url('opengraphs/og_default.png')
+  end
+
   def render_markdown(text)
     source = text.to_s
     return '' if source.blank?

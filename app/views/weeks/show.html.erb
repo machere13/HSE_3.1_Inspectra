@@ -1,7 +1,5 @@
-<% content_for :head do %>
-  <meta property="og:title" content="Week <%= @week.number %>">
-  <meta property="og:description" content="<%= @week.title %>">
-<% end %>
+<% content_for :meta_title, "Week #{@week.number}" %>
+<% content_for :meta_description, @week.title %>
 <% content_for :og_image, og_week_url(@week, format: :png) %>
 
 <div class="PageWeek">
