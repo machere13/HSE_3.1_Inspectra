@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= t('layouts.application.title') %></title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title><%= page_meta_title %></title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
+  <meta name="description" content="<%= page_meta_description %>">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= page_meta_title %>">
+  <meta property="og:description" content="<%= page_meta_description %>">
+  <meta property="og:image" content="<%= page_og_image %>">
+  <meta property="og:url" content="<%= request.original_url %>">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= page_meta_title %>">
+  <meta name="twitter:description" content="<%= page_meta_description %>">
+  <meta name="twitter:image" content="<%= page_og_image %>">
+  <link rel="canonical" href="<%= request.original_url %>">
   <%= yield :head %>
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" defer></script>

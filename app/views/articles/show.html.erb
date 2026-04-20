@@ -1,3 +1,6 @@
+<% content_for :meta_title, @article.title %>
+<% content_for :meta_description, (@article.description.presence || truncate(strip_tags(render_markdown(@article.body)), length: 160)) %>
+
 <div class="PageArticle">
   <%= render 'shared/wrappers/W_PageHeader' do %>
     <div class="W_PageHeader-Inner">
