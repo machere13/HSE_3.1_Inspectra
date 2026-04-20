@@ -1,6 +1,66 @@
-<p>Вы запросили сброс пароля.</p>
-<p>Перейдите по ссылке, чтобы задать новый пароль:</p>
-<p><a href="<%= @reset_url %>"><%= @reset_url %></a></p>
-<p>Если вы не запрашивали сброс, просто игнорируйте это письмо.</p>
+<div style="display:none; max-height:0; overflow:hidden; opacity:0; color:transparent; mso-hide:all; font-size:1px; line-height:1px;">
+  Сброс пароля по ссылке: <%= @reset_url %>
+</div>
 
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%; border-collapse:collapse; background-color:#070707; margin:0; padding:0;">
+  <tr>
+    <td align="center" style="padding:40px 16px; background-color:#070707;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="560" align="center" style="width:560px; max-width:560px; margin:0 auto; border-collapse:separate; background-color:#131313; border:1px solid rgba(255,255,255,0.16); border-radius:14px;">
+        <tr>
+          <td style="padding:26px 24px 28px 24px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" align="center" style="width:100%; border-collapse:collapse;">
+              <tr>
+                <td align="center" style="padding:0 0 48px 0;">
+                  <img
+                    src="<%= attachments['logo.png'].url %>"
+                    width="140"
+                    alt="Логотип"
+                    style="display:block; width:140px; height:auto; margin:0 auto; border:0; outline:none; text-decoration:none;"
+                  />
+                </td>
+              </tr>
 
+              <tr>
+                <td style="padding:0;">
+                  <div style="margin:0; text-align:center; font-family:Arial, sans-serif; font-weight:600; font-size:22px; line-height:1.25; color:#ffffff;">
+                    Сброс пароля
+                  </div>
+                  <div style="margin-top:6px; text-align:center; font-family:Arial, sans-serif; font-weight:400; font-size:15px; line-height:1.6; color:rgba(255,255,255,0.72);">
+                    Мы получили запрос на сброс пароля для вашей учётной записи.
+                  </div>
+
+                  <div style="margin-top:32px; text-align:center;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto; border-collapse:separate;">
+                      <tr>
+                        <td align="center" bgcolor="transparent" style="border-radius:8px; border:1px solid rgba(150,150,150,1);">
+                          <a
+                            href="<%= @reset_url %>"
+                            style="display:inline-block; padding:12px; font-family:Arial, sans-serif; font-weight:400; font-size:16px; letter-spacing:0; text-transform:uppercase; color:#ffffff; text-decoration:none; border-radius:8px;"
+                            target="_blank"
+                            rel="noopener"
+                          >
+                            Сбросить пароль
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+
+                  <div style="margin-top:16px; text-align:center; font-family:Arial, sans-serif; font-weight:400; font-size:12px; line-height:1.6; color:rgba(255,255,255,0.60);">
+                    Если кнопка не работает, откройте ссылку:
+                    <br />
+                    <a href="<%= @reset_url %>" style="color:rgba(255,255,255,0.85); text-decoration:underline; word-break:break-all;" target="_blank" rel="noopener"><%= @reset_url %></a>
+                  </div>
+
+                  <div style="margin-top:32px; text-align:center; font-family:Arial, sans-serif; font-weight:400; font-size:12px; line-height:1.6; color:rgba(255,255,255,0.60);">
+                    Если Вы не запрашивали сброс, просто проигнорируйте это письмо
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
