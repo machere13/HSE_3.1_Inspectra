@@ -56,6 +56,9 @@ Rails.application.routes.draw do
   end
   
   resources :weeks, only: [:show] do
+    member do
+      get :og, defaults: { format: :png }
+    end
     resources :articles, only: [:show]
   end
 
