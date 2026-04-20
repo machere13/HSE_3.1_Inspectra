@@ -2,6 +2,7 @@ class WeekOgImageService
   WIDTH = 1200
   HEIGHT = 630
   PATTERN_OPACITY = 1
+  PHOTO_OVERLAY_OPACITY = 0.45
 
   def self.call!(week)
     new(week).call!
@@ -37,17 +38,26 @@ class WeekOgImageService
       c.extent "#{WIDTH}x#{HEIGHT}"
     end
 
+    base.combine_options do |c|
+      c.fill "rgba(0,0,0,#{PHOTO_OVERLAY_OPACITY})"
+      c.draw "rectangle 0,0 #{WIDTH},#{HEIGHT}"
+    end
+
     if File.exist?(pattern_path)
       pattern = MiniMagick::Image.open(pattern_path)
       pattern.combine_options do |c|
+        c.background 'none'
+        c.alpha 'set'
         c.resize "#{WIDTH}x#{HEIGHT}^"
         c.gravity 'Center'
         c.extent "#{WIDTH}x#{HEIGHT}"
+        c.channel 'A'
+        c.evaluate 'Multiply', PATTERN_OPACITY.to_s
+        c << '+channel'
       end
 
       base = base.composite(pattern) do |c|
         c.compose 'Over'
-        c.dissolve "#{(PATTERN_OPACITY * 100).to_i}x100"
         c.gravity 'Center'
       end
     end
