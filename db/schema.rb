@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_20_103940) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_20_123323) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -77,6 +77,17 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_20_103940) do
     t.index ["kind"], name: "index_content_items_on_kind"
     t.index ["week_id", "position"], name: "index_content_items_on_week_id_and_position"
     t.index ["week_id"], name: "index_content_items_on_week_id"
+  end
+
+  create_table "error_reports", force: :cascade do |t|
+    t.string "page_url"
+    t.string "status_code"
+    t.string "reporter_email"
+    t.text "message", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_error_reports_on_created_at"
+    t.index ["status_code"], name: "index_error_reports_on_status_code"
   end
 
   create_table "interactive_completions", force: :cascade do |t|

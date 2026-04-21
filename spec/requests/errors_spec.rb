@@ -1,6 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe 'Errors', type: :request do
+  describe 'POST /report_problem' do
+    it 'creates an error report' do
+      expect do
+        post report_problem_path, params: {
+          page_url: 'http://example.com/500',
+          status_code: '500',
+          message: 'Что-то сломалось на странице'
+        }
+      end.to change(ErrorReport, :count).by(1)
+
+      expect(response).to redirect_to(root_path)
+      report = ErrorReport.last
+      expect(report.page_url).to eq('http://example.com/500')
+      expect(report.status_code).to eq('500')
+      expect(report.message).to eq('Что-то сломалось на странице')
+    end
+
+    it 'does not create an invalid error report' do
+      expect do
+        post report_problem_path, params: { message: '' }
+      end.not_to change(ErrorReport, :count)
+
+      expect(response).to redirect_to(root_path)
+    end
+  end
+end
+require 'rails_helper'
+
+RSpec.describe 'Errors', type: :request do
   describe 'GET /*unmatched' do
     it 'should return 404 for non-existent route' do
       get '/non-existent-route'

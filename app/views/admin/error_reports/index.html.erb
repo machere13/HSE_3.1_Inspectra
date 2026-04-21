@@ -1,0 +1,47 @@
+<main class="PageAdminErrorReportsIndex">
+  <h1><%= t('admin.error_reports.index.title') %></h1>
+
+  <%= render 'shared/organisms/O_ControlPanelTable',
+      title: t('admin.error_reports.index.statistics') do %>
+    <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
+      t('admin.error_reports.index.statistic'),
+      t('admin.error_reports.index.count')
+    ] %>
+    <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+      t('admin.error_reports.index.total'),
+      @stats[:total]
+    ] %>
+  <% end %>
+
+  <% pagination_info = @pagy.count > 0 ? "#{@pagy.from}-#{@pagy.to} из #{@pagy.count}" : nil %>
+  <div class="PageAdminErrorReports-Table">
+    <%= render 'shared/organisms/O_ControlPanelTable',
+        title: t('admin.error_reports.index.table_title'),
+        actions: pagination_info do %>
+      <% if @error_reports.any? %>
+        <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
+          'ID',
+          t('admin.error_reports.index.status_code'),
+          t('admin.error_reports.index.page_url'),
+          t('admin.error_reports.index.reporter_email'),
+          t('admin.error_reports.index.message'),
+          t('admin.error_reports.index.reported_at')
+        ] %>
+        <% @error_reports.each do |report| %>
+          <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+            report.id,
+            report.status_code.presence || '-',
+            report.page_url.presence || '-',
+            report.reporter_email.presence || '-',
+            truncate(report.message, length: 160),
+            report.created_at.in_time_zone.strftime('%d.%m.%Y %H:%M')
+          ] %>
+        <% end %>
+      <% else %>
+        <p><%= t('admin.error_reports.index.none') %></p>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= raw pagy_nav(@pagy) if @pagy.pages > 1 %>
+</main>
