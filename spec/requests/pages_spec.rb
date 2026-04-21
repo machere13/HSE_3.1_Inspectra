@@ -26,6 +26,27 @@ RSpec.describe 'Pages', type: :request do
     end
   end
 
+  describe 'POST /inspectra/subscribe' do
+    it 'creates a media subscription' do
+      expect do
+        post inspectra_subscribe_path, params: { email: 'reader@example.com' }
+      end.to change(MediaSubscription, :count).by(1)
+
+      expect(response).to redirect_to("#{inspectra_path}#form")
+      expect(MediaSubscription.last.email).to eq('reader@example.com')
+    end
+
+    it 'does not duplicate an existing email' do
+      MediaSubscription.create!(email: 'reader@example.com')
+
+      expect do
+        post inspectra_subscribe_path, params: { email: 'Reader@Example.com' }
+      end.not_to change(MediaSubscription, :count)
+
+      expect(response).to redirect_to("#{inspectra_path}#form")
+    end
+  end
+
   describe 'GET /profile' do
     context 'without authentication' do
       it 'should require authentication' do

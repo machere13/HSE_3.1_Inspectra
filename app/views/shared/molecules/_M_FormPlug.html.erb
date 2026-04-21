@@ -1,4 +1,12 @@
-<form class="M_FormPlug" id="formPlug">
-  <%= render 'shared/atoms/A_Input', name: 'email', placeholder: 'Email' %>
-  <%= render 'shared/atoms/A_Button', text: 'ПОДПИСАТЬСЯ', action: 'submitForm', autoreset: true %>
-</form>
+<%= form_with url: inspectra_subscribe_path, method: :post, local: true, class: 'M_FormPlug', id: 'formPlug' do %>
+  <%= render 'shared/atoms/A_Input',
+    name: 'email',
+    type: 'email',
+    value: @media_subscription&.email,
+    placeholder: 'Email',
+    required: true,
+    autocomplete: 'email',
+    autocapitalize: 'none',
+    spellcheck: false %>
+  <%= render 'shared/atoms/A_Button', text: 'ПОДПИСАТЬСЯ', type: 'submit' %>
+<% end %>

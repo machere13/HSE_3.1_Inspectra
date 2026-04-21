@@ -18,6 +18,7 @@ ru:
       title: 'Главная / Inspectra'
     inspectra:
       title: 'О нас / Inspectra'
+      subscription_success: 'Подписка успешна. Мы сообщим на почту, когда медиа запустится'
       back_to_home: 'На главную'
     profile:
       title: 'Профиль / Inspectra'

@@ -9,6 +9,19 @@ class PagesController < WebController
 
   def inspectra
     @current_week = Week.visible_now.order(number: :desc).first
+    @media_subscription = MediaSubscription.new(email: params[:email])
+  end
+
+  def subscribe
+    subscription = MediaSubscription.new(email: params[:email])
+
+    if subscription.save
+      redirect_to inspectra_path(anchor: 'form'), notice: t('pages.inspectra.subscription_success')
+    elsif subscription.errors.added?(:email, :taken)
+      redirect_to inspectra_path(anchor: 'form'), notice: t('pages.inspectra.subscription_success')
+    else
+      redirect_to inspectra_path(email: params[:email], anchor: 'form'), alert: subscription.errors.full_messages.to_sentence
+    end
   end
 
   def profile
