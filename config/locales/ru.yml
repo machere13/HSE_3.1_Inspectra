@@ -264,6 +264,8 @@ ru:
       403: '403_forbidden'
       404: '404_not_found'
       418: '418_im_a_teapot'
+      422: '422_unprocessable_entity'
+      429: '429_too_many_requests'
       500: '500_internal_server_error'
       502: '502_bad_gateway'
       503: '503_service_unavailable'
@@ -283,6 +285,16 @@ ru:
         >_ Path: %{path}
         >_ Status: 418 I'm a teapot
         >_ Solution: Brew tea or return to homepage
+      422: |
+        >_ Request cannot be processed
+        >_ Path: %{path}
+        >_ Status: 422 Unprocessable Entity
+        >_ Solution: Check the submitted data and try again
+      429: |
+        >_ Too many requests
+        >_ Path: %{path}
+        >_ Status: 429 Too Many Requests
+        >_ Solution: Wait a bit before sending the next request
       500: |
         >_ Something went wrong
         >_ Path: %{path}

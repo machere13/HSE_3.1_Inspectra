@@ -48,23 +48,27 @@ class Rack::Attack
   self.throttled_response = lambda do |env|
     match_data = env['rack.attack.match_data']
     now = match_data[:epoch_time]
+    request = Rack::Request.new(env)
     
     headers = {
-      'Content-Type' => 'application/json',
       'X-RateLimit-Limit' => match_data[:limit].to_s,
       'X-RateLimit-Remaining' => '0',
       'X-RateLimit-Reset' => (now + (match_data[:period] - (now % match_data[:period]))).to_s
     }
 
-    body = {
-      success: false,
-      error: {
-        code: 'TOO_MANY_REQUESTS',
-        message: 'Превышен лимит запросов. Попробуйте позже.'
-      }
-    }.to_json
+    unless request.path.start_with?('/api/')
+      [302, headers.merge('Location' => '/429'), []]
+    else
+      body = {
+        success: false,
+        error: {
+          code: 'TOO_MANY_REQUESTS',
+          message: 'Превышен лимит запросов. Попробуйте позже.'
+        }
+      }.to_json
 
-    [429, headers, [body]]
+      [429, headers.merge('Content-Type' => 'application/json'), [body]]
+    end
   end
 end
 

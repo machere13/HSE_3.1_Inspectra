@@ -1,6 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe 'Errors', type: :request do
+  describe 'GET /422' do
+    it 'renders 422 page' do
+      get '/422'
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.content_type).to include('text/html')
+    end
+  end
+
+  describe 'GET /429' do
+    it 'renders 429 page' do
+      get '/429'
+
+      expect(response).to have_http_status(:too_many_requests)
+      expect(response.content_type).to include('text/html')
+    end
+  end
+
   describe 'POST /report_problem' do
     it 'creates an error report' do
       expect do
