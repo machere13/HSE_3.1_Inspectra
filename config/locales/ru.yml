@@ -176,6 +176,16 @@ ru:
         no: 'Нет'
         none: 'Нет пользователей'
       view_all_users: 'Просмотреть всех пользователей'
+    media_subscriptions:
+      index:
+        title: 'Подписки на медиа'
+        statistics: 'Статистика'
+        statistic: 'Показатель'
+        count: 'Количество'
+        total: 'Всего подписок'
+        table_title: 'Подписки'
+        subscribed_at: 'Подписан'
+        none: 'Подписок пока нет'
     users:
       roles:
         super_admin: 'Супер-админ'
