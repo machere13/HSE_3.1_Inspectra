@@ -67,6 +67,7 @@ Rails.application.routes.draw do
     get 'dashboard', to: 'dashboard#index'
     
     resources :users, only: [:index, :show, :edit, :update]
+    resources :error_reports, only: [:index]
     resources :media_subscriptions, only: [:index]
     
     resources :weeks do

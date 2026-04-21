@@ -186,6 +186,20 @@ ru:
         table_title: 'Подписки'
         subscribed_at: 'Подписан'
         none: 'Подписок пока нет'
+    error_reports:
+      index:
+        title: 'Репорты ошибок'
+        statistics: 'Статистика'
+        statistic: 'Показатель'
+        count: 'Количество'
+        total: 'Всего репортов'
+        table_title: 'Сообщения об ошибках'
+        status_code: 'Код'
+        page_url: 'URL страницы'
+        reporter_email: 'Email'
+        message: 'Сообщение'
+        reported_at: 'Отправлено'
+        none: 'Репортов пока нет'
     users:
       roles:
         super_admin: 'Супер-админ'

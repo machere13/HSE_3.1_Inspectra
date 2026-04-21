@@ -1,4 +1,4 @@
-.PageAdminDashboard, .PageAdminUserShow, .PageAdminUsersIndex, .PageAdminUserShow, .PageAdminWeeksIndex, .PageAdminWeeksShow, .PageAdminContentItemsIndex, .PageAdminContentItemsShow, .PageAdminArticlesIndex, .PageAdminArticlesEdit, .PageAdminContentItemsEdit, .PageAdminContentItemsNew, .PageAdminArticlesNew, .PageAdminWeeksNew, .PageAdminWeeksEdit, .PageAdminUsersEdit, .PageAdminArticlesShow, .PageAdminMediaSubscriptionsIndex{
+.PageAdminDashboard, .PageAdminUserShow, .PageAdminUsersIndex, .PageAdminUserShow, .PageAdminWeeksIndex, .PageAdminWeeksShow, .PageAdminContentItemsIndex, .PageAdminContentItemsShow, .PageAdminArticlesIndex, .PageAdminArticlesEdit, .PageAdminContentItemsEdit, .PageAdminContentItemsNew, .PageAdminArticlesNew, .PageAdminWeeksNew, .PageAdminWeeksEdit, .PageAdminUsersEdit, .PageAdminArticlesShow, .PageAdminMediaSubscriptionsIndex, .PageAdminErrorReportsIndex{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -47,4 +47,40 @@
     display: flex;
     gap: var(--spacing-x2);
     align-items: center;
+}
+
+.PageAdminErrorReports-Table .C_ControlPanelTableHeaderRow-Cell,
+.PageAdminErrorReports-Table .C_ControlPanelTableRow-Cell{
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.PageAdminErrorReports-Table .C_ControlPanelTableHeaderRow-Cell:nth-child(1),
+.PageAdminErrorReports-Table .C_ControlPanelTableRow-Cell:nth-child(1){
+    flex: 0.3;
+}
+
+.PageAdminErrorReports-Table .C_ControlPanelTableHeaderRow-Cell:nth-child(2),
+.PageAdminErrorReports-Table .C_ControlPanelTableRow-Cell:nth-child(2){
+    flex: 0.3;
+}
+
+.PageAdminErrorReports-Table .C_ControlPanelTableHeaderRow-Cell:nth-child(3),
+.PageAdminErrorReports-Table .C_ControlPanelTableRow-Cell:nth-child(3){
+    flex: 2.2;
+}
+
+.PageAdminErrorReports-Table .C_ControlPanelTableHeaderRow-Cell:nth-child(4),
+.PageAdminErrorReports-Table .C_ControlPanelTableRow-Cell:nth-child(4){
+    flex: 1.6;
+}
+
+.PageAdminErrorReports-Table .C_ControlPanelTableHeaderRow-Cell:nth-child(5),
+.PageAdminErrorReports-Table .C_ControlPanelTableRow-Cell:nth-child(5){
+    flex: 3.4;
+}
+
+.PageAdminErrorReports-Table .C_ControlPanelTableHeaderRow-Cell:nth-child(6),
+.PageAdminErrorReports-Table .C_ControlPanelTableRow-Cell:nth-child(6){
+    flex: 1.1;
 }

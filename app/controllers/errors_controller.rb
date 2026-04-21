@@ -9,10 +9,26 @@ class ErrorsController < WebController
       redirect_back fallback_location: root_path, alert: t('errors.report_invalid_message')
       return
     end
-    url = params[:page_url].to_s.truncate(2_048)
-    code = params[:status_code].to_s.truncate(16)
-    Rails.logger.info({ event: 'problem_report', url: url, status_code: code, message: message.truncate(2_000) }.to_json)
-    redirect_back fallback_location: root_path, notice: t('errors.report_thanks')
+
+    report = ErrorReport.new(
+      page_url: params[:page_url].to_s.truncate(2_048),
+      status_code: params[:status_code].to_s.truncate(16),
+      reporter_email: current_user&.email,
+      message: message
+    )
+
+    if report.save
+      Rails.logger.info({
+        event: 'problem_report',
+        url: report.page_url,
+        status_code: report.status_code,
+        reporter_email: report.reporter_email,
+        message: report.message.truncate(2_000)
+      }.to_json)
+      redirect_back fallback_location: root_path, notice: t('errors.report_thanks')
+    else
+      redirect_back fallback_location: root_path, alert: report.errors.full_messages.to_sentence
+    end
   end
 
   def show
