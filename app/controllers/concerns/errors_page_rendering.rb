@@ -1,7 +1,7 @@
 module ErrorsPageRendering
   extend ActiveSupport::Concern
 
-  HTTP_ERROR_STATUS_CODES = [403, 404, 418, 500, 502, 503].freeze
+  HTTP_ERROR_STATUS_CODES = [403, 404, 418, 422, 429, 500, 502, 503].freeze
 
   private
 

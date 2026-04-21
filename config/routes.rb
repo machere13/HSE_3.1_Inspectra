@@ -97,6 +97,8 @@ Rails.application.routes.draw do
   match '/403', to: 'errors#show', defaults: { status_code: 403 }, via: :all
   match '/404', to: 'errors#show', defaults: { status_code: 404 }, via: :all
   match '/418', to: 'errors#show', defaults: { status_code: 418 }, via: :all
+  match '/422', to: 'errors#show', defaults: { status_code: 422 }, via: :all
+  match '/429', to: 'errors#show', defaults: { status_code: 429 }, via: :all
   match '/500', to: 'errors#show', defaults: { status_code: 500 }, via: :all
   match '/502', to: 'errors#show', defaults: { status_code: 502 }, via: :all
   match '/503', to: 'errors#show', defaults: { status_code: 503 }, via: :all
