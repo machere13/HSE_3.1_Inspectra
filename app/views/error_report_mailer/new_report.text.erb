@@ -1,0 +1,9 @@
+Новый report об ошибке
+
+Код: <%= @report.status_code.presence || '-' %>
+URL: <%= @report.page_url.presence || '-' %>
+Email: <%= @report.reporter_email.presence || '-' %>
+Отправлено: <%= @report.created_at.in_time_zone.strftime('%d.%m.%Y %H:%M') %>
+
+Сообщение:
+<%= @report.message %>

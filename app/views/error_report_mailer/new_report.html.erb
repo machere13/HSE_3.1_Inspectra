@@ -1,0 +1,46 @@
+<div style="display:none; max-height:0; overflow:hidden; opacity:0; color:transparent; mso-hide:all; font-size:1px; line-height:1px;">
+  Новый report об ошибке: <%= @report.status_code.presence || 'без кода' %>
+</div>
+
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width:100%; border-collapse:collapse; background-color:#070707; margin:0; padding:0;">
+  <tr>
+    <td align="center" style="padding:40px 16px; background-color:#070707;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="560" align="center" style="width:560px; max-width:560px; margin:0 auto; border-collapse:separate; background-color:#131313; border:1px solid rgba(255,255,255,0.16); border-radius:14px;">
+        <tr>
+          <td style="padding:26px 24px 28px 24px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" align="center" style="width:100%; border-collapse:collapse;">
+              <tr>
+                <td align="center" style="padding:0 0 48px 0;">
+                  <img
+                    src="<%= attachments['logo.png'].url %>"
+                    width="140"
+                    alt="Логотип"
+                    style="display:block; width:140px; height:auto; margin:0 auto; border:0; outline:none; text-decoration:none;"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:0;">
+                  <div style="margin:0; text-align:center; font-family:Arial, sans-serif; font-weight:600; font-size:22px; line-height:1.25; color:#ffffff;">
+                    Новый report об ошибке
+                  </div>
+
+                  <div style="margin-top:24px; font-family:Arial, sans-serif; font-weight:400; font-size:14px; line-height:1.7; color:#ffffff;">
+                    <strong>Код:</strong> <%= @report.status_code.presence || '-' %><br />
+                    <strong>URL:</strong> <%= @report.page_url.presence || '-' %><br />
+                    <strong>Email:</strong> <%= @report.reporter_email.presence || '-' %><br />
+                    <strong>Отправлено:</strong> <%= @report.created_at.in_time_zone.strftime('%d.%m.%Y %H:%M') %>
+                  </div>
+
+                  <div style="margin-top:24px; padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.16); background-color:rgba(0,0,0,0.18); font-family:Arial, sans-serif; font-weight:400; font-size:14px; line-height:1.7; color:#ffffff; white-space:pre-wrap;">
+                    <%= @report.message %>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
