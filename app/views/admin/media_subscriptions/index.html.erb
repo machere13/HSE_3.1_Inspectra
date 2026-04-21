@@ -1,0 +1,39 @@
+<main class="PageAdminMediaSubscriptionsIndex">
+  <h1><%= t('admin.media_subscriptions.index.title') %></h1>
+
+  <%= render 'shared/organisms/O_ControlPanelTable',
+      title: t('admin.media_subscriptions.index.statistics') do %>
+    <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
+      t('admin.media_subscriptions.index.statistic'),
+      t('admin.media_subscriptions.index.count')
+    ] %>
+    <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+      t('admin.media_subscriptions.index.total'),
+      @stats[:total]
+    ] %>
+  <% end %>
+
+  <% pagination_info = @pagy.count > 0 ? "#{@pagy.from}-#{@pagy.to} из #{@pagy.count}" : nil %>
+  <%= render 'shared/organisms/O_ControlPanelTable',
+      title: t('admin.media_subscriptions.index.table_title'),
+      actions: pagination_info do %>
+    <% if @media_subscriptions.any? %>
+      <%= render 'shared/collections/C_ControlPanelTableHeaderRow', cells: [
+        'ID',
+        'Email',
+        t('admin.media_subscriptions.index.subscribed_at')
+      ] %>
+      <% @media_subscriptions.each do |subscription| %>
+        <%= render 'shared/collections/C_ControlPanelTableRow', cells: [
+          subscription.id,
+          subscription.email,
+          subscription.created_at.in_time_zone.strftime('%d.%m.%Y %H:%M')
+        ] %>
+      <% end %>
+    <% else %>
+      <p><%= t('admin.media_subscriptions.index.none') %></p>
+    <% end %>
+  <% end %>
+
+  <%= raw pagy_nav(@pagy) if @pagy.pages > 1 %>
+</main>

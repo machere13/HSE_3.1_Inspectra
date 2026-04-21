@@ -12,6 +12,7 @@ class Ability
       can :manage, ContentItem
       can :read, :admin_panel
       can :manage, JwtSecretRotation
+      can :read, MediaSubscription
       can :read, User
       can :update, User
       can :read, :admin_dashboard
