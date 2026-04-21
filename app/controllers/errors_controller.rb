@@ -25,6 +25,16 @@ class ErrorsController < WebController
         reporter_email: report.reporter_email,
         message: report.message.truncate(2_000)
       }.to_json)
+      begin
+        ErrorReportMailer.new_report(report).deliver_later
+      rescue StandardError => e
+        Rails.logger.error({
+          event: 'error_report_mail_delivery_failed',
+          error: e.class.name,
+          message: e.message,
+          report_id: report.id
+        }.to_json)
+      end
       redirect_back fallback_location: root_path, notice: t('errors.report_thanks')
     else
       redirect_back fallback_location: root_path, alert: report.errors.full_messages.to_sentence
