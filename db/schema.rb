@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_25_121946) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_20_103940) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -79,6 +79,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_25_121946) do
     t.index ["week_id"], name: "index_content_items_on_week_id"
   end
 
+  create_table "interactive_completions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "article_id", null: false
+    t.string "interactive_key", null: false
+    t.string "category", null: false
+    t.datetime "completed_at", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_interactive_completions_on_article_id"
+    t.index ["user_id", "article_id", "interactive_key"], name: "index_interactive_completions_uniqueness", unique: true
+    t.index ["user_id"], name: "index_interactive_completions_on_user_id"
+  end
+
   create_table "jwt_secret_rotations", force: :cascade do |t|
     t.datetime "rotated_at", null: false
     t.string "rotated_by", null: false
@@ -88,6 +102,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_25_121946) do
     t.datetime "updated_at", null: false
     t.index ["rotated_at"], name: "index_jwt_secret_rotations_on_rotated_at"
     t.index ["rotation_type"], name: "index_jwt_secret_rotations_on_rotation_type"
+  end
+
+  create_table "media_subscriptions", force: :cascade do |t|
+    t.string "email", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_media_subscriptions_on_email", unique: true
   end
 
   create_table "revoked_tokens", force: :cascade do |t|
@@ -170,6 +191,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_25_121946) do
   add_foreign_key "articles", "weeks"
   add_foreign_key "content_items", "articles"
   add_foreign_key "content_items", "weeks"
+  add_foreign_key "interactive_completions", "articles"
+  add_foreign_key "interactive_completions", "users"
   add_foreign_key "user_achievements", "achievements"
   add_foreign_key "user_achievements", "users"
   add_foreign_key "user_titles", "titles"
