@@ -1,11 +1,13 @@
 <%
   initial_code = variant&.payload&.dig('broken_code') || ''
   expected = variant&.payload&.dig('expected_output').to_s
+  required_patterns = Array(variant&.payload&.dig('required_patterns'))
 %>
 <div class="PageInteractive-Scene PageInteractive-Sandbox"
      data-interactive-sandbox
      data-expected-output="<%= expected %>"
      data-success-token="<%= variant&.expected_answer %>"
+     data-required-patterns="<%= required_patterns.join('|') %>"
      data-target-input='input[name="answer"]'>
   <p class="text-p-2">
     Дан сломанный код. Исправь его в редакторе и нажми «Запустить».
@@ -22,6 +24,13 @@
     <% if current_user&.game_role_warrior? %>
       <p class="text-p-3 PageInteractive-RolePerk"><strong>Перк Воина:</strong> список багов подсвечен. Плюс одна дополнительная попытка.</p>
     <% end %>
+  <% end %>
+
+  <% if required_patterns.any? %>
+    <p class="text-caption">
+      Код должен содержать: <%= required_patterns.map { |p| "<code>#{ERB::Util.h(p)}</code>" }.join(', ').html_safe %>.
+      Простой <code>console.log("ответ")</code> не сработает — нужен реальный фикс логики.
+    </p>
   <% end %>
 
   <% if local_assigns[:max_attempts] %>

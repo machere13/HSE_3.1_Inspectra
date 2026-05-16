@@ -5,10 +5,12 @@
              when 'legacy.echo_of_past'         then "/api/v0/echo?seed=#{variant&.seed}"
              when 'it_errors.data_race'         then nil
              when 'it_errors.memory_leak'       then nil
+             when 'it_errors.silent_failure'    then nil
              when 'it_security.unsecured_keys'  then "/api/v1/interactive_props/profile/2?seed=#{variant&.seed}"
              end
   cookie_name = variant&.payload&.dig('cookie_name')
   cookie_value = variant&.payload&.dig('cookie_value')
+  broken_url = variant&.payload&.dig('broken_url')
 %>
 
 <div class="PageInteractive-Scene">
@@ -52,6 +54,29 @@
       <span class="A_Button-Content text-button">Запустить процесс</span>
     </button>
     <p class="text-caption" data-leak-feedback>Интервалы не запущены</p>
+  <% elsif interactive.key == 'it_errors.silent_failure' %>
+    <p class="text-p-3">
+      Картинка ниже не грузится — путь содержит опечатку. Открой DevTools → <strong>Network</strong> или <strong>Console</strong>,
+      найди ошибку 404, увидь URL вида <code><%= broken_url %></code>, восстанови оригинальное имя без опечатки
+      (поменяй порядок букв) и введи его (например, <code>kitten.png</code>).
+    </p>
+    <div class="PageInteractive-BrokenImage" data-broken-image-holder>
+      <img src="<%= broken_url %>"
+           alt="broken"
+           onerror="console.error('[Inspectra] 404:', this.src); this.replaceWith(Object.assign(document.createElement('div'), { className: 'PageInteractive-BrokenImage-Placeholder', innerHTML: '❌ 404<br><code>' + this.src + '</code>' }));" />
+    </div>
+    <p class="text-caption">
+      <em>Замечание:</em> реальные картинки в проекте не лежат — даже исправленный путь не покажет изображение.
+      Зачёт по тому, что введён правильный исходный filename.
+    </p>
+  <% elsif interactive.key == 'it_security.unsecured_keys' && endpoint %>
+    <p class="text-p-3">
+      Нажми — запрос полетит с <code>id=2</code> и вернёт обычного юзера. Чтобы получить admin-токен,
+      найди запрос в Network → правый клик → <strong>Edit and Resend</strong> → поменяй id с 2 на 1 → отправь.
+    </p>
+    <button type="button" class="A_Button" data-interactive-fetch data-endpoint="<%= endpoint %>">
+      <span class="A_Button-Content text-button">Сделать запрос (id=2)</span>
+    </button>
   <% elsif endpoint %>
     <p class="text-p-3">Нажми кнопку — улетит запрос. Найди его в Network, открой <strong>Response</strong>.</p>
     <button type="button" class="A_Button" data-interactive-fetch
@@ -70,12 +95,6 @@
   <% if current_user&.game_role_priest? && interactive.category == 'legacy' && endpoint %>
     <p class="text-p-3 PageInteractive-RolePerk">
       <strong>Перк Жреца:</strong> устаревший эндпоинт сразу подсвечен — <code><%= endpoint %></code>
-    </p>
-  <% end %>
-
-  <% if current_user&.game_role_hunter? && interactive.key == 'dev_diving.blind_in_dom' %>
-    <p class="text-p-3 PageInteractive-RolePerk">
-      <strong>Перк Охотника:</strong> ищи Detached узлы через DevTools → Memory → Heap snapshot. После него — <code>$0</code> в консоли.
     </p>
   <% end %>
 

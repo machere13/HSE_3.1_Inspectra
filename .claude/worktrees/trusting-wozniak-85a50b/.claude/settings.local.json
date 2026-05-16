@@ -60,7 +60,12 @@
       "Bash(ruby -c app/services/interactive_completion_service.rb)",
       "Bash(ruby -c app/controllers/articles_controller.rb)",
       "Bash(ruby -c app/controllers/weeks_controller.rb)",
-      "Bash(node --check /c/Users/vladi/Desktop/gg/study/thirdCourse/project3.1/app/assets/javascripts/modules/interactive/InteractiveClient.js)"
+      "Bash(node --check /c/Users/vladi/Desktop/gg/study/thirdCourse/project3.1/app/assets/javascripts/modules/interactive/InteractiveClient.js)",
+      "Bash(ruby -ryaml -e \"raw=YAML.safe_load_file\\('db/seeds/interactives.yml'\\); raw['interactives'].each{|i| puts '%-40s %-20s' % [i['key'], i['kind']]}\")",
+      "Bash(ruby -c app/views/interactives/kinds/_inspect_devtools.html.erb)",
+      "Bash(ruby -c app/views/interactives/kinds/_find_text_in_html.html.erb)",
+      "Bash(ruby -c app/controllers/legacy_cdn_controller.rb)",
+      "Bash(ruby -ryaml -e \"raw=YAML.safe_load_file\\('db/seeds/interactives.yml'\\); puts 'interactives:'+raw['interactives'].size.to_s+' variants:'+raw['interactives'].sum{|x|\\(x['variants']||[]\\).size}.to_s; raw['interactives'].select{|x|x['kind']=='sandbox_code_fix'}.each{|x|x['variants'].each{|v|puts \\\\\"#{x['key']} seed #{v['seed']}: required_patterns=#{v['required_patterns']&.size||0}\\\\\"}}\")"
     ]
   }
 }

@@ -1,9 +1,9 @@
 class Api::V0::EchoController < ApplicationController
+  include ActionController::Cookies
   include JwtHelper
 
   before_action :require_auth
 
-  # Те же причины, что и в InteractivePropsController — fallback на cookie.
   def current_user
     token = token_from_header.presence || cookies[:token].presence
     return nil unless token
@@ -16,8 +16,6 @@ class Api::V0::EchoController < ApplicationController
     nil
   end
 
-  # GET /api/v0/echo?seed=N
-  # Устаревший эндпоинт. Использется в интерактиве "Эхо прошлого".
   def show
     interactive = Interactive.find_by(key: 'legacy.echo_of_past')
     variant = interactive&.interactive_variants&.find_by(seed: params[:seed].to_i)

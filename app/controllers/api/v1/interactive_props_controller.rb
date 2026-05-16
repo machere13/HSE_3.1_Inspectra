@@ -1,11 +1,9 @@
 class Api::V1::InteractivePropsController < ApplicationController
+  include ActionController::Cookies
   include JwtHelper
 
   before_action :require_auth
 
-  # Эндпоинты вызываются fetch'ем со страницы интерактива.
-  # Браузер автоматически шлёт httponly cookie :token; JS прочитать его не может,
-  # поэтому header может быть пуст. Читаем токен из куки как fallback.
   def current_user
     token = token_from_header.presence || cookies[:token].presence
     return nil unless token
@@ -18,36 +16,29 @@ class Api::V1::InteractivePropsController < ApplicationController
     nil
   end
 
-  # GET /api/v1/interactive_props/spy?seed=N
-  # Используется в "Сетевой шпион". Юзер должен найти ответ в DevTools->Network.
   def spy
     variant = find_variant!('dev_diving.network_spy', params[:seed])
     return render_not_found(message: 'variant not found') unless variant
     render_success(data: { token: variant.payload['token'] || variant.expected_answer })
   end
 
-  # GET /api/v1/interactive_props/echo?seed=N — версия V1 (для "Эхо прошлого" V0 ниже).
   def echo
     variant = find_variant!('legacy.echo_of_past', params[:seed])
     return render_not_found(message: 'variant not found') unless variant
     render_success(data: { token: variant.expected_answer })
   end
 
-  # GET /api/v1/interactive_props/race/fast?seed=N
   def race_fast
     variant = find_variant!('it_errors.data_race', params[:seed])
     return render_not_found(message: 'variant not found') unless variant
     render_success(data: { token: variant.expected_answer })
   end
 
-  # GET /api/v1/interactive_props/race/slow?seed=N
   def race_slow
     sleep(2)
     render_success(data: { token: 'SLOW-DECOY' })
   end
 
-  # GET /api/v1/interactive_props/ie6_token?seed=N
-  # Возвращает токен только если User-Agent действительно от старого IE.
   def ie6_token
     variant = find_variant!('legacy.ie6_hack', params[:seed])
     return render_not_found(message: 'variant not found') unless variant
@@ -66,8 +57,6 @@ class Api::V1::InteractivePropsController < ApplicationController
     end
   end
 
-  # GET /api/v1/interactive_props/profile/:id?seed=N
-  # IDOR-имитация: id=1 возвращает админский токен.
   def unsecured_profile
     if params[:id].to_i == 1
       variant = find_variant!('it_security.unsecured_keys', params[:seed])

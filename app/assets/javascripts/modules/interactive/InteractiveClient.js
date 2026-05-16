@@ -2,7 +2,6 @@
 (() => {
   'use strict';
 
-  // 1. data-interactive-fetch: одиночный fetch к endpoint. Виден в Network.
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-interactive-fetch]');
     if (!btn) return;
@@ -16,7 +15,6 @@
       .finally(() => { btn.disabled = false; });
   });
 
-  // 2. data-interactive-race: два параллельных запроса, быстрый и медленный.
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-interactive-race]');
     if (!btn) return;
@@ -29,7 +27,6 @@
     ]).finally(() => { btn.disabled = false; });
   });
 
-  // 3. data-interactive-cookie-check: проверка cookie в браузере.
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-interactive-cookie-check]');
     if (!btn) return;
@@ -48,27 +45,38 @@
     }
   });
 
-  // 4. data-interactive-leak: запускает несколько setInterval, один из них «утечка» с заданным id.
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-interactive-leak]');
     if (!btn) return;
+    if (btn.dataset.leakStarted === '1') return;
+    btn.dataset.leakStarted = '1';
+
     const targetId = parseInt(btn.getAttribute('data-target-id'), 10) || 100;
     const fb = btn.parentNode && btn.parentNode.querySelector('[data-leak-feedback]');
     window.__intervalsLog = window.__intervalsLog || {};
-    const noise = setInterval(() => {}, 1000);
-    const noise2 = setInterval(() => {}, 1500);
-    const leak = setInterval(() => {
-      const bloat = new Array(1000).fill(`leak-${targetId}`);
-      window.__intervalsLog[targetId] = (window.__intervalsLog[targetId] || 0) + bloat.length;
+    window.__intervalsLog[targetId] = 0;
+    window.__intervalsLog.noise_a = 0;
+    window.__intervalsLog.noise_b = 0;
+
+    setInterval(() => { window.__intervalsLog.noise_a += 1; }, 1000);
+    setInterval(() => { window.__intervalsLog.noise_b += 1; }, 1500);
+    setInterval(() => {
+      window.__intervalsLog[targetId] += 1000;
     }, 100);
-    window.__intervalsLog.noise = noise;
-    window.__intervalsLog.noise2 = noise2;
-    window.__intervalsLog.leakHandle = leak;
-    if (fb) fb.textContent = 'Запущено 3 интервала. Один из них утекает. Найди его ID и введи в инпут.';
-    console.log('[Inspectra] memory leak demo started. window.__intervalsLog =', window.__intervalsLog);
+
+    let tick = 0;
+    const report = setInterval(() => {
+      tick += 1;
+      console.log(`[Inspectra] window.__intervalsLog (tick ${tick}):`, JSON.parse(JSON.stringify(window.__intervalsLog)));
+      if (tick > 10) clearInterval(report);
+    }, 1500);
+
+    if (fb) {
+      fb.innerHTML = `Запущено 3 интервала. Открой <strong>консоль</strong> — каждые 1.5с печатается состояние <code>window.__intervalsLog</code>. Найди ключ, чьё значение растёт быстрее всех. Это и есть ID.`;
+    }
+    console.log('[Inspectra] memory leak started. Watch window.__intervalsLog updates.');
   });
 
-  // 5. data-interactive-console-event: периодически диспатчит CustomEvent с токеном.
   document.querySelectorAll('[data-interactive-console-event]').forEach((root) => {
     const eventName = root.getAttribute('data-event-name') || 'inspectra:secret';
     const token = root.getAttribute('data-token') || 'UNKNOWN';
@@ -83,7 +91,6 @@
     );
   });
 
-  // 6. data-interactive-phishing: клики по карточкам писем.
   document.querySelectorAll('[data-interactive-phishing]').forEach((root) => {
     const input = document.querySelector(root.getAttribute('data-target-input'));
     root.querySelectorAll('[data-email-id]').forEach((card) => {
@@ -98,7 +105,6 @@
     });
   });
 
-  // 7. data-interactive-markers: чекбоксы, объединяемые в comma-separated значение инпута.
   document.querySelectorAll('[data-interactive-markers]').forEach((root) => {
     const inputSelector = root.getAttribute('data-target-input');
     const sync = () => {
@@ -114,7 +120,6 @@
     sync();
   });
 
-  // 8. data-interactive-sandbox: исполнение пользовательского кода в изолированном iframe.
   document.querySelectorAll('[data-interactive-sandbox]').forEach((root) => {
     const editor = root.querySelector('[data-sandbox-editor]');
     const runBtn = root.querySelector('[data-sandbox-run]');
@@ -125,6 +130,10 @@
     const successToken = root.getAttribute('data-success-token') || '';
     const inputSelector = root.getAttribute('data-target-input');
     const initialCode = editor ? editor.value : '';
+    const requiredPatternsRaw = root.getAttribute('data-required-patterns') || '';
+    const requiredPatterns = requiredPatternsRaw
+      ? requiredPatternsRaw.split('|').map((s) => s.trim()).filter(Boolean)
+      : [];
 
     const run = () => {
       if (!editor) return;
@@ -132,12 +141,10 @@
       status.textContent = 'Запускаю в изолированном iframe…';
 
       const code = editor.value;
-      // iframe с sandbox="allow-scripts" (НЕ allow-same-origin) — чужой origin, нет доступа к parent DOM.
       const iframe = document.createElement('iframe');
       iframe.setAttribute('sandbox', 'allow-scripts');
       iframe.style.display = 'none';
 
-      // Runner внутри iframe: перехват console, отправка через postMessage.
       const runnerHtml = `<!DOCTYPE html><html><head></head><body><script>
         (function(){
           const logs = [];
@@ -171,10 +178,15 @@
           return;
         }
         const trimmed = rendered.trim();
-        if (expected && trimmed === expected) {
-          status.textContent = '✓ Вывод совпадает с ожидаемым. Можно отправлять ответ.';
+        const outputOk = expected && trimmed === expected;
+        const missingPatterns = requiredPatterns.filter((p) => !code.includes(p));
+
+        if (outputOk && missingPatterns.length === 0) {
+          status.textContent = '✓ Вывод совпадает + код содержит ожидаемые конструкции. Жми «Проверить».';
           const inp = inputSelector ? document.querySelector(inputSelector) : null;
           if (inp) inp.value = successToken;
+        } else if (outputOk && missingPatterns.length > 0) {
+          status.textContent = `Вывод верный, но в коде не хватает конструкций: ${missingPatterns.join(', ')}. Не пытайся читерить — почини настоящий код.`;
         } else if (expected) {
           status.textContent = `Вывод не совпадает. Ожидалось: "${expected}".`;
         } else {
@@ -197,7 +209,6 @@
     });
   });
 
-  // 9. data-interactive-iframe-loader: лениво показывает iframe по кнопке.
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-interactive-iframe-load]');
     if (!btn) return;

@@ -211,6 +211,73 @@
     border-radius: var(--border-radius-x2);
 }
 
+.PageInteractive-BrokenImage{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-x2);
+    padding: var(--spacing-x4);
+    border: var(--border-x025) dashed var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+    min-height: 80px;
+}
+
+.PageInteractive-BrokenImage img{
+    max-width: 200px;
+    max-height: 120px;
+}
+
+.PageInteractive-DomForest{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+    padding: var(--spacing-x4);
+    border: var(--border-x025) dashed var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+}
+
+.PageInteractive-DomForest-Leaf{
+    padding: var(--spacing-x1) var(--spacing-x2);
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageInteractive-PhishingEmail{
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+    padding: var(--spacing-x4);
+    background: var(--color-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x3);
+}
+
+.PageInteractive-PhishingEmail-Header{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x1);
+    padding-bottom: var(--spacing-x2);
+    border-bottom: var(--border-x025) dashed var(--color-border-tertiary);
+}
+
+.PageInteractive-PhishingEmail-Body{
+    white-space: pre-wrap;
+    font-family: var(--font-family-geist);
+    color: var(--color-text-primary);
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.PageInteractive-BrokenImage-Placeholder{
+    padding: var(--spacing-x4);
+    background: var(--color-background-overlay, var(--color-secondary));
+    border: var(--border-x025) dashed var(--color-state-error, currentColor);
+    border-radius: var(--border-radius-x2);
+    color: var(--color-text-warning, var(--color-text-primary));
+    text-align: center;
+}
+
 .PageInteractive-Email{
     display: flex;
     justify-content: space-between;

@@ -6,9 +6,18 @@
 <div class="PageInteractive-Scene">
   <% if is_marker_quiz %>
     <p class="text-p-2">
-      Перед тобой фишинговое письмо. Отметь чекбоксами все признаки фишинга.
+      Перед тобой фишинговое письмо. Прочитай и отметь чекбоксами все признаки фишинга.
       Поле ответа заполнится автоматически.
     </p>
+
+    <article class="PageInteractive-PhishingEmail">
+      <header class="PageInteractive-PhishingEmail-Header">
+        <div class="text-p-3"><strong>От:</strong> <code><%= variant&.payload&.dig('email_from') %></code></div>
+        <div class="text-p-3"><strong>Тема:</strong> <%= variant&.payload&.dig('email_subject') %></div>
+      </header>
+      <pre class="PageInteractive-PhishingEmail-Body text-p-3"><%= variant&.payload&.dig('email_body') %></pre>
+    </article>
+
     <div class="PageInteractive-Markers"
          data-interactive-markers
          data-target-input='input[name="answer"]'>
