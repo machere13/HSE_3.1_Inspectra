@@ -43,6 +43,7 @@
 //= require ./modules/notifications/ToastNotification
 
 //= require ./modules/interactive/InteractiveToast
+//= require ./modules/interactive/InteractiveClient
 
 //= require ./modules/admin/AdminCheckbox
 

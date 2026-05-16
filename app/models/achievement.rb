@@ -1,7 +1,8 @@
 class Achievement < ApplicationRecord
   has_many :user_achievements, dependent: :destroy
   has_many :users, through: :user_achievements
-  
+  belongs_to :title, optional: true
+
   validates :name, presence: true, uniqueness: true
   validates :category, presence: true
   validates :progress_type, presence: true

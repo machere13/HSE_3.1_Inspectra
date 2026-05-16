@@ -1,0 +1,32 @@
+<%# Скрываем нужный текст прозрачно в DOM. Пользователь должен найти и ввести в инпут. %>
+<%
+  priest_perk = current_user&.game_role_priest? && interactive.category == 'legacy'
+  hunter_perk = current_user&.game_role_hunter? && interactive.category == 'dev_diving'
+  hidden_classes = ['PageInteractive-Hidden']
+  hidden_classes << 'PageInteractive-Hidden--PriestReveal' if priest_perk
+  hidden_classes << 'PageInteractive-Hidden--HunterReveal' if hunter_perk
+%>
+<div class="PageInteractive-Scene">
+  <p class="text-p-2">
+    Где-то на этой странице спрятано слово. Открой DevTools или внимательно изучи DOM —
+    оно <strong>здесь</strong>, но не видно глазу.
+  </p>
+  <% if variant&.hint.present? %>
+    <details class="PageInteractive-Hint">
+      <summary class="text-p-3">Подсказка</summary>
+      <p class="text-p-3"><%= variant.hint %></p>
+    </details>
+  <% end %>
+
+  <div class="PageInteractive-Decoy">
+    <span class="text-p-3">Просто текст-обманка</span>
+    <span class="<%= hidden_classes.join(' ') %>" aria-hidden="true"><%= variant&.hidden_text %></span>
+    <span class="text-p-3">И ещё немного шумного содержимого</span>
+  </div>
+
+  <% if priest_perk %>
+    <p class="text-p-3 PageInteractive-RolePerk"><strong>Перк Жреца:</strong> устаревшая запись слегка проявлена для тебя.</p>
+  <% elsif hunter_perk %>
+    <p class="text-p-3 PageInteractive-RolePerk"><strong>Перк Охотника:</strong> скрытый текст полупрозрачно видим.</p>
+  <% end %>
+</div>

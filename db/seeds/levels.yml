@@ -1,0 +1,81 @@
+levels:
+  - number: 1
+    required_xp: 0
+    name: 'Послушник'
+    description: 'Только начал путь в Inspectra'
+  - number: 2
+    required_xp: 100
+    name: 'Стажёр'
+    description: 'Освоился с интерфейсом'
+  - number: 3
+    required_xp: 250
+    name: 'Юниор'
+    description: 'Прошёл первые интерактивы'
+  - number: 4
+    required_xp: 500
+    name: 'Подмастерье'
+    description: 'Системно изучает контент'
+  - number: 5
+    required_xp: 850
+    name: 'Мидл'
+    description: 'Уверенно проходит большинство интерактивов'
+  - number: 6
+    required_xp: 1300
+    name: 'Старший подмастерье'
+    description: 'Знает все категории'
+  - number: 7
+    required_xp: 1850
+    name: 'Сеньор'
+    description: 'Эксперт в выбранной специализации'
+  - number: 8
+    required_xp: 2500
+    name: 'Тимлид'
+    description: 'Может вести других'
+  - number: 9
+    required_xp: 3250
+    name: 'Архитектор'
+    description: 'Проектирует решения'
+  - number: 10
+    required_xp: 4100
+    name: 'Принципал'
+    description: 'Принципиальный разработчик'
+  - number: 11
+    required_xp: 5050
+    name: 'Стафф'
+    description: 'Влияет на стратегию'
+  - number: 12
+    required_xp: 6100
+    name: 'Эксперт'
+    description: 'Признанный эксперт'
+  - number: 13
+    required_xp: 7250
+    name: 'Дистинг.'
+    description: 'Distinguished инженер'
+  - number: 14
+    required_xp: 8500
+    name: 'Фелло'
+    description: 'Fellow — высшее техническое признание'
+  - number: 15
+    required_xp: 9850
+    name: 'Легенда Inspectra'
+    description: 'Прошёл значительную часть контента'
+  - number: 16
+    required_xp: 11500
+    name: 'Магистр кода'
+    description: 'Магистерский уровень мастерства'
+  - number: 17
+    required_xp: 13500
+    name: 'Магистр битов'
+    description: 'Видит насквозь любой код'
+  - number: 18
+    required_xp: 15800
+    name: 'Доктор информатики'
+    description: 'Доктор-теоретик'
+  - number: 19
+    required_xp: 18500
+    name: 'Профессор'
+    description: 'Учит других'
+  - number: 20
+    required_xp: 21600
+    name: 'Академик'
+    description: 'Высшая ступень мастерства'

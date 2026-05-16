@@ -1,0 +1,128 @@
+.PageGameRole{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: var(--spacing-x3);
+    gap: var(--spacing-x16);
+}
+
+.PageGameRole-Section{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x10);
+    width: 100%;
+}
+
+.PageGameRole-Header{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x4);
+    max-width: 720px;
+}
+
+.PageGameRole-Title{
+    font-size: var(--font-size-h3);
+    font-family: var(--font-family-geist);
+    font-weight: var(--font-weight-headers);
+    line-height: var(--line-height-normal);
+}
+
+.PageGameRole-Description{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageGameRole-Warning{
+    color: var(--color-text-warning, var(--color-text-primary));
+    padding: var(--spacing-x3) var(--spacing-x4);
+    border: var(--border-x025) dashed var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+}
+
+.PageGameRole-Cards{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    gap: var(--spacing-x6);
+    width: 100%;
+}
+
+.PageGameRole-CardForm{
+    display: contents;
+}
+
+.PageGameRole-Card{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x4);
+    align-items: flex-start;
+    padding: var(--spacing-x8);
+    background: var(--color-secondary);
+    border: var(--border-x025) solid var(--color-border-primary);
+    border-radius: var(--border-radius-x3);
+    cursor: pointer;
+    color: var(--color-text-primary);
+    text-align: left;
+    transition: border-color .2s ease, transform .2s ease, background .2s ease;
+    width: 100%;
+}
+
+.PageGameRole-Card:hover:not(:disabled){
+    border-color: var(--color-state-focus, var(--color-primary));
+    transform: translateY(-2px);
+}
+
+.PageGameRole-Card:disabled{
+    cursor: default;
+    opacity: .9;
+}
+
+.PageGameRole-Card--Current{
+    border-color: var(--color-state-focus, var(--color-primary));
+    background: var(--color-background-overlay, var(--color-secondary));
+}
+
+.PageGameRole-Card-Subtitle{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageGameRole-Card-Description{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageGameRole-Card-Specialty{
+    padding: var(--spacing-x1) var(--spacing-x3);
+    background: var(--color-background-overlay, transparent);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x1);
+}
+
+.PageGameRole-Card-Perks{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x1);
+    list-style: disc inside;
+    color: var(--color-text-primary);
+}
+
+.PageGameRole-Card-Perks li{
+    text-transform: none;
+}
+
+.PageGameRole-Card-Badge{
+    align-self: flex-start;
+    padding: var(--spacing-x05) var(--spacing-x2);
+    background: var(--color-state-focus, var(--color-primary));
+    color: var(--color-background, #000);
+    border-radius: var(--border-radius-x05);
+}
+
+.PageGameRole-Footer{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+@media (max-width: 1024px) {
+    .PageGameRole-Cards{
+        grid-template-columns: 1fr;
+    }
+}

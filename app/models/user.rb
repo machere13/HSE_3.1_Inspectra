@@ -9,6 +9,9 @@ class User < ApplicationRecord
   has_many :user_titles, dependent: :destroy
   has_many :titles, through: :user_titles
   belongs_to :current_title, class_name: 'Title', optional: true
+
+  has_many :interactive_completions, dependent: :destroy
+  has_many :interactive_attempts, dependent: :destroy
   
   has_one_attached :avatar
   
@@ -18,6 +21,20 @@ class User < ApplicationRecord
     admin: 2,
     super_admin: 3
   }
+
+  enum :game_role, {
+    mage: 0,
+    warrior: 1,
+    priest: 2,
+    hunter: 3
+  }, prefix: true
+
+  GAME_ROLE_SPECIALTIES = {
+    'mage'    => 'it_security',
+    'warrior' => 'it_errors',
+    'priest'  => 'legacy',
+    'hunter'  => 'dev_diving'
+  }.freeze
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: AppConfig::Auth.password_min_length, maximum: AppConfig::Auth.password_max_length }, if: -> { new_record? || !password.nil? }
@@ -77,7 +94,91 @@ class User < ApplicationRecord
   def current_title_name
     current_title&.name
   end
-  
+
+  def game_role_required?
+    email_verified? && game_role.blank?
+  end
+
+  def game_role_label
+    return nil if game_role.blank?
+    I18n.t("game_roles.#{game_role}.label", default: game_role.to_s.capitalize)
+  end
+
+  def specialty_category
+    GAME_ROLE_SPECIALTIES[game_role]
+  end
+
+  def assign_game_role!(new_role)
+    new_role = new_role.to_s
+    raise ArgumentError, "Unknown game role: #{new_role}" unless self.class.game_roles.key?(new_role)
+
+    update!(game_role: new_role, game_role_selected_at: Time.current)
+  end
+
+  def level
+    @level ||= Level.for_experience(experience_points)
+  end
+
+  def level_number
+    level&.number || 1
+  end
+
+  def next_level
+    level&.next_level
+  end
+
+  def xp_progress_in_current_level
+    return 0 unless level
+    experience_points - level.required_xp
+  end
+
+  def xp_required_for_next_level
+    return 0 unless next_level
+    next_level.required_xp - (level&.required_xp || 0)
+  end
+
+  def xp_remaining_to_next_level
+    return 0 unless next_level
+    next_level.required_xp - experience_points
+  end
+
+  def level_progress_percent
+    return 100 unless next_level
+    total = xp_required_for_next_level
+    return 0 if total.zero?
+    ((xp_progress_in_current_level.to_f / total) * 100).round
+  end
+
+  def add_experience!(amount)
+    amount = amount.to_i
+    return if amount <= 0
+    previous_level = level
+    increment!(:experience_points, amount)
+    @level = nil
+    previous_level&.number != level&.number ? level : nil
+  end
+
+  # Возвращает новое значение streak'а, если сегодня первый просмотр.
+  # Возвращает nil, если уже просматривал контент сегодня (idempotent).
+  def register_content_view!(now: Time.current)
+    today = now.to_date
+    return nil if last_content_view_on == today
+
+    new_streak =
+      if last_content_view_on == today - 1.day
+        current_streak_days + 1
+      else
+        1
+      end
+
+    update!(
+      last_content_view_on: today,
+      current_streak_days: new_streak,
+      longest_streak_days: [longest_streak_days, new_streak].max
+    )
+    new_streak
+  end
+
   private
   
   def check_registration_achievements

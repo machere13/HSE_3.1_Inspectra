@@ -1,0 +1,13 @@
+<div class="PageInteractive-Scene">
+  <p class="text-p-2">Внизу iframe c устаревшей страницей. Открой его — внутри есть кодовое слово.</p>
+  <iframe src="<%= legacy_iframe_path(variant&.seed) %>"
+          class="PageInteractive-Iframe"
+          referrerpolicy="no-referrer"
+          title="legacy"></iframe>
+  <p class="text-caption">Подсказка: кодовое слово — внутри тега <code>.secret</code>.</p>
+
+  <% if variant&.hint.present? %>
+    <details class="PageInteractive-Hint"><summary class="text-p-3">Подсказка</summary><p class="text-p-3"><%= variant.hint %></p></details>
+  <% end %>
+  <% if Rails.env.development? && variant %><p class="text-caption">Dev-ответ: <code><%= variant.expected_answer %></code></p><% end %>
+</div>

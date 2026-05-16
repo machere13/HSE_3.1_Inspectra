@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       post 'auth/resend', to: 'auth#resend_verification_code'
       get 'auth/me', to: 'auth#me'
       get 'auth/supported-domains', to: 'auth#supported_email_domains'
+      get 'game_roles', to: 'game_roles#index'
+      patch 'game_roles/select', to: 'game_roles#select'
       
       resources :achievements, only: [:index] do
         collection do
@@ -32,8 +34,22 @@ Rails.application.routes.draw do
 
       post 'auth/password/forgot', to: 'auth#forgot_password'
       post 'auth/password/reset', to: 'auth#reset_password'
+
+      get 'interactive_props/spy', to: 'interactive_props#spy'
+      get 'interactive_props/echo', to: 'interactive_props#echo'
+      get 'interactive_props/race/fast', to: 'interactive_props#race_fast'
+      get 'interactive_props/race/slow', to: 'interactive_props#race_slow'
+      get 'interactive_props/ie6_token', to: 'interactive_props#ie6_token'
+      get 'interactive_props/profile/:id', to: 'interactive_props#unsecured_profile'
+    end
+
+    namespace :v0 do
+      get 'echo', to: 'echo#show'
     end
   end
+
+  get 'legacy/iframes/:seed', to: 'legacy_iframes#show', as: 'legacy_iframe'
+  get 'legacy/archives/:seed', to: 'legacy_iframes#archive', as: 'legacy_archive'
 
   get 'inspectra', to: 'pages#inspectra'
   post 'inspectra/subscribe', to: 'pages#subscribe', as: :inspectra_subscribe
@@ -42,6 +58,12 @@ Rails.application.routes.draw do
   patch 'profile/update_name', to: 'pages#update_name', as: 'update_name'
   patch 'profile/update_avatar', to: 'pages#update_avatar', as: 'update_avatar'
   post 'profile/request_password_change', to: 'pages#request_password_change', as: 'request_password_change'
+  get 'profile/select_game_role', to: 'pages#select_game_role', as: 'select_game_role'
+  patch 'profile/select_game_role', to: 'pages#update_game_role', as: 'update_game_role'
+
+  get 'interactives', to: 'interactives#index', as: 'interactives'
+  get 'interactives/:key', to: 'interactives#show', as: 'interactive', constraints: { key: %r{[^/]+} }
+  post 'interactives/:key/submit', to: 'interactives#submit', as: 'submit_interactive', constraints: { key: %r{[^/]+} }
   get 'auth', to: redirect('/auth/login')
   get 'reset_password', to: 'auth#reset'
   scope :auth do

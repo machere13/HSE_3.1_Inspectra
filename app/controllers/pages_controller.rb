@@ -1,6 +1,6 @@
 class PagesController < WebController
   layout :determine_layout
-  before_action :authenticate_user!, only: [:profile, :select_title, :update_name, :update_avatar, :request_password_change]
+  before_action :authenticate_user!, only: [:profile, :select_title, :update_name, :update_avatar, :request_password_change, :select_game_role, :update_game_role]
 
   def home
     @current_week = Week.visible_now.order(number: :desc).first
@@ -38,13 +38,40 @@ class PagesController < WebController
   def select_title
     @user = current_user
     title = Title.find(params[:title_id])
-    
+
     begin
       @user.select_title!(title)
       redirect_to profile_path, notice: t('pages.profile.title_selected', title: title.name)
     rescue ArgumentError
       redirect_to profile_path, alert: t('pages.profile.title_not_available')
     end
+  end
+
+  def select_game_role
+    @user = current_user
+    @available_roles = User.game_roles.keys
+    @is_initial_selection = @user.game_role.blank?
+  end
+
+  def update_game_role
+    @user = current_user
+    new_role = params[:game_role].to_s
+
+    unless User.game_roles.key?(new_role)
+      redirect_to select_game_role_path, alert: t('pages.select_game_role.invalid_role')
+      return
+    end
+
+    is_initial = @user.game_role.blank?
+    @user.assign_game_role!(new_role)
+
+    if is_initial
+      redirect_to profile_path, notice: t('pages.select_game_role.assigned', role: @user.game_role_label)
+    else
+      redirect_to profile_path, notice: t('pages.select_game_role.changed', role: @user.game_role_label)
+    end
+  rescue ArgumentError
+    redirect_to select_game_role_path, alert: t('pages.select_game_role.invalid_role')
   end
 
   def update_name

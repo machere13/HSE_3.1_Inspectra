@@ -1,6 +1,7 @@
 class Article < ApplicationRecord
   belongs_to :week
   has_many :content_items, dependent: :nullify
+  has_many :interactives, dependent: :nullify
   has_one_attached :cover_image
 
   validates :title, presence: true
