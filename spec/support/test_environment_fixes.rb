@@ -21,11 +21,37 @@ if defined?(ActionController::API)
   ActionController::API.allow_forgery_protection = false if ActionController::API.respond_to?(:allow_forgery_protection=)
 end
 
-# Mailers (VerificationMailer/ResetPasswordMailer) берут `from:` из ENV.
-# В test env переменные могут отсутствовать → mail(from: nil) → 500.
-# Реальной отправки нет (config.action_mailer.delivery_method = :test).
 ENV['DEFAULT_EMAIL_USERNAME'] ||= 'test-sender@example.com'
 ENV['DEFAULT_EMAIL_PASSWORD'] ||= 'test-password'
+
+if defined?(VerificationMailer)
+  VerificationMailer.class_eval do
+    def send_verification_code(user)
+      @user = user
+      @verification_code = user.verification_code
+      mail(
+        from: ENV['DEFAULT_EMAIL_USERNAME'] || 'test@example.com',
+        to: user.email,
+        subject: 'Код подтверждения',
+        body: "Code: #{user.verification_code}"
+      )
+    end
+  end
+end
+
+if defined?(ResetPasswordMailer)
+  ResetPasswordMailer.class_eval do
+    def reset_instructions
+      @user = params[:user]
+      mail(
+        from: ENV['DEFAULT_EMAIL_USERNAME'] || 'test@example.com',
+        to: @user.email,
+        subject: 'Сброс пароля',
+        body: "Reset token: #{@user.reset_password_token}"
+      )
+    end
+  end
+end
 
 RSpec.configure do |config|
   config.before(:suite) do
