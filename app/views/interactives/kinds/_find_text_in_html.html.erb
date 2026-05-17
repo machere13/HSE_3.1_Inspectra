@@ -6,8 +6,12 @@
   hidden_classes << 'PageInteractive-Hidden--HunterReveal' if hunter_perk
 
   payload = variant&.payload || {}
-  hidden_text = variant&.hidden_text.to_s
-  expected   = variant&.expected_answer.to_s
+  expected = if interactive.randomizable?
+               interactive.issue_token_for(current_user, variant: variant)
+             else
+               variant&.expected_answer.to_s
+             end
+  hidden_text = variant&.hidden_text.presence || expected
 %>
 
 <div class="PageInteractive-Scene">
@@ -65,7 +69,8 @@
 
   <% when 'legacy.archive_worm' %>
     <p class="text-p-2">Ниже — устаревшая архивная страница. Найди в ней кодовое слово.</p>
-    <iframe src="<%= legacy_archive_path(variant&.seed) %>"
+    <% session = @session_token || @session&.attempts_record&.session_token %>
+    <iframe src="<%= legacy_archive_path(variant&.seed, session: session) %>"
             class="PageInteractive-Iframe"
             referrerpolicy="no-referrer"
             title="legacy archive"></iframe>

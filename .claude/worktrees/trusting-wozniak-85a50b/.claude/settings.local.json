@@ -67,7 +67,13 @@
       "Bash(ruby -c app/controllers/legacy_cdn_controller.rb)",
       "Bash(ruby -ryaml -e \"raw=YAML.safe_load_file\\('db/seeds/interactives.yml'\\); puts 'interactives:'+raw['interactives'].size.to_s+' variants:'+raw['interactives'].sum{|x|\\(x['variants']||[]\\).size}.to_s; raw['interactives'].select{|x|x['kind']=='sandbox_code_fix'}.each{|x|x['variants'].each{|v|puts \\\\\"#{x['key']} seed #{v['seed']}: required_patterns=#{v['required_patterns']&.size||0}\\\\\"}}\")",
       "Bash(ruby -c spec/support/test_environment_fixes.rb)",
-      "Bash(ruby -c /c/Users/vladi/Desktop/gg/study/thirdCourse/project3.1/spec/support/test_environment_fixes.rb)"
+      "Bash(ruby -c /c/Users/vladi/Desktop/gg/study/thirdCourse/project3.1/spec/support/test_environment_fixes.rb)",
+      "Bash(ruby -c db/migrate/20260516120000_add_session_to_interactive_attempts.rb)",
+      "Bash(ruby -c spec/services/interactive_session_spec.rb)",
+      "Bash(ruby -c spec/requests/interactives_spec.rb)",
+      "Bash(ruby -c spec/requests/api/v1/interactive_props_spec.rb)",
+      "Bash(ruby -c spec/requests/api/v0/echo_spec.rb)",
+      "Bash(ruby -c spec/requests/legacy_iframes_spec.rb)"
     ]
   }
 }

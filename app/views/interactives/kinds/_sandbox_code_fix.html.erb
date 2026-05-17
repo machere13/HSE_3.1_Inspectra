@@ -1,17 +1,18 @@
 <%
   initial_code = variant&.payload&.dig('broken_code') || ''
-  expected = variant&.payload&.dig('expected_output').to_s
+  expected_output = variant&.payload&.dig('expected_output').to_s
   required_patterns = Array(variant&.payload&.dig('required_patterns'))
+  success_token = interactive.randomizable? ? interactive.issue_token_for(current_user, variant: variant) : variant&.expected_answer
 %>
 <div class="PageInteractive-Scene PageInteractive-Sandbox"
      data-interactive-sandbox
-     data-expected-output="<%= expected %>"
-     data-success-token="<%= variant&.expected_answer %>"
+     data-expected-output="<%= expected_output %>"
+     data-success-token="<%= success_token %>"
      data-required-patterns="<%= required_patterns.join('|') %>"
      data-target-input='input[name="answer"]'>
   <p class="text-p-2">
     Дан сломанный код. Исправь его в редакторе и нажми «Запустить».
-    Цель — получить в выводе: <code><%= expected %></code>.
+    Цель — получить в выводе: <code><%= expected_output %></code>.
   </p>
 
   <% if variant&.payload&.dig('bugs') %>
@@ -71,5 +72,5 @@
   <% if variant&.hint.present? %>
     <details class="PageInteractive-Hint"><summary class="text-p-3">Подсказка</summary><p class="text-p-3"><%= variant.hint %></p></details>
   <% end %>
-  <% if Rails.env.development? && variant %><p class="text-caption">Dev-ответ: <code><%= variant.expected_answer %></code></p><% end %>
+  <% if Rails.env.development? %><p class="text-caption">Dev-ответ: <code><%= success_token %></code></p><% end %>
 </div>

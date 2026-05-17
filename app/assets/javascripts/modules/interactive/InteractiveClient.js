@@ -2,13 +2,25 @@
 (() => {
   'use strict';
 
+  const sessionToken = () => {
+    const root = document.querySelector('.PageInteractive[data-session-token]');
+    return root && root.getAttribute('data-session-token');
+  };
+
+  const withSession = (url) => {
+    const token = sessionToken();
+    if (!token) return url;
+    const sep = url.includes('?') ? '&' : '?';
+    return `${url}${sep}session=${encodeURIComponent(token)}`;
+  };
+
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-interactive-fetch]');
     if (!btn) return;
     const endpoint = btn.getAttribute('data-endpoint');
     if (!endpoint) return;
     btn.disabled = true;
-    fetch(endpoint, { headers: { Accept: 'application/json' } })
+    fetch(withSession(endpoint), { headers: { Accept: 'application/json' } })
       .then((r) => r.json().catch(() => ({})))
       .then((data) => { console.log('[Inspectra] Network response:', data); })
       .catch((err) => { console.error('[Inspectra]', err); })
@@ -22,8 +34,8 @@
     const slow = btn.getAttribute('data-slow');
     btn.disabled = true;
     Promise.all([
-      fetch(fast).then((r) => r.json()).then((d) => { console.log('[Inspectra] race/fast:', d); }),
-      fetch(slow).then((r) => r.json()).then((d) => { console.log('[Inspectra] race/slow:', d); }),
+      fetch(withSession(fast)).then((r) => r.json()).then((d) => { console.log('[Inspectra] race/fast:', d); }),
+      fetch(withSession(slow)).then((r) => r.json()).then((d) => { console.log('[Inspectra] race/slow:', d); }),
     ]).finally(() => { btn.disabled = false; });
   });
 

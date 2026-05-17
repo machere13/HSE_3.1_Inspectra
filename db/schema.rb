@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_15_190000) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_16_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -100,8 +100,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_15_190000) do
     t.datetime "locked_until"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "session_token"
+    t.datetime "session_expires_at"
     t.index ["interactive_id"], name: "index_interactive_attempts_on_interactive_id"
     t.index ["locked_until"], name: "index_interactive_attempts_on_locked_until"
+    t.index ["session_token"], name: "index_interactive_attempts_on_session_token", unique: true
     t.index ["user_id", "interactive_id"], name: "index_interactive_attempts_on_user_id_and_interactive_id", unique: true
     t.index ["user_id"], name: "index_interactive_attempts_on_user_id"
   end

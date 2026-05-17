@@ -24,16 +24,22 @@ end
 ENV['DEFAULT_EMAIL_USERNAME'] ||= 'test-sender@example.com'
 ENV['DEFAULT_EMAIL_PASSWORD'] ||= 'test-password'
 
+STUB_PNG_BYTES = "\x89PNG\r\n\x1a\n".freeze
+
 if defined?(VerificationMailer)
   VerificationMailer.class_eval do
     def send_verification_code(user)
       @user = user
       @verification_code = user.verification_code
+      attachments.inline['logo.png'] = {
+        mime_type: 'image/png',
+        content: STUB_PNG_BYTES,
+        content_id: 'inspectra-logo'
+      }
       mail(
         from: ENV['DEFAULT_EMAIL_USERNAME'] || 'test@example.com',
         to: user.email,
-        subject: 'Код подтверждения',
-        body: "Code: #{user.verification_code}"
+        subject: 'Код подтверждения'
       )
     end
   end
@@ -43,11 +49,15 @@ if defined?(ResetPasswordMailer)
   ResetPasswordMailer.class_eval do
     def reset_instructions
       @user = params[:user]
+      attachments.inline['logo.png'] = {
+        mime_type: 'image/png',
+        content: STUB_PNG_BYTES,
+        content_id: 'inspectra-logo'
+      }
       mail(
         from: ENV['DEFAULT_EMAIL_USERNAME'] || 'test@example.com',
         to: @user.email,
-        subject: 'Сброс пароля',
-        body: "Reset token: #{@user.reset_password_token}"
+        subject: 'Сброс пароля'
       )
     end
   end

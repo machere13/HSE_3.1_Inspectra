@@ -2,6 +2,8 @@ class InteractiveAttempt < ApplicationRecord
   belongs_to :user
   belongs_to :interactive
 
+  SESSION_TTL = 30.minutes
+
   validates :user_id, uniqueness: { scope: :interactive_id }
 
   def locked?
@@ -19,5 +21,22 @@ class InteractiveAttempt < ApplicationRecord
     if max_attempts.present? && count >= max_attempts.to_i
       update!(locked_until: lock_minutes.minutes.from_now)
     end
+  end
+
+  def issue_session!
+    token = SecureRandom.hex(16)
+    update!(session_token: token, session_expires_at: SESSION_TTL.from_now)
+    token
+  end
+
+  def session_valid?(submitted_token)
+    return false if submitted_token.blank?
+    return false if session_token.blank?
+    return false if session_expires_at.blank? || session_expires_at < Time.current
+    ActiveSupport::SecurityUtils.secure_compare(session_token.to_s, submitted_token.to_s)
+  end
+
+  def clear_session!
+    update!(session_token: nil, session_expires_at: nil)
   end
 end

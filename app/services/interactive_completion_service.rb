@@ -31,6 +31,9 @@ class InteractiveCompletionService
       svc = AchievementService.new(@user)
       svc.check_achievements_for_interactive_completion(@interactive.category)
       @new_titles = svc.newly_awarded_titles
+
+      attempt = @user.interactive_attempts.find_by(interactive: @interactive)
+      attempt&.clear_session!
     end
 
     completion

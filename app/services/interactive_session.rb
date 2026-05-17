@@ -56,7 +56,7 @@ class InteractiveSession
       return Result.new(success?: false, variant: v, locked: true, error_message: I18n.t('pages.interactive.locked'))
     end
 
-    unless v.matches?(answer, kind: @interactive.kind)
+    unless matches_answer?(answer, v)
       attempts_record.register_fail!(max_attempts: max_attempts, lock_minutes: LOCK_MINUTES)
       msg = max_attempts ? I18n.t('pages.interactive.wrong_with_attempts', left: attempts_left) : I18n.t('pages.interactive.wrong_answer')
       return Result.new(success?: false, variant: v, locked: locked?, error_message: msg)
@@ -69,6 +69,18 @@ class InteractiveSession
   end
 
   private
+
+  def matches_answer?(answer, v)
+    if @interactive.randomizable?
+      expected = @interactive.issue_token_for(@user, variant: v)
+      ActiveSupport::SecurityUtils.secure_compare(
+        answer.to_s.strip.downcase,
+        expected.to_s.strip.downcase
+      )
+    else
+      v.matches?(answer, kind: @interactive.kind)
+    end
+  end
 
   def persisted_variant
     completion = InteractiveCompletion.find_by(user_id: @user.id, interactive_key: @interactive.key)

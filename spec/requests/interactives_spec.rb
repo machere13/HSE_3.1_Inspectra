@@ -73,10 +73,16 @@ RSpec.describe 'Interactives', type: :request do
       Interactive.find_by!(key: key).variant_for(user)
     end
 
+    def correct_answer_for(key, user)
+      interactive = Interactive.find_by!(key: key)
+      v = interactive.variant_for(user)
+      interactive.randomizable? ? interactive.issue_token_for(user, variant: v) : v.expected_answer
+    end
+
     it 'find_text_in_html: correct answer awards XP' do
-      v = variant_for_user('dev_diving.secret_message', user)
+      answer = correct_answer_for('dev_diving.secret_message', user)
       expect {
-        post submit_interactive_path('dev_diving.secret_message'), params: { answer: v.expected_answer }
+        post submit_interactive_path('dev_diving.secret_message'), params: { answer: answer }
       }.to change { user.reload.experience_points }.by_at_least(1)
       expect(response).to redirect_to(interactive_path('dev_diving.secret_message'))
       follow_redirect!
@@ -142,8 +148,8 @@ RSpec.describe 'Interactives', type: :request do
     end
 
     it 'sandbox_code_fix: success token (auto-filled by JS) works' do
-      v = variant_for_user('it_errors.recursive_catastrophe', user)
-      post submit_interactive_path('it_errors.recursive_catastrophe'), params: { answer: v.expected_answer }
+      answer = correct_answer_for('it_errors.recursive_catastrophe', user)
+      post submit_interactive_path('it_errors.recursive_catastrophe'), params: { answer: answer }
       follow_redirect!
       expect(flash[:notice]).to match(/Получено/)
     end
@@ -153,11 +159,13 @@ RSpec.describe 'Interactives', type: :request do
     before { load_all_interactives! }
 
     it 'second submit returns alert, no XP awarded twice' do
-      v = Interactive.find_by!(key: 'dev_diving.secret_message').variant_for(user)
-      post submit_interactive_path('dev_diving.secret_message'), params: { answer: v.expected_answer }
+      interactive = Interactive.find_by!(key: 'dev_diving.secret_message')
+      answer = interactive.issue_token_for(user, variant: interactive.variant_for(user))
+
+      post submit_interactive_path('dev_diving.secret_message'), params: { answer: answer }
       xp_after_first = user.reload.experience_points
 
-      post submit_interactive_path('dev_diving.secret_message'), params: { answer: v.expected_answer }
+      post submit_interactive_path('dev_diving.secret_message'), params: { answer: answer }
       follow_redirect!
       expect(flash[:alert]).to match(/уже пройден/i)
       expect(user.reload.experience_points).to eq(xp_after_first)

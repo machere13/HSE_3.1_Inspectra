@@ -18,12 +18,29 @@ class Api::V0::EchoController < ApplicationController
 
   def show
     interactive = Interactive.find_by(key: 'legacy.echo_of_past')
-    variant = interactive&.interactive_variants&.find_by(seed: params[:seed].to_i)
+    return render_not_found(message: 'echo not found') unless interactive
 
-    if variant
-      render_success(data: { token: variant.expected_answer, deprecated: true })
-    else
-      render_not_found(message: 'echo not found')
+    attempt = current_user.interactive_attempts.find_by(interactive: interactive)
+    submitted = params[:session].to_s
+
+    unless attempt && attempt.session_valid?(submitted)
+      render_error(
+        code: ERROR_CODES[:validation_error],
+        message: 'Сессия интерактива истекла. Открой интерактив заново.',
+        status: :forbidden
+      )
+      return
     end
+
+    if InteractiveCompletion.exists?(user_id: current_user.id, interactive_key: interactive.key, completed_at: ..Time.current)
+      render_error(
+        code: ERROR_CODES[:validation_error],
+        message: 'Этот интерактив уже пройден.',
+        status: :forbidden
+      )
+      return
+    end
+
+    render_success(data: { token: interactive.issue_token_for(current_user), deprecated: true })
   end
 end

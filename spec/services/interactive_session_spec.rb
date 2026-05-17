@@ -45,25 +45,28 @@ RSpec.describe InteractiveSession, type: :service do
     end
 
     it 'persists variant via completion' do
-      session.submit('kraken')
+      session.submit(interactive.issue_token_for(user, variant: variant))
       new_session = described_class.new(user: user, interactive: interactive)
       expect(new_session.variant).to eq(variant)
     end
   end
 
   describe '#submit (success)' do
+    # find_text_in_html — randomizable kind, ответ это HMAC per-user.
+    let(:correct_answer) { interactive.issue_token_for(user, variant: variant) }
+
     it 'creates an InteractiveCompletion' do
-      expect { session.submit('kraken') }.to change(InteractiveCompletion, :count).by(1)
+      expect { session.submit(correct_answer) }.to change(InteractiveCompletion, :count).by(1)
     end
 
     it 'returns success: true' do
-      result = session.submit('kraken')
+      result = session.submit(correct_answer)
       expect(result.success?).to be true
       expect(result.error_message).to be_nil
     end
 
     it 'awards XP to user' do
-      expect { session.submit('kraken') }.to change { user.reload.experience_points }.by(50)
+      expect { session.submit(correct_answer) }.to change { user.reload.experience_points }.by(50)
     end
   end
 
@@ -87,18 +90,19 @@ RSpec.describe InteractiveSession, type: :service do
   end
 
   describe '#submit when already completed' do
-    before { session.submit('kraken') }
+    let(:correct_answer) { interactive.issue_token_for(user, variant: variant) }
+    before { session.submit(correct_answer) }
 
     it 'returns success: false with already-completed message' do
       new_session = described_class.new(user: user, interactive: interactive)
-      result = new_session.submit('kraken')
+      result = new_session.submit(correct_answer)
       expect(result.success?).to be false
       expect(result.error_message).to match(/уже пройден/i)
     end
 
     it 'does not double-award XP' do
       new_session = described_class.new(user: user, interactive: interactive)
-      expect { new_session.submit('kraken') }.not_to change { user.reload.experience_points }
+      expect { new_session.submit(correct_answer) }.not_to change { user.reload.experience_points }
     end
   end
 

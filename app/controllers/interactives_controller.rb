@@ -16,6 +16,10 @@ class InteractivesController < WebController
     @already_completed = @session.already_completed?
     @attempts_left = @session.attempts_left
     @max_attempts = @session.max_attempts
+
+    @session_token = unless @already_completed
+      @session.attempts_record.issue_session!
+    end
   end
 
   def submit
