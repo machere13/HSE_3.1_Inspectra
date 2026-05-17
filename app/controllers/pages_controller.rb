@@ -17,7 +17,7 @@ class PagesController < WebController
 
     if subscription.save
       redirect_to inspectra_path(anchor: 'form'), notice: t('pages.inspectra.subscription_success')
-    elsif subscription.errors.added?(:email, :taken)
+    elsif subscription.errors.of_kind?(:email, :taken)
       redirect_to inspectra_path(anchor: 'form'), notice: t('pages.inspectra.subscription_success')
     else
       redirect_to inspectra_path(email: params[:email], anchor: 'form'), alert: subscription.errors.full_messages.to_sentence

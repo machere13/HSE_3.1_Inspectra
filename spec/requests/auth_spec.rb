@@ -55,7 +55,7 @@ RSpec.describe 'Auth', type: :request do
 
     it 'should verify email with correct code' do
       post '/auth/verify', params: { email: user.email, code: user.verification_code }
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(select_game_role_path)
     end
 
     it 'should show error for wrong code' do

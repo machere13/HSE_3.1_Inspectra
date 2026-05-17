@@ -10,22 +10,24 @@ RSpec.describe 'Interactives', type: :request do
   end
 
   let(:user) { verified_user(game_role: nil) }
-  before { login_as_web(user) }
 
   describe 'authentication' do
     it 'redirects unauthenticated user from index' do
-      cookies.delete(:token)
       get interactives_path
       expect(response).to redirect_to(auth_path)
     end
 
     it 'redirects unverified user from show' do
       user.update!(email_verified: false)
+      login_as_web(user)
       load_all_interactives!
       get interactive_path('dev_diving.secret_message')
       expect(response).to redirect_to(auth_path)
     end
   end
+
+  context 'with authenticated user' do
+    before { login_as_web(user) }
 
   describe 'GET /interactives (index)' do
     before { load_all_interactives! }
@@ -173,5 +175,6 @@ RSpec.describe 'Interactives', type: :request do
       post submit_interactive_path(key), params: { answer: 'nope' }
       expect(response).to redirect_to(interactives_path)
     end
+  end
   end
 end

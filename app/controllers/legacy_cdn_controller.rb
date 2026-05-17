@@ -1,4 +1,6 @@
 class LegacyCdnController < ActionController::Base
+  skip_forgery_protection
+
   def show
     name = params[:filename].to_s
     return head :not_found unless name.match?(/\A[a-z0-9._-]+\z/i)

@@ -50,7 +50,7 @@ Rails.application.routes.draw do
 
   get 'legacy/iframes/:seed', to: 'legacy_iframes#show', as: 'legacy_iframe'
   get 'legacy/archives/:seed', to: 'legacy_iframes#archive', as: 'legacy_archive'
-  get 'legacy/cdn/:filename', to: 'legacy_cdn#show', as: 'legacy_cdn', constraints: { filename: %r{[^/]+} }
+  get 'legacy/cdn/:filename', to: 'legacy_cdn#show', as: 'legacy_cdn', constraints: { filename: %r{[^/]+} }, format: false
 
   get 'inspectra', to: 'pages#inspectra'
   post 'inspectra/subscribe', to: 'pages#subscribe', as: :inspectra_subscribe

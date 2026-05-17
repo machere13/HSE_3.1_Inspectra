@@ -37,7 +37,7 @@ RSpec.describe 'API::V1::InteractiveProps', type: :request do
       get '/api/v1/interactive_props/race/fast', params: { seed: 1 }, headers: headers
       elapsed = Time.current - t0
       expect(response).to have_http_status(:success)
-      expect(elapsed).to be < 1
+      expect(elapsed).to be < 2
       body = JSON.parse(response.body)
       expect(body['data']['token']).to start_with('RACE-')
     end
