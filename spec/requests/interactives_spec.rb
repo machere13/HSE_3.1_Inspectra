@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe 'Interactives', type: :request do
+  before do
+    UserTitle.delete_all
+    UserAchievement.delete_all
+    User.update_all(current_title_id: nil)
+    Achievement.delete_all
+    Title.where.not(id: nil).delete_all
+  end
+
   let(:user) { verified_user(game_role: nil) }
   before { login_as_web(user) }
 

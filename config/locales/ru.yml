@@ -13,6 +13,38 @@ ru:
       default: '%d.%m.%Y %H:%M'
       short: '%d %b %H:%M'
       long: '%d %B %Y, %H:%M'
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'Запись невалидна: %{errors}'
+        taken: 'уже используется'
+        blank: 'не может быть пустым'
+        too_short: 'слишком короткое (минимум %{count})'
+        too_long: 'слишком длинное (максимум %{count})'
+        invalid: 'неверный формат'
+        confirmation: 'не совпадает с подтверждением'
+        accepted: 'должно быть принято'
+        present: 'должно быть пустым'
+        inclusion: 'не входит в список допустимых значений'
+        exclusion: 'зарезервировано'
+        greater_than: 'должно быть больше %{count}'
+        greater_than_or_equal_to: 'должно быть больше или равно %{count}'
+        less_than: 'должно быть меньше %{count}'
+        less_than_or_equal_to: 'должно быть меньше или равно %{count}'
+        equal_to: 'должно быть равно %{count}'
+        not_an_integer: 'должно быть целым числом'
+        not_a_number: 'должно быть числом'
+        odd: 'должно быть нечётным'
+        even: 'должно быть чётным'
+        record_invalid: 'Запись невалидна: %{errors}'
+        restrict_dependent_destroy:
+          has_one: 'Невозможно удалить запись, есть связанные записи'
+          has_many: 'Невозможно удалить запись, есть связанные записи'
+  errors:
+    messages:
+      taken: 'уже используется'
+      blank: 'не может быть пустым'
+      invalid: 'неверный формат'
   game_roles:
     mage:
       label: 'Маг'

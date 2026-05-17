@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe InteractiveCompletionService, type: :service do
+  before do
+    UserTitle.delete_all
+    UserAchievement.delete_all
+    User.update_all(current_title_id: nil)
+    Achievement.delete_all
+    Title.where.not(id: nil).delete_all
+  end
+
   let(:user) { User.create!(email: 'c@x.x', password: 'password123', email_verified: true) }
   let(:interactive) do
     Interactive.create!(

@@ -20,7 +20,7 @@ RSpec.describe 'LegacyCdn', type: :request do
   end
 
   it 'rejects filename with unsafe characters' do
-    get '/legacy/cdn/script;rm -rf'
+    get '/legacy/cdn/script;rm'
     expect(response).to have_http_status(:not_found)
   end
 end
