@@ -1,0 +1,51 @@
+<div class="PageGameRole">
+  <%= render 'shared/wrappers/W_PageHeader' %>
+  <section class="PageGameRole-Section">
+    <div class="PageGameRole-Header">
+      <h2 class="PageGameRole-Title">
+        <%= @is_initial_selection ? t('pages.select_game_role.title_initial') : t('pages.select_game_role.title_change') %>
+      </h2>
+      <p class="PageGameRole-Description text-p-2">
+        <%= @is_initial_selection ? t('pages.select_game_role.description_initial') : t('pages.select_game_role.description_change') %>
+      </p>
+      <% unless @is_initial_selection %>
+        <p class="PageGameRole-Warning text-p-3">
+          <%= t('pages.select_game_role.change_warning') %>
+        </p>
+      <% end %>
+    </div>
+
+    <div class="PageGameRole-Cards">
+      <% @available_roles.each do |role_key| %>
+        <% specialty_key = User::GAME_ROLE_SPECIALTIES[role_key] %>
+        <% is_current = @user.game_role == role_key %>
+        <%= form_with url: update_game_role_path, method: :patch, local: true, class: "PageGameRole-CardForm" do |f| %>
+          <%= hidden_field_tag :game_role, role_key %>
+          <button type="submit" class="PageGameRole-Card <%= 'PageGameRole-Card--Current' if is_current %>" <%= 'disabled' if is_current %>>
+            <span class="PageGameRole-Card-Title text-h3"><%= t("game_roles.#{role_key}.label") %></span>
+            <span class="PageGameRole-Card-Subtitle text-p-2"><%= t("game_roles.#{role_key}.subtitle") %></span>
+            <span class="PageGameRole-Card-Description text-p-3"><%= t("game_roles.#{role_key}.description") %></span>
+            <span class="PageGameRole-Card-Specialty text-caption">
+              <%= t('pages.select_game_role.specialty_label') %>:
+              <strong><%= t("achievement_categories.#{specialty_key}") %></strong>
+            </span>
+            <ul class="PageGameRole-Card-Perks text-p-3">
+              <% Array(I18n.t("game_roles.#{role_key}.perks", default: [])).each do |perk| %>
+                <li><%= perk %></li>
+              <% end %>
+            </ul>
+            <% if is_current %>
+              <span class="PageGameRole-Card-Badge text-caption"><%= t('pages.select_game_role.current_badge') %></span>
+            <% end %>
+          </button>
+        <% end %>
+      <% end %>
+    </div>
+
+    <% unless @is_initial_selection %>
+      <div class="PageGameRole-Footer">
+        <%= link_to t('pages.select_game_role.cancel'), profile_path, class: 'A_TextButton text-p-3' %>
+      </div>
+    <% end %>
+  </section>
+</div>

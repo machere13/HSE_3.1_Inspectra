@@ -1,0 +1,60 @@
+<%
+  is_marker_quiz = interactive.key == 'it_security.link_swap'
+  marker_options = Array(variant&.payload&.dig('marker_options'))
+  marker_options = Array(variant&.payload&.dig('correct_markers')) if marker_options.empty?
+%>
+<div class="PageInteractive-Scene">
+  <% if is_marker_quiz %>
+    <p class="text-p-2">
+      Перед тобой фишинговое письмо. Прочитай и отметь чекбоксами все признаки фишинга.
+      Поле ответа заполнится автоматически.
+    </p>
+
+    <article class="PageInteractive-PhishingEmail">
+      <header class="PageInteractive-PhishingEmail-Header">
+        <div class="text-p-3"><strong>От:</strong> <code><%= variant&.payload&.dig('email_from') %></code></div>
+        <div class="text-p-3"><strong>Тема:</strong> <%= variant&.payload&.dig('email_subject') %></div>
+      </header>
+      <pre class="PageInteractive-PhishingEmail-Body text-p-3"><%= variant&.payload&.dig('email_body') %></pre>
+    </article>
+
+    <div class="PageInteractive-Markers"
+         data-interactive-markers
+         data-target-input='input[name="answer"]'>
+      <% marker_options.each do |marker| %>
+        <label class="PageInteractive-Marker">
+          <input type="checkbox" data-marker-value="<%= marker %>">
+          <span class="text-p-3"><%= marker.to_s.tr('_', ' ') %></span>
+        </label>
+      <% end %>
+    </div>
+    <p class="text-caption">Порядок чекбоксов не важен — сравнение по множеству.</p>
+  <% else %>
+    <p class="text-p-2">
+      В «Уведомлениях» пришло 3 письма. Два — фишинг. Кликни по настоящему.
+    </p>
+    <div class="PageInteractive-Inbox"
+         data-interactive-phishing
+         data-target-input='input[name="answer"]'>
+      <% mage_perk = current_user&.game_role_mage? %>
+      <% Array(variant&.payload&.dig('emails')).each do |email| %>
+        <% mage_class = (mage_perk && email['phishing']) ? 'PageInteractive-Inbox-Item--MagePhishing' : '' %>
+        <button type="button" class="PageInteractive-Inbox-Item <%= mage_class %>" data-email-id="<%= email['id'] %>">
+          <%= render 'shared/molecules/M_NotificationItem',
+                     title: email['sender'],
+                     text: "#{email['subject']} — #{email['preview']}",
+                     read: false %>
+        </button>
+      <% end %>
+    </div>
+    <% if current_user&.game_role_mage? %>
+      <p class="text-p-3 PageInteractive-RolePerk"><strong>Перк Мага:</strong> фишинговые письма подсвечены.</p>
+    <% end %>
+    <p class="text-caption">При клике id выбранного письма попадает в поле ответа. Подсказка: сравнивай домен отправителя с <code>inspectra.ru</code>.</p>
+  <% end %>
+
+  <% if variant&.hint.present? %>
+    <details class="PageInteractive-Hint"><summary class="text-p-3">Подсказка</summary><p class="text-p-3"><%= variant.hint %></p></details>
+  <% end %>
+  <% if Rails.env.development? && variant %><p class="text-caption">Dev-ответ: <code><%= variant.expected_answer %></code></p><% end %>
+</div>

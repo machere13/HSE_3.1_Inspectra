@@ -6,5 +6,7 @@
  *= require ./error
  *= require ./auth
  *= require ./profile
+ *= require ./select_game_role
+ *= require ./interactives
  *= require ./admin
 */

@@ -97,6 +97,26 @@ module AppConfig
     end
   end
 
+  module Platform
+    extend self
+
+    def start_date
+      raw = ENV.fetch('PLATFORM_START_DATE', nil)
+      return nil if raw.blank?
+      Date.parse(raw)
+    rescue ArgumentError
+      nil
+    end
+
+    def end_date
+      raw = ENV.fetch('PLATFORM_END_DATE', nil)
+      return nil if raw.blank?
+      Date.parse(raw)
+    rescue ArgumentError
+      nil
+    end
+  end
+
   module App
     extend self
 

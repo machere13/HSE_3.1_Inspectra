@@ -1,0 +1,404 @@
+/* List page */
+.PageInteractives{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: var(--spacing-x3);
+    gap: var(--spacing-x16);
+}
+
+.PageInteractives-Section{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x12);
+    width: 100%;
+}
+
+.PageInteractives-Header{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x3);
+    max-width: 720px;
+}
+
+.PageInteractives-Title{
+    font-size: var(--font-size-h3);
+    font-family: var(--font-family-geist);
+    font-weight: var(--font-weight-headers);
+}
+
+.PageInteractives-CategoryGroup{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x6);
+}
+
+.PageInteractives-CategoryTitle{
+    color: var(--color-text-primary);
+}
+
+.PageInteractives-Cards{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-x4);
+    width: 100%;
+}
+
+.PageInteractives-Card{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+    padding: var(--spacing-x5) var(--spacing-x6);
+    background: var(--color-secondary);
+    border: var(--border-x025) solid var(--color-border-primary);
+    border-radius: var(--border-radius-x3);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: border-color .2s ease, transform .2s ease;
+}
+
+.PageInteractives-Card:hover{
+    border-color: var(--color-state-focus, var(--color-primary));
+    transform: translateY(-2px);
+}
+
+.PageInteractives-Card--Completed{
+    opacity: .65;
+}
+
+.PageInteractives-Card-Desc{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageInteractives-Card-Meta{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+/* Show page */
+.PageInteractive{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: var(--spacing-x3);
+    gap: var(--spacing-x16);
+}
+
+.PageInteractive-Section{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x8);
+    width: 100%;
+    max-width: 880px;
+}
+
+.PageInteractive-Header{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x3);
+}
+
+.PageInteractive-Title{
+    font-size: var(--font-size-h3);
+    font-family: var(--font-family-geist);
+    font-weight: var(--font-weight-headers);
+}
+
+.PageInteractive-Description, .PageInteractive-Meta{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageInteractive-CompletedBanner{
+    padding: var(--spacing-x3) var(--spacing-x4);
+    background: var(--color-background-overlay, var(--color-secondary));
+    border: var(--border-x025) solid var(--color-state-focus, var(--color-primary));
+    border-radius: var(--border-radius-x2);
+}
+
+.PageInteractive-Body{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x4);
+}
+
+.PageInteractive-Scene{
+    padding: var(--spacing-x6);
+    background: var(--color-secondary);
+    border: var(--border-x025) solid var(--color-border-primary);
+    border-radius: var(--border-radius-x3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x3);
+}
+
+.PageInteractive-Scene--Stub{
+    border-style: dashed;
+}
+
+.PageInteractive-Hidden{
+    opacity: 0;
+    user-select: text;
+}
+
+.PageInteractive-Hidden--HunterReveal{
+    opacity: 0.18;
+}
+
+.PageInteractive-Hidden--PriestReveal{
+    opacity: 0.18;
+    text-decoration: underline dotted;
+}
+
+.PageInteractive-RolePerk{
+    padding: var(--spacing-x2) var(--spacing-x3);
+    background: var(--color-background-overlay, var(--color-secondary));
+    border-left: 3px solid var(--color-state-focus, var(--color-primary));
+    border-radius: var(--border-radius-x1);
+}
+
+.PageInteractive-WarriorBugs li{
+    color: var(--color-text-warning, var(--color-text-primary));
+    font-weight: 600;
+}
+
+.PageInteractive-Inbox-Item--MagePhishing{
+    border-color: var(--color-state-focus, var(--color-primary));
+    box-shadow: 0 0 0 1px var(--color-state-focus, var(--color-primary));
+    position: relative;
+}
+
+.PageInteractive-Inbox-Item--MagePhishing::after{
+    content: '⚠ фишинг';
+    position: absolute;
+    top: var(--spacing-x1);
+    right: var(--spacing-x2);
+    font-size: var(--font-size-caption);
+    color: var(--color-state-focus, var(--color-primary));
+}
+
+.PageInteractive-Decoy{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageInteractive-Hint{
+    border-top: var(--border-x025) dashed var(--color-border-tertiary);
+    padding-top: var(--spacing-x2);
+}
+
+.PageInteractive-Hint summary{
+    cursor: pointer;
+    user-select: none;
+}
+
+.PageInteractive-Hint-Inline{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageInteractive-Code{
+    padding: var(--spacing-x2) var(--spacing-x3);
+    background: var(--color-background-overlay, transparent);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x1);
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+.PageInteractive-Iframe{
+    width: 100%;
+    height: 240px;
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+}
+
+.PageInteractive-BrokenImage{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-x2);
+    padding: var(--spacing-x4);
+    border: var(--border-x025) dashed var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+    min-height: 80px;
+}
+
+.PageInteractive-BrokenImage img{
+    max-width: 200px;
+    max-height: 120px;
+}
+
+.PageInteractive-DomForest{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+    padding: var(--spacing-x4);
+    border: var(--border-x025) dashed var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+}
+
+.PageInteractive-DomForest-Leaf{
+    padding: var(--spacing-x1) var(--spacing-x2);
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageInteractive-PhishingEmail{
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+    padding: var(--spacing-x4);
+    background: var(--color-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x3);
+}
+
+.PageInteractive-PhishingEmail-Header{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x1);
+    padding-bottom: var(--spacing-x2);
+    border-bottom: var(--border-x025) dashed var(--color-border-tertiary);
+}
+
+.PageInteractive-PhishingEmail-Body{
+    white-space: pre-wrap;
+    font-family: var(--font-family-geist);
+    color: var(--color-text-primary);
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.PageInteractive-BrokenImage-Placeholder{
+    padding: var(--spacing-x4);
+    background: var(--color-background-overlay, var(--color-secondary));
+    border: var(--border-x025) dashed var(--color-state-error, currentColor);
+    border-radius: var(--border-radius-x2);
+    color: var(--color-text-warning, var(--color-text-primary));
+    text-align: center;
+}
+
+.PageInteractive-Email{
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-x3);
+    padding: var(--spacing-x2) var(--spacing-x3);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x1);
+    background: var(--color-secondary);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+}
+
+.PageInteractive-Email--Selected{
+    border-color: var(--color-state-focus, var(--color-primary));
+}
+
+.PageInteractive-Inbox{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+    width: 100%;
+}
+
+.PageInteractive-Inbox-Item{
+    background: transparent;
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+    padding: var(--spacing-x2);
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    color: inherit;
+}
+
+.PageInteractive-Inbox-Item--Selected{
+    border-color: var(--color-state-focus, var(--color-primary));
+    background: var(--color-background-overlay, var(--color-secondary));
+}
+
+.PageInteractive-Markers{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageInteractive-Marker{
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-x2);
+    cursor: pointer;
+    padding: var(--spacing-x2) var(--spacing-x3);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x1);
+    background: var(--color-secondary);
+}
+
+.PageInteractive-AttemptsBadge{
+    color: var(--color-text-warning, var(--color-text-primary));
+    padding: var(--spacing-x2) var(--spacing-x3);
+    border: var(--border-x025) dashed var(--color-border-tertiary);
+    border-radius: var(--border-radius-x1);
+}
+
+.PageArticle-AttachedInteractives{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x3);
+    margin-top: var(--spacing-x10);
+    padding: var(--spacing-x6);
+    background: var(--color-secondary);
+    border: var(--border-x025) solid var(--color-border-primary);
+    border-radius: var(--border-radius-x3);
+}
+
+.PageArticle-AttachedInteractives-Cards{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--spacing-x3);
+    margin-top: var(--spacing-x3);
+}
+
+.PageInteractive-Sandbox-Editor{
+    width: 100%;
+    min-height: 200px;
+    padding: var(--spacing-x3);
+    background: var(--color-background-overlay, var(--color-secondary));
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+    color: var(--color-text-primary);
+    font-family: var(--font-family-geist-mono);
+    font-size: var(--font-size-code);
+    line-height: var(--line-height-normal);
+    resize: vertical;
+}
+
+.PageInteractive-Sandbox-Controls{
+    display: flex;
+    gap: var(--spacing-x3);
+}
+
+.PageInteractive-Sandbox-Output{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageInteractive-Stub-Note{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageInteractive-Form{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x4);
+    align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+    .PageInteractives-Cards{
+        grid-template-columns: 1fr;
+    }
+}

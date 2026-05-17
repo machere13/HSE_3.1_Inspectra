@@ -85,7 +85,11 @@ class AuthController < WebController
         same_site: :lax,
         expires: AppConfig::JWT.token_ttl_hours.from_now
       }
-      redirect_to root_path, notice: t('auth.flashes.login_success')
+      if user.game_role_required?
+        redirect_to select_game_role_path, notice: t('auth.flashes.login_success')
+      else
+        redirect_to root_path, notice: t('auth.flashes.login_success')
+      end
     else
       flash.now[:alert] = t('auth.flashes.invalid_or_expired_code')
       @email = email

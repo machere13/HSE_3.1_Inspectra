@@ -21,14 +21,66 @@
           </div>
           <div class="PageProfile-Info-Plugs">
             <%= render 'pages/profile/M_ProfileInfoPlug', text: "#{@user.name.presence || t('pages.profile.no_name')}" %>
-            <%= render 'pages/profile/M_ProfileInfoPlug', text: "Роль: #{@user.role}" %>
+            <% if @user.game_role.present? %>
+              <%= render 'pages/profile/M_ProfileInfoPlug', text: "#{t('pages.profile.game_role')}: #{@user.game_role_label}" %>
+            <% else %>
+              <%= link_to select_game_role_path, class: 'PageProfile-Info-Link' do %>
+                <%= render 'pages/profile/M_ProfileInfoPlug', text: t('pages.profile.choose_game_role') %>
+              <% end %>
+            <% end %>
+            <% if @user.level %>
+              <%= render 'pages/profile/M_ProfileInfoPlug', text: "#{t('pages.profile.level')} #{@user.level_number}: #{@user.level.name}" %>
+            <% end %>
             <% if @user.current_title %>
-              <%= render 'pages/profile/M_ProfileInfoPlug', text: "Титул: #{@user.current_title.name}" %>
+              <%= render 'pages/profile/M_ProfileInfoPlug', text: "#{t('pages.profile.titles.title')}: #{@user.current_title.name}" %>
             <% end %>
           </div>
+          <% if @user.next_level %>
+            <div class="PageProfile-LevelProgress">
+              <div class="PageProfile-LevelProgress-Header text-p-3">
+                <span><%= t('pages.profile.xp_label') %>: <%= @user.experience_points %></span>
+                <span><%= t('pages.profile.xp_to_next', xp: @user.xp_remaining_to_next_level, level: @user.next_level.number) %></span>
+              </div>
+              <div class="PageProfile-LevelProgress-Bar" role="progressbar" aria-valuenow="<%= @user.level_progress_percent %>" aria-valuemin="0" aria-valuemax="100">
+                <div class="PageProfile-LevelProgress-Bar-Fill" style="width: <%= @user.level_progress_percent %>%"></div>
+              </div>
+            </div>
+          <% end %>
+          <% if @user.game_role.present? %>
+            <%= link_to t('pages.profile.change_game_role'), select_game_role_path, class: 'A_TextButton text-p-3' %>
+          <% end %>
         </div>
       </div>
       <%= render 'pages/profile/M_ProfileContentPlug', info: "Достижения" %>
+
+      <div class="PageProfile-Titles">
+        <h3 class="text-h4"><%= t('pages.profile.titles.title') %></h3>
+        <% if @available_titles.present? %>
+          <p class="text-p-3"><%= t('pages.profile.titles.section_hint') %></p>
+          <div class="PageProfile-Titles-Grid">
+            <% @available_titles.each do |title| %>
+              <% is_current = @user.current_title_id == title.id %>
+              <%= form_with url: select_title_path, method: :patch, local: true, class: 'PageProfile-TitleForm' do %>
+                <%= hidden_field_tag :title_id, title.id %>
+                <button type="submit"
+                        class="PageProfile-TitleCard <%= 'PageProfile-TitleCard--Current' if is_current %>"
+                        <%= 'disabled' if is_current %>>
+                  <span class="PageProfile-TitleCard-Name text-p-2"><%= title.name %></span>
+                  <% if title.description.present? %>
+                    <span class="PageProfile-TitleCard-Desc text-p-3"><%= title.description %></span>
+                  <% end %>
+                  <% if is_current %>
+                    <span class="PageProfile-TitleCard-Badge text-caption"><%= t('pages.profile.titles.selected') %></span>
+                  <% end %>
+                </button>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-p-3"><%= t('pages.profile.titles.no_titles') %></p>
+        <% end %>
+      </div>
+
       <%= render 'shared/atoms/A_Button', label: "Настройки профиля" %>
     </div>
     <div class="PageProfile-Section-Content-Right">

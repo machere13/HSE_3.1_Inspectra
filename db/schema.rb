@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_20_123323) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_16_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,6 +22,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_20_123323) do
     t.integer "progress_target"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "title_id"
+    t.index ["title_id"], name: "index_achievements_on_title_id"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -90,18 +92,66 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_20_123323) do
     t.index ["status_code"], name: "index_error_reports_on_status_code"
   end
 
+  create_table "interactive_attempts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "interactive_id", null: false
+    t.integer "count", default: 0, null: false
+    t.datetime "last_attempt_at"
+    t.datetime "locked_until"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "session_token"
+    t.datetime "session_expires_at"
+    t.index ["interactive_id"], name: "index_interactive_attempts_on_interactive_id"
+    t.index ["locked_until"], name: "index_interactive_attempts_on_locked_until"
+    t.index ["session_token"], name: "index_interactive_attempts_on_session_token", unique: true
+    t.index ["user_id", "interactive_id"], name: "index_interactive_attempts_on_user_id_and_interactive_id", unique: true
+    t.index ["user_id"], name: "index_interactive_attempts_on_user_id"
+  end
+
   create_table "interactive_completions", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "article_id", null: false
+    t.bigint "article_id"
     t.string "interactive_key", null: false
     t.string "category", null: false
     t.datetime "completed_at", null: false
     t.jsonb "metadata", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "interactive_id"
+    t.bigint "interactive_variant_id"
     t.index ["article_id"], name: "index_interactive_completions_on_article_id"
+    t.index ["interactive_id"], name: "index_interactive_completions_on_interactive_id"
+    t.index ["interactive_variant_id"], name: "index_interactive_completions_on_interactive_variant_id"
     t.index ["user_id", "article_id", "interactive_key"], name: "index_interactive_completions_uniqueness", unique: true
     t.index ["user_id"], name: "index_interactive_completions_on_user_id"
+  end
+
+  create_table "interactive_variants", force: :cascade do |t|
+    t.bigint "interactive_id", null: false
+    t.integer "seed", null: false
+    t.jsonb "payload", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["interactive_id", "seed"], name: "index_interactive_variants_on_interactive_id_and_seed", unique: true
+    t.index ["interactive_id"], name: "index_interactive_variants_on_interactive_id"
+  end
+
+  create_table "interactives", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "category", null: false
+    t.string "kind", null: false
+    t.string "title", null: false
+    t.text "description"
+    t.integer "xp_reward", default: 50, null: false
+    t.integer "difficulty", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "article_id"
+    t.index ["article_id"], name: "index_interactives_on_article_id"
+    t.index ["category"], name: "index_interactives_on_category"
+    t.index ["key"], name: "index_interactives_on_key", unique: true
+    t.index ["kind"], name: "index_interactives_on_kind"
   end
 
   create_table "jwt_secret_rotations", force: :cascade do |t|
@@ -113,6 +163,17 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_20_123323) do
     t.datetime "updated_at", null: false
     t.index ["rotated_at"], name: "index_jwt_secret_rotations_on_rotated_at"
     t.index ["rotation_type"], name: "index_jwt_secret_rotations_on_rotation_type"
+  end
+
+  create_table "levels", force: :cascade do |t|
+    t.integer "number", null: false
+    t.integer "required_xp", default: 0, null: false
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["number"], name: "index_levels_on_number", unique: true
+    t.index ["required_xp"], name: "index_levels_on_required_xp"
   end
 
   create_table "media_subscriptions", force: :cascade do |t|
@@ -176,9 +237,19 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_20_123323) do
     t.bigint "current_title_id"
     t.string "name"
     t.string "avatar"
+    t.integer "game_role"
+    t.datetime "game_role_selected_at"
+    t.integer "experience_points", default: 0, null: false
+    t.integer "current_streak_days", default: 0, null: false
+    t.integer "longest_streak_days", default: 0, null: false
+    t.date "last_content_view_on"
+    t.datetime "platform_lifetime_marked_at"
+    t.datetime "last_day_witnessed_at"
     t.index ["admin"], name: "index_users_on_admin"
     t.index ["current_title_id"], name: "index_users_on_current_title_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["game_role"], name: "index_users_on_game_role"
+    t.index ["last_content_view_on"], name: "index_users_on_last_content_view_on"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role"], name: "index_users_on_role"
   end
@@ -197,13 +268,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_20_123323) do
     t.index ["published_at"], name: "index_weeks_on_published_at"
   end
 
+  add_foreign_key "achievements", "titles"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "articles", "weeks"
   add_foreign_key "content_items", "articles"
   add_foreign_key "content_items", "weeks"
+  add_foreign_key "interactive_attempts", "interactives"
+  add_foreign_key "interactive_attempts", "users"
   add_foreign_key "interactive_completions", "articles"
+  add_foreign_key "interactive_completions", "interactive_variants"
+  add_foreign_key "interactive_completions", "interactives"
   add_foreign_key "interactive_completions", "users"
+  add_foreign_key "interactive_variants", "interactives"
+  add_foreign_key "interactives", "articles"
   add_foreign_key "user_achievements", "achievements"
   add_foreign_key "user_achievements", "users"
   add_foreign_key "user_titles", "titles"

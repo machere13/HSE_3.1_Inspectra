@@ -69,13 +69,15 @@ class Api::V1::AuthController < ApplicationController
     if user.verification_code_valid?(code)
       user.verify_email!
       token = encode_token({ user_id: user.id })
-      
+
       render_success(
         data: {
           token: token,
           user: {
             id: user.id,
-            email: user.email
+            email: user.email,
+            game_role: user.game_role,
+            game_role_required: user.game_role_required?
           }
         },
         message: 'Email успешно подтвержден'
@@ -111,11 +113,32 @@ class Api::V1::AuthController < ApplicationController
   before_action :require_auth, only: [:me]
 
   def me
+    level = current_user.level
+    next_level = current_user.next_level
+
     render_success(
       data: {
         user: {
           id: current_user.id,
-          email: current_user.email
+          email: current_user.email,
+          name: current_user.name,
+          game_role: current_user.game_role,
+          game_role_selected_at: current_user.game_role_selected_at,
+          game_role_required: current_user.game_role_required?,
+          specialty_category: current_user.specialty_category,
+          experience_points: current_user.experience_points,
+          level: level && {
+            number: level.number,
+            name: level.name,
+            required_xp: level.required_xp
+          },
+          next_level: next_level && {
+            number: next_level.number,
+            name: next_level.name,
+            required_xp: next_level.required_xp,
+            xp_remaining: current_user.xp_remaining_to_next_level
+          },
+          level_progress_percent: current_user.level_progress_percent
         }
       }
     )

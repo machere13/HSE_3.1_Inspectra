@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Древний архив</title>
+  <style>
+    body { font-family: "Times New Roman", serif; background: #2a1f1f; color: #c8b18f; padding: 20px; }
+    h1 { font-size: 18px; border-bottom: 1px dashed #6c5736; padding-bottom: 6px; }
+    .stamp { color: #8c6c3c; opacity: 0.55; font-size: 11px; letter-spacing: 0.1em; }
+    .secret { display: inline-block; padding: 2px 6px; background: #1a1212; border: 1px dotted #6c5736; }
+  </style>
+</head>
+<body>
+  <h1>Запись №<%= @variant.seed %></h1>
+  <p>Содержимое архивной страницы. Кодовое слово помечено внутри:</p>
+  <p>… <span class="secret"><%= @answer_token %></span> …</p>
+  <p class="stamp">archived: 1998-03-14</p>
+</body>
+</html>
