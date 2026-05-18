@@ -71,6 +71,8 @@
         </div>
       </div>
 
+      <%= render 'pages/profile/missions', extra_class: 'PageProfile-Missions--InColumn' %>
+
     </div>
 
     <div class="PageProfile-Col PageProfile-Col--Center">
@@ -167,33 +169,7 @@
     </div>
 
     <div class="PageProfile-Col PageProfile-Col--Missions">
-      <div class="PageProfile-Card PageProfile-Missions">
-        <div class="PageProfile-Missions-Section">
-          <h3 class="text-p-3 PageProfile-Card-Title"><%= t('pages.profile.missions.current') %></h3>
-          <% if @current_interactive %>
-            <%= link_to interactive_path(@current_interactive.key), class: 'PageProfile-MissionItem PageProfile-MissionItem--Active' do %>
-              <span class="PageProfile-MissionItem-Title text-p-3"><%= @current_interactive.title %></span>
-            <% end %>
-          <% else %>
-            <p class="text-p-3 PageProfile-MissionItem-Empty"><%= t('pages.profile.missions.current_empty') %></p>
-          <% end %>
-        </div>
-
-        <div class="PageProfile-Missions-Section">
-          <h3 class="text-p-3 PageProfile-Card-Title"><%= t('pages.profile.missions.completed') %></h3>
-          <% if @completed_interactives.any? %>
-            <div class="PageProfile-MissionList">
-              <% @completed_interactives.each do |c| %>
-                <div class="PageProfile-MissionItem PageProfile-MissionItem--Completed">
-                  <span class="PageProfile-MissionItem-Title text-p-3"><%= c.interactive&.title || c.interactive_key %></span>
-                </div>
-              <% end %>
-            </div>
-          <% else %>
-            <p class="text-p-3 PageProfile-MissionItem-Empty"><%= t('pages.profile.missions.completed_empty') %></p>
-          <% end %>
-        </div>
-      </div>
+      <%= render 'pages/profile/missions', extra_class: 'PageProfile-Missions--Standalone' %>
     </div>
 
   </section>

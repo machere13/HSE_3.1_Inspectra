@@ -41,6 +41,11 @@
     min-width: 280px;
 }
 
+/* По умолчанию (desktop > 1480) — показываем standalone-missions, прячем in-column */
+.PageProfile-Missions--InColumn{
+    display: none;
+}
+
 .PageProfileConfig-Row{
     display: flex;
     justify-content: space-between;
@@ -441,8 +446,13 @@
 
 .PageProfile-Missions{
     gap: var(--spacing-x4);
-    align-self: start;
     width: 100%;
+}
+
+.PageProfile-Missions--Standalone{
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .PageProfile-Missions-Section{
@@ -507,43 +517,24 @@ a.PageProfile-MissionItem:hover{
     color: var(--color-text-primary);
 }
 
-/* Adaptive 880 < viewport ≤ 1480: 2 cols, missions перетекает в первую колонку */
+/* Adaptive 880 < viewport ≤ 1480: 2 кол, Missions идёт inline в Identity-колонку */
 @media (max-width: 1480px) and (min-width: 881px) {
-    .PageProfile-Grid{
-        display: grid;
-        grid-template-columns: minmax(280px, 360px) minmax(440px, 1fr);
-        grid-template-rows: auto auto;
-        align-items: stretch;
-    }
     .PageProfile-Col--Identity{
-        flex: unset;
-        max-width: unset;
-        min-width: 0;
-        grid-column: 1;
-        grid-row: 1;
-    }
-    .PageProfile-Col--Missions{
-        flex: unset;
-        min-width: 0;
-        display: contents;
-    }
-    .PageProfile-Col--Missions > .PageProfile-Missions{
-        grid-column: 1;
-        grid-row: 2;
+        flex: 0 0 300px;
+        max-width: 300px;
+        min-width: 260px;
     }
     .PageProfile-Col--Center{
-        flex: unset;
         min-width: 0;
-        display: contents;
     }
-    .PageProfile-Col--Center > .PageProfile-RadarCard{
-        grid-column: 2;
-        grid-row: 1;
+    .PageProfile-Col--Missions{
+        display: none;            /* прячем standalone-колонку */
     }
-    .PageProfile-Col--Center > .PageProfile-Card.PageProfile-Tabs{
-        grid-column: 2;
-        grid-row: 2;
-        max-height: 500px;
+    .PageProfile-Missions--InColumn{
+        display: flex;            /* показываем inline-копию */
+        flex: 1;                  /* заполняет остаток высоты левой колонки */
+        min-height: 0;
+        overflow: hidden;
     }
 }
 
@@ -558,11 +549,16 @@ a.PageProfile-MissionItem:hover{
         flex-direction: column;
     }
     .PageProfile-Col--Identity,
-    .PageProfile-Col--Center,
-    .PageProfile-Col--Missions{
+    .PageProfile-Col--Center{
         flex: 0 0 auto;
         max-width: none;
         min-width: 0;
+    }
+    .PageProfile-Col--Missions{
+        display: none;            /* прячем standalone */
+    }
+    .PageProfile-Missions--InColumn{
+        display: flex;            /* показываем inline */
     }
 }
 
