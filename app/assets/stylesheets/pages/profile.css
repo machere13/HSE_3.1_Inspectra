@@ -16,6 +16,38 @@
     align-items: start;
 }
 
+.PageProfile-Grid.PageProfile-Grid--Config{
+    grid-template-columns: minmax(0, 720px);
+    justify-content: start;
+}
+
+.PageProfileConfig-Row{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--spacing-x3);
+    padding: var(--spacing-x2) 0;
+    border-bottom: var(--border-x025) solid var(--color-border-tertiary);
+}
+
+.PageProfileConfig-Row:last-child{
+    border-bottom: none;
+}
+
+.PageProfileConfig-Label{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.PageProfileConfig-Value{
+    text-align: right;
+}
+
+.PageProfileConfig-Note{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
 .PageProfile-Col{
     display: flex;
     flex-direction: column;

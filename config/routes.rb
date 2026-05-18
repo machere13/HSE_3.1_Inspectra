@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   get 'inspectra', to: 'pages#inspectra'
   post 'inspectra/subscribe', to: 'pages#subscribe', as: :inspectra_subscribe
   get 'profile', to: 'pages#profile'
+  get 'profile/config', to: 'pages#profile_config', as: 'profile_config'
   patch 'profile/select_title', to: 'pages#select_title', as: 'select_title'
   patch 'profile/update_name', to: 'pages#update_name', as: 'update_name'
   patch 'profile/update_avatar', to: 'pages#update_avatar', as: 'update_avatar'

@@ -126,6 +126,21 @@ ru:
       changed: 'Роль изменена на "%{role}"'
       invalid_role: 'Неизвестная роль'
       cancel: 'Назад в профиль'
+    profile_config:
+      title: 'Настройки / Inspectra'
+      account:
+        title: 'Аккаунт'
+        email: 'E-mail'
+        name: 'Имя'
+        game_role: 'Роль'
+      security:
+        title: 'Безопасность'
+        password_hint: 'Письмо со ссылкой для смены пароля придёт на твою почту.'
+        request_password_change: 'Сменить пароль'
+        confirm_password_change: 'Отправить письмо для смены пароля?'
+      preferences:
+        title: 'Настройки'
+        placeholder: 'Здесь скоро появятся настройки темы, языка и уведомлений.'
     profile:
       title: 'Профиль / Inspectra'
       current_title: 'Текущий титул'

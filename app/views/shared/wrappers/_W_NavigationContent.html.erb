@@ -27,6 +27,7 @@
   <% is_week_page = request.path.include?('/weeks/') %>
   <% is_article_page = request.path.include?('/articles/') %>
   <% is_inspectra_page = request.path == '/inspectra' || request.path == inspectra_path %>
+  <% is_profile_page = request.path == '/profile' || request.path.start_with?('/profile/') %>
   <% 
     article_count = is_week_page && defined?(@week) ? @week.articles.count : 0
     filter_items = is_week_page && defined?(@content_counts) ? [
@@ -60,6 +61,11 @@
         { text: 'YOUR ROLE', href: '#your_role' },
         { text: 'HOW', href: '#how' },
         { text: 'READY', href: '#ready' },
+      ] %>
+    <% elsif is_profile_page %>
+      <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: [
+        { text: 'PROGRESS', href: profile_path, hotkey: 'R' },
+        { text: 'CONFIG', href: profile_config_path, hotkey: 'C' }
       ] %>
     <% elsif !is_article_page && !@error_page %>
       <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: [

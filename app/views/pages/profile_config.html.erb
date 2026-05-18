@@ -1,0 +1,44 @@
+<div class="PageProfile">
+  <%= render 'shared/wrappers/W_PageHeader' %>
+
+  <section class="PageProfile-Grid PageProfile-Grid--Config">
+    <div class="PageProfile-Col PageProfile-Col--Config">
+      <div class="PageProfile-Card">
+        <h3 class="text-p-3 PageProfile-Card-Title"><%= t('pages.profile_config.account.title') %></h3>
+        <div class="PageProfileConfig-Row">
+          <span class="PageProfileConfig-Label text-p-3"><%= t('pages.profile_config.account.email') %></span>
+          <span class="PageProfileConfig-Value text-p-3"><%= @user.email %></span>
+        </div>
+        <div class="PageProfileConfig-Row">
+          <span class="PageProfileConfig-Label text-p-3"><%= t('pages.profile_config.account.name') %></span>
+          <span class="PageProfileConfig-Value text-p-3"><%= @user.name.presence || t('pages.profile.no_name') %></span>
+        </div>
+        <div class="PageProfileConfig-Row">
+          <span class="PageProfileConfig-Label text-p-3"><%= t('pages.profile_config.account.game_role') %></span>
+          <span class="PageProfileConfig-Value text-p-3">
+            <% if @user.game_role.present? %>
+              <%= @user.game_role_label %>
+            <% else %>
+              <%= link_to t('pages.profile.choose_game_role'), select_game_role_path, class: 'A_TextButton' %>
+            <% end %>
+          </span>
+        </div>
+      </div>
+
+      <div class="PageProfile-Card">
+        <h3 class="text-p-3 PageProfile-Card-Title"><%= t('pages.profile_config.security.title') %></h3>
+        <p class="text-p-3 PageProfileConfig-Note"><%= t('pages.profile_config.security.password_hint') %></p>
+        <%= button_to t('pages.profile_config.security.request_password_change'),
+                      request_password_change_path,
+                      method: :post,
+                      class: 'A_Button',
+                      data: { confirm: t('pages.profile_config.security.confirm_password_change') } %>
+      </div>
+
+      <div class="PageProfile-Card">
+        <h3 class="text-p-3 PageProfile-Card-Title"><%= t('pages.profile_config.preferences.title') %></h3>
+        <p class="text-p-3 PageProfileConfig-Note"><%= t('pages.profile_config.preferences.placeholder') %></p>
+      </div>
+    </div>
+  </section>
+</div>

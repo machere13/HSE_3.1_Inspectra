@@ -1,6 +1,6 @@
 class PagesController < WebController
   layout :determine_layout
-  before_action :authenticate_user!, only: [:profile, :select_title, :update_name, :update_avatar, :request_password_change, :select_game_role, :update_game_role]
+  before_action :authenticate_user!, only: [:profile, :profile_config, :select_title, :update_name, :update_avatar, :request_password_change, :select_game_role, :update_game_role]
 
   def home
     @current_week = Week.visible_now.order(number: :desc).first
@@ -45,7 +45,11 @@ class PagesController < WebController
 
     @active_tab = %w[achievements titles rewards].include?(params[:tab]) ? params[:tab] : 'achievements'
   end
-  
+
+  def profile_config
+    @user = current_user
+  end
+
   def select_title
     @user = current_user
     title = Title.find(params[:title_id])
