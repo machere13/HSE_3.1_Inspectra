@@ -11,7 +11,11 @@
              else
                variant&.expected_answer.to_s
              end
-  hidden_text = variant&.hidden_text.presence || expected
+  hidden_text = if interactive.randomizable?
+                  expected
+                else
+                  variant&.hidden_text.presence || expected
+                end
 %>
 
 <div class="PageInteractive-Scene">
