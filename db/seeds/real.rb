@@ -32,9 +32,9 @@ end
 puts "Создано достижений: #{Achievement.count}"
 
 load_seed_yaml('levels.yml', 'levels').each do |level_data|
-  Level.find_or_create_by!(number: level_data[:number]) do |level|
-    level.assign_attributes(level_data)
-  end
+  level = Level.find_or_initialize_by(number: level_data[:number])
+  level.assign_attributes(level_data)
+  level.save!
 end
 
 puts "Создано уровней: #{Level.count}"

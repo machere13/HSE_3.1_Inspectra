@@ -2,71 +2,58 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
     padding-left: var(--spacing-x3);
-    gap: var(--spacing-x16);
+    gap: var(--spacing-x8);
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
 
-.PageProfile-Section-Main{
-    display: flex;
+.PageProfile-Grid{
+    display: grid;
+    grid-template-columns: minmax(280px, 360px) minmax(0, 1fr) 500px;
+    gap: var(--spacing-x4);
     width: 100%;
-    gap: var(--spacing-x24);
+    align-items: start;
 }
 
-.PageProfile-Section-Content-Left, .PageProfile-Section-Content-Right{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: var(--spacing-x8);
-}
-
-.PageProfile-Statistic-Rows{
+.PageProfile-Col{
     display: flex;
     flex-direction: column;
-    width: 100%;
-    gap: var(--spacing-x2);
+    gap: var(--spacing-x4);
+    min-width: 0;
 }
 
-.PageProfile-Section-Title{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: var(--spacing-x2);
-}
-
-.PageProfile-Section-Content{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: var(--spacing-x8);
-}
-
-.PageProfile-Section-Content-Plate{
-    padding: var(--spacing-x8);
+.PageProfile-Card{
     background: var(--color-secondary);
-    border: var(--border-x05) solid var(--color-border-primary);
+    border: var(--border-x025) solid var(--color-border-primary);
+    border-radius: var(--border-radius-x3);
+    padding: var(--spacing-x5);
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-x6);
+    gap: var(--spacing-x3);
 }
 
-.PageProfile-Header{
-    display: flex;
-    gap: var(--spacing-x6);
-    align-items: flex-start;
+.PageProfile-Card-Title{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.PageProfile-Identity{
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-x3);
 }
 
 .PageProfile-Avatar-Wrapper{
     position: relative;
-    width: 212px;
-    height: 212px;
+    width: 100%;
+    aspect-ratio: 1;
 }
 
 .PageProfile-Avatar{
-    width: 212px;
-    height: 212px;
+    width: 100%;
+    height: 100%;
     border-radius: var(--border-radius-x3);
     object-fit: cover;
     border: var(--border-x025) solid var(--color-border-tertiary);
@@ -74,84 +61,79 @@
 }
 
 .PageProfile-Avatar--placeholder{
-    background: var(--color-secondary);
-    border: var(--border-x025) solid var(--color-border-tertiary);
+    background: var(--color-background-overlay, var(--color-secondary));
 }
 
 .PageProfile-Avatar-Form{
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
 }
 
 .PageProfile-Avatar-Input{
     position: absolute;
-    width: 0;
-    height: 0;
-    opacity: 0;
-    pointer-events: none;
+    width: 0; height: 0; opacity: 0; pointer-events: none;
 }
 
 .PageProfile-Avatar-Label{
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-x1);
-    background: var(--color-background-overlay);
-    border-radius: 0 0 var(--border-radius-x2) var(--border-radius-x2);
+    inset: 0;
     cursor: pointer;
+    border-radius: var(--border-radius-x3);
     transition: background .2s ease;
 }
 
 .PageProfile-Avatar-Label:hover{
-    background: var(--color-primary);
+    background: rgba(0, 0, 0, 0.35);
 }
 
-.PageProfile-Header-Info{
+.PageProfile-Identity-Meta{
     display: flex;
     flex-direction: column;
     gap: var(--spacing-x2);
-    flex: 1;
-}
-
-.PageProfile-Info-Plugs{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-x3);
+    align-items: center;
     width: 100%;
 }
 
-.PageProfile-Info-Link{
-    display: block;
-    text-decoration: none;
-}
-
-.PageProfile-LevelProgress{
+.PageProfile-Identity-Row{
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: var(--spacing-x2);
-    width: 100%;
-    margin-top: var(--spacing-x3);
-}
-
-.PageProfile-LevelProgress-Header{
-    display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
-    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageProfile-Identity-Name{
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.PageProfile-Identity-Role{
+    padding: var(--spacing-x05) var(--spacing-x3);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x1);
+}
+
+.PageProfile-ProgressCard{
+    gap: var(--spacing-x3);
+}
+
+.PageProfile-Progress-Body{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageProfile-Progress-Level{
+    font-family: var(--font-family-geist-mono);
+    text-transform: uppercase;
 }
 
 .PageProfile-LevelProgress-Bar{
     position: relative;
     width: 100%;
-    height: 8px;
-    background: var(--color-secondary);
+    height: 10px;
+    background: var(--color-background-overlay, var(--color-secondary));
     border: var(--border-x025) solid var(--color-border-tertiary);
     border-radius: var(--border-radius-x05);
     overflow: hidden;
@@ -159,22 +141,175 @@
 
 .PageProfile-LevelProgress-Bar-Fill{
     height: 100%;
-    background: var(--color-state-focus, var(--color-primary));
-    border-radius: var(--border-radius-x05);
+    background: var(--color-text-primary);
     transition: width .25s ease;
 }
 
-.PageProfile-Titles{
+.PageProfile-Progress-XP{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    font-family: var(--font-family-geist-mono);
+}
+
+.PageProfile-RadarCard{
+    align-items: flex-start;
+}
+
+.M_SkillRadar{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.M_SkillRadar-Svg{
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    overflow: visible;
+    display: block;
+}
+
+.M_SkillRadar-BgDot{
+    fill: var(--color-text-primary);
+    opacity: 0.16;
+}
+
+.M_SkillRadar-Ring{
+    fill: none;
+    stroke: var(--color-text-primary);
+    stroke-width: 0.5;
+    opacity: 0.3;
+}
+
+.M_SkillRadar-Ring--Outer{
+    stroke: var(--color-text-primary);
+    stroke-width: 1.25;
+    opacity: 1;
+}
+
+.M_SkillRadar-Axis{
+    stroke: var(--color-text-primary);
+    stroke-width: 0.5;
+    stroke-dasharray: 2 4;
+    opacity: 0.4;
+}
+
+.M_SkillRadar-InnerCross{
+    stroke: var(--color-text-primary);
+    stroke-width: 0.5;
+    stroke-dasharray: 2 4;
+    opacity: 0.5;
+}
+
+.M_SkillRadar-VertexTick{
+    stroke: var(--color-text-primary);
+    stroke-width: 1.5;
+    stroke-linecap: square;
+    opacity: 1;
+}
+
+.M_SkillRadar-Data{
+    fill: var(--color-text-primary);
+    fill-opacity: 0.18;
+    stroke: var(--color-text-primary);
+    stroke-width: 1.75;
+    stroke-linejoin: round;
+}
+
+.M_SkillRadar-Dot{
+    fill: var(--color-text-primary);
+    stroke: var(--color-text-primary);
+    stroke-width: 1;
+}
+
+.M_SkillRadar-Center{
+    fill: var(--color-text-primary);
+    opacity: 0.9;
+}
+
+.M_SkillRadar-Label{
+    font-family: var(--font-family-geist-mono);
+    font-size: 14px;
+    fill: var(--color-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.M_SkillRadar-LabelPercent{
+    font-family: var(--font-family-geist-mono);
+    font-size: 13px;
+    fill: var(--color-text-secondary, var(--color-text-primary));
+    opacity: 0.75;
+}
+
+/* ====== TABS ====== */
+.PageProfile-TabsNav{
+    display: flex;
+    gap: var(--spacing-x1);
+    border-bottom: var(--border-x025) solid var(--color-border-tertiary);
+    margin-bottom: var(--spacing-x3);
+}
+
+.PageProfile-TabBtn{
+    padding: var(--spacing-x2) var(--spacing-x4);
+    color: var(--color-text-secondary, var(--color-text-primary));
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+}
+
+.PageProfile-TabBtn--Active{
+    color: var(--color-text-primary);
+    border-bottom-color: var(--color-text-primary);
+}
+
+.PageProfile-TabContent{
     display: flex;
     flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageProfile-AchievementList{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageProfile-AchievementRow{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     gap: var(--spacing-x3);
-    margin-top: var(--spacing-x6);
+    padding: var(--spacing-x3) var(--spacing-x4);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+}
+
+.PageProfile-AchievementRow--Done{
+    opacity: 0.7;
+}
+
+.PageProfile-AchievementRow-Body{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x1);
+    flex: 1;
+    min-width: 0;
+}
+
+.PageProfile-AchievementRow-Progress{
+    flex-shrink: 0;
+    padding: var(--spacing-x05) var(--spacing-x2);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x05);
+    font-family: var(--font-family-geist-mono);
 }
 
 .PageProfile-Titles-Grid{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: var(--spacing-x3);
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--spacing-x2);
 }
 
 .PageProfile-TitleForm{
@@ -186,18 +321,16 @@
     flex-direction: column;
     gap: var(--spacing-x1);
     text-align: left;
-    padding: var(--spacing-x3) var(--spacing-x4);
-    background: var(--color-secondary);
-    border: var(--border-x025) solid var(--color-border-primary);
+    padding: var(--spacing-x3);
+    background: transparent;
+    border: var(--border-x025) solid var(--color-border-tertiary);
     border-radius: var(--border-radius-x2);
     color: var(--color-text-primary);
     cursor: pointer;
-    transition: border-color .2s ease, transform .2s ease;
 }
 
 .PageProfile-TitleCard:hover:not(:disabled){
     border-color: var(--color-state-focus, var(--color-primary));
-    transform: translateY(-2px);
 }
 
 .PageProfile-TitleCard:disabled{
@@ -222,14 +355,103 @@
     margin-top: var(--spacing-x1);
 }
 
-@media (max-width: 1400px) {
-    .PageProfile-Section-Main{
-        flex-direction: column;
+.PageProfile-RewardList{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageProfile-RewardRow{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x05);
+    padding: var(--spacing-x3) var(--spacing-x4);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+}
+
+.PageProfile-RewardRow-From{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageProfile-Missions{
+    gap: var(--spacing-x5);
+}
+
+.PageProfile-Missions-Section{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageProfile-Missions-Section + .PageProfile-Missions-Section{
+    padding-top: var(--spacing-x4);
+    border-top: var(--border-x025) solid var(--color-border-tertiary);
+}
+
+.PageProfile-CurrentMission-Link{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x1);
+    padding: var(--spacing-x3) var(--spacing-x4);
+    border: var(--border-x025) solid var(--color-state-focus, var(--color-primary));
+    border-radius: var(--border-radius-x2);
+    color: var(--color-text-primary);
+    text-decoration: none;
+}
+
+.PageProfile-CurrentMission-Empty,
+.PageProfile-CompletedMissions-Empty{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    opacity: 0.7;
+}
+
+.PageProfile-Missions-Cta{
+    margin-top: var(--spacing-x2);
+    align-self: stretch;
+}
+
+.PageProfile-CompletedMissions-List{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x1);
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: var(--spacing-x1);
+}
+
+.PageProfile-CompletedMissions-Item{
+    display: block;
+    padding: var(--spacing-x2) var(--spacing-x3);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x1);
+    color: var(--color-text-secondary, var(--color-text-primary));
+    text-decoration: none;
+    transition: border-color .15s ease, color .15s ease;
+}
+
+.PageProfile-CompletedMissions-Item:hover{
+    border-color: var(--color-state-focus, var(--color-primary));
+    color: var(--color-text-primary);
+}
+
+@media (max-width: 1500px) {
+    .PageProfile-Grid{
+        grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+    }
+    .PageProfile-Col--Missions{
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-x4);
     }
 }
 
-@media (max-width: 878px) {
-    .PageProfile-Header{
-        flex-direction: column;
+@media (max-width: 880px) {
+    .PageProfile-Grid{
+        grid-template-columns: 1fr;
+    }
+    .PageProfile-Col--Missions{
+        grid-template-columns: 1fr;
     }
 }

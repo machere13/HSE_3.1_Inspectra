@@ -33,6 +33,17 @@ class PagesController < WebController
     if @reset_token.present? && @user.reset_password_token == @reset_token
       @show_reset_form = @user.reset_token_valid?
     end
+
+    @skill_chart = build_skill_chart(@user)
+
+    @current_interactive = locate_current_interactive(@user)
+
+    @completed_interactives = @user.interactive_completions
+                                   .order(completed_at: :desc)
+                                   .includes(:interactive)
+                                   .limit(20)
+
+    @active_tab = %w[achievements titles rewards].include?(params[:tab]) ? params[:tab] : 'achievements'
   end
   
   def select_title
@@ -150,6 +161,47 @@ class PagesController < WebController
   end
 
 private
+
+  def build_skill_chart(user)
+    totals_by_category = Interactive.group(:category).count
+    done_by_category   = user.interactive_completions.group(:category).count
+    categories = Interactive::CATEGORIES
+    overall_total = totals_by_category.values.sum
+    overall_done  = done_by_category.values.sum
+
+    rows = categories.map do |cat|
+      total = totals_by_category[cat].to_i
+      done = done_by_category[cat].to_i
+      percent = total.zero? ? 0 : ((done.to_f / total) * 100).round
+      {
+        key: cat,
+        label: I18n.t("achievement_categories.#{cat}", default: cat.titleize),
+        percent: percent,
+        done: done,
+        total: total
+      }
+    end
+    overall_percent = overall_total.zero? ? 0 : ((overall_done.to_f / overall_total) * 100).round
+    rows << {
+      key: 'overall',
+      label: I18n.t('pages.profile.skill_chart.overall', default: 'Общий'),
+      percent: overall_percent,
+      done: overall_done,
+      total: overall_total
+    }
+    rows
+  end
+
+  def locate_current_interactive(user)
+    completed_keys = user.interactive_completions.pluck(:interactive_key).to_set
+    attempt = user.interactive_attempts
+                  .where.not(session_token: nil)
+                  .where('session_expires_at > ?', Time.current)
+                  .order(last_attempt_at: :desc, updated_at: :desc)
+                  .includes(:interactive)
+                  .find { |a| !completed_keys.include?(a.interactive.key) }
+    attempt&.interactive
+  end
 
   def determine_layout
     'application'
