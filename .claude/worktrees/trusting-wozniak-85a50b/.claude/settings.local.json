@@ -74,7 +74,9 @@
       "Bash(ruby -c spec/requests/api/v1/interactive_props_spec.rb)",
       "Bash(ruby -c spec/requests/api/v0/echo_spec.rb)",
       "Bash(ruby -c spec/requests/legacy_iframes_spec.rb)",
-      "Bash(ruby -ryaml -e \"YAML.safe_load_file\\('config/locales/ru.yml', permitted_classes: [Symbol]\\); puts 'yaml ok'\")"
+      "Bash(ruby -ryaml -e \"YAML.safe_load_file\\('config/locales/ru.yml', permitted_classes: [Symbol]\\); puts 'yaml ok'\")",
+      "Bash(ls -la 'C:\\\\Users\\\\vladi\\\\Desktop\\\\gg\\\\study\\\\thirdCourse\\\\project3.1\\\\.claude' 2>/dev/null || echo \"no .claude dir in project\"; ls -la 'C:\\\\Users\\\\vladi\\\\.claude\\\\skills' 2>/dev/null || echo \"no global skills dir\")",
+      "Bash(mkdir -p 'C:\\\\Users\\\\vladi\\\\.claude\\\\skills\\\\impact-check')"
     ]
   }
 }

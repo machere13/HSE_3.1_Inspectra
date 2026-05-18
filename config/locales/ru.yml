@@ -204,6 +204,7 @@ ru:
         in_progress:
           title: 'Достижения в процессе'
           progress: 'Прогресс: %{progress}%'
+        tier: 'Ступень %{current}/%{total}'
       titles:
         title: 'Титулы'
         selected: 'Выбран'

@@ -1,8 +1,8 @@
 <%
   rows        = Array(local_assigns[:rows] || [])
   size        = 500
-  vb_pad_x    = 36   # доп. поле слева/справа (больше горизонтального воздуха)
-  vb_crop_y   = 28   # обрезка сверху/снизу (меньше вертикального воздуха)
+  vb_pad_x    = 36
+  vb_crop_y   = 0
   vb_x        = -vb_pad_x
   vb_y        = vb_crop_y
   vb_w        = size + 2 * vb_pad_x
@@ -12,14 +12,13 @@
   radius      = (size / 2.0) - 80
   axes_count  = rows.length
   rings       = 7
-  label_ratio = 1.18
+  label_ratio = 1.20
 
   axis_point = ->(i, ratio) {
     angle = (-Math::PI / 2.0) + (i * 2.0 * Math::PI / axes_count.to_f)
     [cx + radius * ratio * Math.cos(angle), cy + radius * ratio * Math.sin(angle)]
   }
 
-  # Концентрические кольца
   ring_polys = (1..rings).map do |r|
     ratio = r / rings.to_f
     (0...axes_count).map { |i| axis_point.call(i, ratio).map { |v| v.round(2) }.join(',') }.join(' ')
@@ -27,7 +26,6 @@
   inner_rings = ring_polys[0..-2]
   outer_ring  = ring_polys.last
 
-  # Полигон данных
   has_data = rows.any? { |r| r[:percent].to_i > 0 }
   data_pts_arr = rows.each_with_index.map do |row, i|
     pct = [[row[:percent].to_i, 0].max, 100].min
@@ -35,24 +33,22 @@
   end
   data_pts = data_pts_arr.map { |x, y| "#{x.round(2)},#{y.round(2)}" }.join(' ')
 
-  # Тик-коннектор на каждой вершине наружу (под подпись)
   vertex_ticks = (0...axes_count).map do |i|
     p_in  = axis_point.call(i, 1.0)
-    p_out = axis_point.call(i, 1.10)
+    p_out = axis_point.call(i, 1.06)
     [p_in[0].round(2), p_in[1].round(2), p_out[0].round(2), p_out[1].round(2)]
   end
 
-  # Подписи
   label_positions = rows.each_with_index.map do |row, i|
     x, y = axis_point.call(i, label_ratio)
     anchor = if x.round == cx.round then 'middle'
              elsif x < cx then 'end'
              else 'start'
              end
+    y -= 24 if i == 0
     { x: x.round(2), y: y.round(2), text: row[:label].to_s.upcase, anchor: anchor, percent: row[:percent].to_i }
   end
 
-  # Пунктирная диагональ через центр (внутренний крест)
   cross_r = radius * 0.55
   diag1 = [cx - cross_r * Math.cos(Math::PI / 4), cy - cross_r * Math.sin(Math::PI / 4),
            cx + cross_r * Math.cos(Math::PI / 4), cy + cross_r * Math.sin(Math::PI / 4)]
@@ -72,26 +68,21 @@
       </filter>
     </defs>
 
-    <%# Фон из точек %>
     <rect x="<%= vb_x %>" y="<%= vb_y %>" width="<%= vb_w %>" height="<%= vb_h %>" fill="url(#M_SkillRadar-BgDots)"/>
 
-    <%# Концентрические кольца %>
     <% inner_rings.each do |poly| %>
       <polygon points="<%= poly %>" class="M_SkillRadar-Ring"/>
     <% end %>
     <polygon points="<%= outer_ring %>" class="M_SkillRadar-Ring M_SkillRadar-Ring--Outer"/>
 
-    <%# Пунктирные оси от центра к вершинам %>
     <% axes_count.times do |i| %>
       <% x2, y2 = axis_point.call(i, 1).map { |v| v.round(2) } %>
       <line x1="<%= cx %>" y1="<%= cy %>" x2="<%= x2 %>" y2="<%= y2 %>" class="M_SkillRadar-Axis"/>
     <% end %>
 
-    <%# Внутренний пунктирный X-крест %>
     <line x1="<%= diag1[0].round(2) %>" y1="<%= diag1[1].round(2) %>" x2="<%= diag1[2].round(2) %>" y2="<%= diag1[3].round(2) %>" class="M_SkillRadar-InnerCross"/>
     <line x1="<%= diag2[0].round(2) %>" y1="<%= diag2[1].round(2) %>" x2="<%= diag2[2].round(2) %>" y2="<%= diag2[3].round(2) %>" class="M_SkillRadar-InnerCross"/>
 
-    <%# Полигон данных + светящиеся точки %>
     <% if has_data %>
       <polygon points="<%= data_pts %>" class="M_SkillRadar-Data" filter="url(#M_SkillRadar-Glow)"/>
       <% data_pts_arr.each do |x, y| %>
@@ -99,20 +90,17 @@
       <% end %>
     <% end %>
 
-    <%# Тики-коннекторы к подписям %>
     <% vertex_ticks.each do |x1, y1, x2, y2| %>
       <line x1="<%= x1 %>" y1="<%= y1 %>" x2="<%= x2 %>" y2="<%= y2 %>" class="M_SkillRadar-VertexTick"/>
     <% end %>
 
-    <%# Центральная точка %>
     <circle cx="<%= cx %>" cy="<%= cy %>" r="1.5" class="M_SkillRadar-Center"/>
 
-    <%# Подписи: название + процент %>
     <% label_positions.each do |pos| %>
       <text x="<%= pos[:x] %>" y="<%= pos[:y] %>" class="M_SkillRadar-Label" text-anchor="<%= pos[:anchor] %>">
         <%= pos[:text] %>
       </text>
-      <text x="<%= pos[:x] %>" y="<%= pos[:y] + 14 %>" class="M_SkillRadar-LabelPercent" text-anchor="<%= pos[:anchor] %>">
+      <text x="<%= pos[:x] %>" y="<%= pos[:y] + 24 %>" class="M_SkillRadar-LabelPercent" text-anchor="<%= pos[:anchor] %>">
         <%= pos[:percent] %>%
       </text>
     <% end %>

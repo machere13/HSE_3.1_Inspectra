@@ -43,6 +43,8 @@ class PagesController < WebController
                                    .includes(:interactive)
                                    .limit(20)
 
+    @achievement_groups = build_achievement_groups(@user)
+
     @active_tab = %w[achievements titles rewards].include?(params[:tab]) ? params[:tab] : 'achievements'
   end
 
@@ -165,6 +167,30 @@ class PagesController < WebController
   end
 
 private
+
+  def build_achievement_groups(user)
+    user_progress = user.user_achievements.includes(:achievement).index_by(&:achievement_id)
+
+    Achievement.all.group_by { |a| [a.category, a.progress_type] }.map do |(category, _progress_type), group|
+      sorted_tiers     = group.sort_by(&:progress_target)
+      raw_progress     = sorted_tiers.map { |a| user_progress[a.id]&.progress.to_i }.max.to_i
+      completed_tiers  = sorted_tiers.select { |a| user_progress[a.id]&.completed? }
+      next_tier        = sorted_tiers.find { |a| !user_progress[a.id]&.completed? }
+      display_tier     = next_tier || sorted_tiers.last
+      all_completed    = next_tier.nil?
+
+      {
+        key:               "#{category}_#{display_tier.progress_type}",
+        category:          category,
+        tier:              display_tier,
+        progress:          all_completed ? display_tier.progress_target : [raw_progress, display_tier.progress_target].min,
+        target:            display_tier.progress_target,
+        tiers_total:       sorted_tiers.size,
+        tiers_completed:   completed_tiers.size,
+        all_completed:     all_completed
+      }
+    end.sort_by { |g| [g[:all_completed] ? 1 : 0, g[:category].to_s, g[:tier].progress_target] }
+  end
 
   def build_skill_chart(user)
     totals_by_category = Interactive.group(:category).count

@@ -70,6 +70,7 @@
           </div>
         </div>
       </div>
+
     </div>
 
     <div class="PageProfile-Col PageProfile-Col--Center">
@@ -91,34 +92,30 @@
         <div class="PageProfile-TabContent">
           <% case @active_tab
              when 'achievements' %>
-            <% if @in_progress_achievements.any? %>
+            <% if @achievement_groups.any? %>
               <div class="PageProfile-AchievementList">
-                <% @in_progress_achievements.each do |ua| %>
-                  <div class="PageProfile-AchievementRow">
+                <% @achievement_groups.each do |g| %>
+                  <div class="PageProfile-AchievementRow <%= 'PageProfile-AchievementRow--Done' if g[:all_completed] %>">
                     <div class="PageProfile-AchievementRow-Body">
-                      <div class="text-p-3"><strong><%= ua.achievement.name %></strong></div>
-                      <div class="text-caption"><%= ua.achievement.description %></div>
+                      <div class="text-p-3">
+                        <strong><%= g[:tier].name %></strong><% if g[:all_completed] %> ✓<% end %>
+                      </div>
+                      <div class="text-caption"><%= g[:tier].description %></div>
+                      <% if g[:tiers_total] > 1 %>
+                        <div class="text-caption PageProfile-AchievementRow-Tier">
+                          <%= t('pages.profile.achievements.tier', current: g[:tiers_completed] + (g[:all_completed] ? 0 : 1), total: g[:tiers_total]) %>
+                        </div>
+                      <% end %>
                     </div>
-                    <div class="PageProfile-AchievementRow-Progress text-caption">
-                      <%= ua.progress %> / <%= ua.achievement.progress_target %>
-                    </div>
+                    <% unless g[:all_completed] %>
+                      <div class="PageProfile-AchievementRow-Progress text-caption">
+                        <%= g[:progress] %> / <%= g[:target] %>
+                      </div>
+                    <% end %>
                   </div>
                 <% end %>
               </div>
-            <% end %>
-            <% if @completed_achievements.any? %>
-              <div class="PageProfile-AchievementList PageProfile-AchievementList--Completed">
-                <% @completed_achievements.each do |ua| %>
-                  <div class="PageProfile-AchievementRow PageProfile-AchievementRow--Done">
-                    <div class="PageProfile-AchievementRow-Body">
-                      <div class="text-p-3"><strong><%= ua.achievement.name %></strong> ✓</div>
-                      <div class="text-caption"><%= ua.achievement.description %></div>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            <% end %>
-            <% if @in_progress_achievements.empty? && @completed_achievements.empty? %>
+            <% else %>
               <p class="text-p-3"><%= t('pages.profile.empty.achievements') %></p>
             <% end %>
 
@@ -171,37 +168,31 @@
 
     <div class="PageProfile-Col PageProfile-Col--Missions">
       <div class="PageProfile-Card PageProfile-Missions">
-
         <div class="PageProfile-Missions-Section">
           <h3 class="text-p-3 PageProfile-Card-Title"><%= t('pages.profile.missions.current') %></h3>
           <% if @current_interactive %>
-            <%= link_to interactive_path(@current_interactive.key), class: 'PageProfile-CurrentMission-Link' do %>
-              <span class="text-p-2"><%= @current_interactive.title %></span>
-              <span class="text-caption"><%= t("achievement_categories.#{@current_interactive.category}") %></span>
-            <% end %>
-            <%= link_to interactive_path(@current_interactive.key), class: 'A_Button PageProfile-Missions-Cta' do %>
-              <span class="A_Button-Content text-button"><%= t('pages.profile.missions.cta') %></span>
+            <%= link_to interactive_path(@current_interactive.key), class: 'PageProfile-MissionItem PageProfile-MissionItem--Active' do %>
+              <span class="PageProfile-MissionItem-Title text-p-3"><%= @current_interactive.title %></span>
             <% end %>
           <% else %>
-            <p class="text-p-3 PageProfile-CurrentMission-Empty"><%= t('pages.profile.missions.current_empty') %></p>
+            <p class="text-p-3 PageProfile-MissionItem-Empty"><%= t('pages.profile.missions.current_empty') %></p>
           <% end %>
         </div>
 
         <div class="PageProfile-Missions-Section">
           <h3 class="text-p-3 PageProfile-Card-Title"><%= t('pages.profile.missions.completed') %></h3>
           <% if @completed_interactives.any? %>
-            <div class="PageProfile-CompletedMissions-List">
+            <div class="PageProfile-MissionList">
               <% @completed_interactives.each do |c| %>
-                <%= link_to interactive_path(c.interactive_key), class: 'PageProfile-CompletedMissions-Item text-p-3' do %>
-                  <span><%= c.interactive&.title || c.interactive_key %></span>
-                <% end %>
+                <div class="PageProfile-MissionItem PageProfile-MissionItem--Completed">
+                  <span class="PageProfile-MissionItem-Title text-p-3"><%= c.interactive&.title || c.interactive_key %></span>
+                </div>
               <% end %>
             </div>
           <% else %>
-            <p class="text-p-3 PageProfile-CompletedMissions-Empty"><%= t('pages.profile.missions.completed_empty') %></p>
+            <p class="text-p-3 PageProfile-MissionItem-Empty"><%= t('pages.profile.missions.completed_empty') %></p>
           <% end %>
         </div>
-
       </div>
     </div>
 
