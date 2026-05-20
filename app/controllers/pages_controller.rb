@@ -1,6 +1,6 @@
 class PagesController < WebController
   layout :determine_layout
-  before_action :authenticate_user!, only: [:profile, :profile_config, :select_title, :update_name, :update_avatar, :request_password_change, :select_game_role, :update_game_role]
+  before_action :authenticate_user!, only: [:profile, :profile_config, :select_title, :update_name, :update_avatar, :update_preferences, :request_password_change, :select_game_role, :update_game_role]
 
   def home
     @current_week = Week.visible_now.order(number: :desc).first
@@ -52,6 +52,25 @@ class PagesController < WebController
     @user = current_user
   end
 
+  def update_preferences
+    @user = current_user
+    attrs = {}
+    if params[:theme].present? && User::ALLOWED_THEMES.include?(params[:theme])
+      attrs[:theme] = params[:theme]
+    end
+    unless params[:notifications_email].nil?
+      attrs[:notifications_email] = ActiveModel::Type::Boolean.new.cast(params[:notifications_email])
+    end
+
+    if attrs.empty?
+      redirect_back(fallback_location: profile_config_path, alert: t('pages.profile_config.preferences.no_changes', default: 'Нет изменений'))
+    elsif @user.update(attrs)
+      redirect_back(fallback_location: profile_config_path, notice: t('pages.profile_config.preferences.saved', default: 'Настройки сохранены'))
+    else
+      redirect_back(fallback_location: profile_config_path, alert: @user.errors.full_messages.join(', '))
+    end
+  end
+
   def select_title
     @user = current_user
     title = Title.find(params[:title_id])
@@ -94,9 +113,9 @@ class PagesController < WebController
   def update_name
     @user = current_user
     if @user.update(name: params[:name])
-      redirect_to profile_path, notice: t('pages.profile.name_updated')
+      redirect_back(fallback_location: profile_path, notice: t('pages.profile.name_updated'))
     else
-      redirect_to profile_path, alert: @user.errors.full_messages.join(', ')
+      redirect_back(fallback_location: profile_path, alert: @user.errors.full_messages.join(', '))
     end
   end
 
@@ -107,14 +126,14 @@ class PagesController < WebController
       @user.avatar.attach(avatar_param)
       if @user.avatar.attached?
         Rails.logger.info "Avatar attached successfully: #{@user.avatar.blob.filename}, URL: #{url_for(@user.avatar)}"
-        redirect_to profile_path, notice: t('pages.profile.avatar.updated')
+        redirect_back(fallback_location: profile_path, notice: t('pages.profile.avatar.updated'))
       else
         Rails.logger.error "Failed to attach avatar"
-        redirect_to profile_path, alert: 'Ошибка при загрузке аватара'
+        redirect_back(fallback_location: profile_path, alert: 'Ошибка при загрузке аватара')
       end
     else
       Rails.logger.error "Avatar param missing. Params: #{params.keys.inspect}"
-      redirect_to profile_path, alert: t('pages.profile.avatar.required')
+      redirect_back(fallback_location: profile_path, alert: t('pages.profile.avatar.required'))
     end
   end
 
@@ -158,11 +177,11 @@ class PagesController < WebController
     begin
       @user.generate_reset_password_token!
       ResetPasswordMailer.with(user: @user).reset_instructions.deliver_now
-      redirect_to profile_path, notice: t('pages.profile.password_change.email_sent')
+      redirect_back(fallback_location: profile_path, notice: t('pages.profile.password_change.email_sent'))
     rescue => e
       Rails.logger.error "Failed to send password reset email: #{e.message}"
       Rails.logger.error e.backtrace.join("\n")
-      redirect_to profile_path, alert: "Ошибка при отправке письма: #{e.message}"
+      redirect_back(fallback_location: profile_path, alert: "Ошибка при отправке письма: #{e.message}")
     end
   end
 

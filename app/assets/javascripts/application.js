@@ -17,6 +17,7 @@
 //= require ./components/molecules/M_FormPlug
 //= require ./components/organisms/O_Console
 //= require ./components/organisms/O_ErrorReportModal
+//= require ./components/organisms/O_ThemePickerModal
 //= require ./components/organisms/O_AudioPlayer
 //= require ./components/organisms/O_VideoPlayer
 //= require ./components/organisms/O_SidebarMobile

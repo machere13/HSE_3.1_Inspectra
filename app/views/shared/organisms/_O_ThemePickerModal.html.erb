@@ -1,0 +1,52 @@
+<%
+  header_controls = capture do %>
+  <%= render 'shared/atoms/A_ControlButton',
+      icon_name: 'Q_CloseIcon',
+      aria_label: t('pages.profile_config.preferences.theme_modal.close', default: 'Закрыть'),
+      class: 'W_ControlPanel-Header-Button',
+      data: { js_theme_picker_close: '' } %>
+<% end %>
+<%= render layout: 'shared/wrappers/W_ControlPanel',
+    locals: {
+      id: 'js-theme-picker-modal',
+      icon_name: nil,
+      data: { js_theme_picker_modal: '' },
+      body_fill: false,
+      header_controls: header_controls,
+      resizable: true,
+      draggable: true,
+      class: 'W_ControlPanel--theme-picker'
+    } do %>
+  <div class="O_ThemePickerModal" data-js-theme-picker-body>
+    <header class="O_ThemePickerModal-Header">
+      <h2 class="O_ThemePickerModal-Title text-p-1-mono"><%= t('pages.profile_config.preferences.theme_modal.title') %></h2>
+      <p class="O_ThemePickerModal-Sub text-p-3"><%= t('pages.profile_config.preferences.theme_modal.sub') %></p>
+    </header>
+
+    <div class="O_ThemePickerModal-Grid">
+      <% User::ALLOWED_THEMES.each do |t_key|
+           current_theme_key = (defined?(current_user) && current_user&.theme.presence) || 'dark'
+           current = (current_theme_key == t_key) %>
+        <%= button_to update_preferences_path,
+                      method: :patch,
+                      params: { theme: t_key },
+                      class: ['O_ThemePickerModal-Card', ('O_ThemePickerModal-Card--Active' if current)].compact.join(' ') do %>
+          <div class="O_ThemePickerModal-Card-Preview" data-theme="<%= t_key %>">
+            <span class="O_ThemePickerModal-Card-Bar"></span>
+            <span class="O_ThemePickerModal-Card-Surface"></span>
+            <span class="O_ThemePickerModal-Card-Line O_ThemePickerModal-Card-Line--1"></span>
+            <span class="O_ThemePickerModal-Card-Line O_ThemePickerModal-Card-Line--2"></span>
+            <span class="O_ThemePickerModal-Card-Line O_ThemePickerModal-Card-Line--3"></span>
+            <span class="O_ThemePickerModal-Card-Accent"></span>
+          </div>
+          <div class="O_ThemePickerModal-Card-Meta">
+            <span class="O_ThemePickerModal-Card-Name text-p-3"><%= t("pages.profile_config.preferences.theme_options.#{t_key}", default: t_key.titleize) %></span>
+            <% if current %>
+              <span class="O_ThemePickerModal-Card-Badge text-p-3"><%= t('pages.profile_config.preferences.theme_modal.active', default: 'Активна') %></span>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

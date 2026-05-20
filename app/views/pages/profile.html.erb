@@ -102,15 +102,15 @@
                       <div class="text-p-3">
                         <strong><%= g[:tier].name %></strong><% if g[:all_completed] %> ✓<% end %>
                       </div>
-                      <div class="text-caption"><%= g[:tier].description %></div>
+                      <div class="text-p-3"><%= g[:tier].description %></div>
                       <% if g[:tiers_total] > 1 %>
-                        <div class="text-caption PageProfile-AchievementRow-Tier">
+                        <div class="text-p-3 PageProfile-AchievementRow-Tier">
                           <%= t('pages.profile.achievements.tier', current: g[:tiers_completed] + (g[:all_completed] ? 0 : 1), total: g[:tiers_total]) %>
                         </div>
                       <% end %>
                     </div>
                     <% unless g[:all_completed] %>
-                      <div class="PageProfile-AchievementRow-Progress text-caption">
+                      <div class="PageProfile-AchievementRow-Progress text-p-3">
                         <%= g[:progress] %> / <%= g[:target] %>
                       </div>
                     <% end %>
@@ -123,7 +123,7 @@
 
           <% when 'titles' %>
             <% if @available_titles.present? %>
-              <p class="text-caption"><%= t('pages.profile.titles.section_hint') %></p>
+              <p class="text-p-3"><%= t('pages.profile.titles.section_hint') %></p>
               <div class="PageProfile-Titles-Grid">
                 <% @available_titles.each do |title| %>
                   <% is_current = @user.current_title_id == title.id %>
@@ -134,10 +134,10 @@
                             <%= 'disabled' if is_current %>>
                       <span class="PageProfile-TitleCard-Name text-p-2"><%= title.name %></span>
                       <% if title.description.present? %>
-                        <span class="PageProfile-TitleCard-Desc text-caption"><%= title.description %></span>
+                        <span class="PageProfile-TitleCard-Desc text-p-3"><%= title.description %></span>
                       <% end %>
                       <% if is_current %>
-                        <span class="PageProfile-TitleCard-Badge text-caption"><%= t('pages.profile.titles.selected') %></span>
+                        <span class="PageProfile-TitleCard-Badge text-p-3"><%= t('pages.profile.titles.selected') %></span>
                       <% end %>
                     </button>
                   <% end %>
@@ -154,7 +154,7 @@
                 <% reward_uas.each do |ua| %>
                   <div class="PageProfile-RewardRow">
                     <div class="PageProfile-RewardRow-Title text-p-2"><%= ua.achievement.title.name %></div>
-                    <div class="PageProfile-RewardRow-From text-caption">
+                    <div class="PageProfile-RewardRow-From text-p-3">
                       <%= t('pages.profile.rewards.from', name: ua.achievement.name) %>
                     </div>
                   </div>

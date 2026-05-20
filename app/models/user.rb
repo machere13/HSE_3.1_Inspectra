@@ -29,6 +29,9 @@ class User < ApplicationRecord
     hunter: 3
   }, prefix: true
 
+  ALLOWED_THEMES = %w[dark white void purple chrome ocean-blue vampire acid-green neon pink].freeze
+  validates :theme, inclusion: { in: ALLOWED_THEMES }, allow_nil: true
+
   GAME_ROLE_SPECIALTIES = {
     'mage'    => 'it_security',
     'warrior' => 'it_errors',

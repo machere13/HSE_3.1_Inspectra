@@ -21,10 +21,6 @@
     flex: 1;
 }
 
-.PageProfile-Grid.PageProfile-Grid--Config{
-    max-width: 720px;
-}
-
 .PageProfile-Col--Identity{
     flex: 0 0 360px;
     max-width: 360px;
@@ -42,35 +38,305 @@
 }
 
 /* По умолчанию (desktop > 1480) — показываем standalone-missions, прячем in-column */
-.PageProfile-Missions--InColumn{
+.PageProfile-Card.PageProfile-Missions--InColumn{
     display: none;
 }
 
-.PageProfileConfig-Row{
+/* ============ CONFIG PAGE / BENTO ============ */
+.PageProfileConfig{
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.PageProfileConfig-Layout{
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: var(--spacing-x3);
-    padding: var(--spacing-x2) 0;
+    flex-direction: column;
+    gap: var(--spacing-x4);
+    width: 100%;
+    padding-right: var(--spacing-x3);
+    padding-bottom: var(--spacing-x3);
+    flex: 1;
+    min-height: 0;
+}
+
+.PageProfileConfig-Heading{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x1);
+    padding-bottom: var(--spacing-x3);
     border-bottom: var(--border-x025) solid var(--color-border-tertiary);
 }
 
-.PageProfileConfig-Row:last-child{
-    border-bottom: none;
-}
-
-.PageProfileConfig-Label{
-    color: var(--color-text-secondary, var(--color-text-primary));
+.PageProfileConfig-Heading-Title{
+    color: var(--color-text-primary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
 
-.PageProfileConfig-Value{
-    text-align: right;
+.PageProfileConfig-Heading-Sub{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+/* === Bento grid === */
+.PageProfileConfig-Bento{
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-auto-rows: minmax(200px, auto);
+    gap: var(--spacing-x3);
+}
+
+.PageProfileConfig-Block{
+    background: var(--color-secondary);
+    border: var(--border-x025) solid var(--color-border-primary);
+    border-radius: var(--border-radius-x3);
+    padding: var(--spacing-x4) var(--spacing-x5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x3);
+    min-width: 0;
+}
+
+.PageProfileConfig-Block--Danger{
+    border-color: var(--color-state-danger, var(--color-border-primary));
+}
+
+/* spans */
+.PageProfileConfig-Block--Identity     { grid-column: span 4; }
+.PageProfileConfig-Block--Theme        { grid-column: span 2; }
+.PageProfileConfig-Block--Notifications{ grid-column: span 2; }
+.PageProfileConfig-Block--Security     { grid-column: span 2; }
+.PageProfileConfig-Block--Session      { grid-column: span 2; }
+
+.PageProfileConfig-Block-Header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: var(--spacing-x2);
+    border-bottom: var(--border-x025) solid var(--color-border-tertiary);
+}
+
+.PageProfileConfig-Block-Label{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: var(--font-family-geist-mono);
+}
+
+.PageProfileConfig-Block-Tag{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    opacity: 0.5;
+    font-family: var(--font-family-geist-mono);
+    letter-spacing: 0.1em;
+}
+
+.PageProfileConfig-Block-Body{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+    flex: 1;
+    min-height: 0;
+}
+
+.PageProfileConfig-Block-Headline{
+    color: var(--color-text-primary);
+    font-family: var(--font-family-geist-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.PageProfileConfig-Block-Sub{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageProfileConfig-Block-Action{
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+/* === Identity (единая 3-кол сетка: label | value | action) === */
+.PageProfileConfig-Identity-Grid{
+    display: grid;
+    grid-template-columns: minmax(120px, 160px) minmax(0, 1fr) auto;
+    column-gap: var(--spacing-x4);
+    row-gap: var(--spacing-x3);
+    align-items: center;
+}
+
+/* Форма становится "невидимой" — её дети (input + кнопка) ложатся в столбцы grid'а */
+.PageProfileConfig-FormContents{
+    display: contents;
+}
+
+.PageProfileConfig-Field-Label{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: var(--font-family-geist-mono);
+}
+
+.PageProfileConfig-Identity-Grid .A_Input{
+    width: 100%;
+    max-width: 360px;
+}
+
+/* Превью текущей темы внутри Theme-блока (использует те же data-theme цвета, что и модалка) */
+.PageProfileConfig-ThemePreview{
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: var(--spacing-x2);
+}
+
+/* === Toggle (button group) === */
+.PageProfileConfig-Toggle{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-x2);
+}
+
+.PageProfileConfig-Toggle form{
+    margin: 0;
+}
+
+.PageProfileConfig-ToggleBtn{
+    padding: var(--spacing-x2) var(--spacing-x3);
+    background: transparent;
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    color: var(--color-text-secondary, var(--color-text-primary));
+    border-radius: var(--border-radius-x1);
+    cursor: pointer;
+    transition: all .15s ease;
+    font-family: var(--font-family-geist-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.PageProfileConfig-ToggleBtn:hover{
+    border-color: var(--color-text-primary);
+    color: var(--color-text-primary);
+}
+
+.PageProfileConfig-ToggleBtn--Active{
+    background: var(--color-text-primary);
+    color: var(--color-background, #000);
+    border-color: var(--color-text-primary);
+}
+
+.PageProfileConfig-ToggleBtn--Active:hover{
+    color: var(--color-background, #000);
+}
+
+.PageProfileConfig-Static{
+    flex: 1 1 auto;
+    min-width: 0;
+    color: var(--color-text-primary);
+    word-break: break-word;
+}
+
+.PageProfileConfig-Static--Muted{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    opacity: 0.7;
 }
 
 .PageProfileConfig-Note{
     color: var(--color-text-secondary, var(--color-text-primary));
+    opacity: 0.7;
+    flex-shrink: 0;
+}
+
+.PageProfileConfig-Note--Muted{
+    opacity: 0.5;
+}
+
+/* === Avatar в Identity === */
+.PageProfileConfig-AvatarThumb{
+    position: relative;
+    width: 160px;
+    height: 160px;
+    border-radius: var(--border-radius-x2);
+    overflow: hidden;
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    background: var(--color-background-overlay, var(--color-secondary));
+    flex-shrink: 0;
+}
+
+.PageProfileConfig-AvatarSubmit{
+    width: 100%;
+}
+
+.PageProfileConfig-AvatarLabel{
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    border-radius: var(--border-radius-x2);
+    transition: background .2s ease;
+}
+
+.PageProfileConfig-AvatarLabel:hover{
+    background: rgba(0, 0, 0, 0.35);
+}
+
+/* === Адаптив === */
+@media (max-width: 1100px) {
+    .PageProfileConfig-Block--Identity     { grid-column: span 6; }
+    .PageProfileConfig-Block--Theme        { grid-column: span 3; }
+    .PageProfileConfig-Block--Notifications{ grid-column: span 3; }
+    .PageProfileConfig-Block--Security     { grid-column: span 3; }
+    .PageProfileConfig-Block--Session      { grid-column: span 3; }
+}
+
+@media (max-width: 720px) {
+    .PageProfileConfig-Bento{
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-auto-rows: auto;
+        flex: 0 0 auto;
+    }
+    .PageProfileConfig-Block--Identity,
+    .PageProfileConfig-Block--Theme,
+    .PageProfileConfig-Block--Notifications,
+    .PageProfileConfig-Block--Security,
+    .PageProfileConfig-Block--Session{
+        grid-column: 1 / -1;
+    }
+    .PageProfileConfig-Identity-Grid{
+        grid-template-columns: 1fr;
+        row-gap: var(--spacing-x4);
+    }
+    .PageProfileConfig-Layout{
+        flex: 0 0 auto;
+    }
+    .PageProfile.PageProfileConfig{
+        height: auto;
+        overflow: visible;
+    }
+}
+
+
+
+.PageProfileConfig-AvatarThumb img,
+.PageProfileConfig-AvatarThumb--placeholder{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.PageProfileConfig-AvatarInput{
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.PageProfileConfig-Pill{
+    display: inline-block;
+    padding: var(--spacing-x05) var(--spacing-x3);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x1);
+    font-family: var(--font-family-geist-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .PageProfile-Col{
@@ -527,10 +793,10 @@ a.PageProfile-MissionItem:hover{
     .PageProfile-Col--Center{
         min-width: 0;
     }
-    .PageProfile-Col--Missions{
+    .PageProfile-Col.PageProfile-Col--Missions{
         display: none;            /* прячем standalone-колонку */
     }
-    .PageProfile-Missions--InColumn{
+    .PageProfile-Card.PageProfile-Missions--InColumn{
         display: flex;            /* показываем inline-копию */
         flex: 1;                  /* заполняет остаток высоты левой колонки */
         min-height: 0;
@@ -554,10 +820,10 @@ a.PageProfile-MissionItem:hover{
         max-width: none;
         min-width: 0;
     }
-    .PageProfile-Col--Missions{
+    .PageProfile-Col.PageProfile-Col--Missions{
         display: none;            /* прячем standalone */
     }
-    .PageProfile-Missions--InColumn{
+    .PageProfile-Card.PageProfile-Missions--InColumn{
         display: flex;            /* показываем inline */
     }
 }

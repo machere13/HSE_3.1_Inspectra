@@ -76,7 +76,24 @@
       "Bash(ruby -c spec/requests/legacy_iframes_spec.rb)",
       "Bash(ruby -ryaml -e \"YAML.safe_load_file\\('config/locales/ru.yml', permitted_classes: [Symbol]\\); puts 'yaml ok'\")",
       "Bash(ls -la 'C:\\\\Users\\\\vladi\\\\Desktop\\\\gg\\\\study\\\\thirdCourse\\\\project3.1\\\\.claude' 2>/dev/null || echo \"no .claude dir in project\"; ls -la 'C:\\\\Users\\\\vladi\\\\.claude\\\\skills' 2>/dev/null || echo \"no global skills dir\")",
-      "Bash(mkdir -p 'C:\\\\Users\\\\vladi\\\\.claude\\\\skills\\\\impact-check')"
+      "Bash(mkdir -p 'C:\\\\Users\\\\vladi\\\\.claude\\\\skills\\\\impact-check')",
+      "Bash(bin/rails db:migrate)",
+      "Bash(xargs grep -l \"img\\\\|image\")",
+      "Bash(xargs grep -l -i \"modal\\\\|popup\\\\|dialog\\\\|overlay\")",
+      "Bash(sed -i 's/text-caption/text-p-3/g' 'C:\\\\Users\\\\vladi\\\\Desktop\\\\gg\\\\study\\\\thirdCourse\\\\project3.1\\\\app\\\\views\\\\pages\\\\profile_config.html.erb')",
+      "Bash(sed -i 's/text-caption/text-p-3/g' 'C:\\\\Users\\\\vladi\\\\Desktop\\\\gg\\\\study\\\\thirdCourse\\\\project3.1\\\\app\\\\views\\\\pages\\\\profile.html.erb')",
+      "Bash(sed -i 's/text-caption/text-p-3/g' 'C:\\\\Users\\\\vladi\\\\Desktop\\\\gg\\\\study\\\\thirdCourse\\\\project3.1\\\\app\\\\views\\\\pages\\\\select_game_role.html.erb')",
+      "Bash(mkdir -p 'C:\\\\Users\\\\vladi\\\\Desktop\\\\gg\\\\study\\\\thirdCourse\\\\project3.1\\\\.claude\\\\worktrees\\\\trusting-wozniak-85a50b\\\\.claude' && echo \"ok\")",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(curl -s http://localhost:3000 -o /dev/null -w \"%{http_code}\")",
+      "mcp__Claude_in_Chrome__list_connected_browsers",
+      "Bash(bin/rails runner *)",
+      "Bash(curl -s -b 'token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozODY5LCJleHAiOjE3Nzk4NTcwMzR9.n6DJ_OESqa9y0pmO8lYZaa0-13-e1uXe4Ra0--6ACqQ' -I 'http://localhost:3000/profile/config')",
+      "Bash(curl -s -b 'token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozODY5LCJpc3MiOiJpbnNwZWN0cmEiLCJhdWQiOiJpbnNwZWN0cmEtYXBpIiwianRpIjoiN2NlMzM1MGYtNDJmYy00MzYzLWI1NzItMDRkNTY1NjQ2YmFkIiwiaWF0IjoxNzc5MjUyMzIxLCJleHAiOjE3Nzk4NTcxMjF9._B5QDPvCkQ5FXFqh63JcVjfuFN1tfRhlrFrZvngkwYA' -I 'http://localhost:3000/profile/config')",
+      "Bash(python scripts/search.py \"settings config bento dashboard dark sci-fi cyber\" --design-system -p \"Inspectra Profile Config\")",
+      "Bash(python scripts/search.py \"settings dashboard dark sci-fi minimal\" --design-system -p \"Inspectra Config\")",
+      "Bash(python scripts/search.py \"settings page hierarchy bento card layout\" --domain ux -n 12)",
+      "Bash(python scripts/search.py \"form input button label spacing density\" --domain ux -n 8)"
     ]
   }
 }

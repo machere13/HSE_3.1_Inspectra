@@ -64,7 +64,7 @@
       ] %>
     <% elsif is_profile_page %>
       <%= render 'shared/wrappers/W_NavigationItems', index: 1, items: [
-        { text: 'PROGRESS', href: profile_path, hotkey: 'R' },
+        { text: 'OVERVIEW', href: profile_path, hotkey: 'O' },
         { text: 'CONFIG', href: profile_config_path, hotkey: 'C' }
       ] %>
     <% elsif !is_article_page && !@error_page %>

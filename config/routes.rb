@@ -56,6 +56,7 @@ Rails.application.routes.draw do
   post 'inspectra/subscribe', to: 'pages#subscribe', as: :inspectra_subscribe
   get 'profile', to: 'pages#profile'
   get 'profile/config', to: 'pages#profile_config', as: 'profile_config'
+  patch 'profile/preferences', to: 'pages#update_preferences', as: 'update_preferences'
   patch 'profile/select_title', to: 'pages#select_title', as: 'select_title'
   patch 'profile/update_name', to: 'pages#update_name', as: 'update_name'
   patch 'profile/update_avatar', to: 'pages#update_avatar', as: 'update_avatar'
@@ -67,6 +68,7 @@ Rails.application.routes.draw do
   get 'interactives/:key', to: 'interactives#show', as: 'interactive', constraints: { key: %r{[^/]+} }
   post 'interactives/:key/submit', to: 'interactives#submit', as: 'submit_interactive', constraints: { key: %r{[^/]+} }
   get 'auth', to: redirect('/auth/login')
+  delete 'auth/logout', to: 'auth#logout', as: 'logout'
   get 'reset_password', to: 'auth#reset'
   scope :auth do
     get 'login', to: 'auth#login'

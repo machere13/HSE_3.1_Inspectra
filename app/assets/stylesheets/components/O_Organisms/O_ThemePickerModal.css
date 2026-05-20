@@ -1,0 +1,205 @@
+.W_ControlPanel--theme-picker{
+    position: fixed;
+    width: min(960px, 92vw);
+    height: min(720px, 88vh);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity .25s ease;
+}
+
+/* Закрывающий крестик к правому краю (по умолчанию space-between уводит его влево, т.к. иконки слева нет) */
+.W_ControlPanel--theme-picker .W_ControlPanel-Header{
+    justify-content: flex-end;
+}
+
+.W_ControlPanel--theme-picker.is-visible{
+    opacity: 1;
+}
+
+.W_ControlPanel--theme-picker::before{
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: -1;
+}
+
+.O_ThemePickerModal{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x4);
+    padding: var(--spacing-x5);
+    overflow-y: auto;
+    height: 100%;
+    /* невидимый скроллбар */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.O_ThemePickerModal::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+.O_ThemePickerModal-Header{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x1);
+    padding-bottom: var(--spacing-x3);
+    border-bottom: var(--border-x025) solid var(--color-border-tertiary);
+}
+
+.O_ThemePickerModal-Title{
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.O_ThemePickerModal-Sub{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.O_ThemePickerModal-Grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-x3);
+}
+
+.O_ThemePickerModal-Grid form{
+    margin: 0;
+}
+
+.O_ThemePickerModal-Card{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+    padding: var(--spacing-x2);
+    background: var(--color-secondary);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    text-align: left;
+    transition: border-color .15s ease, transform .12s ease;
+    width: 100%;
+}
+
+.O_ThemePickerModal-Card:hover{
+    border-color: var(--color-text-primary);
+    transform: translateY(-2px);
+}
+
+.O_ThemePickerModal-Card--Active{
+    border-color: var(--color-text-primary);
+}
+
+/* === Preview-«скриншот» темы. Цвета подменяются под каждый data-theme === */
+.O_ThemePickerModal-Card-Preview{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: var(--border-radius-x1);
+    overflow: hidden;
+    /* defaults = dark */
+    --p-bg: #070707;
+    --p-surface: #131313;
+    --p-accent: #ffffff;
+    --p-text: rgba(255,255,255,0.7);
+    --p-border: rgba(150,150,150,0.4);
+    background: var(--p-bg);
+    border: 1px solid var(--p-border);
+}
+
+.O_ThemePickerModal-Card-Preview[data-theme="white"]{
+    --p-bg:#ffffff; --p-surface:#f0f0f0; --p-accent:#000000; --p-text:rgba(0,0,0,0.7); --p-border:rgba(100,100,100,0.4);
+}
+.O_ThemePickerModal-Card-Preview[data-theme="void"]{
+    --p-bg:#000000; --p-surface:#0e0e0e; --p-accent:#ffffff; --p-text:rgba(255,255,255,0.72); --p-border:rgba(90,90,90,0.5);
+}
+.O_ThemePickerModal-Card-Preview[data-theme="purple"]{
+    --p-bg:#f8f6ff; --p-surface:#f4f1ff; --p-accent:#5c3aa5; --p-text:rgba(35,22,70,0.72); --p-border:rgba(130,105,200,0.4);
+}
+.O_ThemePickerModal-Card-Preview[data-theme="chrome"]{
+    --p-bg:#1c1e24; --p-surface:#22252c; --p-accent:#c3c8d2; --p-text:rgba(220,223,232,0.75); --p-border:rgba(130,138,152,0.4);
+}
+.O_ThemePickerModal-Card-Preview[data-theme="ocean-blue"]{
+    --p-bg:#afdaff; --p-surface:#b9dcff; --p-accent:#005fd2; --p-text:rgba(8,42,95,0.72); --p-border:rgba(35,125,225,0.5);
+}
+.O_ThemePickerModal-Card-Preview[data-theme="vampire"]{
+    --p-bg:#0e0408; --p-surface:#260810; --p-accent:#c82030; --p-text:rgba(240,210,216,0.72); --p-border:rgba(180,48,62,0.4);
+}
+.O_ThemePickerModal-Card-Preview[data-theme="acid-green"]{
+    --p-bg:#020603; --p-surface:#030c07; --p-accent:#a0ff00; --p-text:rgba(235,255,240,0.7); --p-border:rgba(160,255,0,0.4);
+}
+.O_ThemePickerModal-Card-Preview[data-theme="neon"]{
+    --p-bg:#011421; --p-surface:#280064; --p-accent:#00ffff; --p-text:rgba(245,250,255,0.75); --p-border:rgba(0,255,255,0.55);
+}
+.O_ThemePickerModal-Card-Preview[data-theme="pink"]{
+    --p-bg:#fff8fc; --p-surface:#ffdcee; --p-accent:#ff7dc8; --p-text:rgba(70,10,40,0.7); --p-border:rgba(255,125,200,0.5);
+}
+
+.O_ThemePickerModal-Card-Bar{
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 14%;
+    background: var(--p-surface);
+    border-bottom: 1px solid var(--p-border);
+}
+
+.O_ThemePickerModal-Card-Surface{
+    position: absolute;
+    top: 22%; left: 6%;
+    width: 36%;
+    height: 68%;
+    background: var(--p-surface);
+    border: 1px solid var(--p-border);
+    border-radius: 4px;
+}
+
+.O_ThemePickerModal-Card-Line{
+    position: absolute;
+    height: 6%;
+    background: var(--p-text);
+    border-radius: 2px;
+    left: 50%;
+}
+
+.O_ThemePickerModal-Card-Line--1{ top: 28%; width: 42%; opacity: 0.95; }
+.O_ThemePickerModal-Card-Line--2{ top: 42%; width: 36%; opacity: 0.7; }
+.O_ThemePickerModal-Card-Line--3{ top: 56%; width: 30%; opacity: 0.55; }
+
+.O_ThemePickerModal-Card-Accent{
+    position: absolute;
+    bottom: 14%;
+    right: 8%;
+    width: 22%;
+    height: 12%;
+    background: var(--p-accent);
+    border-radius: 4px;
+}
+
+.O_ThemePickerModal-Card-Meta{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x05);
+    padding: 0 var(--spacing-x1);
+}
+
+.O_ThemePickerModal-Card-Name{
+    color: var(--color-text-primary);
+    font-family: var(--font-family-geist-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.O_ThemePickerModal-Card-Badge{
+    align-self: flex-start;
+    padding: 2px var(--spacing-x2);
+    background: var(--color-text-primary);
+    color: var(--color-background, #000);
+    border-radius: var(--border-radius-x05);
+    font-family: var(--font-family-geist-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
