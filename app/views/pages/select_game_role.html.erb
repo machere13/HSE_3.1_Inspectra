@@ -25,7 +25,7 @@
             <span class="PageGameRole-Card-Title text-h3"><%= t("game_roles.#{role_key}.label") %></span>
             <span class="PageGameRole-Card-Subtitle text-p-2"><%= t("game_roles.#{role_key}.subtitle") %></span>
             <span class="PageGameRole-Card-Description text-p-3"><%= t("game_roles.#{role_key}.description") %></span>
-            <span class="PageGameRole-Card-Specialty text-caption">
+            <span class="PageGameRole-Card-Specialty text-p-3">
               <%= t('pages.select_game_role.specialty_label') %>:
               <strong><%= t("achievement_categories.#{specialty_key}") %></strong>
             </span>
@@ -35,7 +35,7 @@
               <% end %>
             </ul>
             <% if is_current %>
-              <span class="PageGameRole-Card-Badge text-caption"><%= t('pages.select_game_role.current_badge') %></span>
+              <span class="PageGameRole-Card-Badge text-p-3"><%= t('pages.select_game_role.current_badge') %></span>
             <% end %>
           </button>
         <% end %>

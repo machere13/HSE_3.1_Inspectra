@@ -1,96 +1,176 @@
+<%
+  total_achievements      = Achievement.count
+  completed_count         = @completed_achievements.size
+  in_progress_count       = @in_progress_achievements.size
+  current_xp              = @user.experience_points.to_i
+  next_level              = @user.next_level
+  next_required           = next_level ? next_level.required_xp : current_xp
+%>
 <div class="PageProfile">
   <%= render 'shared/wrappers/W_PageHeader' %>
-  <section class="PageProfile-Section-Main">
-    <div class="PageProfile-Section-Content-Left">
-      <div class="PageProfile-Section-Title">
-        <div class="PageProfile-Header">
-          <div class="PageProfile-Avatar-Wrapper">
-            <% if @user.avatar.attached? %>
-              <%= image_tag url_for(@user.avatar), alt: @user.name || @user.email, class: 'PageProfile-Avatar' %>
-            <% elsif @user.avatar.present? %>
-              <img src="<%= @user.avatar %>" alt="<%= @user.name || @user.email %>" class="PageProfile-Avatar" />
-            <% else %>
-              <div class="PageProfile-Avatar PageProfile-Avatar--placeholder"></div>
-            <% end %>
-            <%= form_with url: update_avatar_path, method: :patch, local: true, multipart: true, class: 'PageProfile-Avatar-Form' do |f| %>
-              <%= f.file_field :avatar, accept: 'image/*', class: 'PageProfile-Avatar-Input', id: 'avatar-upload' %>
-              <label for="avatar-upload" class="PageProfile-Avatar-Label">
-                <span class="text-caption"><%= @user.avatar.attached? || @user.avatar.present? ? t('pages.profile.avatar.change') : t('pages.profile.avatar.upload') %></span>
-              </label>
-            <% end %>
-          </div>
-          <div class="PageProfile-Info-Plugs">
-            <%= render 'pages/profile/M_ProfileInfoPlug', text: "#{@user.name.presence || t('pages.profile.no_name')}" %>
-            <% if @user.game_role.present? %>
-              <%= render 'pages/profile/M_ProfileInfoPlug', text: "#{t('pages.profile.game_role')}: #{@user.game_role_label}" %>
-            <% else %>
-              <%= link_to select_game_role_path, class: 'PageProfile-Info-Link' do %>
-                <%= render 'pages/profile/M_ProfileInfoPlug', text: t('pages.profile.choose_game_role') %>
-              <% end %>
-            <% end %>
-            <% if @user.level %>
-              <%= render 'pages/profile/M_ProfileInfoPlug', text: "#{t('pages.profile.level')} #{@user.level_number}: #{@user.level.name}" %>
-            <% end %>
-            <% if @user.current_title %>
-              <%= render 'pages/profile/M_ProfileInfoPlug', text: "#{t('pages.profile.titles.title')}: #{@user.current_title.name}" %>
-            <% end %>
-          </div>
-          <% if @user.next_level %>
-            <div class="PageProfile-LevelProgress">
-              <div class="PageProfile-LevelProgress-Header text-p-3">
-                <span><%= t('pages.profile.xp_label') %>: <%= @user.experience_points %></span>
-                <span><%= t('pages.profile.xp_to_next', xp: @user.xp_remaining_to_next_level, level: @user.next_level.number) %></span>
-              </div>
-              <div class="PageProfile-LevelProgress-Bar" role="progressbar" aria-valuenow="<%= @user.level_progress_percent %>" aria-valuemin="0" aria-valuemax="100">
-                <div class="PageProfile-LevelProgress-Bar-Fill" style="width: <%= @user.level_progress_percent %>%"></div>
-              </div>
-            </div>
+
+  <section class="PageProfile-Grid">
+
+    <div class="PageProfile-Col PageProfile-Col--Identity">
+      <div class="PageProfile-Card PageProfile-Identity">
+        <div class="PageProfile-Avatar-Wrapper">
+          <% if @user.avatar.attached? %>
+            <%= image_tag url_for(@user.avatar), alt: @user.name || @user.email, class: 'PageProfile-Avatar' %>
+          <% else %>
+            <div class="PageProfile-Avatar PageProfile-Avatar--placeholder"></div>
           <% end %>
-          <% if @user.game_role.present? %>
-            <%= link_to t('pages.profile.change_game_role'), select_game_role_path, class: 'A_TextButton text-p-3' %>
+          <%= form_with url: update_avatar_path, method: :patch, local: true, multipart: true, class: 'PageProfile-Avatar-Form' do |f| %>
+            <%= f.file_field :avatar, accept: 'image/*', class: 'PageProfile-Avatar-Input', id: 'avatar-upload' %>
+            <label for="avatar-upload" class="PageProfile-Avatar-Label" title="<%= @user.avatar.attached? ? t('pages.profile.avatar.change') : t('pages.profile.avatar.upload') %>"></label>
+          <% end %>
+        </div>
+        <div class="PageProfile-Identity-Meta">
+          <div class="PageProfile-Identity-Row">
+            <span class="PageProfile-Identity-Name text-p-3"><%= @user.name.presence || t('pages.profile.no_name') %></span>
+            <% if @user.game_role.present? %>
+              <span class="PageProfile-Identity-Role text-p-3">
+                <%= t('pages.profile.game_role') %>: <strong><%= @user.game_role_label %></strong>
+              </span>
+            <% end %>
+          </div>
+          <% if @user.game_role.blank? %>
+            <%= link_to t('pages.profile.choose_game_role'), select_game_role_path, class: 'A_TextButton text-p-3' %>
           <% end %>
         </div>
       </div>
-      <%= render 'pages/profile/M_ProfileContentPlug', info: "Достижения" %>
 
-      <div class="PageProfile-Titles">
-        <h3 class="text-h4"><%= t('pages.profile.titles.title') %></h3>
-        <% if @available_titles.present? %>
-          <p class="text-p-3"><%= t('pages.profile.titles.section_hint') %></p>
-          <div class="PageProfile-Titles-Grid">
-            <% @available_titles.each do |title| %>
-              <% is_current = @user.current_title_id == title.id %>
-              <%= form_with url: select_title_path, method: :patch, local: true, class: 'PageProfile-TitleForm' do %>
-                <%= hidden_field_tag :title_id, title.id %>
-                <button type="submit"
-                        class="PageProfile-TitleCard <%= 'PageProfile-TitleCard--Current' if is_current %>"
-                        <%= 'disabled' if is_current %>>
-                  <span class="PageProfile-TitleCard-Name text-p-2"><%= title.name %></span>
-                  <% if title.description.present? %>
-                    <span class="PageProfile-TitleCard-Desc text-p-3"><%= title.description %></span>
-                  <% end %>
-                  <% if is_current %>
-                    <span class="PageProfile-TitleCard-Badge text-caption"><%= t('pages.profile.titles.selected') %></span>
-                  <% end %>
-                </button>
-              <% end %>
+      <div class="PageProfile-Card PageProfile-ProgressCard">
+        <h3 class="text-p-3 PageProfile-Card-Title"><%= t('pages.profile.progress.title') %></h3>
+        <div class="PageProfile-Progress-Body">
+          <div class="PageProfile-Progress-Level text-p-2">
+            <%= t('pages.profile.level') %> <strong><%= @user.level_number %></strong><% if @user.level %><span class="text-p-3"> · <%= @user.level.name %></span><% end %>
+          </div>
+          <%
+            percent =
+              if next_level
+                @user.level_progress_percent
+              elsif @user.level
+                100
+              else
+                0
+              end
+          %>
+          <div class="PageProfile-LevelProgress-Bar" role="progressbar"
+               aria-valuenow="<%= percent %>" aria-valuemin="0" aria-valuemax="100">
+            <div class="PageProfile-LevelProgress-Bar-Fill" style="width: <%= percent %>%"></div>
+          </div>
+          <div class="PageProfile-Progress-XP text-p-3">
+            <% if next_level %>
+              <%= current_xp %> / <%= next_required %> XP
+            <% elsif @user.level %>
+              <%= current_xp %> XP · <%= t('pages.profile.progress.max_level') %>
+            <% else %>
+              <%= current_xp %> XP
             <% end %>
           </div>
-        <% else %>
-          <p class="text-p-3"><%= t('pages.profile.titles.no_titles') %></p>
-        <% end %>
+        </div>
       </div>
 
-      <%= render 'shared/atoms/A_Button', label: "Настройки профиля" %>
+      <%= render 'pages/profile/missions', extra_class: 'PageProfile-Missions--InColumn' %>
+
     </div>
-    <div class="PageProfile-Section-Content-Right">
-      <%= render 'pages/profile/M_ProfileContentPlug', info: "Статистика" %>
-      <div class="PageProfile-Statistic-Rows">
-        <%= render 'pages/profile/M_ProfileStatisticRow', label: "Всего достижений", value: "150" %>
-        <%= render 'pages/profile/M_ProfileStatisticRow', label: "Завершено", value: "100" %>
-        <%= render 'pages/profile/M_ProfileStatisticRow', label: "В процессе", value: "50" %>
+
+    <div class="PageProfile-Col PageProfile-Col--Center">
+      <div class="PageProfile-Card PageProfile-RadarCard">
+        <h3 class="text-p-3 PageProfile-Card-Title"><%= t('pages.profile.skill_chart.title') %></h3>
+        <%= render 'pages/profile/M_SkillRadar', rows: @skill_chart %>
       </div>
-      <%= render 'pages/profile/M_ProfileDonutChart', completed: 100, in_progress: 50 %>
+
+      <div class="PageProfile-Card PageProfile-Tabs">
+        <div class="PageProfile-TabsNav">
+          <% %w[achievements titles rewards].each do |tab| %>
+            <%= link_to profile_path(tab: tab),
+                        class: "PageProfile-TabBtn #{'PageProfile-TabBtn--Active' if @active_tab == tab}" do %>
+              <span class="text-p-3"><%= t("pages.profile.tabs.#{tab}") %></span>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="PageProfile-TabContent">
+          <% case @active_tab
+             when 'achievements' %>
+            <% if @achievement_groups.any? %>
+              <div class="PageProfile-AchievementList">
+                <% @achievement_groups.each do |g| %>
+                  <div class="PageProfile-AchievementRow <%= 'PageProfile-AchievementRow--Done' if g[:all_completed] %>">
+                    <div class="PageProfile-AchievementRow-Body">
+                      <div class="text-p-3">
+                        <strong><%= g[:tier].name %></strong><% if g[:all_completed] %> ✓<% end %>
+                      </div>
+                      <div class="text-p-3"><%= g[:tier].description %></div>
+                      <% if g[:tiers_total] > 1 %>
+                        <div class="text-p-3 PageProfile-AchievementRow-Tier">
+                          <%= t('pages.profile.achievements.tier', current: g[:tiers_completed] + (g[:all_completed] ? 0 : 1), total: g[:tiers_total]) %>
+                        </div>
+                      <% end %>
+                    </div>
+                    <% unless g[:all_completed] %>
+                      <div class="PageProfile-AchievementRow-Progress text-p-3">
+                        <%= g[:progress] %> / <%= g[:target] %>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <p class="text-p-3"><%= t('pages.profile.empty.achievements') %></p>
+            <% end %>
+
+          <% when 'titles' %>
+            <% if @available_titles.present? %>
+              <p class="text-p-3"><%= t('pages.profile.titles.section_hint') %></p>
+              <div class="PageProfile-Titles-Grid">
+                <% @available_titles.each do |title| %>
+                  <% is_current = @user.current_title_id == title.id %>
+                  <%= form_with url: select_title_path, method: :patch, local: true, class: 'PageProfile-TitleForm' do %>
+                    <%= hidden_field_tag :title_id, title.id %>
+                    <button type="submit"
+                            class="PageProfile-TitleCard <%= 'PageProfile-TitleCard--Current' if is_current %>"
+                            <%= 'disabled' if is_current %>>
+                      <span class="PageProfile-TitleCard-Name text-p-2"><%= title.name %></span>
+                      <% if title.description.present? %>
+                        <span class="PageProfile-TitleCard-Desc text-p-3"><%= title.description %></span>
+                      <% end %>
+                      <% if is_current %>
+                        <span class="PageProfile-TitleCard-Badge text-p-3"><%= t('pages.profile.titles.selected') %></span>
+                      <% end %>
+                    </button>
+                  <% end %>
+                <% end %>
+              </div>
+            <% else %>
+              <p class="text-p-3"><%= t('pages.profile.titles.no_titles') %></p>
+            <% end %>
+
+          <% when 'rewards' %>
+            <% reward_uas = @completed_achievements.select { |ua| ua.achievement.title.present? } %>
+            <% if reward_uas.any? %>
+              <div class="PageProfile-RewardList">
+                <% reward_uas.each do |ua| %>
+                  <div class="PageProfile-RewardRow">
+                    <div class="PageProfile-RewardRow-Title text-p-2"><%= ua.achievement.title.name %></div>
+                    <div class="PageProfile-RewardRow-From text-p-3">
+                      <%= t('pages.profile.rewards.from', name: ua.achievement.name) %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <p class="text-p-3"><%= t('pages.profile.empty.rewards') %></p>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
     </div>
+
+    <div class="PageProfile-Col PageProfile-Col--Missions">
+      <%= render 'pages/profile/missions', extra_class: 'PageProfile-Missions--Standalone' %>
+    </div>
+
   </section>
 </div>

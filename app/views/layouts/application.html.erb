@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="<%= (defined?(current_user) && current_user&.theme.presence) || 'dark' %>">
 <head>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title><%= page_meta_title %></title>
@@ -39,6 +39,9 @@
     <%= render 'shared/atoms/A_IconButton', position: 'fixed', right: 'var(--spacing-x5)', bottom: 'var(--spacing-x5)', icon_name: 'Q_ConsoleIcon', z_index: 100, console_toggle: true %>
     <%= render 'shared/organisms/O_Console' %>
     <%= render 'shared/organisms/O_ErrorReportModal' %>
+    <% if defined?(current_user) && current_user %>
+      <%= render 'shared/organisms/O_ThemePickerModal' %>
+    <% end %>
     <% if flash[:notice] %>
       <%= render 'shared/molecules/M_ToastNotification', text: flash[:notice] %>
     <% end %>

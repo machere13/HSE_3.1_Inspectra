@@ -1,6 +1,13 @@
 class AuthController < WebController
   include JwtHelper
   layout 'auth'
+
+  def logout
+    cookies.delete(:token)
+    reset_session
+    redirect_to auth_path, notice: t('auth.flashes.logout_success', default: 'Вы вышли из аккаунта')
+  end
+
   def login; end
   def login_submit
     email = params[:email].to_s.strip

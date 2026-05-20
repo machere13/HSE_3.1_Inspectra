@@ -2,91 +2,326 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 2 * var(--spacing-x1));
     padding-left: var(--spacing-x3);
-    gap: var(--spacing-x16);
+    gap: var(--spacing-x4);
+    overflow: hidden;
+    box-sizing: border-box;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
 
-.PageProfile-Section-Main{
+.PageProfile-Grid{
     display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--spacing-x4);
     width: 100%;
-    gap: var(--spacing-x24);
+    min-height: 0;
+    flex: 1;
 }
 
-.PageProfile-Section-Content-Left, .PageProfile-Section-Content-Right{
+.PageProfile-Col--Identity{
+    flex: 0 0 360px;
+    max-width: 360px;
+    min-width: 280px;
+}
+
+.PageProfile-Col--Center{
+    flex: 1 1 0;
+    min-width: 440px;
+}
+
+.PageProfile-Col--Missions{
+    flex: 0 0 380px;
+    min-width: 280px;
+}
+
+/* По умолчанию (desktop > 1480) — показываем standalone-missions, прячем in-column */
+.PageProfile-Card.PageProfile-Missions--InColumn{
+    display: none;
+}
+
+/* ============ CONFIG PAGE / BENTO ============ */
+.PageProfileConfig{
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.PageProfileConfig-Layout{
     display: flex;
     flex-direction: column;
+    gap: var(--spacing-x4);
     width: 100%;
-    gap: var(--spacing-x8);
+    padding-right: var(--spacing-x3);
+    padding-bottom: var(--spacing-x3);
+    flex: 1;
+    min-height: 0;
 }
 
-.PageProfile-Statistic-Rows{
+.PageProfileConfig-Heading{
     display: flex;
     flex-direction: column;
-    width: 100%;
-    gap: var(--spacing-x2);
+    gap: var(--spacing-x1);
+    padding-bottom: var(--spacing-x3);
+    border-bottom: var(--border-x025) solid var(--color-border-tertiary);
 }
 
-.PageProfile-Section-Title{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: var(--spacing-x2);
+.PageProfileConfig-Heading-Title{
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-.PageProfile-Section-Content{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: var(--spacing-x8);
+.PageProfileConfig-Heading-Sub{
+    color: var(--color-text-secondary, var(--color-text-primary));
 }
 
-.PageProfile-Section-Content-Plate{
-    padding: var(--spacing-x8);
+/* === Bento grid === */
+.PageProfileConfig-Bento{
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-auto-rows: minmax(200px, auto);
+    gap: var(--spacing-x3);
+}
+
+.PageProfileConfig-Block{
     background: var(--color-secondary);
-    border: var(--border-x05) solid var(--color-border-primary);
+    border: var(--border-x025) solid var(--color-border-primary);
+    border-radius: var(--border-radius-x3);
+    padding: var(--spacing-x4) var(--spacing-x5);
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-x6);
+    gap: var(--spacing-x3);
+    min-width: 0;
 }
 
-.PageProfile-Header{
+.PageProfileConfig-Block--Danger{
+    border-color: var(--color-state-danger, var(--color-border-primary));
+}
+
+/* spans */
+.PageProfileConfig-Block--Identity     { grid-column: span 4; }
+.PageProfileConfig-Block--Theme        { grid-column: span 2; }
+.PageProfileConfig-Block--Notifications{ grid-column: span 2; }
+.PageProfileConfig-Block--Security     { grid-column: span 2; }
+.PageProfileConfig-Block--Session      { grid-column: span 2; }
+
+.PageProfileConfig-Block-Header{
     display: flex;
-    gap: var(--spacing-x6);
-    align-items: flex-start;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: var(--spacing-x2);
+    border-bottom: var(--border-x025) solid var(--color-border-tertiary);
 }
 
-.PageProfile-Avatar-Wrapper{
-    position: relative;
-    width: 212px;
-    height: 212px;
+.PageProfileConfig-Block-Label{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: var(--font-family-geist-mono);
 }
 
-.PageProfile-Avatar{
-    width: 212px;
-    height: 212px;
-    border-radius: var(--border-radius-x3);
-    object-fit: cover;
+.PageProfileConfig-Block-Tag{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    opacity: 0.5;
+    font-family: var(--font-family-geist-mono);
+    letter-spacing: 0.1em;
+}
+
+.PageProfileConfig-Block-Body{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+    flex: 1;
+    min-height: 0;
+}
+
+.PageProfileConfig-Block-Headline{
+    color: var(--color-text-primary);
+    font-family: var(--font-family-geist-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.PageProfileConfig-Block-Sub{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageProfileConfig-Block-Action{
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+/* === Identity (единая 3-кол сетка: label | value | action) === */
+.PageProfileConfig-Identity-Grid{
+    display: grid;
+    grid-template-columns: minmax(120px, 160px) minmax(0, 1fr) auto;
+    column-gap: var(--spacing-x4);
+    row-gap: var(--spacing-x3);
+    align-items: center;
+}
+
+/* Форма становится "невидимой" — её дети (input + кнопка) ложатся в столбцы grid'а */
+.PageProfileConfig-FormContents{
+    display: contents;
+}
+
+.PageProfileConfig-Field-Label{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: var(--font-family-geist-mono);
+}
+
+.PageProfileConfig-Identity-Grid .A_Input{
+    width: 100%;
+    max-width: 360px;
+}
+
+/* Превью текущей темы внутри Theme-блока (использует те же data-theme цвета, что и модалка) */
+.PageProfileConfig-ThemePreview{
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: var(--spacing-x2);
+}
+
+/* === Toggle (button group) === */
+.PageProfileConfig-Toggle{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-x2);
+}
+
+.PageProfileConfig-Toggle form{
+    margin: 0;
+}
+
+.PageProfileConfig-ToggleBtn{
+    padding: var(--spacing-x2) var(--spacing-x3);
+    background: transparent;
     border: var(--border-x025) solid var(--color-border-tertiary);
+    color: var(--color-text-secondary, var(--color-text-primary));
+    border-radius: var(--border-radius-x1);
+    cursor: pointer;
+    transition: all .15s ease;
+    font-family: var(--font-family-geist-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.PageProfileConfig-ToggleBtn:hover{
+    border-color: var(--color-text-primary);
+    color: var(--color-text-primary);
+}
+
+.PageProfileConfig-ToggleBtn--Active{
+    background: var(--color-text-primary);
+    color: var(--color-background, #000);
+    border-color: var(--color-text-primary);
+}
+
+.PageProfileConfig-ToggleBtn--Active:hover{
+    color: var(--color-background, #000);
+}
+
+.PageProfileConfig-Static{
+    flex: 1 1 auto;
+    min-width: 0;
+    color: var(--color-text-primary);
+    word-break: break-word;
+}
+
+.PageProfileConfig-Static--Muted{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    opacity: 0.7;
+}
+
+.PageProfileConfig-Note{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    opacity: 0.7;
+    flex-shrink: 0;
+}
+
+.PageProfileConfig-Note--Muted{
+    opacity: 0.5;
+}
+
+/* === Avatar в Identity === */
+.PageProfileConfig-AvatarThumb{
+    position: relative;
+    width: 160px;
+    height: 160px;
+    border-radius: var(--border-radius-x2);
+    overflow: hidden;
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    background: var(--color-background-overlay, var(--color-secondary));
+    flex-shrink: 0;
+}
+
+.PageProfileConfig-AvatarSubmit{
+    width: 100%;
+}
+
+.PageProfileConfig-AvatarLabel{
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    border-radius: var(--border-radius-x2);
+    transition: background .2s ease;
+}
+
+.PageProfileConfig-AvatarLabel:hover{
+    background: rgba(0, 0, 0, 0.35);
+}
+
+/* === Адаптив === */
+@media (max-width: 1100px) {
+    .PageProfileConfig-Block--Identity     { grid-column: span 6; }
+    .PageProfileConfig-Block--Theme        { grid-column: span 3; }
+    .PageProfileConfig-Block--Notifications{ grid-column: span 3; }
+    .PageProfileConfig-Block--Security     { grid-column: span 3; }
+    .PageProfileConfig-Block--Session      { grid-column: span 3; }
+}
+
+@media (max-width: 720px) {
+    .PageProfileConfig-Bento{
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-auto-rows: auto;
+        flex: 0 0 auto;
+    }
+    .PageProfileConfig-Block--Identity,
+    .PageProfileConfig-Block--Theme,
+    .PageProfileConfig-Block--Notifications,
+    .PageProfileConfig-Block--Security,
+    .PageProfileConfig-Block--Session{
+        grid-column: 1 / -1;
+    }
+    .PageProfileConfig-Identity-Grid{
+        grid-template-columns: 1fr;
+        row-gap: var(--spacing-x4);
+    }
+    .PageProfileConfig-Layout{
+        flex: 0 0 auto;
+    }
+    .PageProfile.PageProfileConfig{
+        height: auto;
+        overflow: visible;
+    }
+}
+
+
+
+.PageProfileConfig-AvatarThumb img,
+.PageProfileConfig-AvatarThumb--placeholder{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
 }
 
-.PageProfile-Avatar--placeholder{
-    background: var(--color-secondary);
-    border: var(--border-x025) solid var(--color-border-tertiary);
-}
-
-.PageProfile-Avatar-Form{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.PageProfile-Avatar-Input{
+.PageProfileConfig-AvatarInput{
     position: absolute;
     width: 0;
     height: 0;
@@ -94,64 +329,135 @@
     pointer-events: none;
 }
 
+.PageProfileConfig-Pill{
+    display: inline-block;
+    padding: var(--spacing-x05) var(--spacing-x3);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x1);
+    font-family: var(--font-family-geist-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.PageProfile-Col{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x3);
+    min-width: 0;
+    min-height: 0;
+}
+
+.PageProfile-Card{
+    background: var(--color-secondary);
+    border: var(--border-x025) solid var(--color-border-primary);
+    border-radius: var(--border-radius-x3);
+    padding: var(--spacing-x4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageProfile-Card-Title{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.PageProfile-Identity{
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-x3);
+}
+
+.PageProfile-Avatar-Wrapper{
+    position: relative;
+    width: min(220px, 100%);
+    aspect-ratio: 1;
+}
+
+.PageProfile-Avatar{
+    width: 100%;
+    height: 100%;
+    border-radius: var(--border-radius-x3);
+    object-fit: cover;
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    display: block;
+}
+
+.PageProfile-Avatar--placeholder{
+    background: var(--color-background-overlay, var(--color-secondary));
+}
+
+.PageProfile-Avatar-Form{
+    position: absolute;
+    inset: 0;
+}
+
+.PageProfile-Avatar-Input{
+    position: absolute;
+    width: 0; height: 0; opacity: 0; pointer-events: none;
+}
+
 .PageProfile-Avatar-Label{
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-x1);
-    background: var(--color-background-overlay);
-    border-radius: 0 0 var(--border-radius-x2) var(--border-radius-x2);
+    inset: 0;
     cursor: pointer;
+    border-radius: var(--border-radius-x3);
     transition: background .2s ease;
 }
 
 .PageProfile-Avatar-Label:hover{
-    background: var(--color-primary);
+    background: rgba(0, 0, 0, 0.35);
 }
 
-.PageProfile-Header-Info{
+.PageProfile-Identity-Meta{
     display: flex;
     flex-direction: column;
     gap: var(--spacing-x2);
-    flex: 1;
-}
-
-.PageProfile-Info-Plugs{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-x3);
+    align-items: center;
     width: 100%;
 }
 
-.PageProfile-Info-Link{
-    display: block;
-    text-decoration: none;
-}
-
-.PageProfile-LevelProgress{
+.PageProfile-Identity-Row{
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: var(--spacing-x2);
-    width: 100%;
-    margin-top: var(--spacing-x3);
-}
-
-.PageProfile-LevelProgress-Header{
-    display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
-    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageProfile-Identity-Name{
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.PageProfile-Identity-Role{
+    padding: var(--spacing-x05) var(--spacing-x3);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x1);
+}
+
+.PageProfile-ProgressCard{
+    gap: var(--spacing-x3);
+}
+
+.PageProfile-Progress-Body{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageProfile-Progress-Level{
+    font-family: var(--font-family-geist-mono);
+    text-transform: uppercase;
 }
 
 .PageProfile-LevelProgress-Bar{
     position: relative;
     width: 100%;
-    height: 8px;
-    background: var(--color-secondary);
+    height: 10px;
+    background: var(--color-background-overlay, var(--color-secondary));
     border: var(--border-x025) solid var(--color-border-tertiary);
     border-radius: var(--border-radius-x05);
     overflow: hidden;
@@ -159,22 +465,187 @@
 
 .PageProfile-LevelProgress-Bar-Fill{
     height: 100%;
-    background: var(--color-state-focus, var(--color-primary));
-    border-radius: var(--border-radius-x05);
+    background: var(--color-text-primary);
     transition: width .25s ease;
 }
 
-.PageProfile-Titles{
+.PageProfile-Progress-XP{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    font-family: var(--font-family-geist-mono);
+}
+
+.PageProfile-RadarCard{
+    align-items: flex-start;
+    flex-shrink: 0;
+}
+
+.M_SkillRadar{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.M_SkillRadar-Svg{
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+    overflow: visible;
+    display: block;
+}
+
+.M_SkillRadar-BgDot{
+    fill: var(--color-text-primary);
+    opacity: 0.16;
+}
+
+.M_SkillRadar-Ring{
+    fill: none;
+    stroke: var(--color-text-primary);
+    stroke-width: 0.5;
+    opacity: 0.3;
+}
+
+.M_SkillRadar-Ring--Outer{
+    stroke: var(--color-text-primary);
+    stroke-width: 1.25;
+    opacity: 1;
+}
+
+.M_SkillRadar-Axis{
+    stroke: var(--color-text-primary);
+    stroke-width: 0.5;
+    stroke-dasharray: 2 4;
+    opacity: 0.4;
+}
+
+.M_SkillRadar-InnerCross{
+    stroke: var(--color-text-primary);
+    stroke-width: 0.5;
+    stroke-dasharray: 2 4;
+    opacity: 0.5;
+}
+
+.M_SkillRadar-VertexTick{
+    stroke: var(--color-text-primary);
+    stroke-width: 1.5;
+    stroke-linecap: square;
+    opacity: 1;
+}
+
+.M_SkillRadar-Data{
+    fill: var(--color-text-primary);
+    fill-opacity: 0.18;
+    stroke: var(--color-text-primary);
+    stroke-width: 1.75;
+    stroke-linejoin: round;
+}
+
+.M_SkillRadar-Dot{
+    fill: var(--color-text-primary);
+    stroke: var(--color-text-primary);
+    stroke-width: 1;
+}
+
+.M_SkillRadar-Center{
+    fill: var(--color-text-primary);
+    opacity: 0.9;
+}
+
+.M_SkillRadar-Label{
+    font-family: var(--font-family-geist-mono);
+    font-size: 16px;
+    fill: var(--color-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.M_SkillRadar-LabelPercent{
+    font-family: var(--font-family-geist-mono);
+    font-size: 15px;
+    fill: var(--color-text-primary);
+    opacity: 1;
+}
+
+/* ====== TABS ====== */
+.PageProfile-TabsNav{
+    display: flex;
+    gap: var(--spacing-x1);
+    border-bottom: var(--border-x025) solid var(--color-border-tertiary);
+    margin-bottom: var(--spacing-x3);
+}
+
+.PageProfile-TabBtn{
+    padding: var(--spacing-x2) var(--spacing-x4);
+    color: var(--color-text-secondary, var(--color-text-primary));
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+}
+
+.PageProfile-TabBtn--Active{
+    color: var(--color-text-primary);
+    border-bottom-color: var(--color-text-primary);
+}
+
+.PageProfile-Card.PageProfile-Tabs{
+    flex: 1;
+    min-height: 240px;
+    max-height: calc(100vh - 200px);
+    overflow: hidden;
+}
+
+.PageProfile-TabContent{
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-x3);
-    margin-top: var(--spacing-x6);
+    gap: var(--spacing-x2);
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: var(--spacing-x1);
+}
+
+.PageProfile-AchievementList{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageProfile-AchievementRow{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-x2);
+    padding: var(--spacing-x2) var(--spacing-x3);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+}
+
+.PageProfile-AchievementRow--Done{
+    opacity: 0.7;
+}
+
+.PageProfile-AchievementRow-Body{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x1);
+    flex: 1;
+    min-width: 0;
+}
+
+.PageProfile-AchievementRow-Progress{
+    flex-shrink: 0;
+    padding: var(--spacing-x05) var(--spacing-x2);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x05);
+    font-family: var(--font-family-geist-mono);
 }
 
 .PageProfile-Titles-Grid{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: var(--spacing-x3);
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--spacing-x2);
 }
 
 .PageProfile-TitleForm{
@@ -186,18 +657,16 @@
     flex-direction: column;
     gap: var(--spacing-x1);
     text-align: left;
-    padding: var(--spacing-x3) var(--spacing-x4);
-    background: var(--color-secondary);
-    border: var(--border-x025) solid var(--color-border-primary);
+    padding: var(--spacing-x3);
+    background: transparent;
+    border: var(--border-x025) solid var(--color-border-tertiary);
     border-radius: var(--border-radius-x2);
     color: var(--color-text-primary);
     cursor: pointer;
-    transition: border-color .2s ease, transform .2s ease;
 }
 
 .PageProfile-TitleCard:hover:not(:disabled){
     border-color: var(--color-state-focus, var(--color-primary));
-    transform: translateY(-2px);
 }
 
 .PageProfile-TitleCard:disabled{
@@ -222,14 +691,140 @@
     margin-top: var(--spacing-x1);
 }
 
-@media (max-width: 1400px) {
-    .PageProfile-Section-Main{
-        flex-direction: column;
+.PageProfile-RewardList{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageProfile-RewardRow{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x05);
+    padding: var(--spacing-x3) var(--spacing-x4);
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x2);
+}
+
+.PageProfile-RewardRow-From{
+    color: var(--color-text-secondary, var(--color-text-primary));
+}
+
+.PageProfile-Missions{
+    gap: var(--spacing-x4);
+    width: 100%;
+}
+
+.PageProfile-Missions--Standalone{
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.PageProfile-Missions-Section{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x2);
+}
+
+.PageProfile-Missions-Section + .PageProfile-Missions-Section{
+    padding-top: var(--spacing-x4);
+    border-top: var(--border-x025) solid var(--color-border-tertiary);
+}
+
+.PageProfile-MissionList{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-x1);
+    max-height: 380px;
+    overflow-y: auto;
+    padding-right: var(--spacing-x1);
+}
+
+.PageProfile-MissionItem{
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-x2) var(--spacing-x4);
+    background: var(--color-background-overlay, rgba(0,0,0,0.35));
+    border: var(--border-x025) solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-x1);
+    color: var(--color-text-secondary, var(--color-text-primary));
+    text-decoration: none;
+    transition: border-color .15s ease, color .15s ease, background .15s ease;
+}
+
+a.PageProfile-MissionItem:hover{
+    border-color: var(--color-text-primary);
+    color: var(--color-text-primary);
+}
+
+.PageProfile-MissionItem--Active{
+    background: var(--color-background, #000);
+    color: var(--color-text-primary);
+}
+
+.PageProfile-MissionItem--Completed{
+    cursor: default;
+}
+
+.PageProfile-MissionItem-Title{
+    font-family: var(--font-family-geist-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.PageProfile-MissionItem-Empty{
+    color: var(--color-text-secondary, var(--color-text-primary));
+    opacity: 0.7;
+}
+
+.PageProfile-CompletedMissions-Item:hover{
+    border-color: var(--color-state-focus, var(--color-primary));
+    color: var(--color-text-primary);
+}
+
+/* Adaptive 880 < viewport ≤ 1480: 2 кол, Missions идёт inline в Identity-колонку */
+@media (max-width: 1480px) and (min-width: 881px) {
+    .PageProfile-Col--Identity{
+        flex: 0 0 300px;
+        max-width: 300px;
+        min-width: 260px;
+    }
+    .PageProfile-Col--Center{
+        min-width: 0;
+    }
+    .PageProfile-Col.PageProfile-Col--Missions{
+        display: none;            /* прячем standalone-колонку */
+    }
+    .PageProfile-Card.PageProfile-Missions--InColumn{
+        display: flex;            /* показываем inline-копию */
+        flex: 1;                  /* заполняет остаток высоты левой колонки */
+        min-height: 0;
+        overflow: hidden;
     }
 }
 
-@media (max-width: 878px) {
-    .PageProfile-Header{
+/* Mobile ≤880: всё в одну колонку, страница скроллится естественно */
+@media (max-width: 880px) {
+    .PageProfile{
+        height: auto;
+        overflow: visible;
+    }
+    .PageProfile-Grid{
+        display: flex;
         flex-direction: column;
     }
+    .PageProfile-Col--Identity,
+    .PageProfile-Col--Center{
+        flex: 0 0 auto;
+        max-width: none;
+        min-width: 0;
+    }
+    .PageProfile-Col.PageProfile-Col--Missions{
+        display: none;            /* прячем standalone */
+    }
+    .PageProfile-Card.PageProfile-Missions--InColumn{
+        display: flex;            /* показываем inline */
+    }
 }
+

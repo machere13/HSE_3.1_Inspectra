@@ -1,6 +1,6 @@
 class PagesController < WebController
   layout :determine_layout
-  before_action :authenticate_user!, only: [:profile, :select_title, :update_name, :update_avatar, :request_password_change, :select_game_role, :update_game_role]
+  before_action :authenticate_user!, only: [:profile, :profile_config, :select_title, :update_name, :update_avatar, :update_preferences, :request_password_change, :select_game_role, :update_game_role]
 
   def home
     @current_week = Week.visible_now.order(number: :desc).first
@@ -33,8 +33,44 @@ class PagesController < WebController
     if @reset_token.present? && @user.reset_password_token == @reset_token
       @show_reset_form = @user.reset_token_valid?
     end
+
+    @skill_chart = build_skill_chart(@user)
+
+    @current_interactive = locate_current_interactive(@user)
+
+    @completed_interactives = @user.interactive_completions
+                                   .order(completed_at: :desc)
+                                   .includes(:interactive)
+                                   .limit(20)
+
+    @achievement_groups = build_achievement_groups(@user)
+
+    @active_tab = %w[achievements titles rewards].include?(params[:tab]) ? params[:tab] : 'achievements'
   end
-  
+
+  def profile_config
+    @user = current_user
+  end
+
+  def update_preferences
+    @user = current_user
+    attrs = {}
+    if params[:theme].present? && User::ALLOWED_THEMES.include?(params[:theme])
+      attrs[:theme] = params[:theme]
+    end
+    unless params[:notifications_email].nil?
+      attrs[:notifications_email] = ActiveModel::Type::Boolean.new.cast(params[:notifications_email])
+    end
+
+    if attrs.empty?
+      redirect_back(fallback_location: profile_config_path, alert: t('pages.profile_config.preferences.no_changes', default: 'Нет изменений'))
+    elsif @user.update(attrs)
+      redirect_back(fallback_location: profile_config_path, notice: t('pages.profile_config.preferences.saved', default: 'Настройки сохранены'))
+    else
+      redirect_back(fallback_location: profile_config_path, alert: @user.errors.full_messages.join(', '))
+    end
+  end
+
   def select_title
     @user = current_user
     title = Title.find(params[:title_id])
@@ -77,9 +113,9 @@ class PagesController < WebController
   def update_name
     @user = current_user
     if @user.update(name: params[:name])
-      redirect_to profile_path, notice: t('pages.profile.name_updated')
+      redirect_back(fallback_location: profile_path, notice: t('pages.profile.name_updated'))
     else
-      redirect_to profile_path, alert: @user.errors.full_messages.join(', ')
+      redirect_back(fallback_location: profile_path, alert: @user.errors.full_messages.join(', '))
     end
   end
 
@@ -90,14 +126,14 @@ class PagesController < WebController
       @user.avatar.attach(avatar_param)
       if @user.avatar.attached?
         Rails.logger.info "Avatar attached successfully: #{@user.avatar.blob.filename}, URL: #{url_for(@user.avatar)}"
-        redirect_to profile_path, notice: t('pages.profile.avatar.updated')
+        redirect_back(fallback_location: profile_path, notice: t('pages.profile.avatar.updated'))
       else
         Rails.logger.error "Failed to attach avatar"
-        redirect_to profile_path, alert: 'Ошибка при загрузке аватара'
+        redirect_back(fallback_location: profile_path, alert: 'Ошибка при загрузке аватара')
       end
     else
       Rails.logger.error "Avatar param missing. Params: #{params.keys.inspect}"
-      redirect_to profile_path, alert: t('pages.profile.avatar.required')
+      redirect_back(fallback_location: profile_path, alert: t('pages.profile.avatar.required'))
     end
   end
 
@@ -141,15 +177,80 @@ class PagesController < WebController
     begin
       @user.generate_reset_password_token!
       ResetPasswordMailer.with(user: @user).reset_instructions.deliver_now
-      redirect_to profile_path, notice: t('pages.profile.password_change.email_sent')
+      redirect_back(fallback_location: profile_path, notice: t('pages.profile.password_change.email_sent'))
     rescue => e
       Rails.logger.error "Failed to send password reset email: #{e.message}"
       Rails.logger.error e.backtrace.join("\n")
-      redirect_to profile_path, alert: "Ошибка при отправке письма: #{e.message}"
+      redirect_back(fallback_location: profile_path, alert: "Ошибка при отправке письма: #{e.message}")
     end
   end
 
 private
+
+  def build_achievement_groups(user)
+    user_progress = user.user_achievements.includes(:achievement).index_by(&:achievement_id)
+
+    Achievement.all.group_by { |a| [a.category, a.progress_type] }.map do |(category, _progress_type), group|
+      sorted_tiers     = group.sort_by(&:progress_target)
+      raw_progress     = sorted_tiers.map { |a| user_progress[a.id]&.progress.to_i }.max.to_i
+      completed_tiers  = sorted_tiers.select { |a| user_progress[a.id]&.completed? }
+      next_tier        = sorted_tiers.find { |a| !user_progress[a.id]&.completed? }
+      display_tier     = next_tier || sorted_tiers.last
+      all_completed    = next_tier.nil?
+
+      {
+        key:               "#{category}_#{display_tier.progress_type}",
+        category:          category,
+        tier:              display_tier,
+        progress:          all_completed ? display_tier.progress_target : [raw_progress, display_tier.progress_target].min,
+        target:            display_tier.progress_target,
+        tiers_total:       sorted_tiers.size,
+        tiers_completed:   completed_tiers.size,
+        all_completed:     all_completed
+      }
+    end.sort_by { |g| [g[:all_completed] ? 1 : 0, g[:category].to_s, g[:tier].progress_target] }
+  end
+
+  def build_skill_chart(user)
+    totals_by_category = Interactive.group(:category).count
+    done_by_category   = user.interactive_completions.group(:category).count
+    categories = Interactive::CATEGORIES
+    overall_total = totals_by_category.values.sum
+    overall_done  = done_by_category.values.sum
+
+    rows = categories.map do |cat|
+      total = totals_by_category[cat].to_i
+      done = done_by_category[cat].to_i
+      percent = total.zero? ? 0 : ((done.to_f / total) * 100).round
+      {
+        key: cat,
+        label: I18n.t("achievement_categories.#{cat}", default: cat.titleize),
+        percent: percent,
+        done: done,
+        total: total
+      }
+    end
+    overall_percent = overall_total.zero? ? 0 : ((overall_done.to_f / overall_total) * 100).round
+    rows << {
+      key: 'overall',
+      label: I18n.t('pages.profile.skill_chart.overall', default: 'Общий'),
+      percent: overall_percent,
+      done: overall_done,
+      total: overall_total
+    }
+    rows
+  end
+
+  def locate_current_interactive(user)
+    completed_keys = user.interactive_completions.pluck(:interactive_key).to_set
+    attempt = user.interactive_attempts
+                  .where.not(session_token: nil)
+                  .where('session_expires_at > ?', Time.current)
+                  .order(last_attempt_at: :desc, updated_at: :desc)
+                  .includes(:interactive)
+                  .find { |a| !completed_keys.include?(a.interactive.key) }
+    attempt&.interactive
+  end
 
   def determine_layout
     'application'
